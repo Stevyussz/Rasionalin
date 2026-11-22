@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <!-- Tactile Botanical Emerald Squircle with Bottom Bevel -->
+  <rect x="24" y="36" width="464" height="452" rx="116" fill="#0F5A36"/>
+  <rect x="24" y="20" width="464" height="444" rx="116" fill="#16794B"/>
+  <rect x="34" y="30" width="444" height="424" rx="106" stroke="#22915C" stroke-width="6" stroke-opacity="0.45"/>
+
+  <!-- Precision Geometric 'R' Monogram in Warm Ivory (Aligned Baseline y=370) -->
+  <!-- Left Vertical Stem (134..370) -->
+  <rect x="136" y="130" width="56" height="240" rx="28" fill="#FAF9F5"/>
+
+  <!-- Upper Bowl of 'R' -->
+  <path
+    d="M164 130H262C319 130 362 167 362 217C362 267 319 304 262 304H164V250H258C286 250 306 236 306 217C306 198 286 184 258 184H164V130Z"
+    fill="#FAF9F5"
+  />
+
+  <!-- Clean Diagonal Leg Ending Exactly at Baseline y=370 (342 + 28 radius = 370) -->
+  <path
+    d="M254 282L334 342"
+    stroke="#FAF9F5"
+    stroke-width="56"
+    stroke-linecap="round"
+  />
+
+  <!-- Warm Ochre-Gold Insight Spark Node -->
+  <circle cx="372" cy="136" r="32" fill="#F2B441"/>
+  <circle cx="372" cy="136" r="13" fill="#FAF9F5"/>
+</svg>
