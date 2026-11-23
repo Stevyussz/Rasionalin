@@ -382,11 +382,14 @@ export class PostgresRepository implements AppRepository {
   }
 
   async listUserSkillMasteries(userId: string): Promise<UserSkillMastery[]> {
-    const existing = await this.pool.query(
-      `SELECT * FROM user_skill_mastery WHERE user_id = $1`,
-      [userId],
-    );
-    if (existing.rows.length > 0) return existing.rows.map(mapMasteryRow);
+    const [existing, totalRes] = await Promise.all([
+      this.pool.query(`SELECT * FROM user_skill_mastery WHERE user_id = $1`, [userId]),
+      this.pool.query<{ cnt: number }>(`SELECT COUNT(*)::int AS cnt FROM skill_nodes`),
+    ]);
+    const totalNodes = totalRes.rows[0]?.cnt ?? 0;
+    if (existing.rows.length > 0 && existing.rows.length >= totalNodes) {
+      return existing.rows.map(mapMasteryRow);
+    }
 
     await this.pool.query(
       `INSERT INTO user_skill_mastery (

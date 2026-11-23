@@ -4,10 +4,11 @@ import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { SocraticTutorService } from "@/application/tutor-service";
 import { buildFadedSolutionView, validateEvidenceHighlight } from "@/domain/dual-track-pedagogy";
+import { MICRO_LESSONS_BY_NODE_ID } from "@/domain/micro-lessons";
 import { classifyRootCauseDeterministically } from "@/domain/root-cause-rules";
 import { scoreHybridRrf } from "@/domain/rrf-scorer";
 import { SEED_QUESTIONS, SEED_SKILL_NODES } from "@/domain/seed-data";
-import { searchSnbtKnowledgeBase } from "@/domain/snbt-knowledge-base";
+import { searchSnbtKnowledgeBase, SNBT_KNOWLEDGE_BASE } from "@/domain/snbt-knowledge-base";
 import { LocalJsonRepository } from "@/infrastructure/db/memory/local-repository";
 
 describe("Dual-Track Pedagogy, Hybrid RRF 1.35x Boost & Socratic Fallback", () => {
@@ -78,14 +79,31 @@ describe("Dual-Track Pedagogy, Hybrid RRF 1.35x Boost & Socratic Fallback", () =
     }
   });
 
-  it("covers all 7 SNBT subtests and 24 skill nodes with clean curriculum KB grounding", async () => {
-    expect(SEED_QUESTIONS.length).toBeGreaterThanOrEqual(150);
-    const coveredSubtests = new Set(SEED_QUESTIONS.map((q) => q.subtest));
-    expect(coveredSubtests.size).toBe(7);
+  it("covers all 7 SNBT subtests and 36 skill nodes with clean curriculum KB grounding", async () => {
+    expect(SEED_SKILL_NODES).toHaveLength(36);
+    expect(SEED_QUESTIONS.length).toBeGreaterThanOrEqual(900);
 
-    const coveredNodes = new Set(SEED_QUESTIONS.map((q) => q.skillNodeId));
+    const subCounts = new Map<string, number>();
+    const nodeCounts = new Map<string, number>();
+    for (const q of SEED_QUESTIONS) {
+      subCounts.set(q.subtest, (subCounts.get(q.subtest) ?? 0) + 1);
+      nodeCounts.set(q.skillNodeId, (nodeCounts.get(q.skillNodeId) ?? 0) + 1);
+    }
+
+    expect(subCounts.size).toBe(7);
+    for (const subtest of ["PU", "PPU", "PBM", "PK", "LBI", "LBE", "PM"] as const) {
+      expect(subCounts.get(subtest) ?? 0).toBeGreaterThanOrEqual(90);
+    }
+
     for (const node of SEED_SKILL_NODES) {
-      expect(coveredNodes.has(node.id)).toBe(true);
+      expect(nodeCounts.get(node.id) ?? 0).toBeGreaterThanOrEqual(8);
+      expect(MICRO_LESSONS_BY_NODE_ID[node.id]).toBeDefined();
+    }
+
+    expect(SNBT_KNOWLEDGE_BASE.length).toBeGreaterThanOrEqual(105);
+    const kbNodes = new Set(SNBT_KNOWLEDGE_BASE.map((e) => e.skillNodeId));
+    for (const node of SEED_SKILL_NODES) {
+      expect(kbNodes.has(node.id)).toBe(true);
     }
 
     expect(JSON.stringify(SEED_QUESTIONS)).not.toContain("\u2014");

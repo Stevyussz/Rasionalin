@@ -52,7 +52,10 @@ describe("QuickJS-WASM Sandbox Security & Outer Verifier", () => {
     const ns = new NeuroSymbolicService(repo);
 
     try {
-      expect(SEED_TEMPLATES.length).toBeGreaterThanOrEqual(10);
+      expect(SEED_TEMPLATES.length).toBeGreaterThanOrEqual(24);
+      for (const tpl of SEED_TEMPLATES) {
+        expect(tpl.codeSha256).toHaveLength(64);
+      }
       for (const tpl of SEED_TEMPLATES) {
         const outcome = await ns.generateVerifiedVariant({
           templateId: tpl.id,
@@ -72,5 +75,5 @@ describe("QuickJS-WASM Sandbox Security & Outer Verifier", () => {
     } finally {
       await fs.rm(tmpFile, { force: true });
     }
-  }, 30000);
+  }, 60000);
 });

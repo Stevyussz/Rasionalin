@@ -37,11 +37,18 @@ async function main() {
           conquest_threshold, target_solve_seconds, graph_x, graph_y, display_order
         ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16)
         ON CONFLICT (code) DO UPDATE SET
+          subtest = EXCLUDED.subtest,
+          track = EXCLUDED.track,
+          tier = EXCLUDED.tier,
           title_id = EXCLUDED.title_id,
+          title_en = EXCLUDED.title_en,
           description_markdown = EXCLUDED.description_markdown,
           first_principles_summary = EXCLUDED.first_principles_summary,
+          is_foundation_repair = EXCLUDED.is_foundation_repair,
+          target_solve_seconds = EXCLUDED.target_solve_seconds,
           graph_x = EXCLUDED.graph_x,
-          graph_y = EXCLUDED.graph_y`,
+          graph_y = EXCLUDED.graph_y,
+          display_order = EXCLUDED.display_order`,
         [
           node.id,
           node.code,
@@ -73,8 +80,8 @@ async function main() {
     }
 
     // Upsert questions in bounded parallel batches for fast remote seeding
-    for (let i = 0; i < SEED_QUESTIONS.length; i += 8) {
-      const batch = SEED_QUESTIONS.slice(i, i + 8);
+    for (let i = 0; i < SEED_QUESTIONS.length; i += 16) {
+      const batch = SEED_QUESTIONS.slice(i, i + 16);
       await Promise.all(batch.map((q) => repo.saveQuestion(q)));
     }
 

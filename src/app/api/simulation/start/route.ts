@@ -7,6 +7,7 @@ import { getRepository } from "@/infrastructure/db";
 const StartSimSchema = z.object({
   mode: z.enum(["diagnostic_placement", "full_tryout_utbk", "subtest_drill", "triage_sprint"]),
   subtest: z.enum(["PU", "PPU", "PBM", "PK", "LBI", "LBE", "PM"]).optional(),
+  intensity: z.enum(["standard", "official_utbk"]).optional(),
 });
 
 export async function GET() {
@@ -33,7 +34,12 @@ export async function POST(req: NextRequest) {
     const user = await resolveActiveUser(repo);
 
     const sim = new SimulationService(repo);
-    const result = await sim.startSimulation(user.id, body.mode, body.subtest ?? null);
+    const result = await sim.startSimulation(
+      user.id,
+      body.mode,
+      body.subtest ?? null,
+      body.intensity ?? "standard",
+    );
     return NextResponse.json(result);
   } catch (err) {
     if (err instanceof UnauthorizedError) {

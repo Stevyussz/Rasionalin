@@ -11,6 +11,7 @@ import {
   TimerIcon,
 } from "@/components/icons/ArchitecturalIcons";
 import { AppShell } from "@/components/layout/AppShell";
+import { OFFICIAL_UTBK_BLUEPRINT, type SimulationIntensity } from "@/domain/simulation-rules";
 import {
   SimulationFocusTunnel,
   type ActiveSimPayload,
@@ -88,6 +89,8 @@ export function SimulationWorkspace() {
   const [sim, setSim] = useState<ActiveSimPayload | null>(null);
   const [history, setHistory] = useState<SimulationSessionEntity[]>([]);
   const [drillSubtest, setDrillSubtest] = useState<SnbtSubtest>("PK");
+  const [tryoutIntensity, setTryoutIntensity] = useState<SimulationIntensity>("standard");
+  const [drillIntensity, setDrillIntensity] = useState<SimulationIntensity>("standard");
   const [startingMode, setStartingMode] = useState<SimulationMode | null>(null);
   const [resumingId, setResumingId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -112,14 +115,18 @@ export function SimulationWorkspace() {
     return sim.blocks.find((b) => !b.isLocked && b.startedAt !== null) ?? null;
   }, [sim]);
 
-  async function startSimulation(mode: SimulationMode, subtest?: SnbtSubtest) {
+  async function startSimulation(
+    mode: SimulationMode,
+    subtest?: SnbtSubtest,
+    intensity: SimulationIntensity = "standard",
+  ) {
     setStartingMode(mode);
     setError(null);
     try {
       const res = await fetch("/api/simulation/start", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(subtest ? { mode, subtest } : { mode }),
+        body: JSON.stringify(subtest ? { mode, subtest, intensity } : { mode, intensity }),
       });
       if (!res.ok) {
         const errJson = (await res.json().catch(() => null)) as { error?: string } | null;
@@ -219,76 +226,169 @@ export function SimulationWorkspace() {
         {!sim && (
           <>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {MODES.map((m) => (
-                <article key={m.mode} className="card-tactile p-6 flex flex-col justify-between gap-5">
-                  <div className="space-y-2">
-                    <span
-                      className={`text-xs font-extrabold uppercase tracking-wider block ${
-                        m.accent === "emerald"
-                          ? "text-[var(--accent-text-on-secondary)]"
-                          : m.accent === "ochre"
-                            ? "text-[var(--ochre-ink)]"
-                            : "text-[var(--olive-ink)]"
-                      }`}
+              {MODES.map((m) => {
+                const isFullTryout = m.mode === "full_tryout_utbk";
+                const effectiveBadge = isFullTryout
+                  ? tryoutIntensity === "official_utbk"
+                    ? "7 Subtes Resmi BPPP · 160 Soal · 195 Menit"
+                    : m.badge
+                  : m.badge;
+                const effectiveCta =
+                  isFullTryout && tryoutIntensity === "official_utbk"
+                    ? "Mulai Tryout Resmi 160 Soal"
+                    : m.cta;
+
+                return (
+                  <article key={m.mode} className="card-tactile p-6 flex flex-col justify-between gap-5">
+                    <div className="space-y-3">
+                      <div className="space-y-2">
+                        <span
+                          className={`text-xs font-extrabold uppercase tracking-wider block ${
+                            m.accent === "emerald"
+                              ? "text-[var(--accent-text-on-secondary)]"
+                              : m.accent === "ochre"
+                                ? "text-[var(--ochre-ink)]"
+                                : "text-[var(--olive-ink)]"
+                          }`}
+                        >
+                          {effectiveBadge}
+                        </span>
+                        <h2 className="font-bold text-lg leading-snug">{m.title}</h2>
+                        <p className="text-sm font-semibold text-[var(--ink-secondary)] leading-relaxed">
+                          {m.desc}
+                        </p>
+                      </div>
+
+                      {isFullTryout && (
+                        <div
+                          className="grid grid-cols-2 gap-1.5 p-1 rounded-xl bg-[var(--surface-secondary)] border border-[var(--border-structural)]"
+                          role="group"
+                          aria-label="Pilih intensitas Tryout Penuh"
+                        >
+                          <button
+                            type="button"
+                            onClick={() => setTryoutIntensity("standard")}
+                            className={`px-2.5 py-2 rounded-lg text-[11px] sm:text-xs font-extrabold transition-all cursor-pointer ${
+                              tryoutIntensity === "standard"
+                                ? "bg-[var(--surface-elevated)] text-[var(--ink-primary)] border border-[var(--border-structural)] shadow-sm"
+                                : "text-[var(--ink-secondary)] hover:text-[var(--ink-primary)]"
+                            }`}
+                          >
+                            Ringkas (35 soal / 52m)
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setTryoutIntensity("official_utbk")}
+                            className={`px-2.5 py-2 rounded-lg text-[11px] sm:text-xs font-extrabold transition-all cursor-pointer ${
+                              tryoutIntensity === "official_utbk"
+                                ? "bg-[var(--accent-tint)] text-[var(--accent-text-on-secondary)] border border-[var(--accent-primary)] shadow-sm"
+                                : "text-[var(--ink-secondary)] hover:text-[var(--ink-primary)]"
+                            }`}
+                          >
+                            UTBK Resmi (160 soal / 195m)
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        void startSimulation(
+                          m.mode,
+                          undefined,
+                          isFullTryout ? tryoutIntensity : "standard",
+                        )
+                      }
+                      disabled={startingMode !== null}
+                      className={m.accent === "olive" ? "btn-olive w-full" : "btn-primary w-full"}
                     >
-                      {m.badge}
-                    </span>
-                    <h2 className="font-bold text-lg leading-snug">{m.title}</h2>
-                    <p className="text-sm font-semibold text-[var(--ink-secondary)] leading-relaxed">
-                      {m.desc}
-                    </p>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => void startSimulation(m.mode)}
-                    disabled={startingMode !== null}
-                    className={m.accent === "olive" ? "btn-olive w-full" : "btn-primary w-full"}
-                  >
-                    <PlayIcon size={15} />
-                    <span>{startingMode === m.mode ? "Menyiapkan Focus Mode..." : m.cta}</span>
-                  </button>
-                </article>
-              ))}
+                      <PlayIcon size={15} />
+                      <span>
+                        {startingMode === m.mode ? "Menyiapkan Focus Mode..." : effectiveCta}
+                      </span>
+                    </button>
+                  </article>
+                );
+              })}
 
               {/* 4th Mode: Custom Single-Subtest Focused Drill */}
-              <article className="card-tactile p-6 flex flex-col justify-between gap-5">
-                <div className="space-y-3">
-                  <div className="space-y-1.5">
-                    <span className="text-xs font-extrabold uppercase tracking-wider block text-[var(--accent-text-on-secondary)]">
-                      1 Subtes Pilihan · 10 Soal · 15 Menit
-                    </span>
-                    <h2 className="font-bold text-lg leading-snug">Drill Subtes Spesifik</h2>
-                    <p className="text-sm font-semibold text-[var(--ink-secondary)] leading-relaxed">
-                      Latih 1 subtes tertarget dalam Focus Mode berwaktu tanpa harus mengerjakan 7 subtes sekaligus.
-                    </p>
-                  </div>
-                  <select
-                    aria-label="Pilih subtes untuk drill"
-                    value={drillSubtest}
-                    onChange={(e) => setDrillSubtest(e.target.value as SnbtSubtest)}
-                    className="input-tactile text-xs min-h-[42px]"
-                  >
-                    {SUBTEST_OPTIONS.map((opt) => (
-                      <option key={opt.code} value={opt.code}>
-                        {opt.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => void startSimulation("subtest_drill", drillSubtest)}
-                  disabled={startingMode !== null}
-                  className="btn-secondary w-full"
-                >
-                  <TargetIcon size={16} />
-                  <span>
-                    {startingMode === "subtest_drill"
-                      ? "Menyiapkan Focus Mode..."
-                      : `Mulai Drill ${drillSubtest}`}
-                  </span>
-                </button>
-              </article>
+              {(() => {
+                const officialBlock = OFFICIAL_UTBK_BLUEPRINT[drillSubtest];
+                const officialMins = Math.round(officialBlock.allocatedSeconds / 60);
+                const drillBadge =
+                  drillIntensity === "official_utbk"
+                    ? `Standar UTBK Resmi · ${officialBlock.questionCount} Soal · ${officialMins} Menit`
+                    : "1 Subtes Pilihan · 10 Soal · 15 Menit";
+
+                return (
+                  <article className="card-tactile p-6 flex flex-col justify-between gap-5">
+                    <div className="space-y-3">
+                      <div className="space-y-1.5">
+                        <span className="text-xs font-extrabold uppercase tracking-wider block text-[var(--accent-text-on-secondary)]">
+                          {drillBadge}
+                        </span>
+                        <h2 className="font-bold text-lg leading-snug">Drill Subtes Spesifik</h2>
+                        <p className="text-sm font-semibold text-[var(--ink-secondary)] leading-relaxed">
+                          Latih 1 subtes tertarget dalam Focus Mode berwaktu tanpa harus mengerjakan 7 subtes sekaligus.
+                        </p>
+                      </div>
+                      <select
+                        aria-label="Pilih subtes untuk drill"
+                        value={drillSubtest}
+                        onChange={(e) => setDrillSubtest(e.target.value as SnbtSubtest)}
+                        className="input-tactile text-xs min-h-[42px]"
+                      >
+                        {SUBTEST_OPTIONS.map((opt) => (
+                          <option key={opt.code} value={opt.code}>
+                            {opt.name}
+                          </option>
+                        ))}
+                      </select>
+                      <div
+                        className="grid grid-cols-2 gap-1.5 p-1 rounded-xl bg-[var(--surface-secondary)] border border-[var(--border-structural)]"
+                        role="group"
+                        aria-label="Pilih intensitas Drill Subtes"
+                      >
+                        <button
+                          type="button"
+                          onClick={() => setDrillIntensity("standard")}
+                          className={`px-2.5 py-2 rounded-lg text-[11px] sm:text-xs font-extrabold transition-all cursor-pointer ${
+                            drillIntensity === "standard"
+                              ? "bg-[var(--surface-elevated)] text-[var(--ink-primary)] border border-[var(--border-structural)] shadow-sm"
+                              : "text-[var(--ink-secondary)] hover:text-[var(--ink-primary)]"
+                          }`}
+                        >
+                          Latihan Cepat (10 soal / 15m)
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setDrillIntensity("official_utbk")}
+                          className={`px-2.5 py-2 rounded-lg text-[11px] sm:text-xs font-extrabold transition-all cursor-pointer ${
+                            drillIntensity === "official_utbk"
+                              ? "bg-[var(--accent-tint)] text-[var(--accent-text-on-secondary)] border border-[var(--accent-primary)] shadow-sm"
+                              : "text-[var(--ink-secondary)] hover:text-[var(--ink-primary)]"
+                          }`}
+                        >
+                          Standar UTBK Resmi ({officialBlock.questionCount} soal / {officialMins}m)
+                        </button>
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => void startSimulation("subtest_drill", drillSubtest, drillIntensity)}
+                      disabled={startingMode !== null}
+                      className="btn-secondary w-full"
+                    >
+                      <TargetIcon size={16} />
+                      <span>
+                        {startingMode === "subtest_drill"
+                          ? "Menyiapkan Focus Mode..."
+                          : `Mulai Drill ${drillSubtest} (${drillIntensity === "official_utbk" ? `${officialBlock.questionCount} Soal` : "10 Soal"})`}
+                      </span>
+                    </button>
+                  </article>
+                );
+              })()}
             </div>
 
             {history.length > 0 && (

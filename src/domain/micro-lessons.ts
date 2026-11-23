@@ -1031,6 +1031,504 @@ export const MICRO_LESSONS_BY_NODE_ID: Record<string, MicroLessonContent> = {
       correctKey: "A",
     },
   },
+  // === 12 EXPANDED SNBT 2027 NODES ===
+  [NODE_IDS.PK_T1_EXP]: {
+    skillNodeId: NODE_IDS.PK_T1_EXP,
+    estimatedMinutes: 4,
+    whyHeadline: "Kenapa logaritma disebut pertanyaan terbalik dari pangkat (eksponen)?",
+    whyStory:
+      "Saat kamu melihat $2^5 = 32$, kamu tahu basis $2$ dipangkatkan $5$ menjadi $32$. Logaritma membalik pertanyaannya: '$2$ harus dipangkatkan berapa supaya jadi $32$?' Jawabannya ditulis ${}^2\\log 32 = 5$. Memahami hubungan bolak-balik ini membuatmu tidak pernah tertukar antara perkalian di dalam logaritma dan penjumlahan di luar logaritma.",
+    analogy:
+      "Pangkat itu ibarat menekan tombol lift naik $5$ lantai dari lantai dasar ($2^5 = 32$). Logaritma adalah membaca panel lantai untuk tahu berapa kali tombol itu ditekan (${}^2\\log 32 = 5$).",
+    coreRuleLatex: "a^c = b \\iff {}^a\\log b = c, \\quad {}^a\\log(xy) = {}^a\\log x + {}^a\\log y",
+    coreRuleNote:
+      "Syarat wajib logaritma: basis $a > 0, a \\neq 1$ dan numerus $b > 0$. Jangan lupakan basis logaritma saat mengubah basis dengan aturan ${}^a\\log b = \\dfrac{\\log b}{\\log a}$.",
+    workedExample: {
+      prompt: "Tentukan nilai dari $\\dfrac{9^{2x}}{3^{2y}}$ jika diketahui $2x - y = 3$, serta hitung ${}^2\\log 12 + {}^2\\log 8 - {}^2\\log 3$.",
+      steps: [
+        {
+          title: "Samakan basis eksponen menjadi 3",
+          detail: "Karena $9 = 3^2$, ubah pembilang ke basis $3$ lalu kurangkan pangkatnya.",
+          formulaLatex: "\\dfrac{(3^2)^{2x}}{3^{2y}} = 3^{4x - 2y} = 3^{2(2x - y)} = 3^6 = 729",
+        },
+        {
+          title: "Gabungkan logaritma ber-basis sama ($2$)",
+          detail: "Tambah di luar berarti kali di dalam; kurang di luar berarti bagi di dalam.",
+          formulaLatex: "{}^2\\log\\left(\\dfrac{12 \\times 8}{3}\\right) = {}^2\\log 32 = 5",
+        },
+      ],
+      takeaway: "Samakan basis lebih dulu untuk eksponen; gabungkan numerus dengan kali/bagi jika basis logaritma sudah sama.",
+    },
+    commonTrap: {
+      trapTitle: "Mengira ${}^a\\log(x + y) = {}^a\\log x + {}^a\\log y$ atau mencoret basis berbeda",
+      wrongWay: "Memecah ${}^2\\log(8 + 4)$ menjadi ${}^2\\log 8 + {}^2\\log 4$ (Salah besar!).",
+      rightWay: "Penjumlahan logaritma menghasilkan PERKALIAN numerus: ${}^a\\log x + {}^a\\log y = {}^a\\log(x \\cdot y)$.",
+    },
+    warmupCheck: {
+      question: "Berapakah nilai dari ${}^3\\log 18 - {}^3\\log 2$?",
+      options: [
+        { key: "A", text: "$2$", feedback: "Tepat! ${}^3\\log(18 / 2) = {}^3\\log 9 = 2$ karena $3^2 = 9$." },
+        { key: "B", text: "$3$", feedback: "Belum tepat. Bagi numerus $18 \\div 2 = 9$, bukan $27$." },
+        { key: "C", text: "$16$", feedback: "Pengurangan logaritma bukan mengurangi angkanya ($18 - 2$), melainkan membagi numerusnya." },
+      ],
+      correctKey: "A",
+    },
+  },
+  [NODE_IDS.PK_T2_FUNC]: {
+    skillNodeId: NODE_IDS.PK_T2_FUNC,
+    estimatedMinutes: 4,
+    whyHeadline: "Cara super cepat menaklukkan Fungsi Komposisi & Invers tanpa rumus panjang",
+    whyStory:
+      "Banyak peserta UTBK kehabisan waktu karena langsung mencari rumus aljabar $f^{-1}(x)$ padahal soal hanya menanyakan satu nilai angka! Pada fungsi satu-ke-satu, jika $f(a) = b$, maka $f^{-1}(b) = a$. Cukup balik input dan outputnya.",
+    analogy:
+      "Komposisi $(g \\circ f)(x)$ adalah jalur dua mesin berurutan: bahan mentah $x$ masuk ke mesin $f$, lalu hasilnya langsung disuapkan ke mesin $g$. Sedangkan $f^{-1}$ memutar ban berjalan ke arah mundur.",
+    coreRuleLatex: "(g \\circ f)(x) = g(f(x)), \\quad f(a) = b \\iff f^{-1}(b) = a",
+    coreRuleNote: "Pada invers komposisi, urutan mesin ikut terbalik: $(g \\circ f)^{-1}(x) = (f^{-1} \\circ g^{-1})(x)$.",
+    workedExample: {
+      prompt: "Diketahui $f(x) = 2x - 3$ dan $g(x) = \\dfrac{x + 1}{x - 2}$. Jika $(g \\circ f)^{-1}(k) = 2$, tentukan nilai $k$.",
+      steps: [
+        {
+          title: "Balik persamaan invers ke bentuk fungsi asal",
+          detail: "Jangan mencari invers rumus pecahan! Gunakan definisi $h^{-1}(k) = 2 \\iff k = h(2)$.",
+          formulaLatex: "k = (g \\circ f)(2) = g(f(2))",
+        },
+        {
+          title: "Evaluasi dari fungsi terdalam $f(2)$ lalu $g$",
+          detail: "Hitung $f(2)$ lebih dulu, baru masukkan hasilnya ke $g$.",
+          formulaLatex: "f(2) = 2(2) - 3 = 1 \\implies k = g(1) = \\dfrac{1 + 1}{1 - 2} = -2",
+        },
+      ],
+      takeaway: "Saat ditanya nilai angka pada invers, selalu balik menjadi persamaan fungsi asal $f(\\text{hasil}) = \\text{asal}$.",
+    },
+    commonTrap: {
+      trapTitle: "Tertukar urutan memasukkan $f(g(x))$ dengan $g(f(x))$",
+      wrongWay: "Menghitung $f(g(2))$ saat soal menulis $(g \\circ f)(2)$.",
+      rightWay: "Baca dari kanan ke kiri: huruf yang paling dekat dengan $(x)$ bekerja lebih dulu!",
+    },
+    warmupCheck: {
+      question: "Jika $f(3x - 1) = 6x + 5$, berapakah nilai $f(2)$?",
+      options: [
+        { key: "A", text: "$11$", feedback: "Tepat! Agar $3x - 1 = 2$, pilih $x = 1$, sehingga $f(2) = 6(1) + 5 = 11$." },
+        { key: "B", text: "$17$", feedback: "Kamu langsung memasukkan $2$ sebagai $x$, padahal $2$ adalah nilai dari $(3x - 1)$!" },
+        { key: "C", text: "$7$", feedback: "Periksa lagi nilai $x$ yang membuat $3x - 1 = 2$." },
+      ],
+      correctKey: "A",
+    },
+  },
+  [NODE_IDS.PK_T2_GEO]: {
+    skillNodeId: NODE_IDS.PK_T2_GEO,
+    estimatedMinutes: 4,
+    whyHeadline: "Mengapa 80% soal Geometri PK cukup diselesaikan dengan 3 invarian sudut & Pythagoras?",
+    whyStory:
+      "Soal geometri UTBK jarang menuntut hafalan teorema rumit. Kunci utamanya adalah invarian: garis lurus selalu $180^{\\circ}$, segitiga selalu $180^{\\circ}$, sudut luar segitiga sama dengan jumlah dua sudut dalam yang tidak bersisian, dan dua garis sejajar menyalin sudut sehadap serta berseberangan.",
+    analogy:
+      "Seperti kabel paralel yang dipotong satu penggaris lurus: setiap belokan di atas selalu mencerminkan besar sudut yang persis sama atau berpelurus $180^{\\circ}$ di bawah.",
+    coreRuleLatex: "\\angle A + \\angle B + \\angle C = 180^{\\circ}, \\quad a^2 + b^2 = c^2, \\quad L_{\\bigcirc} = \\pi r^2",
+    coreRuleNote: "Hafalkan tripel Pythagoras cepat $(3,4,5)$, $(5,12,13)$, $(8,15,17)$, $(7,24,25)$ beserta kelipatannya agar hemat 30 detik per soal.",
+    workedExample: {
+      prompt: "Sebuah tangga bersandar pada dinding vertikal. Ujung bawah berjarak $6\\text{ m}$ dan puncak tangga setinggi $8\\text{ m}$. Jika garis luar segitiga berlanjut, tentukan panjang tangga dan sudut luar di puncak jika sudut dasar $53^{\\circ}$.",
+      steps: [
+        {
+          title: "Kenali kelipatan tripel Pythagoras",
+          detail: "$(6, 8, c)$ adalah $2 \\times (3, 4, 5)$, sehingga panjang sisi miring tangga langsung $10\\text{ m}$.",
+          formulaLatex: "c = \\sqrt{6^2 + 8^2} = 10\\text{ m}",
+        },
+        {
+          title: "Hitung sudut ketiga dan sudut luar",
+          detail: "Karena dinding vertikal membentuk $90^{\\circ}$, sudut puncak = $180^{\\circ} - 90^{\\circ} - 53^{\\circ} = 37^{\\circ}$, dan sudut pelurusnya = $180^{\\circ} - 37^{\\circ} = 143^{\\circ}$.",
+          formulaLatex: "\\angle_{\\text{luar}} = 90^{\\circ} + 53^{\\circ} = 143^{\\circ}",
+        },
+      ],
+      takeaway: "Cek faktor skala tripel Pythagoras dan jumlah sudut $180^{\\circ}$ sebelum menghitung akar panjang.",
+    },
+    commonTrap: {
+      trapTitle: "Tertukar jari-jari ($r$) dan diameter ($d$) atau alas miring sebagai tinggi segitiga",
+      wrongWay: "Mengalikan luas segitiga dengan panjang sisi miring padahal tidak tegak lurus alas.",
+      rightWay: "Tinggi wajib tegak lurus ($90^{\\circ}$) terhadap alas; pada lingkaran cek apakah soal memberi diameter atau jari-jari.",
+    },
+    warmupCheck: {
+      question: "Dua sudut pada sebuah segitiga masing-masing besarnya $45^{\\circ}$ dan $65^{\\circ}$. Berapa besar sudut luar pada titik sudut ketiga?",
+      options: [
+        { key: "A", text: "$70^{\\circ}$", feedback: "Itu sudut dalamnya! Sudut luar adalah pelurusnya ($180^{\\circ} - 70^{\\circ}$)." },
+        { key: "B", text: "$110^{\\circ}$", feedback: "Benar! Sudut luar segitiga = jumlah dua sudut dalam di seberangnya = $45^{\\circ} + 65^{\\circ} = 110^{\\circ}$." },
+        { key: "C", text: "$135^{\\circ}$", feedback: "Periksa kembali penjumlahan $45^{\\circ} + 65^{\\circ}$." },
+      ],
+      correctKey: "B",
+    },
+  },
+  [NODE_IDS.PK_T3_STAT]: {
+    skillNodeId: NODE_IDS.PK_T3_STAT,
+    estimatedMinutes: 4,
+    whyHeadline: "Prinsip Total Nilai pada Statistika, Diagram Venn & Matriks 2x2",
+    whyStory:
+      "Pada statistika, rata-rata bukanlah angka statis melainkan rasio Total Nilai dibagi Banyak Data ($\\bar{x} = \\dfrac{\\sum X}{n}$). Setiap kali ada data baru masuk atau keluar, ubah dulu $\\sum X$-nya. Pada himpunan, irisan dua kelompok tidak boleh dihitung dua kali (Inklusi-Eksklusi). Pada matriks $2 \\times 2$, syarat matriks tidak punya invers adalah determinan bernilai nol ($ad - bc = 0$).",
+    analogy:
+      "Bayangkan dua lingkaran karpet yang tumpang tindih di lantai: luas total lantai yang tertutup adalah luas karpet A + luas karpet B dikurangi area yang tertumpuk ganda (irisan).",
+    coreRuleLatex: "n(A \\cup B) = n(A) + n(B) - n(A \\cap B), \\quad \\det\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix} = ad - bc",
+    coreRuleNote: "Jika setiap data dikali $p$ lalu ditambah $q$, rata-rata/median ikut dikali $p$ dan ditambah $q$, sedangkan jangkauan/simpangan hanya dikali $|p|$!",
+    workedExample: {
+      prompt: "Rata-rata nilai $4$ siswa adalah $75$. Setelah $1$ siswa baru masuk, rata-ratanya menjadi $78$. Berapakah nilai siswa baru tersebut, dan tentukan $x$ agar matriks $A = \\begin{pmatrix} 2x & 6 \\\\ 3 & 9 \\end{pmatrix}$ singular?",
+      steps: [
+        {
+          title: "Kalikan rata-rata untuk mendapat Total Nilai ($\sum X$)",
+          detail: "Total awal $4 \\times 75 = 300$. Total setelah 5 siswa $5 \\times 78 = 390$. Selisihnya adalah nilai siswa baru.",
+          formulaLatex: "x_{\\text{baru}} = 390 - 300 = 90",
+        },
+        {
+          title: "Matriks singular berarti determinan = 0",
+          detail: "Kalikan diagonal utama dikurangi diagonal samping.",
+          formulaLatex: "(2x)(9) - (6)(3) = 0 \\implies 18x = 18 \\implies x = 1",
+        },
+      ],
+      takeaway: "Ubah selalu rata-rata menjadi Total = rata-rata x banyak data; syarat matriks singular ialah $ad = bc$.",
+    },
+    commonTrap: {
+      trapTitle: "Menggeser jangkauan saat semua data ditambah konstanta k",
+      wrongWay: "Mengira jika semua nilai ditambah $5$, jangkauannya ikut bertambah $5$.",
+      rightWay: "Penambahan konstanta $k$ menggeser pusat data (mean/median), TIDAK mengubah penyebaran (jangkauan/simpangan baku).",
+    },
+    warmupCheck: {
+      question: "Di kelas berjumlah 30 siswa, 18 suka Matematika, 15 suka Fisika, dan 5 tidak suka keduanya. Berapa siswa yang menyukai KEDUANYA?",
+      options: [
+        { key: "A", text: "$3$", feedback: "Kamu lupa mengurangi siswa yang tidak suka keduanya dari total $30$ menjadi $25$." },
+        { key: "B", text: "$8$", feedback: "Tepat! Ada $30 - 5 = 25$ siswa di gabungan himpunan, sehingga irisan = $18 + 15 - 25 = 8$." },
+        { key: "C", text: "$13$", feedback: "Terlalu besar; ingat $n(A \\cup B) = 30 - 5 = 25$." },
+      ],
+      correctKey: "B",
+    },
+  },
+  [NODE_IDS.PU_T2_DATA]: {
+    skillNodeId: NODE_IDS.PU_T2_DATA,
+    estimatedMinutes: 3,
+    whyHeadline: "Membedakan Kenaikan Terbesar (Absolut) vs Persentase Kenaikan Tertinggi di Tabel PU",
+    whyStory:
+      "Soal analisis data di Penalaran Umum sering menjebak peserta dengan tabel angka penjualan atau jumlah penduduk. Selisih angka paling besar BELUM TENTU menghasilkan persentase kenaikan tertinggi karena persentase dibagi oleh nilai awal.",
+    analogy:
+      "Naik gaji Rp1 juta terasa biasa saja kalau gaji awalmu Rp20 juta ($5\\%$), tetapi sangat besar jika gaji awalmu Rp2 juta ($50\\%$).",
+    coreRuleLatex: "\\%\\Delta = \\dfrac{\\text{Nilai Akhir} - \\text{Nilai Awal}}{\\text{Nilai Awal}} \\times 100\\%",
+    coreRuleNote: "Untuk hitung cepat persentase dalam PU, gunakan pembulatan rasio atau perbandingan pecahan benchmark ($\\frac{1}{2}=50\\%, \\frac{1}{3}\\approx 33{,}3\\%, \\frac{1}{4}=25\\%$).",
+    workedExample: {
+      prompt: "Produk A naik dari 100 ke 140 unit, sedangkan Produk B naik dari 200 ke 260 unit. Manakah persentase kenaikannya lebih tinggi?",
+      steps: [
+        {
+          title: "Bandingkan rasio selisih terhadap basis awal",
+          detail: "Produk A naik $40/100 = 40\\%$. Produk B naik $60/200 = 30\\%$.",
+          formulaLatex: "\\%\\Delta_A = 40\\% > \\%\\Delta_B = 30\\%",
+        },
+        {
+          title: "Cek kalimat pertanyaan dengan teliti",
+          detail: "Jika ditanya jumlah selisih unit, B menang (60 vs 40). Jika ditanya persentase kenaikan, A menang (40% vs 30%).",
+          formulaLatex: "\\text{Selisih unit } B > A, \\text{ namun } \\%\\Delta A > B",
+        },
+      ],
+      takeaway: "Selalu periksa kata kunci soal: 'jumlah/selisih terbanyak' vs 'persentase/rasio kenaikan tertinggi'.",
+    },
+    commonTrap: {
+      trapTitle: "Membagi selisih dengan nilai akhir alih-alih nilai tahun awal",
+      wrongWay: "Menghitung kenaikan $100 \\to 150$ sebagai $50/150 = 33\\%$.",
+      rightWay: "Penyebut persen perubahan SELALU nilai tahun/kondisi awal ($50/100 = 50\\%$).",
+    },
+    warmupCheck: {
+      question: "Harga paket tryout turun dari Rp100.000 menjadi Rp80.000, lalu bulan berikutnya naik 25% menjadi Rp100.000 lagi. Mengapa persen turun (20%) berbeda dengan persen naik (25%)?",
+      options: [
+        { key: "A", text: "Karena nilai awal (penyebut) yang dipakai sebagai pembanding berubah dari 100.000 menjadi 80.000.", feedback: "Tepat sekali! Penurunan 20.000 diukur terhadap 100.000 (20%), sedangkan kenaikan 20.000 diukur terhadap 80.000 (25%)." },
+        { key: "B", text: "Karena persentase kenaikan selalu lebih besar 5% daripada penurunan.", feedback: "Tidak ada aturan +5%; semua bergantung pada besarnya nilai basis pembagi." },
+        { key: "C", text: "Karena perhitungan pajak tidak dimasukkan.", feedback: "Tidak ada kaitan dengan pajak." },
+      ],
+      correctKey: "A",
+    },
+  },
+  [NODE_IDS.PU_T3_ANAL]: {
+    skillNodeId: NODE_IDS.PU_T3_ANAL,
+    estimatedMinutes: 4,
+    whyHeadline: "Strategi Anti-Pusing Menaklukkan Soal Posisi, Urutan & Meja Bundar",
+    whyStory:
+      "Kesalahan terbesar saat mengerjakan penalaran analitik bukanlah tidak pintar logika, melainkan mencoba membayangkan semua kemungkinan di kepala. Tuliskan slot urutan $1-2-3-4-5$, lalu kunci syarat paling ketat (seperti posisi tetap atau dua orang wajib berdampingan) lebih dulu sebelum menyisipkan syarat relatif ('A lebih dulu daripada B').",
+    analogy:
+      "Menyusun puzzle kotak lebih mudah jika bagian pinggir dan sudut yang bentuknya pasti dipasang lebih dulu sebelum mengisi potongan tengah yang bebas.",
+    coreRuleLatex: "(n - 1)! \\quad (\\text{susunan siklis/meja melingkar})",
+    coreRuleNote: "Pada posisi melingkar berhadap-hadapan untuk 6 kursi, kursi $1$ berhadapan dengan $4$, kursi $2$ berhadapan dengan $5$, dst.",
+    workedExample: {
+      prompt: "Lima pelari P, Q, R, S, T finis berurutan. Q finis tepat sebelum R. P finis sebelum Q tetapi setelah T. S bukan di urutan terakhir. Tentukan urutan yang pasti.",
+      steps: [
+        {
+          title: "Satukan blok terikat lebih dulu",
+          detail: "'Q tepat sebelum R' membentuk pasangan terikat $[Q, R]$.",
+          formulaLatex: "T < P < [Q, R]",
+        },
+        {
+          title: "Place S berdasarkan batas 'bukan terakhir'",
+          detail: "Karena sudah ada 4 pelari berurutan $T - P - Q - R$ dan $S$ bukan urutan ke-5, maka $R$ wajib di posisi ke-5 dan $S$ di antara slot sebelum $R$.",
+          formulaLatex: "\\text{Juara 1 tidak mungkin } Q, R, P, \\text{ dan urutan } 5 = R",
+        },
+      ],
+      takeaway: "Visualisasikan slot bernomor dan ikat huruf yang memiliki syarat 'tepat di sebelah'.",
+    },
+    commonTrap: {
+      trapTitle: "Mengira 'A sebelum B' berarti 'A TEPAT sebelum B' (berdampingan)",
+      wrongWay: "Memaksa A dan B tidak boleh dipisahkan orang lain padahal tidak ada kata 'tepat'.",
+      rightWay: "'A sebelum B' hanya mengunci urutan ($A < B$); masih boleh ada elemen lain di tengahnya kecuali ada kata 'tepat' atau 'langsung'.",
+    },
+    warmupCheck: {
+      question: "Enam kursi A, B, C, D, E, F mengelilingi meja bundar merata. B duduk di seberang E, dan C duduk tepat di kanan E. Kursi mana yang pasti tidak bisa ditempati B jika kita jadikan E posisi jam 6?",
+      options: [
+        { key: "A", text: "Posisi jam 12", feedback: "Salah; kalau E di jam 6, seberangnya justru jam 12 (tempat duduk B)." },
+        { key: "B", text: "Posisi jam 3", feedback: "Benar! B wajib berada di jam 12 (seberang E), sehingga jam 3 mustahil ditempati B." },
+        { key: "C", text: "Semua posisi masih mungkin bersamaan", feedback: "Jika E sudah dikunci di jam 6, posisi B terkunci di jam 12." },
+      ],
+      correctKey: "B",
+    },
+  },
+  [NODE_IDS.PM_T2_ARIT]: {
+    skillNodeId: NODE_IDS.PM_T2_ARIT,
+    estimatedMinutes: 4,
+    whyHeadline: "Aturan Emas Aritmetika Sosial: Beda Harga Beli, Harga Jual, Diskon & Bunga",
+    whyStory:
+      "Dalam soal Penalaran Matematika bertema jual-beli, kuncinya hanya satu: tahu persis mana yang menjadi **basis 100%**. Persentase untung atau rugi SELALU mengacu ke **Harga Beli (Modal)**, sedangkan diskon selalu memotong **Harga Label (Awal)**.",
+    analogy:
+      "Jika harga barang setelah diskon $20\\%$ menjadi Rp160.000, itu bukan berarti harga aslinya Rp160.000 + $20\\%$ dari Rp160.000. Nilai Rp160.000 mewakili porsi $80\\%$, jadi harga aslinya adalah $\\dfrac{100}{80} \\times 160.000 = 200.000$.",
+    coreRuleLatex: "H_{\\text{jual}} = H_{\\text{beli}} \\cdot (1 \\pm \\%U), \\quad M_t = M_0(1 + i)^t",
+    coreRuleNote: "Neto = Bruto - Tara. Tara biasanya dinyatakan dalam persen terhadap Bruto (berat kotor kemasan).",
+    workedExample: {
+      prompt: "Pedagang menjual jaket Rp276.000 dan memperoleh keuntungan 15%. Tentukan modal pembelian jaket tersebut.",
+      steps: [
+        {
+          title: "Tetapkan modal beli sebagai 100%",
+          detail: "Karena untung $15\\%$, harga jual mewakili $100\\% + 15\\% = 115\\%$ dari modal.",
+          formulaLatex: "1{,}15 \\times H_{\\text{beli}} = 276.000",
+        },
+        {
+          title: "Bagi ke arah modal awal",
+          detail: "Bagi $276.000$ dengan $1{,}15$ (atau $\\frac{23}{20}$).",
+          formulaLatex: "H_{\\text{beli}} = 276.000 \\times \\dfrac{20}{23} = 12.000 \\times 20 = \\text{Rp}240.000",
+        },
+      ],
+      takeaway: "Saat mencari nilai SEBELUM untung atau SEBELUM diskon, selalu BAGI dengan faktor $(1 \\pm r)$.",
+    },
+    commonTrap: {
+      trapTitle: "Mengalikan langsung harga akhir dengan (1 - untung%) untuk mencari modal",
+      wrongWay: "Menghitung modal = $276.000 \\times (1 - 0{,}15) = 234.600$ (Salah!).",
+      rightWay: "Dari modal ke harga jual dikali $(1 + r)$; dari harga jual balik ke modal WAJIB dibagi $(1 + r)$.",
+    },
+    warmupCheck: {
+      question: "Setelah didiskon 20%, harga tas menjadi Rp240.000. Berapakah harga label sebelum diskon?",
+      options: [
+        { key: "A", text: "Rp288.000", feedback: "Salah! Kamu menambahkan 20% dari Rp240.000, padahal Rp240.000 adalah 80% harga awal." },
+        { key: "B", text: "Rp300.000", feedback: "Tepat! $80\\% \\times \\text{Awal} = 240.000 \\implies \\text{Awal} = 240.000 / 0{,}8 = \\text{Rp}300.000$." },
+        { key: "C", text: "Rp260.000", feedback: "Cek kembali perhitungan pembagian dengan $0{,}8$." },
+      ],
+      correctKey: "B",
+    },
+  },
+  [NODE_IDS.PM_T3_GEOM]: {
+    skillNodeId: NODE_IDS.PM_T3_GEOM,
+    estimatedMinutes: 4,
+    whyHeadline: "Memecahkan Soal Bangun Ruang & Trigonometri Kontekstual di PM dengan Rasio Faktor",
+    whyStory:
+      "Soal Penalaran Matematika sering mengemas tangki air, tenda kerucut, atau tinggi menara dengan perbandingan sisi atau sudut elevasi. Jika soal memberi perbandingan dimensi $p:l:t = 3:2:1$, langsung tulis $p=3k, l=2k, t=k$ lalu substitusi ke rumus volume/luas agar hanya tersisa satu variabel $k$.",
+    analogy:
+      "Sebuah akuarium dan miniaturnya punya perbandingan bentuk sama, hanya skalanya dikalikan $k$. Untuk panjang dikali $k$, luas dikali $k^2$, dan volume air di dalamnya dikali $k^3$!",
+    coreRuleLatex: "V_{\\text{tabung}} = \\pi r^2 t, \\quad V_{\\text{kerucut/limas}} = \\dfrac{1}{3} L_{\\text{alas}} t, \\quad \\tan \\theta = \\dfrac{\\text{depan}}{\\text{samping}}",
+    coreRuleNote: "Ingat konversi volume kunci UTBK: $1\\text{ dm}^3 = 1\\text{ liter} = 1.000\\text{ cm}^3$, dan $1\\text{ m}^3 = 1.000\\text{ liter}$.",
+    workedExample: {
+      prompt: "Sebuah bak balok memiliki rasio panjang : lebar : tinggi $= 4 : 3 : 2$ dengan volume $192\\text{ liter}$. Tentukan tinggi bak dalam cm.",
+      steps: [
+        {
+          title: "Pasang faktor skala k",
+          detail: "Misalkan $p = 4k, l = 3k, t = 2k$ (dalam dm karena $1\\text{ liter} = 1\\text{ dm}^3$).",
+          formulaLatex: "V = (4k)(3k)(2k) = 24k^3 = 192",
+        },
+        {
+          title: "Cari k dan konversi ke satuan target",
+          detail: "$k^3 = 192/24 = 8 \\implies k = 2\\text{ dm}$. Maka $t = 2k = 4\\text{ dm} = 40\\text{ cm}$.",
+          formulaLatex: "k = 2 \\implies t = 4\\text{ dm} = 40\\text{ cm}",
+        },
+      ],
+      takeaway: "Tuliskan satuan ($\\text{dm}^3$ vs $\\text{cm}^3$) sebelum menyamakan volume dengan angka perbandingan.",
+    },
+    commonTrap: {
+      trapTitle: "Lupa pangkat 3 pada faktor skala k saat mencari volume dari rasio sisi",
+      wrongWay: "Mengira $(4k)(3k)(2k) = 24k$ sehingga $k = 8$.",
+      rightWay: "Tiga dimensi yang dikalikan memberi $k^3$, dan ingat $1\\text{ m}^3 = 1.000\\text{ liter}$.",
+    },
+    warmupCheck: {
+      question: "Jika jari-jari tabung diperbesar menjadi 2 kali lipat sementara tingginya tetap, volume tabung menjadi berapa kali semula?",
+      options: [
+        { key: "A", text: "$2$ kali", feedback: "Salah! Dalam $V = \\pi r^2 t$, jari-jari $r$ berpangkat dua." },
+        { key: "B", text: "$4$ kali", feedback: "Tepat! $(2r)^2 = 4r^2$, sehingga volume berlipat $4$ kali." },
+        { key: "C", text: "$8$ kali", feedback: "$8$ kali terjadi jika tinggi ikut berlipat 2 kali bersama jari-jari." },
+      ],
+      correctKey: "B",
+    },
+  },
+  [NODE_IDS.PBM_T2_KONJ]: {
+    skillNodeId: NODE_IDS.PBM_T2_KONJ,
+    estimatedMinutes: 3,
+    whyHeadline: "Peta Konjungsi UTBK & Aturan Kata Baku EYD V yang Paling Sering Menggugurkan Peserta",
+    whyStory:
+      "Dalam PBM, perbedaan antara **sedangkan** dan **sementara itu**, atau **meskipun** dan **namun**, bukan sekadar masalah selera telinga! Bahasa Indonesia membagi konjungsi menjadi **intrakalimat** (menghubungkan bagian di dalam 1 kalimat) dan **antarkalimat** (berdiri di awal kalimat baru dengan tanda koma wajib setelahnya).",
+    analogy:
+      "Konjungsi antarkalimat (*Namun, Oleh karena itu, Akan tetapi, Selain itu*) itu seperti lampu sein saat belok di persimpangan baru: harus berdiri setelah titik (awal kalimat) dan langsung diikuti tanda koma!",
+    coreRuleLatex: null,
+    coreRuleNote:
+      "Pasangan korelatif wajib hafal: `baik ... maupun`, `bukan ... melainkan`, `tidak ... tetapi`, `sedemikian ... sehingga`, `antara ... dan`. Kata baku favorit: `sistem`, `praktik`, `risiko`, `analisis`, `kualitas`, `mengubah`, `memengaruhi`, `memerhatikan`.",
+    workedExample: {
+      prompt: "Perbaiki kalimat: 'Namun demikian data tersebut masih diragukan, dikarenakan metode survei belum merata.'",
+      steps: [
+        {
+          title: "Gunakan konjungsi antarkalimat yang baku dan berkoma",
+          detail: "'Namun demikian' tidak baku (campuran 'namun' dan 'meskipun demikian'). Gunakan 'Meskipun demikian,' atau 'Namun,'.",
+          formulaLatex: null,
+        },
+        {
+          title: "Ganti bentuk tidak baku 'dikarenakan'",
+          detail: "Dalam kalimat formal UTBK, gunakan 'karena' atau 'disebabkan oleh', bukan 'dikarenakan'.",
+          formulaLatex: null,
+        },
+      ],
+      takeaway: "'Namun,' setelah titik; ', sedangkan' di tengah kalimat; hindari 'dikarenakan' maupun pasangan salah 'bukan ... tetapi'.",
+    },
+    commonTrap: {
+      trapTitle: "Menaruh 'Sedangkan' di awal kalimat atau memakai ', namun' di tengah kalimat tanpa klausa seimbang",
+      wrongWay: "Menulis 'Bukan dia yang bersalah, tetapi adiknya.' atau 'Sedangkan jumlah peserta terus naik.' di awal kalimat.",
+      rightWay: "Pakai pasangan `bukan ... melainkan` dan `tidak ... tetapi`; pakai `Namun,` atau `Sementara itu,` untuk awal kalimat.",
+    },
+    warmupCheck: {
+      question: "Manakah penggunaan kata hubung dan kata baku yang TEPAT sesuai EYD V & KBBI?",
+      options: [
+        { key: "A", text: "Sistem praktik di klinik itu sudah diubah demi mengurangi risiko.", feedback: "Tepat sekali! `Sistem`, `praktik`, `diubah`, dan `risiko` seluruhnya baku." },
+        { key: "B", text: "Sistim praktek di klinik itu sudah dirubah demi mengurangi resiko.", feedback: "Empat kata sekaligus tidak baku (`sistim`, `praktek`, `dirubah`, `resiko`)." },
+        { key: "C", text: "Sedangkan, praktik klinik itu harus dirubah secepatnya.", feedback: "`Sedangkan` tidak boleh menjadi konjungsi antarkalimat dengan koma di depan." },
+      ],
+      correctKey: "A",
+    },
+  },
+  [NODE_IDS.PBM_T3_WAC]: {
+    skillNodeId: NODE_IDS.PBM_T3_WAC,
+    estimatedMinutes: 3,
+    whyHeadline: "Trik Menulis Judul Sesuai EYD V, Mendeteksi Kalimat Sumbang & Menyusun Paragraf Padu",
+    whyStory:
+      "Soal Wacana di PBM menilai kemampuanmu melihat arsitektur teks. Kalimat padu selalu punya kata rujukan atau pengulangan kata kunci dari kalimat sebelumnya (kohesi). Kalimat sumbang melompat membahas subtopik lain di tengah paragraf.",
+    analogy:
+      "Paragraf itu seperti gerbong kereta satu jurusan. Jika semua gerbong mengangkut informasi 'manfaat kompos', lalu tiba-tiba gerbong ke-4 membahas 'harga semen impor', itulah kalimat sumbang.",
+    coreRuleLatex: null,
+    coreRuleNote:
+      "Aturan Judul EYD V: huruf pertama setiap kata ditulis KAPITAL, KECUALI kata tugas/depan/penghubung pendek (`di, ke, dari, pada, dalam, yang, dan, atau, untuk, sebagai, terhadap`) jika TIDAK berada di posisi paling awal atau paling akhir judul.",
+    workedExample: {
+      prompt: "Tentukan penulisan judul karangan yang tepat menurut EYD V untuk: 'dampak perubahan iklim terhadap ketahanan pangan di indonesia'.",
+      steps: [
+        {
+          title: "Kapitalkan kata benda, kerja, sifat, dan nama geografis",
+          detail: "`Dampak`, `Perubahan`, `Iklim`, `Ketahanan`, `Pangan`, dan `Indonesia` wajib kapital.",
+          formulaLatex: null,
+        },
+        {
+          title: "Kecilkan preposisi tengah (`terhadap`, `di`)",
+          detail: "Karena `terhadap` dan `di` bukan kata pertama maupun terakhir judul, tetap huruf kecil.",
+          formulaLatex: null,
+        },
+      ],
+      takeaway: "Judul baku: 'Dampak Perubahan Iklim terhadap Ketahanan Pangan di Indonesia' (spesifik, tanpa tanda titik di akhir).",
+    },
+    commonTrap: {
+      trapTitle: "Mengapitalkan kata 'Dan', 'Yang', 'Di', 'Untuk', 'Terhadap' di tengah judul atau memilih judul terlalu luas",
+      wrongWay: "Memilih judul 'Strategi Efektif Untuk Menghadapi Perubahan Iklim.' (kata `Untuk` kapital dan ada tanda titik!).",
+      rightWay: "Pastikan judul spesifik sesuai teks, bebas tanda titik akhir, dan preposisi tengah memakai huruf kecil.",
+    },
+    warmupCheck: {
+      question: "Manakah penulisan judul karangan nonfiksi yang BENAR sesuai EYD V?",
+      options: [
+        { key: "A", text: "Pengaruh Penggunaan Pupuk Organik Terhadap Hasil Panen Padi", feedback: "Kata depan `terhadap` di tengah judul seharusnya huruf kecil." },
+        { key: "B", text: "Pengaruh Penggunaan Pupuk Organik terhadap Hasil Panen Padi", feedback: "Tepat! Seluruh kata isi kapital, sedangkan kata depan `terhadap` di tengah tetap huruf kecil tanpa titik akhir." },
+        { key: "C", text: "Pengaruh penggunaan pupuk organik terhadap hasil panen padi.", feedback: "Salah gaya penulisan judul (tidak memakai Title Case serta diakhiri tanda titik)." },
+      ],
+      correctKey: "B",
+    },
+  },
+  [NODE_IDS.PPU_T3_PANDA]: {
+    skillNodeId: NODE_IDS.PPU_T3_PANDA,
+    estimatedMinutes: 4,
+    whyHeadline: "Cara Memecahkan Bahasa Panda (Kriptografi Bahasa) dalam 30 Detik Tanpa Menebak",
+    whyStory:
+      "Bahasa Panda di PPU bukanlah hafalan kosakata, melainkan teka-teki irisan dan urutan kata. Hampir semua bahasa panda menaruh kata yang sama di dua kalimat contoh, lalu membalik atau mempertahankan struktur D-M (Diterangkan-Menerangkan) / M-D seperti bahasa Inggris atau Indonesia.",
+    analogy:
+      "Jika kamu dengar kalimat asing `kula mopi` = `rumah besar` dan `mopi biru` = `kamar besar` (misal `besar biru` vs `merah`), kata `mopi` muncul di kedua kalimat bersamaan dengan makna `besar`. Irisan kata langsung mengunci arti dan posisinya!",
+    coreRuleLatex: null,
+    coreRuleNote:
+      "Tiga langkah wajib Bahasa Panda: (1) Iris dua kalimat yang berbagi 1 kata Indonesia -> kunci padanannya, (2) Cek urutan Inti + Keterangan (D-M atau terbalik M-D), (3) Cek apakah ada imbuhan/penanda jamak/waktu tetap.",
+    workedExample: {
+      prompt: "Diketahui `zora kilat` = `air bersih`, `nema kilat` = `udara bersih`, dan `nema doro` = `udara segar`. Terjemahkan `air segar`!",
+      steps: [
+        {
+          title: "Iris kalimat 1 dan 2 untuk mengunci `kilat`",
+          detail: "Keduanya mengandung kata `bersih` dan `kilat`. Maka `kilat` = `bersih` dan `zora` = `air`, `nema` = `udara`.",
+          formulaLatex: null,
+        },
+        {
+          title: "Cek urutan posisi (D-M atau M-D)",
+          detail: "Karena `air` (`zora`) berada di depan `bersih` (`kilat`), urutannya sama seperti bahasa Indonesia (D-M). Maka `air segar` = `zora doro`.",
+          formulaLatex: null,
+        },
+      ],
+      takeaway: "Kunci irisan kata -> cek urutan D-M vs M-D -> susun ulang frasa target sesuai urutan bahasanya.",
+    },
+    commonTrap: {
+      trapTitle: "Langsung mencocokkan kata ke-1 dengan kata ke-1 tanpa mengecek apakah urutan bahasanya terbalik (M-D)",
+      wrongWay: "Mengira kata pertama di kalimat buatan selalu berarti kata pertama di terjemahan Indonesia.",
+      rightWay: "Selalu buktikan posisi kata lewat irisan dua kalimat contoh lebih dulu!",
+    },
+    warmupCheck: {
+      question: "Jika `baku teli` = `buku merah` dan `teli sora` = `baju merah` (perhatikan urutan kata!), maka arti dari `teli` adalah...",
+      options: [
+        { key: "A", text: "buku", feedback: "`buku` hanya muncul di kalimat pertama, tidak muncul di kalimat kedua." },
+        { key: "B", text: "merah", feedback: "Tepat! `teli` dan `merah` adalah satu-satunya unsur yang muncul di kedua kalimat, meski posisi `teli` berpindah/menerangkan." },
+        { key: "C", text: "baju", feedback: "`baju` hanya ada di kalimat kedua." },
+      ],
+      correctKey: "B",
+    },
+  },
+  [NODE_IDS.LBI_T3_SASTRA]: {
+    skillNodeId: NODE_IDS.LBI_T3_SASTRA,
+    estimatedMinutes: 3,
+    whyHeadline: "Menjawab Soal Cerpen/Novel Sastra & Fakta vs Opini di LBI tanpa Beda Tafsir",
+    whyStory:
+      "Soal teks sastra UTBK sering mengecoh karena peserta menafsirkan amanat terlalu jauh dari alur cerita. Pegang kaidah emasnya: amanat dan tema WAJIB terbukti oleh perubahan sikap tokoh atau konflik utama dalam kutipan, bukan nasihat moral umum dari luar cerita.",
+    analogy:
+      "Fakta ibarat foto kamera (bisa dicek benar-salah dengan angka atau bukti fisik), sedangkan opini ibarat komentar penonton yang memuat kata penilaian seperti *sebaiknya, luar biasa, memprihatinkan, berpotensi*.",
+    coreRuleLatex: null,
+    coreRuleNote:
+      "Unsur intrinsik sastra yang wajib dibedakan: Watak tokoh (terlihat dari dialog/tindakan), Latar suasana/sosial, Sudut pandang (`aku` = orang pertama, `ia/nama` = orang ketiga serba tahu/terbatas), serta Amanat (pesan dari konflik).",
+    workedExample: {
+      prompt: "Kalimat A: 'Survei BPS mencatat inflasi pangan naik 2,4% bulan lalu.' Kalimat B: 'Kenaikan tersebut sangat memberatkan warga.' Manakah opini?",
+      steps: [
+        {
+          title: "Uji keterukuran objektif",
+          detail: "Kalimat A memiliki angka terverifikasi (`2,4%`) dari sumber data -> Fakta.",
+          formulaLatex: null,
+        },
+        {
+          title: "Deteksi penanda subjektivitas",
+          detail: "Kalimat B memakai frasa penilai `sangat memberatkan` yang tidak terukur tunggal -> Opini.",
+          formulaLatex: null,
+        },
+      ],
+      takeaway: "Fakta bebas dari kata sifat penilaian pribadi; amanat sastra berpijak pada akibat konflik tokoh dalam kutipan.",
+    },
+    commonTrap: {
+      trapTitle: "Mengira kalimat yang menyebut angka otomatis pasti Fakta",
+      wrongWay: "Menganggap kalimat 'Kenaikan harga 2% ini jelas terlalu tinggi bagi rakyat' sebagai Fakta karena ada angka 2%.",
+      rightWay: "Kehadiran frasa penilaian ('jelas terlalu tinggi', 'seharusnya') menjadikan kalimat tersebut tetap OPINI.",
+    },
+    warmupCheck: {
+      question: "Manakah kalimat berikut yang merupakan FAKTA murni?",
+      options: [
+        { key: "A", text: "Desa Sukamaju seharusnya segera membangun embung penampung air.", feedback: "Ada kata `seharusnya` (saran/penilaian) -> ini opini." },
+        { key: "B", text: "Penurunan debit sungai sebesar 18% di musim kemarau memaksa warga membeli air bersih.", feedback: "Tepat! Menyatakan kejadian dan data terukur tanpa kata sifat subjektif." },
+        { key: "C", text: "Kondisi kekeringan tahun ini jauh lebih menyedihkan daripada sebelumnya.", feedback: "Frasa `jauh lebih menyedihkan` bersifat subjektif/emosional -> opini." },
+      ],
+      correctKey: "B",
+    },
+  },
 };
 
 export function getMicroLessonForNode(skillNodeId: string): MicroLessonContent | null {

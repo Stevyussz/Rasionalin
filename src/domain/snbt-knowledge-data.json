@@ -1,0 +1,3509 @@
+[
+  {
+    "id": "kb-pk-frac-01",
+    "subtest": "PK",
+    "skillNodeId": "10000000-0000-4000-8000-000000000001",
+    "topicTitle": "Operasi Pecahan, Desimal Berulang & Urutan Bilangan Real",
+    "priorityLevel": 10,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Bilangan & Operasi (Prioritas Lv.10)",
+    "sourceLabel": "Kurikulum Prioritas SNBT 2026 + Quipper PK (Bilangan)",
+    "whyBeforeHow": "Penyebut menyatakan ukuran potongan sehingga dua pecahan wajib disamakan penyebut atau diubah ke bentuk pembanding setara sebelum dijumlahkan atau diurutkan.",
+    "keyFormulasLatex": [
+      "\\dfrac{a}{b} \\pm \\dfrac{c}{d} = \\dfrac{ad \\pm bc}{bd}",
+      "0,\\overline{ab} = \\dfrac{ab}{99}",
+      "0,a\\overline{b} = \\dfrac{ab - a}{90}"
+    ],
+    "shortcutWithBoundary": {
+      "methodLabel": "Uji Silang Pecahan & Trik Desimal Berulang",
+      "shortcutMarkdown": "Untuk membandingkan $\\dfrac{a}{b}$ dengan $\\dfrac{c}{d}$, cukup bandingkan $ad$ terhadap $cb$. Untuk $0,abab\\dots$ tulis langsung $\\dfrac{ab}{99}$.",
+      "validityConditions": "Perkalian silang mempertahankan arah pertidaksamaan hanya bila kedua penyebut positif ($b > 0, d > 0$)."
+    },
+    "utbkTraps": [
+      "Menjumlahkan pembilang dengan pembilang sekaligus penyebut dengan penyebut.",
+      "Keliru mengurutkan bilangan negatif desimal (mengira $-0,8 > -0,08$)."
+    ],
+    "keywords": [
+      "pecahan",
+      "penyebut",
+      "desimal",
+      "berulang",
+      "negatif",
+      "urutan bilangan"
+    ],
+    "quickDrillTip": "Ubah pecahan campuran dan persen ke bentuk sejenis sebelum membandingkan."
+  },
+  {
+    "id": "kb-pk-bil-02",
+    "subtest": "PK",
+    "skillNodeId": "10000000-0000-4000-8000-000000000001",
+    "topicTitle": "Klasifikasi Bilangan, Sifat Genap-Ganjil (Paritas), Keterbagian & Prima",
+    "priorityLevel": 10,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Bilangan & Operasi (Prioritas Lv.10)",
+    "sourceLabel": "Quipper PK (Bab Bilangan) + Prioritas SNBT 2026",
+    "whyBeforeHow": "Banyak soal PK menanyakan sifat hasil operasi tanpa angka eksak: ganjil + ganjil selalu genap, ganjil x ganjil selalu ganjil, dan sebuah bilangan hanya habis dibagi 3 bila jumlah digitnya kelipatan 3.",
+    "keyFormulasLatex": [
+      "\\text{Ganjil} \\pm \\text{Ganjil} = \\text{Genap}",
+      "\\text{Genap} \\times \\text{Bulat} = \\text{Genap}",
+      "N \\equiv 0 \\pmod{3} \\iff \\sum \\text{digit}(N) \\equiv 0 \\pmod{3}"
+    ],
+    "shortcutWithBoundary": {
+      "methodLabel": "Uji Paritas dengan Nilai Kecil (0, 1, 2) & Ciri Habis Dibagi",
+      "shortcutMarkdown": "Bilangan habis dibagi $4$ jika $2$ digit terakhir habis dibagi $4$; habis dibagi $8$ jika $3$ digit terakhir habis dibagi $8$; habis dibagi $9$ jika jumlah digit kelipatan $9$.",
+      "validityConditions": "Bilangan prima adalah bilangan asli $> 1$ yang tepat punya $2$ faktor positif ($1$ BUKAN prima, dan $2$ adalah satu-satunya prima genap)."
+    },
+    "utbkTraps": [
+      "Menganggap 1 sebagai bilangan prima atau lupa bahwa 2 adalah bilangan prima genap.",
+      "Langsung memilih 'hubungan P dan Q tidak dapat ditentukan' padahal sifat genap-ganjil sudah memaksa satu jawaban."
+    ],
+    "keywords": [
+      "prima",
+      "paritas",
+      "genap",
+      "ganjil",
+      "habis dibagi",
+      "keterbagian",
+      "faktor"
+    ],
+    "quickDrillTip": "Substitusi bilangan kecil positif/negatif/nol untuk menguji kelipatan & keterbagian."
+  },
+  {
+    "id": "kb-pk-algo-03",
+    "subtest": "PK",
+    "skillNodeId": "10000000-0000-4000-8000-000000000001",
+    "topicTitle": "Operasi Simbol Buatan (@, #, *) & Pembacaan Algoritma Flowchart",
+    "priorityLevel": 9,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Bilangan & Operasi (Prioritas Lv.10)",
+    "sourceLabel": "Prioritas SNBT 2026 (Operasi Buatan & Algoritma PK)",
+    "whyBeforeHow": "Simbol buatan mendefinisikan aturan fungsi dua variabel sementara hanya untuk soal itu; patuhi urutan tanda kurung dari dalam ke luar dan ikuti panah kondisi Ya/Tidak pada diagram alir tanpa asumsi tambahan.",
+    "keyFormulasLatex": [
+      "a \\oplus b = f(a, b) \\implies \\text{kerjakan kurung terdalam dahulu}"
+    ],
+    "shortcutWithBoundary": {
+      "methodLabel": "Evaluasi Bertahap dari Kurung Terdalam + Tabel Trace Variabel",
+      "shortcutMarkdown": "Pada flowchart/algoritma iteratif, buat tabel mini kolom variabel ($x, y, z$) baris demi baris hingga syarat berhenti terpenuhi.",
+      "validityConditions": "Operasi buatan umumnya TIDAK bersifat komutatif ($a @ b \neq b @ a$) atau asosiatif kecuali terbukti identik secara aljabar."
+    },
+    "utbkTraps": [
+      "Menukar posisi angka pertama dan kedua padahal definisi operasi tidak simetris.",
+      "Berhenti setelah satu putaran loop flowchart sebelum kondisi berhenti terpenuhi."
+    ],
+    "keywords": [
+      "operasi simbol",
+      "operasi buatan",
+      "algoritma",
+      "flowchart",
+      "diagram alir",
+      "input",
+      "output"
+    ],
+    "quickDrillTip": "Catat nilai variabel di setiap percabangan Ya/Tidak pada kertas coretan."
+  },
+  {
+    "id": "kb-pk-alg-01",
+    "subtest": "PK",
+    "skillNodeId": "10000000-0000-4000-8000-000000000002",
+    "topicTitle": "Manipulasi Aljabar, Pemfaktoran Identitas & Pindah Ruas",
+    "priorityLevel": 9,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Aljabar Dasar (Quipper Bab 2)",
+    "sourceLabel": "Kurikulum Prioritas SNBT 2026 + Quipper PK (Aljabar)",
+    "whyBeforeHow": "Persamaan adalah timbangan seimbang: setiap suku yang berpindah wajib berasal dari operasi invers di kedua ruas, sementara identitas kuadrat mempercepat penyederhanaan pecahan aljabar tanpa membagi langsung.",
+    "keyFormulasLatex": [
+      "a^2 - b^2 = (a - b)(a + b)",
+      "(a \\pm b)^2 = a^2 \\pm 2ab + b^2",
+      "a^3 \\pm b^3 = (a \\pm b)(a^2 \\mp ab + b^2)"
+    ],
+    "shortcutWithBoundary": {
+      "methodLabel": "Selisih Dua Kuadrat untuk Penyederhanaan Pecahan Aljabar",
+      "shortcutMarkdown": "Jika melihat bentuk $\\dfrac{x^2 - y^2}{x - y}$ dengan $x \\neq y$, faktorkan pembilang langsung menjadi $(x+y)(x-y)$ agar tersisa $(x+y)$.",
+      "validityConditions": "Pembatalan $(x - y)$ pada pembilang dan penyebut HANYA sah jika diketahui $x \neq y$."
+    },
+    "utbkTraps": [
+      "Berhenti di nilai $x$ padahal pertanyaan menanyakan $2x - 3$.",
+      "Lupa mengalikan koefisien di luar kurung ke semua suku di dalam kurung."
+    ],
+    "keywords": [
+      "aljabar",
+      "pemfaktoran",
+      "selisih kuadrat",
+      "pindah ruas",
+      "identitas"
+    ],
+    "quickDrillTip": "Selalu lingkari ekspresi target yang diminta kalimat terakhir soal."
+  },
+  {
+    "id": "kb-pk-lin-01",
+    "subtest": "PK",
+    "skillNodeId": "10000000-0000-4000-8000-000000000003",
+    "topicTitle": "Dimensi 0-1-2: Persamaan Garis Lurus, Gradien, Sejajar & Tegak Lurus",
+    "priorityLevel": 10,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Dimensi 0-1-2 & Relasinya (Prioritas Lv.10)",
+    "sourceLabel": "Prioritas SNBT 2026 + Quipper PK (Garis & Sudut)",
+    "whyBeforeHow": "Gradien adalah laju kenaikan vertikal terhadap geseran horizontal ($\\Delta y / \\Delta x$). Dua garis sejajar punya gradien identik, sedangkan tegak lurus membalik tanda dan pecahannya sekaligus ($m_1 m_2 = -1$).",
+    "keyFormulasLatex": [
+      "m = \\dfrac{y_2 - y_1}{x_2 - x_1}, \\quad ax + by + c = 0 \\implies m = -\\dfrac{a}{b}",
+      "m_1 \\cdot m_2 = -1 \\quad (\\text{tegak lurus})",
+      "d = \\sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}"
+    ],
+    "shortcutWithBoundary": {
+      "methodLabel": "Baca Persamaan Garis Melalui Titik Potong Sumbu",
+      "shortcutMarkdown": "Garis yang memotong sumbu-$y$ di $(0, a)$ dan sumbu-$x$ di $(b, 0)$ memiliki persamaan instan $ax + by = ab$.",
+      "validityConditions": "Rumus instan $ax + by = ab$ hanya berlaku bila titik potong berada tepat di sumbu-$x$ dan sumbu-$y$ dengan $a, b \neq 0$."
+    },
+    "utbkTraps": [
+      "Lupa membalik tanda minus pada syarat tegak lurus $m_2 = -1/m_1$.",
+      "Tertukar koefisien sumbu-$y$ ($a$) dengan sumbu-$x$ ($b$) pada rumus $ax+by=ab$."
+    ],
+    "keywords": [
+      "garis",
+      "gradien",
+      "tegak lurus",
+      "sejajar",
+      "koordinat",
+      "dimensi",
+      "jarak dua titik"
+    ],
+    "quickDrillTip": "Cek apakah $(x_1, y_1)$ terletak pada garis dengan mensubstitusi ke persamaan."
+  },
+  {
+    "id": "kb-pk-spl-02",
+    "subtest": "PK",
+    "skillNodeId": "10000000-0000-4000-8000-000000000003",
+    "topicTitle": "Sistem Persamaan Linear (SPLDV/SPLTV) & Trik Penjumlahan Simetris",
+    "priorityLevel": 8,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "SPL & Pertidaksamaan (Prioritas Lv.8)",
+    "sourceLabel": "Prioritas SNBT 2026 (Persamaan Linear)",
+    "whyBeforeHow": "Pada SPL UTBK yang meminta bentuk gabungan seperti $x + y + z$ atau $2x - y$, kamu sering TIDAK perlu mencari nilai $x, y, z$ satu per satu jika persamaan langsung dijumlah atau dikurangkan.",
+    "keyFormulasLatex": [
+      "a_1 x + b_1 y = c_1, \\quad a_2 x + b_2 y = c_2",
+      "(ax + by) + (bx + ay) = (a+b)(x+y)"
+    ],
+    "shortcutWithBoundary": {
+      "methodLabel": "Eliminasi Langsung Bentuk Target Tanpa Mencari Variabel Tunggal",
+      "shortcutMarkdown": "Cek dulu apakah penjumlahan atau pengurangan seluruh persamaan SPL menghasilkan kelipatan bulat dari ekspresi yang ditanyakan.",
+      "validityConditions": "Metode kombinasi langsung hanya berhasil jika vektor koefisien target merupakan kombinasi linear sederhana dari koefisien SPL; jika tidak, eliminasi standar."
+    },
+    "utbkTraps": [
+      "Menghabiskan 2 menit menyelesaikan $x, y, z$ padahal penjumlahan 3 persamaan langsung memberi $2(x+y+z)$.",
+      "Salah tanda minus saat mengeliminasi persamaan bawah dari atas."
+    ],
+    "keywords": [
+      "spldv",
+      "spltv",
+      "sistem persamaan",
+      "eliminasi",
+      "substitusi"
+    ],
+    "quickDrillTip": "Jumlahkan seluruh persamaan SPLDV/SPLTV sekilas di langkah awal untuk mengecek pola simetris."
+  },
+  {
+    "id": "kb-pk-seq-02",
+    "subtest": "PK",
+    "skillNodeId": "10000000-0000-4000-8000-000000000003",
+    "topicTitle": "Barisan & Deret Aritmetika, Geometri, Suku Tengah & Tak Hingga",
+    "priorityLevel": 8,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Barisan & Deret (Prioritas Lv.8)",
+    "sourceLabel": "Prioritas SNBT 2026 + @maikesense",
+    "whyBeforeHow": "Barisan aritmetika menambah selisih tetap ($+b$) di tiap langkah, sedangkan barisan geometri mengali rasio tetap ($\\times r$). Suku ke-$n$ menghubungkan indeks dengan nilai secara linear (aritmetika) atau eksponensial (geometri).",
+    "keyFormulasLatex": [
+      "U_n = a + (n-1)b, \\quad S_n = \\dfrac{n}{2}(a + U_n)",
+      "U_n = ar^{n-1}, \\quad S_\\infty = \\dfrac{a}{1-r} \\; (|r|<1)"
+    ],
+    "shortcutWithBoundary": {
+      "methodLabel": "Selisih Indeks Tanpa Mencari Suku Pertama",
+      "shortcutMarkdown": "Pada aritmetika, $b = \\dfrac{U_p - U_q}{p - q}$ dan $U_p + U_q = U_r + U_s$ jika $p+q = r+s$. Pada geometri, $r^{p-q} = \\dfrac{U_p}{U_q}$.",
+      "validityConditions": "Deret tak hingga konvergen $S_\\infty = \\dfrac{a}{1-r}$ hanya sah bila $|r| < 1$."
+    },
+    "utbkTraps": [
+      "Lupa $(n-1)$ saat menghitung $U_n$.",
+      "Tertukar $U_n$ dengan $S_n = \\sum_{k=1}^n U_k$."
+    ],
+    "keywords": [
+      "barisan",
+      "deret",
+      "aritmetika",
+      "geometri",
+      "tak hingga",
+      "suku ke-n",
+      "rasio"
+    ],
+    "quickDrillTip": "Untuk jumlah ganjil suku berurutan aritmetika, ingat $S_{2k+1} = (2k+1) \\cdot U_{\\text{tengah}}$."
+  },
+  {
+    "id": "kb-pk-rec-03",
+    "subtest": "PK",
+    "skillNodeId": "10000000-0000-4000-8000-000000000003",
+    "topicTitle": "Barisan Rekursif & Pola Paritas Indeks Genap-Ganjil UTBK",
+    "priorityLevel": 9,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Barisan Rekursif (HOTS UTBK)",
+    "sourceLabel": "Modul Barisan Rekursif UTBK (@lemmarole)",
+    "whyBeforeHow": "Barisan rekursif mendefinisikan suku berikutnya dari suku sebelumnya ($a_{n+1} = p \\cdot a_n + q$). Selain menghitung maju atau mundur secara aljabar, amati selisih suku berurutan atau pola tanda selang-seling indeks ganjil vs genap untuk menjawab indeks besar seperti $a_{2026}$.",
+    "keyFormulasLatex": [
+      "a_{n+1} = p a_n + q \\implies a_n = \\dfrac{a_{n+1} - q}{p}",
+      "a_{n+2} = c a_n + d a_{n+1}"
+    ],
+    "shortcutWithBoundary": {
+      "methodLabel": "Mundur Indeks & Uji Pola Siklus 4 Suku Pertama",
+      "shortcutMarkdown": "Jika ditanya suku indeks ekstrem ($a_{2025}$) atau perbandingan dua suku tinggi, hitung $a_1, a_2, a_3, a_4$ untuk mendeteksi periodisitas atau pola tanda/sisa bagi.",
+      "validityConditions": "Jangan menyimpulkan pola periodik hanya dari 2 suku; verifikasi minimal 4 suku berurutan sesuai rumus rekursifnya."
+    },
+    "utbkTraps": [
+      "Salah substitusi indeks $n$ ke persamaan rekursif ($n$ tertukar $n+1$).",
+      "Keliru membalik operasi saat mencari mundur $a_3$ dari $a_4$."
+    ],
+    "keywords": [
+      "barisan rekursif",
+      "rekursif",
+      "a_n",
+      "indeks",
+      "pola suku"
+    ],
+    "quickDrillTip": "Tulis indeks $n$ secara eksplisit di samping persamaan sebelum substitusi angka."
+  },
+  {
+    "id": "kb-pk-rate-01",
+    "subtest": "PK",
+    "skillNodeId": "10000000-0000-4000-8000-000000000004",
+    "topicTitle": "Perbandingan Senilai, Berbalik Nilai & Masalah Pekerja Terhenti",
+    "priorityLevel": 8,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Pengukuran & Perbandingan (Quipper Bab 9)",
+    "sourceLabel": "Quipper PK (Bab Perbandingan)",
+    "whyBeforeHow": "Besaran senilai bergerak searah sehingga rasionya tetap, sedangkan berbalik nilai bergerak berlawanan arah sehingga hasil kalinya (beban kerja total = pekerja x hari) tetap konstan.",
+    "keyFormulasLatex": [
+      "\\dfrac{x_1}{y_1} = \\dfrac{x_2}{y_2} \\quad (\\text{senilai})",
+      "P_1 t_1 = P_2 t_2 \\quad (\\text{berbalik nilai})",
+      "P_1 t_1 = P_1 t_{\\text{jalan}} + P_2 t_{\\text{sisa}}"
+    ],
+    "shortcutWithBoundary": {
+      "methodLabel": "Sisa Beban Kerja Saat Proyek Terhenti di Tengah Jalan",
+      "shortcutMarkdown": "Jika pekerjaan berdurasi $T$ dengan $P_1$ pekerja sudah berjalan $a$ hari lalu libur $b$ hari, pekerja yang dibutuhkan pada sisa waktu adalah $P_2 = \\dfrac{P_1(T - a)}{T - a - b}$.",
+      "validityConditions": "Berlaku jika seluruh pekerja memiliki laju kerja identik sepanjang proyek."
+    },
+    "utbkTraps": [
+      "Memakai perbandingan senilai pada soal pekerja vs waktu selesai.",
+      "Lupa mengurangi hari yang sudah dikerjakan sebelum menghitung dampak libur."
+    ],
+    "keywords": [
+      "perbandingan",
+      "senilai",
+      "berbalik nilai",
+      "pekerja",
+      "hari",
+      "terhenti",
+      "laju kerja"
+    ],
+    "quickDrillTip": "Tulis persamaan sisa beban = pekerja x sisa hari."
+  },
+  {
+    "id": "kb-pk-quad-01",
+    "subtest": "PK",
+    "skillNodeId": "10000000-0000-4000-8000-000000000005",
+    "topicTitle": "Persamaan Kuadrat, Sifat Diskriminan & Identitas Akar Vieta",
+    "priorityLevel": 8,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Persamaan & Fungsi Kuadrat (Prioritas SNBT)",
+    "sourceLabel": "Prioritas SNBT 2026 + Modul Solusi Persamaan Kuadrat",
+    "whyBeforeHow": "Koefisien $ax^2 + bx + c = 0$ mengkodekan jumlah dan hasil kali akar secara langsung via rumus Vieta serta menentukan apakah grafik memotong sumbu-$x$ dua kali ($D > 0$), menyinggung ($D = 0$), atau melayang/definit ($D < 0$).",
+    "keyFormulasLatex": [
+      "\\alpha + \\beta = -\\dfrac{b}{a}, \\quad \\alpha\\beta = \\dfrac{c}{a}",
+      "D = b^2 - 4ac",
+      "\\alpha^2 + \\beta^2 = (\\alpha+\\beta)^2 - 2\\alpha\\beta"
+    ],
+    "shortcutWithBoundary": {
+      "methodLabel": "Identitas Simetris Akar & Syarat Definit Positif/Negatif",
+      "shortcutMarkdown": "Gunakan $x_1 - x_2 = \\pm\\dfrac{\\sqrt{D}}{a}$ dan syarat definit positif ($f(x) > 0$ untuk semua $x$): $a > 0$ dan $D < 0$.",
+      "validityConditions": "Identitas aljabar Vieta berlaku kapan pun $a \neq 0$, namun syarat dua akar real berbeda menuntut $D > 0$."
+    },
+    "utbkTraps": [
+      "Lupa tanda minus pada $-\frac{b}{a}$ saat koefisien $b$ negatif.",
+      "Keliru syarat menyinggung sumbu-$x$ ($D = 0$) dengan memotong di dua titik ($D > 0$)."
+    ],
+    "keywords": [
+      "persamaan kuadrat",
+      "akar",
+      "vieta",
+      "diskriminan",
+      "definit",
+      "menyinggung"
+    ],
+    "quickDrillTip": "Uji substitusi akar ke $ax^2 + bx + c = 0$ bila muncul pangkat tinggi seperti $x^3$ atau $x^4$."
+  },
+  {
+    "id": "kb-pk-quad-02",
+    "subtest": "PK",
+    "skillNodeId": "10000000-0000-4000-8000-000000000005",
+    "topicTitle": "Fungsi Kuadrat: Titik Puncak, Sumbu Simetri & Pergeseran Grafik",
+    "priorityLevel": 9,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Fungsi Kuadrat (Prioritas Lv.9)",
+    "sourceLabel": "Prioritas SNBT 2026 + Quipper PK",
+    "whyBeforeHow": "Parabola selalu simetris terhadap garis $x = x_p = -b/(2a)$. Jika dua titik pada grafik memiliki nilai $y$ yang sama, maka $x_p$ tepat berada di titik tengah kedua absis tersebut!",
+    "keyFormulasLatex": [
+      "f(x) = a(x - x_p)^2 + y_p",
+      "f(x) = a(x - x_1)(x - x_2)",
+      "x_p = -\\dfrac{b}{2a} = \\dfrac{x_1 + x_2}{2}, \\quad y_p = f(x_p)"
+    ],
+    "shortcutWithBoundary": {
+      "methodLabel": "Susun Persamaan Parabola dari Titik Puncak atau Dua Akar",
+      "shortcutMarkdown": "Jika diketahui puncak $(x_p, y_p)$ dan 1 titik lain, langsung pakai $y = a(x - x_p)^2 + y_p$ lalu cari $a$ dalam satu langkah.",
+      "validityConditions": "Cek arah terbuka grafik ($a > 0$ terbuka ke atas / minimum; $a < 0$ terbuka ke bawah / maksimum)."
+    },
+    "utbkTraps": [
+      "Menjawab absis $x_p$ padahal soal meminta nilai optimum $y_p$.",
+      "Lupa mengkuadratkan tanda minus saat menyusun $a(x - x_p)^2$."
+    ],
+    "keywords": [
+      "fungsi kuadrat",
+      "parabola",
+      "titik puncak",
+      "sumbu simetri",
+      "pergeseran",
+      "optimum"
+    ],
+    "quickDrillTip": "Jika $f(2) = f(6)$, langsung kunci sumbu simetri $x_p = (2+6)/2 = 4$."
+  },
+  {
+    "id": "kb-pk-ineq-01",
+    "subtest": "PK",
+    "skillNodeId": "10000000-0000-4000-8000-000000000006",
+    "topicTitle": "Pertidaksamaan Rasional, Nilai Mutlak & Analisis Kecukupan Data (1)&(2)",
+    "priorityLevel": 10,
+    "priorityBadge": "Penguat Skor 800",
+    "chapterGroup": "HOTS Kecukupan Data & P vs Q (Penguat Skor 800)",
+    "sourceLabel": "Prioritas SNBT 2026 (PK HOTS Tipe P/Q)",
+    "whyBeforeHow": "Pada pertidaksamaan pecahan $\\dfrac{A(x)}{B(x)} > 0$, tanda penyebut $B(x)$ bisa positif atau negatif sehingga perkalian silang merusak arah pertidaksamaan. Pada soal kecukupan data, pernyataan cukup bila menghasilkan SATU jawaban pasti (pasti YA atau pasti TIDAK).",
+    "keyFormulasLatex": [
+      "\\dfrac{A}{B} \\ge 0 \\iff A \\cdot B \\ge 0 \\;\\land\\; B \\neq 0",
+      "|u| < k \\iff -k < u < k \\quad (k > 0)"
+    ],
+    "shortcutWithBoundary": {
+      "methodLabel": "Garis Bilangan & Isolasi Pernyataan (1) Terpisah dari (2)",
+      "shortcutMarkdown": "Tutup pernyataan (2) saat menguji (1); tutup (1) saat menguji (2). Jika satu pernyataan masih menghasilkan dua nilai $P > Q$ dan $P < Q$ tergantung pilihan contoh, pernyataan itu TIDAK cukup.",
+      "validityConditions": "Jika pernyataan (1) cukup sendirian DAN (2) cukup sendirian, pilih D (masing-masing cukup), jangan C."
+    },
+    "utbkTraps": [
+      "Membawa syarat dari pernyataan (1) terbawa saat menguji pernyataan (2) sendirian.",
+      "Lupa syarat penyebut tidak boleh nol pada pertidaksamaan $\\ge$ atau $\\le$."
+    ],
+    "keywords": [
+      "kecukupan data",
+      "pernyataan (1)",
+      "pernyataan (2)",
+      "p dan q",
+      "pertidaksamaan",
+      "rasional",
+      "nilai mutlak"
+    ],
+    "quickDrillTip": "Uji dua nilai penyangkal berlawanan tanda (positif vs negatif atau bulat vs pecahan) untuk cek kecukupan."
+  },
+  {
+    "id": "kb-pk-exp-01",
+    "subtest": "PK",
+    "skillNodeId": "10000000-0000-4000-8000-000000000025",
+    "topicTitle": "Persamaan & Pertidaksamaan Eksponen serta Bentuk Akar Sekawan",
+    "priorityLevel": 8,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Eksponen, Akar & Logaritma (@maikesense Bab 1)",
+    "sourceLabel": "Prioritas SNBT 2026 + @maikesense (Bab 1 Eksponen)",
+    "whyBeforeHow": "Eksponen dengan basis $a > 1$ bersifat naik monoton sehingga $a^f > a^g \\iff f > g$, namun basis pecahan $0 < a < 1$ membalik tanda ketidaksamaan karena makin besar pangkat justru makin kecil nilainya.",
+    "keyFormulasLatex": [
+      "a^{f(x)} = a^{g(x)} \\implies f(x) = g(x) \\quad (a > 0, a \\neq 1)",
+      "\\dfrac{k}{\\sqrt{a} \\pm \\sqrt{b}} = \\dfrac{k(\\sqrt{a} \\mp \\sqrt{b})}{a - b}",
+      "\\sqrt{(a+b) \\pm 2\\sqrt{ab}} = \\sqrt{a} \\pm \\sqrt{b} \\; (a > b)"
+    ],
+    "shortcutWithBoundary": {
+      "methodLabel": "Urai ke Faktor Prima & Bentuk Akar Ganda Instan",
+      "shortcutMarkdown": "Pada pecahan eksponen seperti $\\dfrac{12^4}{3^{-1}\\cdot 2^4 \\cdot 18}$, pecah seluruh angka ke prima ($2, 3, 5$). Pada bentuk $\\sqrt{p \\pm 2\\sqrt{q}}$, cari dua bilangan yang jumlahnya $p$ dan kalinya $q$.",
+      "validityConditions": "Rumus $\\sqrt{p - 2\\sqrt{q}} = \\sqrt{a} - \\sqrt{b}$ wajib menempatkan angka lebih besar di depan ($a > b$) agar hasilnya non-negatif."
+    },
+    "utbkTraps": [
+      "Menjumlahkan pangkat pada penjumlahan suku ($2^3 + 2^3 \\neq 2^6$).",
+      "Lupa membalik tanda pertidaksamaan ketika basis eksponen berada di antara 0 dan 1."
+    ],
+    "keywords": [
+      "eksponen",
+      "pangkat",
+      "bentuk akar",
+      "sekawan",
+      "merasionalkan",
+      "persamaan eksponen"
+    ],
+    "quickDrillTip": "Cek kondisi basis: $a > 1$ tanda tetap, $0 < a < 1$ tanda dibalik."
+  },
+  {
+    "id": "kb-pk-log-02",
+    "subtest": "PK",
+    "skillNodeId": "10000000-0000-4000-8000-000000000025",
+    "topicTitle": "Sifat-Sifat Logaritma, Perubahan Basis & Persamaan Logaritma",
+    "priorityLevel": 8,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Eksponen, Akar & Logaritma (@maikesense Bab 1)",
+    "sourceLabel": "Prioritas SNBT 2026 + @maikesense (Bab 1 Logaritma)",
+    "whyBeforeHow": "Logaritma mengubah operasi perkalian dan pangkat menjadi penjumlahan dan pengali linear. Penjumlahan dua logaritma ber-basis sama menggabungkan numerusnya lewat perkalian, sedangkan aturan rantai mencoret numerus dan basis secara diagonal.",
+    "keyFormulasLatex": [
+      "{}^a\\log(xy) = {}^a\\log x + {}^a\\log y",
+      "{}^a\\log b \\cdot {}^b\\log c = {}^a\\log c",
+      "{}^{a^m}\\log(b^n) = \\dfrac{n}{m}{}^a\\log b",
+      "{}^a\\log b = \\dfrac{1}{{}^b\\log a}"
+    ],
+    "shortcutWithBoundary": {
+      "methodLabel": "Aturan Rantai & Pembatalan Diagonal Basis-Numerus",
+      "shortcutMarkdown": "Sederhanakan dulu semua pangkat pada basis maupun numerus dengan ${}^{a^m}\\log b^n = \\dfrac{n}{m} \\cdot {}^a\\log b$, lalu sambungkan berantai.",
+      "validityConditions": "Hasil $x$ dari persamaan logaritma wajib lulus syarat domain numerus ($u(x) > 0$) dan basis ($a > 0, a \\neq 1$)."
+    },
+    "utbkTraps": [
+      "Mengira ${}^a\\log(x+y) = {}^a\\log x + {}^a\\log y$.",
+      "Lupa memeriksa apakah solusi $x$ membuat numerus bernilai $\\le 0$."
+    ],
+    "keywords": [
+      "logaritma",
+      "numerus",
+      "basis logaritma",
+      "aturan rantai",
+      "persamaan logaritma"
+    ],
+    "quickDrillTip": "Tulis basis selalu di kiri atas (superscript) dan jaga numerus tetap positif."
+  },
+  {
+    "id": "kb-pk-func-01",
+    "subtest": "PK",
+    "skillNodeId": "10000000-0000-4000-8000-000000000026",
+    "topicTitle": "Fungsi Komposisi, Fungsi Invers & Pemetaan Domain-Kodomin",
+    "priorityLevel": 10,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Fungsi & Relasi (Prioritas Lv.10)",
+    "sourceLabel": "Prioritas SNBT 2026 + @maikesense (Fungsi Komposisi-Invers)",
+    "whyBeforeHow": "Komposisi $(g \\circ f)(x)$ menjalankan mesin $f$ dulu baru $g$. Sifat paling sakti di UTBK: $h(u) = v \\iff h^{-1}(v) = u$, sehingga soal invers bernilai angka hampir tidak pernah membutuhkan rumus $h^{-1}(x)$ eksplisit!",
+    "keyFormulasLatex": [
+      "(g \\circ f)(x) = g(f(x))",
+      "(g \\circ f)^{-1}(x) = (f^{-1} \\circ g^{-1})(x)",
+      "f(x) = \\dfrac{ax + b}{cx + d} \\implies f^{-1}(x) = \\dfrac{-dx + b}{cx - a}"
+    ],
+    "shortcutWithBoundary": {
+      "methodLabel": "Rumus Cepat Invers Pecahan Linear & Evaluasi Tanpa Membalik Aljabar",
+      "shortcutMarkdown": "Untuk $f(x) = \\dfrac{ax+b}{cx+d}$, cukup tukar posisi $a$ dan $d$ sekaligus kali $-1$ pada keduanya menjadi $\\dfrac{-dx+b}{cx-a}$. Untuk nilai $(f\\circ g)^{-1}(k)$, uji opsi $m$ mana yang memberi $f(g(m)) = k$.",
+      "validityConditions": "Pada invers pecahan linear, pastikan variabel $x$ pada pembilang dan penyebut berada di suku PERTAMA sebelum menukar $a$ dan $d$."
+    },
+    "utbkTraps": [
+      "Tertukar urutan $(f \\circ g)(x)$ dengan $(g \\circ f)(x)$.",
+      "Menukar $a$ dan $d$ saat bentuk penyebut tertulis $(d + cx)$ bukan $(cx + d)$."
+    ],
+    "keywords": [
+      "fungsi komposisi",
+      "fungsi invers",
+      "f^-1",
+      "pemetaan",
+      "domain",
+      "range"
+    ],
+    "quickDrillTip": "Substitusi balik angka pilihan jawaban saat mencari invers pada titik tertentu."
+  },
+  {
+    "id": "kb-pk-geo-01",
+    "subtest": "PK",
+    "skillNodeId": "10000000-0000-4000-8000-000000000027",
+    "topicTitle": "Hubungan Garis-Sudut, Segitiga Istimewa & Kesebangunan Bidang Datar",
+    "priorityLevel": 10,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Objek & Pengukuran Geometri (Prioritas Lv.10)",
+    "sourceLabel": "Prioritas SNBT 2026 + Quipper PK (Garis, Sudut & Bangun Datar)",
+    "whyBeforeHow": "Setiap persilangan garis sejajar oleh garis transversal selalu membentuk hanya dua ukuran sudut (sepasang sudut lancip dan tumpul yang saling berpelurus $180^{\\circ}$). Pada segitiga sebangun, rasio seluruh sisi bersesuaian identik sementara rasio luas adalah kuadrat rasio sisinya.",
+    "keyFormulasLatex": [
+      "\\angle_{\\text{luar}} = \\angle_1 + \\angle_2",
+      "L_{\\Delta} = \\dfrac{1}{2} a t = \\sqrt{s(s-a)(s-b)(s-c)}",
+      "\\dfrac{L_1}{L_2} = \\left(\\dfrac{k_1}{k_2}\\right)^2"
+    ],
+    "shortcutWithBoundary": {
+      "methodLabel": "Tiga Pasang Sudut Garis Sejajar & Segitiga Siku-Siku Istimewa ($30$-$60$-$90$, $45$-$45$-$90$)",
+      "shortcutMarkdown": "Segitiga $45^\\circ$-$45^\\circ$-$90^\\circ$ berasio sisi $1 : 1 : \\sqrt{2}$, sedangkan $30^\\circ$-$60^\\circ$-$90^\\circ$ berasio $1 : \\sqrt{3} : 2$.",
+      "validityConditions": "Rasio kesebangunan hanya sah bila ketiga pasang sudut segitiga terbukti sama besar (AA / Sudut-Sudut)."
+    },
+    "utbkTraps": [
+      "Mengira sisi miring bisa dijadikan tinggi segitiga untuk rumus $\\frac{1}{2} a t$.",
+      "Memakai rasio sisi langsung untuk perbandingan luas tanpa mengkuadratkannya."
+    ],
+    "keywords": [
+      "sudut",
+      "garis sejajar",
+      "transversal",
+      "segitiga",
+      "kesebangunan",
+      "pythagoras",
+      "luas bangun datar"
+    ],
+    "quickDrillTip": "Gambar ulang segitiga yang tumpang tindih secara terpisah agar sisi bersesuaian tidak tertukar."
+  },
+  {
+    "id": "kb-pk-circ-02",
+    "subtest": "PK",
+    "skillNodeId": "10000000-0000-4000-8000-000000000027",
+    "topicTitle": "Lingkaran, Sudut Pusat-Keliling, Juring & Tali Busur",
+    "priorityLevel": 9,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Objek & Pengukuran Geometri (@maikesense Lingkaran)",
+    "sourceLabel": "Quipper PK (Bangun Datar) + @maikesense (Lingkaran)",
+    "whyBeforeHow": "Sudut pusat selalu tepat $2\\times$ sudut keliling yang menghadap busur yang sama, dan sudut keliling yang menghadap diameter selalu tepat $90^{\\circ}$ (siku-siku!). Panjang busur dan luas juring sebanding langsung terhadap sudut pusatnya per $360^{\\circ}$.",
+    "keyFormulasLatex": [
+      "\\angle_{\\text{pusat}} = 2 \\cdot \\angle_{\\text{keliling}}",
+      "L_{\\text{juring}} = \\dfrac{\\theta}{360^\\circ} \\pi r^2, \\quad K_{\\bigcirc} = 2\\pi r",
+      "(x - a)^2 + (y - b)^2 = r^2"
+    ],
+    "shortcutWithBoundary": {
+      "methodLabel": "Sudut Segi Empat Tali Busur & Diameter Pengapit Sudut Siku-Siku",
+      "shortcutMarkdown": "Jika keempat titik sudut segi empat terletak pada keliling lingkaran, jumlah sudut berhadapannya selalu $180^{\\circ}$. Segitiga dengan salah satu sisi diameter lingkaran selalu siku-siku di sudut hadapannya.",
+      "validityConditions": "Sudut pusat = 2x sudut keliling hanya berlaku bila KEDUANYA menghadap busur yang persis sama."
+    },
+    "utbkTraps": [
+      "Tertukar diameter dengan jari-jari saat menghitung $\\pi r^2$.",
+      "Menganggap sudut antara dua tali busur sembarang di luar pusat sama dengan setengah sudut pusat."
+    ],
+    "keywords": [
+      "lingkaran",
+      "jari-jari",
+      "diameter",
+      "juring",
+      "tembereng",
+      "sudut pusat",
+      "sudut keliling"
+    ],
+    "quickDrillTip": "Periksa dulu apakah titik sudut berada di pusat atau di garis keliling lingkaran."
+  },
+  {
+    "id": "kb-pk-stat-01",
+    "subtest": "PK",
+    "skillNodeId": "10000000-0000-4000-8000-000000000028",
+    "topicTitle": "Statistika Pemusatan, Penyebaran & Efek Transformasi Linier Data",
+    "priorityLevel": 8,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Statistika (Prioritas Lv.8)",
+    "sourceLabel": "Prioritas SNBT 2026 + Quipper PK (Statistika)",
+    "whyBeforeHow": "Rata-rata, median, dan modus mengukur pusat lokasi data (ikut tergeser oleh $+q$ dan terkali $p$), sedangkan jangkauan, jangkauan antarkuartil, dan simpangan baku mengukur lebar sebaran (hanya berubah oleh faktor kali $|p|$, kebal terhadap $+q$!).",
+    "keyFormulasLatex": [
+      "\\bar{x}_{\\text{baru}} = p\\bar{x}_{\\text{lama}} + q",
+      "R_{\\text{baru}} = |p| R_{\\text{lama}}, \\quad s_{\\text{baru}} = |p| s_{\\text{lama}}",
+      "\\sigma^2 = \\dfrac{\\sum (x_i - \\bar{x})^2}{n}"
+    ],
+    "shortcutWithBoundary": {
+      "methodLabel": "Tabel Efek Transformasi Data $y_i = p x_i + q$",
+      "shortcutMarkdown": "Soal UTBK sangat suka menanyakan apa yang terjadi jika semua nilai dikali $2$ lalu dikurangi $5$: ukuran pusat (mean, median, modus) ikut $\\times 2 - 5$; ukuran sebaran (range, IQR, SD) hanya $\\times 2$ dan varians $\\times 2^2 = 4$!",
+      "validityConditions": "Rumus transformasi seragam berlaku hanya jika SETIAP anggota kumpulan data dikenai operasi yang sama."
+    },
+    "utbkTraps": [
+      "Mengikutsertakan $+q$ pada perhitungan jangkauan atau simpangan baku.",
+      "Lupa mengkuadratkan $p$ saat mengubah varians (ragam).",
+      "Mencari median sebelum mengurutkan data dari terkecil ke terbesar."
+    ],
+    "keywords": [
+      "statistika",
+      "mean",
+      "median",
+      "modus",
+      "jangkauan",
+      "simpangan baku",
+      "varians",
+      "kuartil"
+    ],
+    "quickDrillTip": "Pisahkan ukuran lokasi (+ dan x) vs ukuran sebaran (hanya x|p|) sebelum menghitung."
+  },
+  {
+    "id": "kb-pk-set-02",
+    "subtest": "PK",
+    "skillNodeId": "10000000-0000-4000-8000-000000000028",
+    "topicTitle": "Himpunan, Diagram Venn 2-3 Kelompok & Prinsip Inklusi-Eksklusi",
+    "priorityLevel": 8,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Himpunan (Prioritas SNBT)",
+    "sourceLabel": "Prioritas SNBT 2026 + Quipper PU (Irisan Himpunan)",
+    "whyBeforeHow": "Menjumlahkan $n(A) + n(B)$ menghitung area irisan $n(A \\cap B)$ sebanyak dua kali sehingga wajib dikurangi sekali. Pada soal kecukupan atau maksimum-minimum irisan 2 himpunan dalam semesta $n(S)$, nilai irisan terbesar terjadi saat himpunan kecil termuat penuh di yang besar.",
+    "keyFormulasLatex": [
+      "n(S) = n(A) + n(B) - n(A \\cap B) + n((A \\cup B)^c)",
+      "n(A \\cap B)_{\\min} = \\max(0,\\; n(A)+n(B)-n(S))"
+    ],
+    "shortcutWithBoundary": {
+      "methodLabel": "Persamaan Semesta Tunggal & Rentang Maks-Min Irisan",
+      "shortcutMarkdown": "Tulis selalu $\\text{Semesta} - \\text{Tidak Keduanya} = A + B - \\text{Keduanya}$, maka hanya ada satu persamaan linier untuk mencari variabel yang hilang.",
+      "validityConditions": "Untuk 3 himpunan, rumus menjadi $n(A\\cup B\\cup C) = n(A)+n(B)+n(C)-n(A\\cap B)-n(A\\cap C)-n(B\\cap C)+n(A\\cap B\\cap C)$."
+    },
+    "utbkTraps": [
+      "Lupa mengeluarkan komplemen ('tidak suka keduanya') dari total siswa $n(S)$.",
+      "Tertukar 'hanya suka A' ($n(A) - n(A\\cap B)$) dengan 'suka A' ($n(A)$)."
+    ],
+    "keywords": [
+      "himpunan",
+      "diagram venn",
+      "irisan",
+      "gabungan",
+      "komplemen",
+      "inklusif"
+    ],
+    "quickDrillTip": "Gambar dua lingkaran tumpang tindih dan isi bagian tengah (irisan) lebih dulu."
+  },
+  {
+    "id": "kb-pk-mat-03",
+    "subtest": "PK",
+    "skillNodeId": "10000000-0000-4000-8000-000000000028",
+    "topicTitle": "Matriks $2 \\times 2$: Perkalian, Transpos, Determinan & Matriks Singular",
+    "priorityLevel": 8,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Matriks (@maikesense & Prioritas SNBT)",
+    "sourceLabel": "Prioritas SNBT 2026 + Resource Soal Asli UTBK",
+    "whyBeforeHow": "Perkalian matriks baris-kali-kolom tidak bersifat komutatif ($AB \\neq BA$). Matriks tidak memiliki invers (singular) tepat ketika determinannya bernilai nol ($ad - bc = 0$), artinya kedua barisnya saling kelipatan.",
+    "keyFormulasLatex": [
+      "A = \\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix} \\implies \\det A = ad - bc",
+      "A^{-1} = \\dfrac{1}{ad - bc}\\begin{pmatrix} d & -b \\\\ -c & a \\end{pmatrix} \\; (\\det A \\neq 0)",
+      "\\det(AB) = \\det(A)\\det(B)"
+    ],
+    "shortcutWithBoundary": {
+      "methodLabel": "Sifat Determinan Tanpa Mengalikan Matriks & Syarat Singular",
+      "shortcutMarkdown": "Jika ditanya $\\det(A B^{-1})$ atau $\\det(A^2 B)$, gunakan langsung $\\det(A)/\\det(B)$ dan $(\\det A)^2 \\det B$ tanpa repot mencari invers dan mengalikan elemen matriks.",
+      "validityConditions": "Identitas $(AB)^{-1} = B^{-1} A^{-1}$ membalik urutan perkalian matriks."
+    },
+    "utbkTraps": [
+      "Tertukar menukar elemen $a$ dan $d$ vs menukar tanda $-b$ dan $-c$ pada $A^{-1}$.",
+      "Mengira $(AB)^T = A^T B^T$ padahal urutannya wajib dibalik ($B^T A^T$)."
+    ],
+    "keywords": [
+      "matriks",
+      "determinan",
+      "singular",
+      "invers matriks",
+      "transpos",
+      "ordo 2x2"
+    ],
+    "quickDrillTip": "Pada persamaan matriks $AX = B$, kalikan $A^{-1}$ dari KIRI ($X = A^{-1}B$), bukan dari kanan."
+  },
+  {
+    "id": "kb-pu-log-01",
+    "subtest": "PU",
+    "skillNodeId": "10000000-0000-4000-8000-000000000007",
+    "topicTitle": "Logika Matematika: Negasi Kuantor (Semua vs Ada) & Hukum De Morgan",
+    "priorityLevel": 10,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Logika Matematika (Prioritas Lv.10)",
+    "sourceLabel": "Prioritas SNBT 2026 + Quipper PU (Penalaran Logis)",
+    "whyBeforeHow": "Untuk menyangkal klaim universal ('Semua peserta hadir tepat waktu dan membawa kartu'), kita tidak perlu membuktikan semuanya gagal; cukup ada SATU contoh penyangkal ('Ada peserta yang tidak hadir tepat waktu ATAU tidak membawa kartu').",
+    "keyFormulasLatex": [
+      "\\neg(\\forall x,\\; P(x) \\land Q(x)) \\equiv \\exists x,\\; (\\neg P(x) \\lor \\neg Q(x))",
+      "\\neg(\\exists x,\\; P(x)) \\equiv \\forall x,\\; \\neg P(x)"
+    ],
+    "shortcutWithBoundary": {
+      "methodLabel": "Tukar Kuantor + Balik Dan/Atau Sekaligus",
+      "shortcutMarkdown": "Ingkaran dari 'Semua A adalah B' bukan 'Semua A bukan B', melainkan 'Ada/Beberapa A bukan B'. Pada kata hubung majemuk, 'dan' selalu berbalik jadi 'atau' saat dinegasikan.",
+      "validityConditions": "Dalam logika SNBT, kata 'beberapa', 'sebagian', dan 'ada' semuanya bermakna kuantor eksistensial minimal $1$ ($\\exists$)."
+    },
+    "utbkTraps": [
+      "Menegasikan 'Semua ...' menjadi 'Semua ... tidak ...'.",
+      "Lupa menukar kata 'dan' menjadi 'atau' saat menerapkan De Morgan."
+    ],
+    "keywords": [
+      "negasi",
+      "ingkaran",
+      "kuantor",
+      "semua",
+      "sebagian",
+      "beberapa",
+      "de morgan"
+    ],
+    "quickDrillTip": "Cek dua hal tiap menguji negasi: apakah kuantor sudah ditukar dan predikatnya sudah disangkal?"
+  },
+  {
+    "id": "kb-pu-imp-02",
+    "subtest": "PU",
+    "skillNodeId": "10000000-0000-4000-8000-000000000007",
+    "topicTitle": "Ekuivalensi Implikasi ($P \\to Q$), Konvers, Invers & Negasi Implikasi",
+    "priorityLevel": 10,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Logika Matematika (Prioritas Lv.10)",
+    "sourceLabel": "Quipper PU (Simpulan dari Pernyataan & Penalaran Logis)",
+    "whyBeforeHow": "Implikasi $P \\to Q$ ('Jika $P$ maka $Q$') hanya bernilai salah ketika syarat $P$ terjadi namun akibat $Q$ gagal ($P \\land \\neg Q$). Oleh sebab itu, pernyataan $P \\to Q$ setara mutlak dengan kontraposisinya ($\\neg Q \\to \\neg P$) dan disjungsinya ($\\neg P \\lor Q$).",
+    "keyFormulasLatex": [
+      "(P \\to Q) \\equiv (\\neg Q \\to \\neg P) \\equiv (\\neg P \\lor Q)",
+      "\\neg(P \\to Q) \\equiv P \\land \\neg Q"
+    ],
+    "shortcutWithBoundary": {
+      "methodLabel": "Konversi Kalimat 'Hanya Jika / Syarat Perlu / Kecuali' ke Panah",
+      "shortcutMarkdown": "Kalimat '$A$ hanya jika $B$' berarti $A \\to B$. Kalimat '$A$ atau $B$' ekuivalen dengan 'Jika tidak $A$ maka $B$'. Jangan pernah menyamakan $P \\to Q$ dengan konversnya ($Q \\to P$).",
+      "validityConditions": "Hanya berlaku untuk kalimat implikasi kondisional murni, bukan bikondisional ('jika dan hanya jika')."
+    },
+    "utbkTraps": [
+      "Mengira 'Jika tidak $P$, maka tidak $Q$' setara dengan 'Jika $P$, maka $Q$' (sesat pikir invers).",
+      "Menegasikan implikasi tetap memakai kata 'jika... maka...'."
+    ],
+    "keywords": [
+      "implikasi",
+      "ekuivalen",
+      "kontraposisi",
+      "konvers",
+      "invers",
+      "hanya jika",
+      "syarat perlu"
+    ],
+    "quickDrillTip": "Ubah dulu semua kalimat 'hanya jika' / 'kecuali' menjadi panah $\\to$ sebelum menyimpulkan."
+  },
+  {
+    "id": "kb-pu-syl-01",
+    "subtest": "PU",
+    "skillNodeId": "10000000-0000-4000-8000-000000000008",
+    "topicTitle": "Silogisme, Modus Ponens, Modus Tollens & Sesat Pikir Logika",
+    "priorityLevel": 10,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Logika Matematika (Quipper Bab 6)",
+    "sourceLabel": "Prioritas SNBT 2026 + Quipper PU",
+    "whyBeforeHow": "Panah implikasi $P \\to Q$ berjalan satu arah. Bila sebab $P$ terpenuhi, akibat $Q$ pasti menyusul (Ponens). Bila akibat $Q$ gagal terjadi, sebab $P$ mustahil terjadi (Tollens). Sebaliknya, melihat akibat $Q$ terjadi TIDAK menjamin $P$ adalah penyebabnya.",
+    "keyFormulasLatex": [
+      "(P \\to Q) \\land P \\vdash Q",
+      "(P \\to Q) \\land \\neg Q \\vdash \\neg P",
+      "(P \\to Q) \\land (Q \\to R) \\vdash (P \\to R)"
+    ],
+    "shortcutWithBoundary": {
+      "methodLabel": "Rantai Silogisme & Detektor Sesat Pikir",
+      "shortcutMarkdown": "Ketika fakta hanya menyebut '$Q$ terjadi' atau '$P$ tidak terjadi', jawaban sah di UTBK adalah 'Tidak dapat ditarik kesimpulan' (atau bukan pilihan implikasi terbalik).",
+      "validityConditions": "Berlaku jika tidak ada premis tambahan yang menyatakan kondisi tunggal ('hanya jika')."
+    },
+    "utbkTraps": [
+      "Terjebak afirmasi konsekuen ($P\\to Q$ dan $Q$ lalu menyimpulkan $P$).",
+      "Membuat simpulan pasti dari premis berkuantor 'Sebagian' + 'Sebagian'."
+    ],
+    "keywords": [
+      "silogisme",
+      "modus ponens",
+      "modus tollens",
+      "sesat pikir",
+      "premis",
+      "simpulan deduktif"
+    ],
+    "quickDrillTip": "Jika dua premis diawali 'Sebagian' dan 'Sebagian', hampir selalu tidak ada irisan pasti."
+  },
+  {
+    "id": "kb-pu-arg-01",
+    "subtest": "PU",
+    "skillNodeId": "10000000-0000-4000-8000-000000000009",
+    "topicTitle": "Kesesuaian Pernyataan (Pasti Benar, Pasti Salah & Informasi Detail)",
+    "priorityLevel": 10,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Kesesuaian Pernyataan (Prioritas Lv.10)",
+    "sourceLabel": "Prioritas SNBT 2026 + Quipper PU (Bab 1 & 3)",
+    "whyBeforeHow": "Pernyataan PASTI BENAR harus didukung fakta eksplisit paragraf meskipun memakai sinonim (parafrasa), sedangkan PASTI SALAH berkontradiksi langsung dengan teks atau batas kuantornya.",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "Teknik Triase 3 Label: Benar / Salah / Tidak Dinyatakan",
+      "shortcutMarkdown": "Pisahkan opsi yang 'Tidak dibahas di teks' dari opsi yang 'Pasti salah'. Jangan memilih opsi yang secara umum memang benar di dunia nyata tetapi bertentangan atau tidak didukung bacaan.",
+      "validityConditions": "Perhatikan kata sifat pembalik makna seperti *kecuali, bukan, tidak selalu, meningkat vs menurun*."
+    },
+    "utbkTraps": [
+      "Tergoda oleh kebenaran pengetahuan umum di luar bacaan.",
+      "Melewatkan kata kuantor 'semua', 'hanya', atau 'setiap' yang tidak tertulis dalam paragraf."
+    ],
+    "keywords": [
+      "kesesuaian",
+      "pasti benar",
+      "pasti salah",
+      "mungkin benar",
+      "pernyataan sesuai",
+      "informasi detail"
+    ],
+    "quickDrillTip": "Tandai angka, tahun, dan kata pembanding di paragraf sebelum mencocokkan opsi A-E."
+  },
+  {
+    "id": "kb-pu-cause-02",
+    "subtest": "PU",
+    "skillNodeId": "10000000-0000-4000-8000-000000000009",
+    "topicTitle": "Memperkuat, Memperlemah & Hubungan Sebab-Akibat Argumen",
+    "priorityLevel": 10,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Kesesuaian Pernyataan (Quipper Bab 7)",
+    "sourceLabel": "Prioritas SNBT 2026 + Quipper PU (Bab 7 Sebab-Akibat)",
+    "whyBeforeHow": "Argumen peneliti bertumpu pada hubungan Sebab -> Akibat. Bukti MEMPERKUAT menyingkirkan penyebab tandingan atau mengonfirmasi kausalitas berulang. Bukti MEMPERLEMAH justru menunjukkan sebab $X$ hadir namun akibat $Y$ gagal, atau ada faktor ketiga yang sebenarnya memicu $Y$.",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "Peta Sebab-Akibat (X -> Y) untuk Uji Memperlemah vs Netral",
+      "shortcutMarkdown": "Opsi 'TIDAK MEMPERLEMAH' mencakup opsi yang mendukung argumen MAUPUN opsi yang netral/di luar lingkup klaim.",
+      "validityConditions": "Jangan mengira dua hal yang naik bersama pasti berhubung sebab-akibat langsung."
+    },
+    "utbkTraps": [
+      "Memilih opsi yang terbalik arah kausalitasnya ($Y$ menyebabkan $X$).",
+      "Mengira pernyataan netral yang membahas topik berbeda otomatis memperlemah argumen."
+    ],
+    "keywords": [
+      "memperkuat",
+      "memperlemah",
+      "tidak memperkuat",
+      "tidak memperlemah",
+      "sebab akibat",
+      "kualitas simpulan"
+    ],
+    "quickDrillTip": "Rumuskan klaim inti menjadi '$X$ menyebabkan $Y$' lalu cari opsi yang memutus atau menguatkan panah tersebut."
+  },
+  {
+    "id": "kb-pu-simpar-03",
+    "subtest": "PU",
+    "skillNodeId": "10000000-0000-4000-8000-000000000009",
+    "topicTitle": "Simpulan Paragraf & Penilaian Kualitas Simpulan (Relevan/Pasti/Mungkin)",
+    "priorityLevel": 9,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Simpulan Paragraf (Quipper Bab 2)",
+    "sourceLabel": "Quipper PU (Bab 2 Simpulan Paragraf)",
+    "whyBeforeHow": "Simpulan yang tepat merangkum keseluruhan isi gagasan utama + rincian inti paragraf secara proporsional. Soal kualitas simpulan menguji apakah kesimpulan tersebut PASTI BENAR, MUNGKIN BENAR, PASTI SALAH, atau TIDAK RELEVAN terhadap premis.",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "Aturan Proporsi Cakupan + Kata Kunci 'Mungkin' vs 'Pasti'",
+      "shortcutMarkdown": "Jika premis hanya menyebut korelasi atau kecenderungan ('cenderung', 'sering'), kesimpulan mutlak ('pasti terjadi pada semua orang') berstatus mungkin benar/tidak terdukung penuh.",
+      "validityConditions": "Jangan memilih opsi yang hanya memfotokopi salah satu kalimat tengah paragraf jika diminta simpulan seluruh teks."
+    },
+    "utbkTraps": [
+      "Menganggap kalimat penjelas spesifik sebagai simpulan utama.",
+      "Tertukar kategori 'Simpulan pasti salah' dengan 'Simpulan tidak relevan'."
+    ],
+    "keywords": [
+      "simpulan paragraf",
+      "kualitas simpulan",
+      "simpulan tidak relevan",
+      "mungkin benar"
+    ],
+    "quickDrillTip": "Gabungkan subjek utama paragraf 1-akhir menjadi satu kalimat payung ringkas."
+  },
+  {
+    "id": "kb-pu-data-01",
+    "subtest": "PU",
+    "skillNodeId": "10000000-0000-4000-8000-000000000029",
+    "topicTitle": "Analisis Data Tabel, Grafik & Pemahaman Visual PU",
+    "priorityLevel": 9,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Analisis Data Sederhana (Prioritas Lv.9)",
+    "sourceLabel": "Prioritas SNBT 2026 + Quipper PU (Bab 5 Pemahaman Visual)",
+    "whyBeforeHow": "Analisis visual menguji ketelitian membaca sumbu grafik, proporsi pie chart, dan rasio pertumbuhan antar tahun. Kenaikan angka absolut terbesar berbeda dengan laju pertumbuhan (%) tertinggi.",
+    "keyFormulasLatex": [
+      "\\text{Laju Perubahan} = \\dfrac{X_t - X_{t-1}}{X_{t-1}} \\times 100\\%"
+    ],
+    "shortcutWithBoundary": {
+      "methodLabel": "Estimasi Pecahan Benchmark Tanpa Pembagian Panjang",
+      "shortcutMarkdown": "Bandingkan rasio antar baris tabel memakai patokan $\\frac{1}{2}=50\\%, \\frac{1}{3}\\approx 33{,}3\\%, \\frac{1}{4}=25\\%, \\frac{1}{5}=20\\%, \\frac{1}{8}=12{,}5\\%$ sebelum menghitung eksak.",
+      "validityConditions": "Selalu baca keterangan satuan pada judul tabel/sumbu grafik (ribu, juta, %, indeks)."
+    },
+    "utbkTraps": [
+      "Membagi selisih dengan nilai tahun tujuan alih-alih tahun dasar.",
+      "Salah menafsirkan grafik pertumbuhan negatif (turun dari $+8\\%$ ke $+3\\%$ artinya jumlah masih naik, hanya laju naiknya melambat)."
+    ],
+    "keywords": [
+      "tabel",
+      "grafik",
+      "diagram",
+      "visual",
+      "proporsi",
+      "persentase kenaikan",
+      "tren",
+      "prediksi"
+    ],
+    "quickDrillTip": "Cek selisih vs rasio sesuai kata tepat yang ditanyakan soal."
+  },
+  {
+    "id": "kb-pu-mod-02",
+    "subtest": "PU",
+    "skillNodeId": "10000000-0000-4000-8000-000000000029",
+    "topicTitle": "Pemodelan Matematika & Berhitung Sederhana Cepat di PU",
+    "priorityLevel": 8,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Pemodelan & Berhitung Sederhana (Prioritas Lv.8)",
+    "sourceLabel": "Prioritas SNBT 2026 (PU Kuantitatif)",
+    "whyBeforeHow": "Soal berhitung sederhana di PU dirancang untuk menguji kepekaan taksiran ($\\approx$) dan pengelompokan pecahan/persen tanpa kalkulator, misalnya mengubah $12{,}5\\% = \\frac{1}{8}$ atau $37{,}5\\% = \\frac{3}{8}$.",
+    "keyFormulasLatex": [
+      "12{,}5\\% = \\dfrac{1}{8}, \\quad 37{,}5\\% = \\dfrac{3}{8}, \\quad 62{,}5\\% = \\dfrac{5}{8}, \\quad 16{,}67\\% \\approx \\dfrac{1}{6}"
+    ],
+    "shortcutWithBoundary": {
+      "methodLabel": "Konversi Persen ke Pecahan Istimewa + Taksiran Bawah-Atas",
+      "shortcutMarkdown": "Hafalkan konversi perdelapan dan perenam agar perkalian desimal panjang selesai dalam 5 detik. Untuk soal perbandingan dua ekspresi besar, perkecil kedua ruas dengan membagi faktor persekutuan.",
+      "validityConditions": "Jika dua opsi jawaban berjarak sangat dekat ($< 1\\%$), lakukan hitung eksak alih-alih pembulatan kasar."
+    },
+    "utbkTraps": [
+      "Menghitung perkalian desimal panjang secara manual hingga kehabisan waktu.",
+      "Tertukar persen kelipatan $1/6$ ($16{,}7\\%$) dan $1/8$ ($12{,}5\\%$)."
+    ],
+    "keywords": [
+      "berhitung sederhana",
+      "aproksimasi",
+      "mendekati",
+      "pemodelan pu",
+      "hitung cepat"
+    ],
+    "quickDrillTip": "Ubah persen atau desimal ke pecahan sederhana dulu setiap kali memungkinkan."
+  },
+  {
+    "id": "kb-pu-pat-01",
+    "subtest": "PU",
+    "skillNodeId": "10000000-0000-4000-8000-000000000010",
+    "topicTitle": "Pola Bilangan Bertingkat, Larik Selang-Seling & Pola Huruf/Gambar",
+    "priorityLevel": 8,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Pola Bilangan (Quipper + Prioritas Lv.8)",
+    "sourceLabel": "Prioritas SNBT 2026 + Quipper PK (Bab 1 Pola Bilangan)",
+    "whyBeforeHow": "Jika beda suku berurutan tampak berubah-ubah arah, barisan hampir pasti terdiri dari 2 atau 3 larik selang-seling atau menggunakan beda bertingkat dua (selisih dari selisih bersifat konstan). Pola huruf cukup diubah ke urutan abjad $A=1 \\dots Z=26$.",
+    "keyFormulasLatex": [
+      "\\Delta_1(n) = U_{n+1} - U_n, \\quad \\Delta_2(n) = \\Delta_1(n+1) - \\Delta_1(n)"
+    ],
+    "shortcutWithBoundary": {
+      "methodLabel": "Uji Cepat 3 Pola: Selisih Berurutan -> Beda Tingkat 2 -> Larik Lompat",
+      "shortcutMarkdown": "Tulis selisih di bawah celah antar angka. Bila barisan melonjak naik lalu turun, langsung kelompokkan indeks ganjil ($U_1, U_3, U_5$) terpisah dari genap ($U_2, U_4, U_6$).",
+      "validityConditions": "Periksa apakah operasi berganti pola secara siklis (misal $\\times 2, +3, \\times 2, +3$) sebelum memutus ke larik lompat."
+    },
+    "utbkTraps": [
+      "Mencoba memaksa satu pola ke barisan dua larik.",
+      "Salah mengindeks huruf (misal menukar posisi $M=13$ dengan $N=14$)."
+    ],
+    "keywords": [
+      "pola bilangan",
+      "larik",
+      "fibonacci",
+      "bertingkat",
+      "huruf",
+      "deret"
+    ],
+    "quickDrillTip": "Untuk pola gambar dalam kotak/segitiga, uji operasi simetris: jumlah/selisih/hasil kali sudut berhadapan."
+  },
+  {
+    "id": "kb-pu-anal-01",
+    "subtest": "PU",
+    "skillNodeId": "10000000-0000-4000-8000-000000000030",
+    "topicTitle": "Penalaran Analitik Posisi (Meja Bundar, Denah & Rak Buku)",
+    "priorityLevel": 7,
+    "priorityBadge": "Sering Muncul",
+    "chapterGroup": "Penalaran Analitis (Quipper Bab 9)",
+    "sourceLabel": "Quipper PU (Bab 9 Penalaran Analitik Posisi)",
+    "whyBeforeHow": "Soal posisi mengunci posisi elemen berdasarkan syarat kedekatan, berseberangan, atau kiri-kanan. Menggambar slot atau sketsa lingkaran di kertas coretan menghilangkan 90% kesalahan imajinasi.",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "Teknik Jangkar Syarat Absolut & Blok Berdampingan",
+      "shortcutMarkdown": "Kunci dulu elemen dengan posisi pasti (misal 'A di ujung kiri' atau 'C tepat di seberang F'), baru cabang skenario dari syarat paling ketat berikutnya.",
+      "validityConditions": "Hati-hati orientasi menghadap pusat meja bundar: 'kanan' dan 'kiri' berlawanan arah jarum jam vs searah."
+    },
+    "utbkTraps": [
+      "Salah membedakan 'di sebelah' dengan 'tepat di antara'.",
+      "Lupa mengecek ulang semua syarat teks setelah menyusun satu skenario kandidat."
+    ],
+    "keywords": [
+      "penalaran analitik",
+      "posisi",
+      "meja bundar",
+      "tempat duduk",
+      "berseberangan",
+      "denah"
+    ],
+    "quickDrillTip": "Selalu gambar slot atau lingkaran lalu tulis nama langsung pada posisinya."
+  },
+  {
+    "id": "kb-pu-anal-02",
+    "subtest": "PU",
+    "skillNodeId": "10000000-0000-4000-8000-000000000030",
+    "topicTitle": "Penalaran Analitik Urutan Kualitas, Jadwal & Kombinasi Syarat",
+    "priorityLevel": 7,
+    "priorityBadge": "Sering Muncul",
+    "chapterGroup": "Penalaran Analitis (Quipper Bab 10)",
+    "sourceLabel": "Quipper PU (Bab 10 Penalaran Analitik Urutan)",
+    "whyBeforeHow": "Urutan kualitas/ranking diterjemahkan menjadi rantai ketidaksamaan ($A > B > C$), sedangkan syarat jadwal diterjemahkan menjadi tabel slot waktu/hari dengan larangan berdekatan.",
+    "keyFormulasLatex": [
+      "A > B \\land B > C \\implies A > C"
+    ],
+    "shortcutWithBoundary": {
+      "methodLabel": "Rantai Pertidaksamaan & Matriks Centang Jadwal",
+      "shortcutMarkdown": "Gunakan simbol $>$ dan $<$ untuk ranking dan ikat elemen yang bersebelahan dengan tanda kurung $[PQ]$. Untuk soal jadwal bercabang dua, uji opsi jawaban terhadap syarat paling restriktif lebih dulu untuk eliminasi instan.",
+      "validityConditions": "Pernyataan '$X$ lebih tinggi dari $Y$' belum berarti $X$ langsung di atas $Y$ tanpa perantara."
+    },
+    "utbkTraps": [
+      "Memaksakan urutan tunggal padahal syarat menyisakan dua elemen yang boleh bertukar posisi.",
+      "Lupa memeriksa opsi 'jika kondisi baru X ditambahkan' dengan tetap mempertahankan aturan awal."
+    ],
+    "keywords": [
+      "urutan",
+      "jadwal",
+      "ranking",
+      "lebih dari",
+      "syarat jadwal",
+      "penalaran analitis"
+    ],
+    "quickDrillTip": "Eliminasi opsi A-E satu per satu memakai setiap aturan dari teks soal."
+  },
+  {
+    "id": "kb-pu-arg-03",
+    "subtest": "PU",
+    "skillNodeId": "10000000-0000-4000-8000-000000000008",
+    "topicTitle": "Ekuivalensi Majemuk & Silogisme Kategorik (Semua / Sebagian / Tidak Ada)",
+    "priorityLevel": 9,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Logika Matematika (Quipper Bab 6)",
+    "sourceLabel": "Quipper PU (Penalaran Logis)",
+    "whyBeforeHow": "Diagram himpunan/Venn menyelesaikan silogisme kategorik dalam hitungan detik: 'Semua $A$ adalah $B$' menggambar lingkaran $A$ sepenuhnya di dalam $B$, sedangkan 'Sebagian $B$ adalah $C$' memungkinkan lingkaran $C$ menyentuh atau tidak menyentuh $A$.",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "Tes Diagram Venn 3 Lingkaran untuk Silogisme Sebagian",
+      "shortcutMarkdown": "Jika 'Semua $A$ adalah $B$' dan 'Sebagian $B$ adalah $C$', maka hubungan $A$ dan $C$ BELUM PASTI teriris kecuali lingkaran $C$ dipaksa beririsan dengan $A$.",
+      "validityConditions": "Simpulan kategorik hanya sah bila berlaku pada SEMUA gambar Diagram Venn yang memenuhi premis."
+    },
+    "utbkTraps": [
+      "Mengira 'Semua $A$ adalah $B$' berarti 'Semua $B$ adalah $A$'.",
+      "Memaksa irisan antara $A$ dan $C$ dari dua pernyataan yang sama-sama hanya beririsan ke $B$."
+    ],
+    "keywords": [
+      "kategorik",
+      "semua",
+      "sebagian",
+      "diagram venn pu",
+      "irisan pernyataan"
+    ],
+    "quickDrillTip": "Gambar kasus terpisah dulu untuk menguji apakah kesimpulan bisa gagal."
+  },
+  {
+    "id": "kb-pm-unit-01",
+    "subtest": "PM",
+    "skillNodeId": "10000000-0000-4000-8000-000000000011",
+    "topicTitle": "Konversi Satuan Waktu, Volume, Kecepatan & Pemodelan KPK/FPB",
+    "priorityLevel": 8,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Bilangan & Pengukuran (Prioritas Lv.8)",
+    "sourceLabel": "Prioritas SNBT 2026 + Quipper PK (Pengukuran)",
+    "whyBeforeHow": "Soal cerita PM sering menyembunyikan jebakan satuan campuran (km/jam dengan menit, liter dengan $\\text{cm}^3$, kuintal dengan kg). FPB membagi barang sama banyak secara maksimal; KPK memprediksi pertemuan jadwal berkala berikutnya.",
+    "keyFormulasLatex": [
+      "\\text{KPK}(a, b) \\times \\text{FPB}(a, b) = a \\cdot b",
+      "1\\text{ dm}^3 = 1\\text{ liter} = 1.000\\text{ cm}^3",
+      "1\\text{ ha} = 10.000\\text{ m}^2"
+    ],
+    "shortcutWithBoundary": {
+      "methodLabel": "Samakan Satuan Terkecil Sebelum Mengalikan Rumus",
+      "shortcutMarkdown": "Ubah menit menjadi pecahan jam ($t / 60$) atau ubah semua jarak ke meter sebelum membandingkan dua pelari/kendaraan.",
+      "validityConditions": "Pada soal jadwal KPK (misal tiap $4$ dan $6$ hari bertemu di tanggal $1$), cek apakah hari mulai dihitung sebagai hari ke-0."
+    },
+    "utbkTraps": [
+      "Mengalikan kecepatan km/jam langsung dengan waktu menit.",
+      "Tertukar pemakaian FPB (membagi rata paket) dan KPK (jadwal berulang bersama)."
+    ],
+    "keywords": [
+      "konversi satuan",
+      "liter",
+      "kpk",
+      "fpb",
+      "jadwal bersama",
+      "debit",
+      "kecepatan"
+    ],
+    "quickDrillTip": "Tulis satuan secara eksplisit di belakang setiap angka saat menyusun persamaan."
+  },
+  {
+    "id": "kb-pm-glbb-02",
+    "subtest": "PM",
+    "skillNodeId": "10000000-0000-4000-8000-000000000011",
+    "topicTitle": "Jarak, Kecepatan Rata-Rata & Waktu Susul / Berpapasan",
+    "priorityLevel": 8,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Pengukuran & Laju Kontekstual (PM)",
+    "sourceLabel": "Quipper PK (Perbandingan & Pengukuran) + Modul PM",
+    "whyBeforeHow": "Kecepatan rata-rata perjalanan pergi-pulang BUKAN rata-rata aljabar $(v_1 + v_2)/2$, melainkan total jarak dibagi total waktu! Untuk dua benda saling menyusul atau berpapasan, gunakan kecepatan relatifnya.",
+    "keyFormulasLatex": [
+      "\\bar{v} = \\dfrac{s_{\\text{total}}}{t_{\\text{total}}} = \\dfrac{2 v_1 v_2}{v_1 + v_2} \\; (\\text{jarak sama})",
+      "t_{\\text{papas}} = \\dfrac{s_0 - v_1 \\Delta t}{v_1 + v_2}",
+      "t_{\\text{susul}} = \\dfrac{\\Delta s_{\\text{awal}}}{v_{\\text{cepat}} - v_{\\text{lambat}}}"
+    ],
+    "shortcutWithBoundary": {
+      "methodLabel": "Kecepatan Relatif: Papasan Dijumlah, Susul Dikurang",
+      "shortcutMarkdown": "Jika bergerak berlawanan arah (berpapasan), laju pengurangan jaraknya $v_1 + v_2$. Jika searah (menyusul), laju penyusutan jaraknya $v_2 - v_1$.",
+      "validityConditions": "Rumus rata-rata harmonis $\\dfrac{2 v_1 v_2}{v_1 + v_2}$ hanya berlaku ketika jarak tempuh pergi dan pulang SAMA PERSIS."
+    },
+    "utbkTraps": [
+      "Menghitung kecepatan rata-rata pergi-pulang dengan $(v_1 + v_2)/2$.",
+      "Lupa menghitung jarak duluan ketika kendaraan pertama berangkat lebih awal $\\Delta t$."
+    ],
+    "keywords": [
+      "kecepatan rata-rata",
+      "berpapasan",
+      "menyusul",
+      "jarak",
+      "waktu tempuh",
+      "laju relatif"
+    ],
+    "quickDrillTip": "Jika salah satu berangkat duluan, majukan posisi dia dulu sebelum memakai kecepatan relatif."
+  },
+  {
+    "id": "kb-pm-pct-01",
+    "subtest": "PM",
+    "skillNodeId": "10000000-0000-4000-8000-000000000012",
+    "topicTitle": "Persentase Bertingkat, Faktor Pengali & Penyesuaian Basis Baru",
+    "priorityLevel": 8,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Aritmetika Sosial (Quipper Bab 8)",
+    "sourceLabel": "Prioritas SNBT 2026 + Quipper PK",
+    "whyBeforeHow": "Perubahan persentase beruntun bekerja lewat perkalian faktor $(1 + r_1)(1 + r_2)$, bukan penjumlahan. Naik $25\\%$ lalu turun $20\\%$ menghasilkan $1{,}25 \\times 0{,}80 = 1{,}00$ (kembali tepat ke asal, bukan naik $5\\%$!).",
+    "keyFormulasLatex": [
+      "N_{\\text{akhir}} = N_0 \\prod (1 \\pm r_i)",
+      "\\text{Balik Asal Setelah Naik } p\\%: \\text{turun } \\dfrac{p}{100+p}\\times 100\\%"
+    ],
+    "shortcutWithBoundary": {
+      "methodLabel": "Faktor Pengali Berantai & Pemisalan Basis 100",
+      "shortcutMarkdown": "Jika soal tidak menyebutkan nominal rupiah/jumlah awal, misalkan langsung nilai awalnya $= 100$ agar seluruh hitungan persentase menjadi bilangan bulat bersih.",
+      "validityConditions": "Cek urutan pajak vs diskon pada soal toko: biasanya diskon memotong harga awal lalu pajak ditambahkan ke harga setelah diskon."
+    },
+    "utbkTraps": [
+      "Menjumlahkan persen naik-turun atau diskon bertingkat secara langsung.",
+      "Menggunakan harga setelah diskon sebagai penyebut untuk menghitung persentase kembali ke awal."
+    ],
+    "keywords": [
+      "persentase bertingkat",
+      "faktor pengali",
+      "naik turun persen",
+      "basis 100"
+    ],
+    "quickDrillTip": "Misalkan nilai awal $100$ jika tidak diketahui angka dasarnya."
+  },
+  {
+    "id": "kb-pm-arit-01",
+    "subtest": "PM",
+    "skillNodeId": "10000000-0000-4000-8000-000000000031",
+    "topicTitle": "Untung-Rugi, Diskon Ganda, Neto-Bruto-Tara & Harga Modal",
+    "priorityLevel": 8,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Aritmetika Sosial (Prioritas Lv.8)",
+    "sourceLabel": "Prioritas SNBT 2026 + Quipper PK (Aritmetika Sosial)",
+    "whyBeforeHow": "Persentase untung maupun rugi selalu memakai Harga Beli (Modal) sebagai $100\\%$. Jadi mencari Harga Beli dari Harga Jual beruntung $u\\%$ berarti MEMBAGI Harga Jual oleh $(1 + u/100)$.",
+    "keyFormulasLatex": [
+      "H_{\\text{jual}} = H_{\\text{beli}} \\cdot (1 \\pm r)",
+      "\\text{Neto} = \\text{Bruto} - \\text{Tara}",
+      "\\%U = \\dfrac{H_j - H_b}{H_b} \\times 100\\%"
+    ],
+    "shortcutWithBoundary": {
+      "methodLabel": "Cari Harga Beli/Asal Selalu Dibagi Faktor Pengali",
+      "shortcutMarkdown": "Jika barang laku Rp$X$ dengan untung $20\\%$, maka $H_{\\text{beli}} = \\dfrac{100}{120} X = \\dfrac{5}{6} X$. Jika terjual dengan diskon $20\\%$, maka $H_{\\text{label}} = \\dfrac{100}{80} X = \\dfrac{5}{4} X$.",
+      "validityConditions": "Hati-hati bila tara diberikan dalam persen terhadap bruto vs dalam kilogram per karung."
+    },
+    "utbkTraps": [
+      "Mengalikan harga akhir dengan $(1 - u)$ untuk mencari modal beli.",
+      "Lupa mengalikan jumlah unit barang saat menghitung rugi total per kotak rusak."
+    ],
+    "keywords": [
+      "untung",
+      "rugi",
+      "harga beli",
+      "harga jual",
+      "neto",
+      "bruto",
+      "tara",
+      "diskon ganda"
+    ],
+    "quickDrillTip": "Tulis perbandingan: Modal = 100%, Jual = (100 +/- untung/rugi)%."
+  },
+  {
+    "id": "kb-pm-bunga-02",
+    "subtest": "PM",
+    "skillNodeId": "10000000-0000-4000-8000-000000000031",
+    "topicTitle": "Bunga Tunggal, Bunga Majemuk, Cicilan & Pertumbuhan Penduduk",
+    "priorityLevel": 8,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Aritmetika Sosial & Pertumbuhan (Prioritas Lv.8)",
+    "sourceLabel": "Prioritas SNBT 2026 + Quipper PK",
+    "whyBeforeHow": "Bunga tunggal selalu dihitung tetap dari modal awal $M_0$ (membentuk deret aritmetika), sedangkan bunga majemuk menghitung bunga dari saldo terbaru tiap periode (membentuk barisan geometri $(1+i)^t$).",
+    "keyFormulasLatex": [
+      "M_t^{\\text{tunggal}} = M_0 (1 + i \\cdot t)",
+      "M_t^{\\text{majemuk}} = M_0 (1 + i)^t",
+      "B_{\\text{bulanan}} = \\dfrac{m}{12} \\times \\%p \\times M_0"
+    ],
+    "shortcutWithBoundary": {
+      "methodLabel": "Konversi Bulan Menjadi Tahun (m/12) & Peluruhan Eksponensial",
+      "shortcutMarkdown": "Jika suku bunga dinyatakan per tahun ($p\\%$ p.a.) namun menabung hanya $m$ bulan dengan bunga tunggal, bunga totalnya $= \\dfrac{m}{12} \\times \\dfrac{p}{100} \\times M_0$. Untuk peluruhan nilai aset $d\\%$ per tahun, ganti $(1+i)^t$ menjadi $(1-d)^t$.",
+      "validityConditions": "Cek kapan periode kapitalisasi bunga majemuk terjadi (tahunan, per 6 bulan, atau triwulanan)."
+    },
+    "utbkTraps": [
+      "Memakai bunga majemuk padahal soal menyebut bunga tunggal per tahun.",
+      "Lupa membagi periode bunga bulanan dengan 12 saat bunga ditulis 'per tahun'."
+    ],
+    "keywords": [
+      "bunga tunggal",
+      "bunga majemuk",
+      "tabungan",
+      "angsuran",
+      "cicilan",
+      "pertumbuhan",
+      "peluruhan"
+    ],
+    "quickDrillTip": "Identifikasi kata kunci: 'dari modal awal' (tunggal) vs 'dari saldo terakhir / majemuk' (eksponensial)."
+  },
+  {
+    "id": "kb-pm-lin-01",
+    "subtest": "PM",
+    "skillNodeId": "10000000-0000-4000-8000-000000000013",
+    "topicTitle": "Pemodelan SPL, Titik Impas (BEP), Tarif Progresif & Program Linear",
+    "priorityLevel": 8,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Sistem Persamaan Linear PM (Prioritas Lv.8)",
+    "sourceLabel": "Prioritas SNBT 2026 (PM SPL)",
+    "whyBeforeHow": "Soal ekonomi/bisnis PM memisahkan Biaya Tetap (tidak tergantung banyaknya produk) dan Biaya Variabel (dikalikan jumlah produk $x$). Titik impas terjadi saat pendapatan kotor menutup biaya total; laba maksimum pada fungsi linear selalu tercapai di salah satu titik pojok daerah layak.",
+    "keyFormulasLatex": [
+      "R(x) - C(x) = (P - B_{\\text{var}})x - B_{\\text{tetap}}",
+      "\\text{Tarif Progresif}: B_0 + k \\cdot \\max(0, x - x_0)"
+    ],
+    "shortcutWithBoundary": {
+      "methodLabel": "Margin Kontribusi per Unit & Pengujian Titik Pojok Pertidaksamaan",
+      "shortcutMarkdown": "Jumlah unit mencapai laba $L$ langsung didapat dari $x = \\left\\lceil \\dfrac{B_{\\text{tetap}} + L}{P - B_{\\text{var}}} \\right\\rceil$. Pada masalah kendala dua bahan baku, uji titik potong kedua batas bersama titik sumbu.",
+      "validityConditions": "Jika jumlah unit harus benda utuh (misal paket/penumpang/bus) dan syarat minimal tercapai pada nilai desimal, wajib bulatkan KE ATAS."
+    },
+    "utbkTraps": [
+      "Mengalikan biaya tetap dengan variabel $x$.",
+      "Membulatkan ke bawah saat mencari jumlah minimal paket agar tidak merugi."
+    ],
+    "keywords": [
+      "titik impas",
+      "break even",
+      "biaya tetap",
+      "margin",
+      "tarif",
+      "parkir",
+      "program linear",
+      "maksimum"
+    ],
+    "quickDrillTip": "Pisahkan angka konstan (tetap) dari angka bertarif 'per unit / per km / per jam'."
+  },
+  {
+    "id": "kb-pm-stat-02",
+    "subtest": "PM",
+    "skillNodeId": "10000000-0000-4000-8000-000000000013",
+    "topicTitle": "Statistika Terapan: Rata-Rata Gabungan, Pergeseran Median & Data Tabel",
+    "priorityLevel": 9,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Statistika Dasar PM (Prioritas Lv.9)",
+    "sourceLabel": "Prioritas SNBT 2026 (PM Statistika)",
+    "whyBeforeHow": "Kekekalan total memastikan Total Gabungan = Total A + Total B. Saat membandingkan kelayakan data besar, nilai median hanya bergantung pada posisi data ke-$(n+1)/2$ setelah diurutkan, bukan nilai ekstrem di kedua ujung.",
+    "keyFormulasLatex": [
+      "\\bar{x}_{\\text{gab}} = \\dfrac{n_1 \\bar{x}_1 + n_2 \\bar{x}_2}{n_1 + n_2}",
+      "\\text{Median}(n \\text{ genap}) = \\dfrac{x_{n/2} + x_{n/2 + 1}}{2}"
+    ],
+    "shortcutWithBoundary": {
+      "methodLabel": "Metode Jungkat-Jungkit Selisih ke Rata-Rata Gabungan",
+      "shortcutMarkdown": "Rasio banyak anggota berbanding terbalik dengan jarak rata-ratanya ke rata-rata gabungan: $\\dfrac{n_1}{n_2} = \\dfrac{|\\bar{x}_2 - \\bar{x}_{\\text{gab}}|}{|\\bar{x}_{\\text{gab}} - \\bar{x}_1|}$.",
+      "validityConditions": "Metode jungkat-jungkit khusus untuk mean (rata-rata hitung), tidak berlaku untuk median."
+    },
+    "utbkTraps": [
+      "Membagi dua rata-rata kelas secara langsung tanpa bobot $n_1$ dan $n_2$.",
+      "Salah menentukan posisi median ketika frekuensi tabel kumulatif masih tinggi."
+    ],
+    "keywords": [
+      "rata-rata gabungan",
+      "median tabel",
+      "frekuensi",
+      "modus",
+      "statistika pm"
+    ],
+    "quickDrillTip": "Tambahkan kolom frekuensi kumulatif (fk) di sisi kanan tabel sebelum mencari median atau kuartil."
+  },
+  {
+    "id": "kb-pm-func-03",
+    "subtest": "PM",
+    "skillNodeId": "10000000-0000-4000-8000-000000000013",
+    "topicTitle": "Fungsi Terapan, Tarif/Lintasan Parabola & Model Pertumbuhan",
+    "priorityLevel": 9,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Fungsi PM (Prioritas Lv.9)",
+    "sourceLabel": "Prioritas SNBT 2026 (PM Fungsi)",
+    "whyBeforeHow": "Soal PM modern menyajikan fungsi linear, kuadrat, maupun sepotong-sepotong (piecewise) sebagai model tarif ojek, lintasan bola/peluru, atau konsumsi bahan bakar. Tinggi maksimum parabola dicapai tepat pada $t_p = -b/(2a)$.",
+    "keyFormulasLatex": [
+      "h(t) = at^2 + bt + c \\implies t_{\\text{maks}} = -\\dfrac{b}{2a}, \\quad h_{\\text{maks}} = h(t_{\\text{maks}})",
+      "C(t) = c_0 + c_1 \\lceil t - t_0 \\rceil"
+    ],
+    "shortcutWithBoundary": {
+      "methodLabel": "Tiga Titik Uji Grafik Fungsi Terapan ($t=0$, Puncak, dan Akar)",
+      "shortcutMarkdown": "Nilai $h(0) = c$ adalah posisi awal saat mulai; puncak memberi waktu pencapaian tertinggi; pembuat nol $h(t)=0$ memberi waktu benda menyentuh tanah kembali.",
+      "validityConditions": "Fungsi kuadrat memiliki nilai maksimum hanya bila koefisien kuadrat $a < 0$."
+    },
+    "utbkTraps": [
+      "Mengira waktu mencapai tanah adalah $t_p$ padahal harus $2 t_p$ (jika mulai dari tinggi $0$).",
+      "Mengisi $t$ pada fungsi pembulatan jam tanpa memperhatikan syarat 'setiap kelipatan penuh berikutnya'."
+    ],
+    "keywords": [
+      "lintasan",
+      "tinggi maksimum",
+      "parabola pm",
+      "fungsi sepotong",
+      "model fungsi"
+    ],
+    "quickDrillTip": "Cek makna fisis sumbu-$x$ dan sumbu-$y$ grafik soal sebelum substitusi angka."
+  },
+  {
+    "id": "kb-pm-prob-01",
+    "subtest": "PM",
+    "skillNodeId": "10000000-0000-4000-8000-000000000014",
+    "topicTitle": "Aturan Perkalian Slot, Permutasi (Urutan Penting) & Kombinasi",
+    "priorityLevel": 8,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Peluang & Kombinatorika (Prioritas Lv.8)",
+    "sourceLabel": "Prioritas SNBT 2026 (PM Kombinatorika)",
+    "whyBeforeHow": "Aturan dasar pencacahan memisahkan dua hal: apakah posisi urutan menghasilkan kejadian berbeda (jabatan, digit PIN -> Permutasi/Filling Slots) atau kelompok homogen tanpa urutan (panitia, jabat tangan -> Kombinasi $C(n,r)$).",
+    "keyFormulasLatex": [
+      "P(n,r) = \\dfrac{n!}{(n-r)!}",
+      "C(n,r) = \\dfrac{n!}{r!(n-r)!}",
+      "P_{\\text{siklis}}(n) = (n-1)!"
+    ],
+    "shortcutWithBoundary": {
+      "methodLabel": "Aturan Kotak Slot + Syarat Paling Ketat Diisi Duluan",
+      "shortcutMarkdown": "Untuk menyusun bilangan genap/ganjil/lebih-dari-$500$ dari angka terbatas, isi kotak DIGIT SATUAN atau RATUSAN yang paling ketat lebih dulu sebelum mengalikan sisa pilihan angka.",
+      "validityConditions": "Cek syarat apakah angka/huruf 'boleh berulang' atau 'harus berbeda'."
+    },
+    "utbkTraps": [
+      "Memakai kombinasi untuk menyusun ketua-sekretaris atau kode sandi.",
+      "Lupa bahwa angka $0$ tidak bisa menempati posisi digit pertama bilangan ratusan/ribuan."
+    ],
+    "keywords": [
+      "kombinasi",
+      "permutasi",
+      "filling slots",
+      "aturan perkalian",
+      "panitia",
+      "digit"
+    ],
+    "quickDrillTip": "Jika dua orang wajib duduk berdampingan, ikat mereka sebagai 1 blok lalu kalikan $2!$ untuk tukar posisi."
+  },
+  {
+    "id": "kb-pm-prob-02",
+    "subtest": "PM",
+    "skillNodeId": "10000000-0000-4000-8000-000000000014",
+    "topicTitle": "Peluang Kejadian Majemuk, Tanpa Pengembalian & Peluang Komplemen",
+    "priorityLevel": 8,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Peluang & Kombinatorika (Prioritas Lv.8)",
+    "sourceLabel": "Prioritas SNBT 2026 (PM Peluang)",
+    "whyBeforeHow": "Pengambilan tanpa pengembalian menyusutkan ruang sampel $n(S)$ berkurang 1 di setiap langkah. Sementara peluang komplemen menghitung $1 - P(\\text{lawan})$ untuk menyingkat pertanyaan 'paling sedikit satu'.",
+    "keyFormulasLatex": [
+      "P(A \\cup B) = P(A) + P(B) - P(A \\cap B)",
+      "P(\\text{minimal 1}) = 1 - P(\\text{tidak ada})",
+      "P(A \\mid B) = \\dfrac{n(A \\cap B)}{n(B)}"
+    ],
+    "shortcutWithBoundary": {
+      "methodLabel": "Jurus Komplemen 'Minimal 1' & Pengurangan Penyebut",
+      "shortcutMarkdown": "Jika $3$ bola diambil sekaligus dari kotak, hitung paling aman pakai kombinasi $\\dfrac{C(\\text{target}, k) \\cdot C(\\text{lain}, 3-k)}{C(\\text{total}, 3)}$ agar semua kombinasi kasus tercover otomatis.",
+      "validityConditions": "Untuk peluang bersyarat $P(A \\mid B)$, ruang sampel baru BUKAN seluruh $S$, melainkan $B$ saja."
+    },
+    "utbkTraps": [
+      "Tidak mengurangi total benda setelah pengambilan pertama pada kasus tanpa pengembalian.",
+      "Lupa mengalikan kemungkinan urutan bila diambil satu per satu dengan warna berbeda ($MB$ dan $BM$)."
+    ],
+    "keywords": [
+      "peluang",
+      "tanpa pengembalian",
+      "komplemen",
+      "paling sedikit",
+      "bersyarat",
+      "dadu",
+      "koin"
+    ],
+    "quickDrillTip": "Cek kata kunci 'dengan pengembalian', 'tanpa pengembalian', atau 'sekaligus'."
+  },
+  {
+    "id": "kb-pm-geom-02",
+    "subtest": "PM",
+    "skillNodeId": "10000000-0000-4000-8000-000000000032",
+    "topicTitle": "Geometri Bidang Terapan, Taman/Lintasan Lari & Irisan Luas",
+    "priorityLevel": 10,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Geometri & Trigonometri (Prioritas Lv.10)",
+    "sourceLabel": "Prioritas SNBT 2026 (PM Topik Nomor 1 Lv.10)",
+    "whyBeforeHow": "Topik nomor satu paling sering muncul di PM ialah penggabungan bangun datar kontekstual: taman dengan jalan setapak, lintasan lari gabungan persegi panjang + dua setengah lingkaran, atau pengubinan lantai. Hitung luas total dikurangi area kosong.",
+    "keyFormulasLatex": [
+      "L_{\\text{cincin}} = \\pi (R^2 - r^2)",
+      "K_{\\text{lintasan}} = 2p + 2\\pi r",
+      "L_{\\text{segitiga}} = \\dfrac{1}{2} ab \\sin C"
+    ],
+    "shortcutWithBoundary": {
+      "methodLabel": "Pecah Bangun Kompleks Menjadi Persegi/Segitiga/Lingkaran Dasar",
+      "shortcutMarkdown": "Dua setengah lingkaran identik di kiri-kanan lapangan digabung langsung menjadi 1 lingkaran penuh. Pada luas bingkai luar dengan lebar jalan $w$, tambahkan $2w$ pada panjang MAUPUN lebar.",
+      "validityConditions": "Selalu cek apakah jari-jari lintasan diukur dari tepi dalam atau tepi luar."
+    },
+    "utbkTraps": [
+      "Hanya menambah $w$ sekali (seharusnya $+2w$) saat mencari ukuran luar jalan di sekeliling taman.",
+      "Lupa membagi luas ruangan dengan luas per ubin secara seragam satuannya."
+    ],
+    "keywords": [
+      "taman",
+      "lintasan",
+      "luas gabungan",
+      "lingkaran pm",
+      "keliling",
+      "ubin",
+      "bidang datar"
+    ],
+    "quickDrillTip": "Sketsa kasar taman atau lintasan dengan panjang tiap sisi berlabel sebelum menghitung."
+  },
+  {
+    "id": "kb-pm-space-03",
+    "subtest": "PM",
+    "skillNodeId": "10000000-0000-4000-8000-000000000032",
+    "topicTitle": "Bangun Ruang Kontekstual: Volume Tangki, Kenaikan Muka Air & Kemasan",
+    "priorityLevel": 8,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Bangun Ruang (Prioritas Lv.8)",
+    "sourceLabel": "Prioritas SNBT 2026 + Quipper PK (Bangun Ruang)",
+    "whyBeforeHow": "Semua prisma tegak (kubus, balok, tabung) punya volume $L_{\\text{alas}} \\times t$, sementara bangun lancip (limas, kerucut) selalu $\\frac{1}{3}$ dari volume prismanya! Saat bola/benda dimasukkan ke tangki air, volume kenaikan air = volume benda yang tercelup.",
+    "keyFormulasLatex": [
+      "V_{\\text{tabung}} = \\pi r^2 t, \\quad V_{\\text{kerucut}} = \\dfrac{1}{3} \\pi r^2 t, \\quad V_{\\text{bola}} = \\dfrac{4}{3} \\pi r^3",
+      "\\Delta t_{\\text{air}} = \\dfrac{V_{\\text{benda celup}}}{L_{\\text{alas wadah}}}"
+    ],
+    "shortcutWithBoundary": {
+      "methodLabel": "Rasio Skala Volume ($k^3$) & Bak Tanpa Tutup",
+      "shortcutMarkdown": "Jika seluruh rusuk atau jari-jari diperbesar $k$ kali, luas permukaan membesar $k^2$ kali dan volume membesar $k^3$ kali! Pada luas cat kolam renang/tangki terbuka, hilangkan luas tutup ($1\\times L_{\\text{alas}}$).",
+      "validityConditions": "Cek batas ketinggian tangki saat benda dicelup: apakah air meluap keluar wadah atau hanya naik."
+    },
+    "utbkTraps": [
+      "Lupa faktor $1/3$ pada kerucut dan limas.",
+      "Memakai rumus luas tabung tertutup penuh padahal soal menanyakan panci/gelas tanpa tutup."
+    ],
+    "keywords": [
+      "bangun ruang",
+      "tabung",
+      "kerucut",
+      "bola",
+      "balok",
+      "kubus",
+      "limas",
+      "volume air",
+      "luas permukaan"
+    ],
+    "quickDrillTip": "Tulis apakah wadah memiliki tutup atau terbuka sebelum menjumlahkan sisi luas."
+  },
+  {
+    "id": "kb-pm-trig-04",
+    "subtest": "PM",
+    "skillNodeId": "10000000-0000-4000-8000-000000000032",
+    "topicTitle": "Trigonometri Terapan: Sudut Elevasi, Jarak Menara & Aturan Sinus/Kosinus",
+    "priorityLevel": 10,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Geometri & Trigonometri (Prioritas Lv.10)",
+    "sourceLabel": "Prioritas SNBT 2026 + @maikesense (Trigonometri)",
+    "whyBeforeHow": "Perbandingan $\\sin/\\cos/\\tan$ menghubungkan sudut kemiringan tangga, atap, atau sudut pandang pengamat ke menara terhadap panjang sisi nyata. Pada dua pengamatan dari jarak berbeda, pakai $\\tan \\alpha = \\dfrac{t}{x_1}$ dan $\\tan \\beta = \\dfrac{t}{x_2}$.",
+    "keyFormulasLatex": [
+      "\\sin \\theta = \\dfrac{\\text{De}}{\\text{Mi}}, \\quad \\cos \\theta = \\dfrac{\\text{Sa}}{\\text{Mi}}, \\quad \\tan \\theta = \\dfrac{\\text{De}}{\\text{Sa}}",
+      "c^2 = a^2 + b^2 - 2ab\\cos C"
+    ],
+    "shortcutWithBoundary": {
+      "methodLabel": "Sudut Istimewa & Ketinggian Mata Pengamat",
+      "shortcutMarkdown": "Ingat nilai kunci: $\\tan 30^\\circ = \\dfrac{1}{\\sqrt{3}}, \\; \\tan 45^\\circ = 1, \\; \\tan 60^\\circ = \\sqrt{3}$. Saat sudut elevasi $45^\\circ$, tinggi menara di atas mata SAMA PERSIS dengan jarak mendatar!",
+      "validityConditions": "Tambahkan selalu tinggi badan/mata pengamat ke hasil $\\tan\\theta \\cdot x$ apabila soal menyebutkan tinggi pengamat."
+    },
+    "utbkTraps": [
+      "Lupa menambahkan tinggi mata pengamat setelah mencari selisih tinggi puncak.",
+      "Memakai rumus trigonometri dasar siku-siku pada segitiga sembarang tanpa aturan kosinus/sinus."
+    ],
+    "keywords": [
+      "trigonometri",
+      "sudut elevasi",
+      "depresi",
+      "sin",
+      "cos",
+      "tan",
+      "tinggi menara",
+      "aturan kosinus"
+    ],
+    "quickDrillTip": "Cari sudut $45^{\\circ}$ atau $30^{\\circ}/60^{\\circ}$ pada segitiga siku-siku untuk eliminasi instan."
+  },
+  {
+    "id": "kb-pm-geom-05",
+    "subtest": "PM",
+    "skillNodeId": "10000000-0000-4000-8000-000000000032",
+    "topicTitle": "Bangun Datar & Pengukuran Jarak Koordinat pada Peta Kontekstual",
+    "priorityLevel": 8,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Pengukuran & Geometri PM",
+    "sourceLabel": "Prioritas SNBT 2026 + Soal Asli UTBK PM",
+    "whyBeforeHow": "Banyak soal PM memetakan lokasi halte, tiang, atau perahu ke koordinat $(x, y)$ lalu meminta jarak terpendek Pythagoras atau keliling area terarsir. Faktor skala peta berarti $d_{\\text{nyata}} = d_{\\text{peta}} \\times \\text{skala}$, sedangkan luas nyata $= L_{\\text{peta}} \\times \\text{skala}^2$.",
+    "keyFormulasLatex": [
+      "d = \\sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}",
+      "L_{\\text{nyata}} = L_{\\text{peta}} \\times (\\text{penyebut skala})^2"
+    ],
+    "shortcutWithBoundary": {
+      "methodLabel": "Kuadratkan Skala Peta untuk Luas",
+      "shortcutMarkdown": "Jika skala peta $1 : 200$, $1\\text{ cm}^2$ di denah mewakili $(2\\text{ m})^2 = 4\\text{ m}^2$ di lapangan, BUKAN $2\\text{ m}^2$.",
+      "validityConditions": "Konversi satuan skala (cm ke meter = bagi 100) dulu sebelum mengkuadratkan."
+    },
+    "utbkTraps": [
+      "Mengalikan luas denah dengan skala panjang pangkat 1, lupa mengkuadratkan.",
+      "Salah arah mata angin Timur (+x) dan Utara (+y) saat menjumlahkan vektor perpindahan."
+    ],
+    "keywords": [
+      "skala peta",
+      "denah",
+      "jarak terpendek",
+      "koordinat pm",
+      "perpindahan"
+    ],
+    "quickDrillTip": "Pisahkan gerak horizontal (Timur-Barat) dan vertikal (Utara-Selatan) lalu pakai Pythagoras."
+  },
+  {
+    "id": "kb-lbi-idea-01",
+    "subtest": "LBI",
+    "skillNodeId": "10000000-0000-4000-8000-000000000015",
+    "topicTitle": "Inti Bacaan, Gagasan Pokok & Kalimat Utama Paragraf",
+    "priorityLevel": 8,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Inti Bacaan & Topik (Prioritas Lv.8)",
+    "sourceLabel": "Prioritas SNBT 2026 + Kak Tutik Literasi",
+    "whyBeforeHow": "Gagasan pokok adalah kalimat payung yang mengendalikan arah seluruh kalimat penjelas. Kalimat penjelas hanya berfungsi merinci contoh, angka, atau alasan dari kalimat utama.",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "Tes Hapus Kalimat + Uji Cakupan Payung",
+      "shortcutMarkdown": "Baca kalimat pertama dan terakhir tiap paragraf, lalu cek opsi mana yang memayungi seluruh topik antarparagraf tanpa memotong sebagian atau memperluas di luar batas teks.",
+      "validityConditions": "Pada paragraf induktif atau simpulan berita, kalimat utama bisa diletakkan tepat di akhir paragraf setelah deretan contoh."
+    },
+    "utbkTraps": [
+      "Memilih rincian contoh atau angka spesifik di tengah paragraf.",
+      "Memilih topik yang cakupannya jauh lebih luas daripada daerah/periode teks."
+    ],
+    "keywords": [
+      "gagasan pokok",
+      "ide pokok",
+      "inti bacaan",
+      "kalimat utama",
+      "payung"
+    ],
+    "quickDrillTip": "Ringkas paragraf menjadi 1 frasa benda (Topik) + 1 predikat utama sebelum melihat opsi A-E."
+  },
+  {
+    "id": "kb-lbi-topic-02",
+    "subtest": "LBI",
+    "skillNodeId": "10000000-0000-4000-8000-000000000015",
+    "topicTitle": "Identifikasi Topik Bacaan & Jenis Paragraf (Eksposisi/Eksplanasi/Argumentasi)",
+    "priorityLevel": 8,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Topik & Jenis Paragraf (Prioritas Lv.8)",
+    "sourceLabel": "Prioritas SNBT 2026 + Quipper PBM/PPU",
+    "whyBeforeHow": "Topik bacaan menjawab 'APA yang paling banyak dibicarakan secara berulang?' sementara jenis paragraf ditentukan oleh tujuan penulisan: Eksplanasi menjelaskan proses fenomena sebab-akibat, Argumentasi meyakinkan klaim dengan bukti, Deskripsi melukiskan detail objek.",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "Pindai Frekuensi Kata Kunci & Penanda Tujuan",
+      "shortcutMarkdown": "Hitung subjek/istilah yang berulang di hampir semua paragraf. Bedakan Eksposisi (memaparkan info netral) dari Eksplanasi (urutan mengapa dan bagaimana suatu fenomena terjadi).",
+      "validityConditions": "Paragraf eksposisi bisa berisi argumen pakar tanpa harus bersifat membujuk pembaca seperti persuasi."
+    },
+    "utbkTraps": [
+      "Tertukar antara tema besar yang terlalu umum dengan topik spesifik teks.",
+      "Menganggap teks yang punya angka riset otomatis berupa narasi atau persuasi."
+    ],
+    "keywords": [
+      "topik bacaan",
+      "jenis paragraf",
+      "eksplanasi",
+      "eksposisi",
+      "argumentasi",
+      "narasi"
+    ],
+    "quickDrillTip": "Cek apakah paragraf menjelaskan proses 'bagaimana/mengapa' (eksplanasi) atau sekadar definisi/data (eksposisi)."
+  },
+  {
+    "id": "kb-lbi-claim-01",
+    "subtest": "LBI",
+    "skillNodeId": "10000000-0000-4000-8000-000000000016",
+    "topicTitle": "Verifikasi Pernyataan Benar/Salah & Detektor Kuantor Teks",
+    "priorityLevel": 9,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Verifikasi Klaim Eksplisit (Prioritas Lv.9)",
+    "sourceLabel": "Prioritas SNBT 2026 + Kak Tutik Literasi",
+    "whyBeforeHow": "Pembuat soal UTBK sangat sering mengubah tingkat kepastian atau cakupan dari teks asli (sebagian -> seluruh, berpotensi -> pasti, menurun perlahan -> berhenti total). Pernyataan benar tetap sah walau diparafrasa dengan sinonim.",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "Pemindai Kuantor Mutlak vs Tentatif",
+      "shortcutMarkdown": "Beri tanda silang mental langsung pada kata mutlak (*semua, selalu, pasti, satu-satunya, seluruhnya*) jika kalimat sumber hanya menulis *sebagian, umumnya, berpotensi, atau sering*.",
+      "validityConditions": "Cocokkan tetap setiap fakta ke kalimat rujukan; jika teks memang memakai kata 'hanya', syarat mutlak tersebut sah."
+    },
+    "utbkTraps": [
+      "Opsi memakai kosakata persis sama dengan teks tetapi menyelipkan kata 'tidak' atau menukar tahun.",
+      "Memilih pernyataan faktual umum di luar bacaan."
+    ],
+    "keywords": [
+      "pernyataan benar",
+      "pernyataan salah",
+      "sesuai isi teks",
+      "kuantor",
+      "overgeneralisasi"
+    ],
+    "quickDrillTip": "Garis bawahi subjek dan kata pembatas jumlah pada opsi sebelum mencari di teks."
+  },
+  {
+    "id": "kb-lbi-fact-02",
+    "subtest": "LBI",
+    "skillNodeId": "10000000-0000-4000-8000-000000000016",
+    "topicTitle": "Membedakan Fakta Terverifikasi vs Opini Subjektif dalam Bacaan",
+    "priorityLevel": 9,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Opini / Fakta dalam Bacaan (Prioritas Lv.9)",
+    "sourceLabel": "Prioritas SNBT 2026 (LBI Lv.9)",
+    "whyBeforeHow": "Fakta adalah peristiwa atau data terukur yang kebenarannya objektif di dunia nyata, sedangkan opini memuat penilaian pribadi, ramalan masa depan, atau kata sifat evaluatif (*seharusnya, sangat memprihatinkan, terlalu mahal, terbaik*).",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "Uji Kata Penanda Subjektif & Sumber Kutipan",
+      "shortcutMarkdown": "Adanya angka TIDAK menjamin suatu kalimat adalah fakta! Kalimat 'Kenaikan 3% ini sangat membebani rakyat kecil' tetap OPINI karena ada kata sifat evaluatif 'sangat membebani'.",
+      "validityConditions": "Pernyataan 'Menurut survei BPS, 40% warga ...' adalah fakta tentang hasil survei tersebut."
+    },
+    "utbkTraps": [
+      "Tertipu kalimat ber-angka yang menyisipkan penilaian subjektif.",
+      "Mengira prediksi ahli ('diperkirakan naik') sebagai fakta yang sudah terjadi."
+    ],
+    "keywords": [
+      "fakta",
+      "opini",
+      "subjektif",
+      "objektif",
+      "verifikasi",
+      "evaluatif"
+    ],
+    "quickDrillTip": "Cari kata anjuran ('perlu', 'seharusnya', 'sebaiknya') sebagai ciri utama opini."
+  },
+  {
+    "id": "kb-lbi-inf-01",
+    "subtest": "LBI",
+    "skillNodeId": "10000000-0000-4000-8000-000000000017",
+    "topicTitle": "Inferensi Informasi Tersirat & Prediksi Dampak Logis",
+    "priorityLevel": 10,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Inferensi dalam Bacaan (Prioritas Lv.10)",
+    "sourceLabel": "Prioritas SNBT 2026 (Topik Nomor 1 LBI Lv.10)",
+    "whyBeforeHow": "Inferensi bukanlah mengarang bebas, melainkan menyimpulkan apa yang PASTI terjadi atau PASTI dimaksud jika dua informasi di teks digabungkan secara deduktif (satu langkah di luar kalimat tertulis, masih di dalam pagar bukti teks).",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "Aturan Satu Jengkal dari Bukti Eksplisit",
+      "shortcutMarkdown": "Jika teks menyatakan 'Produksi X butuh suhu di bawah 10C' dan 'Wilayah P bersuhu rata-rata 28C tanpa pendingin', inferensi sahnya ialah Wilayah P tidak cocok memproduksi X secara alami.",
+      "validityConditions": "Jangan melompat ke asumsi luar yang memerlukan premis sosial/ekonomi tambahan yang tidak ada di bacaan."
+    },
+    "utbkTraps": [
+      "Memilih informasi tersurat mentah-mentah ketika soal menanyakan kesimpulan tersirat.",
+      "Memilih spekulasi jangka panjang yang terlalu jauh dari petunjuk teks."
+    ],
+    "keywords": [
+      "inferensi",
+      "tersirat",
+      "jika terjadi",
+      "prediksi",
+      "implikasi bacaan"
+    ],
+    "quickDrillTip": "Temukan minimal dua kalimat petunjuk dalam teks sebelum memilih opsi inferensi."
+  },
+  {
+    "id": "kb-lbi-sum-02",
+    "subtest": "LBI",
+    "skillNodeId": "10000000-0000-4000-8000-000000000017",
+    "topicTitle": "Simpulan Isi Bacaan & Sebab-Akibat Teks Eksplanatif",
+    "priorityLevel": 8,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Simpulan & Maksud Sebab-Akibat (Prioritas Lv.8)",
+    "sourceLabel": "Prioritas SNBT 2026 + Kak Tutik",
+    "whyBeforeHow": "Simpulan harus mewakili keseluruhan teks dari paragraf awal hingga penutup, termasuk hasil akhir atau konsekuensinya. Pada teks eksplanatif, pisahkan dengan jelas mana pemicu (sebab), mekanisme proses, dan dampaknya (akibat).",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "Rumus Simpulan: Masalah/Topik Utama + Temuan/Akibat Akhir",
+      "shortcutMarkdown": "Periksa apakah opsi kandidat simpulan hanya merangkum Paragraf 1 atau sudah menyatukan pesan dari Paragraf 1 sampai akhir.",
+      "validityConditions": "Bila soal menanyakan 'mengapa fenomena X terjadi', jawabannya wajib menunjuk faktor penyebab sebelum $X$, bukan dampak setelah $X$."
+    },
+    "utbkTraps": [
+      "Membalik sebab menjadi akibat atau sebaliknya.",
+      "Memilih simpulan parsial yang melupakan paragraf penutup."
+    ],
+    "keywords": [
+      "simpulan",
+      "sebab akibat",
+      "eksplanatif",
+      "maksud bacaan",
+      "dampak"
+    ],
+    "quickDrillTip": "Tandai kata penghubung penyebab (*karena, akibat, memicu, berdampak pada*) di teks eksplanatif."
+  },
+  {
+    "id": "kb-lbi-ctx-03",
+    "subtest": "LBI",
+    "skillNodeId": "10000000-0000-4000-8000-000000000017",
+    "topicTitle": "Makna Kontekstual Istilah Teknis & Ungkapan dalam Teks",
+    "priorityLevel": 8,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Makna Kontekstual LBI (Prioritas Lv.8)",
+    "sourceLabel": "Prioritas SNBT 2026 (LBI Makna Kontekstual)",
+    "whyBeforeHow": "Dalam bacaan sains, ekonomi, atau hukum di LBI, makna istilah teknis atau ungkapan metaforis ditentukan lewat kalimat definisi/penjelas di kiri dan kanannya, bukan sekadar hafalan terjemahan kamus bebas.",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "Teknik Substitusi Kalimat Pengapit",
+      "shortcutMarkdown": "Baca 1 kalimat sebelum dan 1 kalimat sesudah istilah yang ditanyakan. Pengarang hampir selalu menyelipkan petunjuk makna atau sinonim penjelas tepat di kalimat tetangganya.",
+      "validityConditions": "Jika ungkapan bersifat metaforis dalam cerpen/esai, tafsirkan sejalan dengan suasana emosi tokoh di paragraf tersebut."
+    },
+    "utbkTraps": [
+      "Memilih makna harfiah kata ketika teks memakainya secara figuratif/metaforis.",
+      "Mengabaikan petunjuk oposisi ('alih-alih ..., justru ...') di kalimat yang sama."
+    ],
+    "keywords": [
+      "makna kontekstual",
+      "istilah",
+      "ungkapan",
+      "definisi teks",
+      "maksud kata"
+    ],
+    "quickDrillTip": "Masukkan kandidat arti ke posisi istilah asli lalu cek kelogisan kalimat."
+  },
+  {
+    "id": "kb-lbi-eval-02",
+    "subtest": "LBI",
+    "skillNodeId": "10000000-0000-4000-8000-000000000036",
+    "topicTitle": "Evaluasi Kelebihan, Kekurangan Informasi & Kelengkapan Argumen Teks",
+    "priorityLevel": 7,
+    "priorityBadge": "Sering Muncul",
+    "chapterGroup": "Evaluasi Bacaan HOTS (Prioritas Lv.7)",
+    "sourceLabel": "Prioritas SNBT 2026 + Modul HOTS LBI",
+    "whyBeforeHow": "Soal evaluasi menuntut pembaca menilai mutu tulisan secara objektif: apakah teks didukung data kuantitatif/riset yang memadai, terlalu berat sebelah (bias), atau gagal menjelaskan mekanisme solusi yang dijanjikannya pada paragraf pembuka?",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "Audit 3 Pilar Argumen: Data Konkret / Sumber Kredibel / Keseimbangan Sudut Pandang",
+      "shortcutMarkdown": "Kekurangan bacaan yang paling sering diuji UTBK: (1) klaim kuat tanpa bukti angka/sumber riset, (2) melompati penjelasan faktor penyebab kunci, atau (3) menyalahkan tanpa memberi solusi praktis.",
+      "validityConditions": "Penilaian wajib didasarkan pada apa yang tertulis atau hilang di teks, bukan persetujuan pribadi pembaca terhadap topiknya."
+    },
+    "utbkTraps": [
+      "Menilai argumen buruk hanya karena bertentangan dengan opini pribadi.",
+      "Menganggap teks yang membahas dua sisi masalah kurang fokus, padahal justru berimbang."
+    ],
+    "keywords": [
+      "kelebihan bacaan",
+      "kekurangan bacaan",
+      "kelemahan teks",
+      "evaluasi informasi",
+      "kualitas teks"
+    ],
+    "quickDrillTip": "Bandingkan janji di kalimat pembuka dengan pembuktian di paragraf isi."
+  },
+  {
+    "id": "kb-lbi-sastra-01",
+    "subtest": "LBI",
+    "skillNodeId": "10000000-0000-4000-8000-000000000036",
+    "topicTitle": "Teks Sastra (Cerpen/Novel): Watak Tokoh, Konflik Batin & Amanat Nilai",
+    "priorityLevel": 9,
+    "priorityBadge": "Penguat Skor 800",
+    "chapterGroup": "Tema dan Nilai Sastra (Penguat Skor 800)",
+    "sourceLabel": "Prioritas SNBT 2026 + Bank Soal LBI Kemendikbud",
+    "whyBeforeHow": "Dalam kutipan fiksi, watak dan amanat jarang diceritakan langsung oleh pengarang melainkan diperlihatkan melalui pilihan tindakan tokoh di tengah konflik utama dan dampak dari pilihannya.",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "Peta Konflik -> Pilihan Sikap Tokoh -> Pesan/Nilai",
+      "shortcutMarkdown": "Tanyakan: (1) Masalah apa yang menjepit tokoh utama? (2) Keputusan apa yang diambil tokoh di dialog/aksi? (3) Pelajaran nyata apa yang langsung terbukti di penutup kutipan?",
+      "validityConditions": "Jangan menggeneralisasi ucapan tokoh antagonis atau sinis sebagai amanat cerita."
+    },
+    "utbkTraps": [
+      "Memilih amanat klise umum yang tidak berakar pada alur konflik kutipan.",
+      "Tertukar latar suasana fisik dengan latar sosial-budaya masyarakat dalam cerita."
+    ],
+    "keywords": [
+      "cerpen",
+      "novel",
+      "sastra",
+      "watak",
+      "tokoh",
+      "amanat",
+      "nilai moral",
+      "konflik",
+      "latar"
+    ],
+    "quickDrillTip": "Fokus pada dialog dan reaksi batin tokoh saat menghadapi titik balik konflik."
+  },
+  {
+    "id": "kb-lbi-grafik-04",
+    "subtest": "LBI",
+    "skillNodeId": "10000000-0000-4000-8000-000000000016",
+    "topicTitle": "Integrasi Teks Panjang dengan Tabel/Infografik Pendamping LBI",
+    "priorityLevel": 9,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Literasi Multimodal LBI (Prioritas SNBT)",
+    "sourceLabel": "Prioritas SNBT 2026 + Kak Tutik",
+    "whyBeforeHow": "Banyak soal LBI menyandingkan wacana berita/ilmiah dengan tabel atau grafik. Opsi jawaban benar biasanya menggabungkan tren data tabel dengan alasan penjelasan dari paragraf bacaan.",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "Cocokkan Angka Visual dengan Penjelasan Verbal Teks",
+      "shortcutMarkdown": "Verifikasi dulu pernyataan murni angka ke tabel, lalu verifikasi penjelasan penyebab angka tersebut ke teks. Jika salah satu komponen tidak cocok, coret opsinya.",
+      "validityConditions": "Pastikan kategori tahun/wilayah di tabel persis sama dengan tahun/wilayah yang disebut kalimat soal."
+    },
+    "utbkTraps": [
+      "Tertukar satuan persentase vs jumlah jiwa antara tabel dan narasi.",
+      "Menganggap tren kenaikan di tabel sebagai bukti kebijakan X berhasil padahal teks menyebut faktor cuaca."
+    ],
+    "keywords": [
+      "infografik",
+      "tabel teks",
+      "data bacaan",
+      "integrasi teks",
+      "persentase"
+    ],
+    "quickDrillTip": "Tandai angka tertinggi/terendah di grafik lalu baca alasan penyebabnya di teks."
+  },
+  {
+    "id": "kb-lbe-ref-01",
+    "subtest": "LBE",
+    "skillNodeId": "10000000-0000-4000-8000-000000000018",
+    "topicTitle": "Pronoun Reference (it, they, which, such, those) & Context Clues",
+    "priorityLevel": 9,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Synonym & Reference (Prioritas Lv.9)",
+    "sourceLabel": "Prioritas SNBT 2026 + Quipper PPU English (Vocabularies)",
+    "whyBeforeHow": "Kata ganti wajib cocok jumlahnya (tunggal vs jamak) dan peran maknanya dengan frasa benda sebelumnya. Ketika bertemu 'such + noun', kata tersebut merujuk kembali ke kategori fenomena yang baru saja dijelaskan di kalimat tepat sebelumnya.",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "Grammatical Number Match + Subject-Verb Sanity Test",
+      "shortcutMarkdown": "Untuk *it/this/that*, coret semua kandidat jamak; untuk *they/these/those/them*, coret semua kandidat tunggal. Untuk *which*, uji kecocokan kata kerja tepat di belakang *which* ke kandidat anteseden.",
+      "validityConditions": "Kadang *this/that* di awal kalimat merujuk pada keseluruhan klausa gagasan kalimat sebelumnya, bukan 1 kata benda tunggal."
+    },
+    "utbkTraps": [
+      "Memilih kata benda terdekat yang jumlah tunggal/jamaknya tidak sesuai pronoun.",
+      "Merujuk ke paragraf lain alih-alih kalimat sebelum titik rujukan."
+    ],
+    "keywords": [
+      "refers to",
+      "pronoun",
+      "antecedent",
+      "it",
+      "they",
+      "which",
+      "such"
+    ],
+    "quickDrillTip": "Substitusi langsung frasa kandidat menggantikan pronoun lalu baca ulang kalimat."
+  },
+  {
+    "id": "kb-lbe-voc-02",
+    "subtest": "LBE",
+    "skillNodeId": "10000000-0000-4000-8000-000000000018",
+    "topicTitle": "Vocabulary in Context, Synonym & Phrasal/Academic Nuance",
+    "priorityLevel": 9,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Vocabulary in Context (Prioritas Lv.9)",
+    "sourceLabel": "Quipper PPU English (Bab 1 Vocabularies)",
+    "whyBeforeHow": "Kata bahasa Inggris akademik hampir selalu polisemi (contoh: *address* = menangani, *harbor* = menyimpan perasaan, *novel* = baru/unik). Gunakan penanda kontras (*but, whereas*) atau penjelasan ulang (*that is, namely*) di kalimat sumber untuk menebak arti.",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "Teknik SUPER: Search Context + Part-of-Speech Lock",
+      "shortcutMarkdown": "Kunci kelas kata target lebih dulu (Verb/Noun/Adjective) agar tidak memilih opsi yang berbeda kelas kata, lalu substitusi ke kalimat asli untuk menguji alur makna searah atau berlawanan.",
+      "validityConditions": "Jangan memilih arti literal paling populer bila konteks kalimat jelas berbicara dalam bidang sains/ekonomi/psikologi."
+    },
+    "utbkTraps": [
+      "Terpancing definisi sehari-hari (*novel* = buku cerita, padahal berarti *baru/orisinal*).",
+      "Memilih antonim saat tidak memperhatikan kata transisi kontras *although/however*."
+    ],
+    "keywords": [
+      "closest in meaning",
+      "synonym",
+      "word meaning",
+      "replaced by",
+      "vocabulary",
+      "context clues"
+    ],
+    "quickDrillTip": "Tutup kata target dengan jari lalu tebak kata paling natural yang mengisi kekosongan."
+  },
+  {
+    "id": "kb-lbe-detail-03",
+    "subtest": "LBE",
+    "skillNodeId": "10000000-0000-4000-8000-000000000018",
+    "topicTitle": "Stated Detail Information (5W+1H) & True/False Paraphrased Claims",
+    "priorityLevel": 10,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Stated Detail Information (Prioritas Lv.10)",
+    "sourceLabel": "Prioritas SNBT 2026 + Quipper PPU English (Bab 2 & 4)",
+    "whyBeforeHow": "Soal detail tersurat di LBE sangat jarang mengulang kalimat teks mentah-mentah; jawaban benar hampir selalu berupa parafrasa sinonim atau kebalikan kalimat aktif-pasif dari informasi eksplisit teks.",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "Keyword Scanning + Locator Paragraph Lock",
+      "shortcutMarkdown": "Ambil 1 nama diri, tahun, atau istilah unik dari pertanyaan, pindai cepat letaknya di teks, lalu baca 1 kalimat penuh sebelum dan sesudah kata kunci tersebut sebelum memeriksa opsi A-E.",
+      "validityConditions": "Pada soal bertipe utas forum (Who posted/said/suggested...), periksa nama pengguna pengirim masing-masing balasan agar tidak tertukar."
+    },
+    "utbkTraps": [
+      "Memilih jawaban yang memakai kata sama persis seperti teks tetapi membalik syarat sebab-akibat.",
+      "Salah membaca siapa yang menulis komentar pada forum thread."
+    ],
+    "keywords": [
+      "stated detail",
+      "according to",
+      "not mentioned",
+      "true statement",
+      "false statement",
+      "posted",
+      "paragraph"
+    ],
+    "quickDrillTip": "Untuk pertanyaan 'EXCEPT / NOT mentioned', cocokkan dan coret 4 opsi yang tertera persis di teks."
+  },
+  {
+    "id": "kb-lbe-idea-04",
+    "subtest": "LBE",
+    "skillNodeId": "10000000-0000-4000-8000-000000000019",
+    "topicTitle": "Topic, Main Idea of the Passage & Paragraph Central Thought",
+    "priorityLevel": 8,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Topic & Main Idea (Prioritas Lv.8)",
+    "sourceLabel": "Prioritas SNBT 2026 + Quipper PPU English",
+    "whyBeforeHow": "Topik menyatukan kata kunci paling dominan sebagai frasa benda, sedangkan Main Idea menambahkan klaim utama penulis tentang topik tersebut. Pada teks multi-paragraf, cek kalimat topik paragraf 1 ditambah kesimpulan atau pengembangannya di paragraf berikutnya.",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "Formula Topik + Klaim Payung (Too Narrow vs Too Broad Test)",
+      "shortcutMarkdown": "Eliminasi opsi yang terlalu sempit (hanya menyebut contoh di Paragraf 2) atau terlalu luas (membahas tema umum yang melampaui isi bacaan).",
+      "validityConditions": "Jika Paragraf 1 memaparkan mitos lama lalu Paragraf 2-3 mematahkan mitos itu dengan bukti baru, Main Idea berpusat pada temuan barunya."
+    },
+    "utbkTraps": [
+      "Tergoda oleh detail menarik di satu paragraf sebagai Main Idea seluruh teks.",
+      "Tertukar antara Main Idea sebuah paragraf spesifik vs seluruh passage."
+    ],
+    "keywords": [
+      "main idea",
+      "topic of the passage",
+      "primarily discusses",
+      "central idea",
+      "best title"
+    ],
+    "quickDrillTip": "Garis bawahi kalimat pertama setiap paragraf untuk melihat benang merah teks dalam 20 detik."
+  },
+  {
+    "id": "kb-lbe-purp-01",
+    "subtest": "LBE",
+    "skillNodeId": "10000000-0000-4000-8000-000000000019",
+    "topicTitle": "Author's Purpose, Rhetorical Function & Paragraph Role",
+    "priorityLevel": 8,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Purpose of the Text (Quipper Bab 7)",
+    "sourceLabel": "Prioritas SNBT 2026 + Quipper PPU English (Bab 7)",
+    "whyBeforeHow": "Purpose menanyakan maksud penulis di balik cara ia menyajikan informasi: sekadar memaparkan (*to inform/explain*), membandingkan (*to compare*), memperingatkan (*to warn*), membela (*to advocate*), atau membantah (*to refute/challenge*).",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "Verb-First Elimination Checklist",
+      "shortcutMarkdown": "Periksa kata kerja infinitif paling depan setiap opsi! Jika teks penuh data netral dua sisi, coret opsi berbunyi *to persuade, to urge, to criticize harshly*.",
+      "validityConditions": "Bedakan 'purpose of the passage' (misi keseluruhan) dengan 'why does the author mention X in paragraph 2?' (fungsi contoh spesifik)."
+    },
+    "utbkTraps": [
+      "Memilih kata kerja persuasif (*to persuade*) pada teks ilmiah deskriptif yang sebenarnya netral (*to inform/explain*).",
+      "Menyamakan tujuan satu contoh kasus dengan tujuan utama seluruh artikel."
+    ],
+    "keywords": [
+      "purpose",
+      "author's intention",
+      "why does the author",
+      "primarily intended",
+      "function of paragraph"
+    ],
+    "quickDrillTip": "Cek kata penghubung pivot (*however, nevertheless, as a result*) untuk membaca fungsi paragraf."
+  },
+  {
+    "id": "kb-lbe-tone-02",
+    "subtest": "LBE",
+    "skillNodeId": "10000000-0000-4000-8000-000000000019",
+    "topicTitle": "Tone, Writer's Attitude & Opinion Thread Mood",
+    "priorityLevel": 8,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Tone & Attitude (Prioritas Lv.8)",
+    "sourceLabel": "Prioritas SNBT 2026 (LBE Thread & Passage Attitude)",
+    "whyBeforeHow": "Tone terlihat dari pilihan kata sifat (adjektiva) dan modal (*remarkable, alarming, skeptical, merely, promising*). Nada netral/ilmiah memakai bahasa datar tanpa emosi (*objective/informative*), sedangkan diskusi forum bisa *supportive, skeptical, concerned,* atau *indifferent*.",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "Detektor Kata Emosi & Hedging Modals",
+      "shortcutMarkdown": "Pisahkan nada menjadi 3 kutub awal: Positif (*supportive/optimistic/appreciative*), Netral (*objective/informative/cautious*), dan Negatif (*critical/skeptical/concerned*). Eliminasi cepat dua kutub yang salah.",
+      "validityConditions": "Pada thread komentar online, soal sering menanyakan nada satu pemberi komentar spesifik (e.g. Sarah's tone) atau mayoritas penanggap."
+    },
+    "utbkTraps": [
+      "Menganggap penulis bersikap *cynical/hostile* hanya karena ia memaparkan keterbatasan riset (*cautious/critical*).",
+      "Tertukar nada tokoh yang dikutip vs nada si penulis artikel itu sendiri."
+    ],
+    "keywords": [
+      "tone",
+      "attitude",
+      "writer's feeling",
+      "mood",
+      "thread",
+      "skeptical",
+      "supportive",
+      "objective"
+    ],
+    "quickDrillTip": "Lingkari 3 kata sifat/adverbia evaluatif terkuat dalam paragraf untuk mengunci kutub nada."
+  },
+  {
+    "id": "kb-lbe-restate-03",
+    "subtest": "LBE",
+    "skillNodeId": "10000000-0000-4000-8000-000000000020",
+    "topicTitle": "Sentence Restatement, Paraphrase & Logical Equivalence (Unless/Only If)",
+    "priorityLevel": 8,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Restatement or Paraphrase (Quipper Bab 3)",
+    "sourceLabel": "Prioritas SNBT 2026 + Quipper PPU English (Bab 3)",
+    "whyBeforeHow": "Restatement sejati mempertahankan 100% syarat logika, pelaku, waktu, dan hubungan sebab-akibat walaupun kosakata dan struktur aktif/pasifnya diganti total.",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "Logika Syarat: Active <-> Passive & Unless = If Not",
+      "shortcutMarkdown": "Waspadai kata pengunci makna: *unless* (= if not), *hardly/scarcely* (= hampir tidak), *not only... but also*, dan klausa *although/despite*. Pastikan arah sebab-akibat tetap identik!",
+      "validityConditions": "Parafrasa yang tepat wajib menjaga siapa subjek pelaku dan siapa objek penerima aksi."
+    },
+    "utbkTraps": [
+      "Memilih opsi dengan kosakata sinonim paling mirip tetapi syarat waktu/kuantornya bergeser (*sometimes* jadi *always*).",
+      "Membalik makna *despite A, B* menjadi sebab-akibat langsung."
+    ],
+    "keywords": [
+      "restatement",
+      "best restated",
+      "paraphrase",
+      "same meaning as",
+      "rephrased"
+    ],
+    "quickDrillTip": "Ubah kalimat pasif soal menjadi aktif (atau sebaliknya) di kepala sebelum mengecek A-E."
+  },
+  {
+    "id": "kb-lbe-org-04",
+    "subtest": "LBE",
+    "skillNodeId": "10000000-0000-4000-8000-000000000020",
+    "topicTitle": "Text Organization, Course of Reading & Preceding/Following Paragraph",
+    "priorityLevel": 7,
+    "priorityBadge": "Sering Muncul",
+    "chapterGroup": "Idea Development & Structural Flow (Quipper Bab 5 & 8)",
+    "sourceLabel": "Prioritas SNBT 2026 + Quipper PPU English (Bab 5 & 8)",
+    "whyBeforeHow": "Paragraf pengantar sebelum teks (Preceding) mengantarkan kata kunci kalimat PERTAMA Paragraf 1, sementara paragraf kelanjutan (Following) melanjutkan topik kalimat TERAKHIR Paragraf penutup.",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "Jembatan Ujung-ke-Ujung + Eliminasi Ide Lama",
+      "shortcutMarkdown": "Untuk Following Paragraph: langsung coret topik apa pun yang SUDAH dijelaskan rinci di Paragraf 1 atau 2. Untuk Course of Reading / Intended Audience, cek kedalaman istilah: jargon klinis -> medical journal, tips praktis -> general/popular magazine.",
+      "validityConditions": "Perhatikan kata rujukan pembuka Paragraf 1 seperti *these measures* atau *such challenges* yang membuktikan Preceding membahas tantangan tersebut."
+    },
+    "utbkTraps": [
+      "Memilih topik untuk Following Paragraph padahal ide tersebut sudah dibahas di tengah teks.",
+      "Mengira seluruh teks bertipe chronological hanya karena menyebut dua tahun berbeda."
+    ],
+    "keywords": [
+      "preceding paragraph",
+      "following paragraph",
+      "text organization",
+      "course of reading",
+      "intended audience",
+      "author organizes"
+    ],
+    "quickDrillTip": "Preceding = kunci dari 2 kalimat awal; Following = kunci dari 2 kalimat terakhir."
+  },
+  {
+    "id": "kb-lbe-inf-05",
+    "subtest": "LBE",
+    "skillNodeId": "10000000-0000-4000-8000-000000000020",
+    "topicTitle": "Implicit Ideas, Inference, Fact vs Opinion & Author Assumption",
+    "priorityLevel": 8,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Inference & Fact-Opinion (Prioritas Lv.8)",
+    "sourceLabel": "Prioritas SNBT 2026 + Quipper PPU English (Bab 6 & 8)",
+    "whyBeforeHow": "Inference pada LBE ('implied', 'likely', 'inferred', 'most probable recommendation') menuntut kombinasi premis tertulis dalam teks. Fact memiliki bukti verifikasi objektif, sedangkan Opinion memuat penilaian/rekomendasi subjektif (*should, better, essential, alarming*).",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "Reading Between the Lines Bounded by Text Evidence",
+      "shortcutMarkdown": "Untuk pertanyaan *assumption* (asumsi tak tertulis penulis), temukan kesenjangan logis antara bukti di paragraf dengan kesimpulan akhirnya; opsi asumsi benar bila menambal celah itu tanpa melampaui konteks.",
+      "validityConditions": "Jangan mencampur pengetahuan eksternalmu tentang isu global bila tidak terhubung ke premis teks."
+    },
+    "utbkTraps": [
+      "Memilih klaim yang sudah dinyatakan eksplisit padahal soal menanyakan kesimpulan tersirat.",
+      "Memilih opsi rekomendasi dengan kata ekstrem yang tidak sebanding dengan skala masalah teks."
+    ],
+    "keywords": [
+      "implied",
+      "inferred",
+      "likely",
+      "probably",
+      "assumption",
+      "fact and opinion",
+      "recommendation"
+    ],
+    "quickDrillTip": "Tandai kalimat bukti di teks lalu pastikan kesimpulan opsi hanya satu langkah logis darinya."
+  },
+  {
+    "id": "kb-lbe-twotext-01",
+    "subtest": "LBE",
+    "skillNodeId": "10000000-0000-4000-8000-000000000020",
+    "topicTitle": "Two-Text Comparison, Cross-Text Synthesis & Forum Thread Synthesis",
+    "priorityLevel": 9,
+    "priorityBadge": "Penguat Skor 800",
+    "chapterGroup": "Two Texts Comparison (Penguat Skor 800)",
+    "sourceLabel": "Prioritas SNBT 2026 (LBE Multi-Text Lv.8)",
+    "whyBeforeHow": "Model soal unggulan UTBK modern menyajikan Text 1 vs Text 2 (atau 4-5 komentar diskusi forum). Tugasmu bukan sekadar meringkas masing-masing teks, tetapi memetakan relasi spesifik di antara keduanya: sependapat, saling melengkapi (teori vs praktik), atau bertentangan secara langsung.",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "Matriks Hubungan Teks A vs Teks B (Agree / Contrast / Extend)",
+      "shortcutMarkdown": "Rangkum gagasan inti Text 1 dan Text 2 dalam maksimal 6 kata masing-masing. Untuk soal *both texts state/agree*, pastikan fakta opsi TERBUKTI di KEDUA teks sekaligus!",
+      "validityConditions": "Opsi yang hanya benar di Text 1 saja atau hanya di Text 2 saja sering menjadi jebakan nomor satu pada pertanyaan sintesis."
+    },
+    "utbkTraps": [
+      "Memilih pernyataan benar dari Text 1 saja untuk soal 'Both texts support...'.",
+      "Salah membaca apakah Text 2 menentang total Text 1 atau hanya memberi catatan pengecualian kasus."
+    ],
+    "keywords": [
+      "text 1",
+      "text 2",
+      "both texts",
+      "relationship between",
+      "synthesis",
+      "compare",
+      "contrast",
+      "thread"
+    ],
+    "quickDrillTip": "Bandingkan variabel fokus: apakah keduanya membahas objek/populasi sama atau beda ruang lingkup?"
+  },
+  {
+    "id": "kb-pbm-eja-01",
+    "subtest": "PBM",
+    "skillNodeId": "10000000-0000-4000-8000-000000000021",
+    "topicTitle": "EYD V: Penggunaan Tanda Koma, Titik Koma, Tanda Hubung & Petik",
+    "priorityLevel": 10,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Penggunaan Tanda Baca (Prioritas Lv.10)",
+    "sourceLabel": "Prioritas SNBT 2026 (Topik Nomor 1 PBM Lv.10)",
+    "whyBeforeHow": "Tanda koma bekerja berdasarkan batas struktur klausa dan jeda gramatikal yang ketat: memisahkan anak kalimat jika mendahului induk kalimat, mengapit keterangan tambahan (aposisi), mengikuti konjungsi antarkalimat, serta hadir sebelum *tetapi, melainkan, sedangkan*.",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "5 Aturan Emas Tanda Koma EYD V",
+      "shortcutMarkdown": "1) Anak kalimat duluan -> pakai koma; Induk duluan -> TANPA koma sebelum *karena/agar/sehingga/ketika/jika*. 2) Koma wajib sebelum *tetapi, melainkan, sedangkan*. 3) Wajib koma sebelum *dan* pada perincian 3+ unsur. 4) Tidak ada koma sebelum *bahwa*. 5) Tanda hubung (-) wajib memisahkan unsur Indonesia dengan asing (*di-upload*, *ke-2*, *se-Indonesia*).",
+      "validityConditions": "Jika konjungsi pengantar anak kalimat (*meskipun, karena*) didahului kata 'Namun,', tanda koma setelah 'Namun,' tetap terikat aturan konjungsi antarkalimat."
+    },
+    "utbkTraps": [
+      "Menaruh tanda koma sebelum *bahwa* atau sebelum *karena* di tengah kalimat induk-anak.",
+      "Lupa meletakkan koma di sebelah kanan konjungsi antarkalimat (*Oleh karena itu, ...*).",
+      "Menulis perincian 3 benda tanpa koma sebelum kata *dan*."
+    ],
+    "keywords": [
+      "tanda baca",
+      "koma",
+      "eyd v",
+      "tanda hubung",
+      "titik koma",
+      "petik"
+    ],
+    "quickDrillTip": "Cek apakah kata penghubung di tengah kalimat membawa anak kalimat (tanpa koma) atau perlawanan setara *melainkan/sedangkan* (pakai koma di depan)."
+  },
+  {
+    "id": "kb-pbm-kap-02",
+    "subtest": "PBM",
+    "skillNodeId": "10000000-0000-4000-8000-000000000021",
+    "topicTitle": "EYD V: Huruf Kapital, Huruf Miring, Angka & Unsur Geografi",
+    "priorityLevel": 10,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Ejaan & Huruf (Quipper Bab 5)",
+    "sourceLabel": "Quipper PBM (Bab 5 Ejaan) + Prioritas SNBT 2026",
+    "whyBeforeHow": "Huruf kapital pada nama diri bukan sekadar menghormati kata besar, melainkan membedakan entitas spesifik dari jenis umum! Nama geografis (sungai, gunung, pulau, selat) hanya kapital jika diikuti nama tempatnya, dan nama jabatan hanya kapital jika diikuti nama orang atau dipakai sebagai sapaan langsung.",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "Tes Nama Diri vs Jenis Umum + Fungsi Huruf Miring",
+      "shortcutMarkdown": "Huruf kapital: *Presiden Prabowo* / *di Sungai Brantas* / *bahasa Indonesia* / *gula jawa* (jenis khas non-lokasi -> kecil!). Huruf miring dipakai untuk kata asing (*gadget*), judul buku/majalah/koran, dan penegasan khusus huruf/kata.",
+      "validityConditions": "Produk olahan atau jenis varietas daerah (*bika ambon, jeruk bali, kunci inggris*) tidak ditulis kapital pada nama daerahnya."
+    },
+    "utbkTraps": [
+      "Mengapitalkan nama jenis buah/kue daerah atau istilah *bahasa Indonesia* (huruf B pada bahasa tetap kecil!).",
+      "Lupa memiringkan istilah asing belum diserap atau judul buku."
+    ],
+    "keywords": [
+      "huruf kapital",
+      "huruf miring",
+      "geografi",
+      "jabatan",
+      "nama bangsa",
+      "angka bilangan"
+    ],
+    "quickDrillTip": "Tanyakan: apakah kata sungai/presiden/provinsi langsung diikuti nama spesifiknya?"
+  },
+  {
+    "id": "kb-pbm-dik-03",
+    "subtest": "PBM",
+    "skillNodeId": "10000000-0000-4000-8000-000000000021",
+    "topicTitle": "Preposisi di/ke/dari vs Imbuhan Pasif di-/ke- & Kata Depan Lain",
+    "priorityLevel": 9,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Preposisi & Penulisan Kata EYD V",
+    "sourceLabel": "Quipper PBM + Prioritas SNBT 2026",
+    "whyBeforeHow": "Pemisahan *di* dan *ke* ditentukan oleh kelas kata pasangannya: jika menyatakan lokasi/arah dan dapat ditukar dengan *dari*, pisah dengan spasi; jika membentuk kata kerja pasif yang dapat diubah menjadi aktif *me-*, gabungkan serangkai tanpa spasi!",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "Tes Ubah ke Bentuk Aktif me- vs Tes Ganti Preposisi 'dari'",
+      "shortcutMarkdown": "'ditulis' -> bisa menjadi 'menulis' -> SERANGKAI. 'di sekolah' -> bisa menjadi 'dari sekolah' -> PISAH. Khusus *di mana* selalu dipisah; kata berimbuhan gabungan seperti *dikeluarkan, dianjurkan, kemarau* selalu serangkai. Kata *pun* ditulis terpisah (*apa pun, satu pun*) kecuali 12 konjungsi padu (*walaupun, meskipun, maupun, adapun, bagaimanapun*).",
+      "validityConditions": "Pada kata berposisi tempat kiasan (*di atas meja*, *di antara mereka*, *ke depan*), tetap ditulis terpisah jika tidak berakhiran *-an/-kan/-i* yang membentuk kata kerja (bandingkan: *ke samping* vs *dikesampingkan*)."
+    },
+    "utbkTraps": [
+      "Menulis serangkai 'disamping', 'diantara', 'didalam', 'didepan' untuk keterangan tempat.",
+      "Menulis serangkai 'apapun' atau memisah 'walau pun'."
+    ],
+    "keywords": [
+      "imbuhan di",
+      "preposisi di",
+      "ke",
+      "pun",
+      "serangkai",
+      "terpisah",
+      "gabungan kata"
+    ],
+    "quickDrillTip": "Ubah selalu bentuk *di-* menjadi *me-*; gagal diubah ke *me-* hampir pasti berarti wajib dipisah spasi."
+  },
+  {
+    "id": "kb-pbm-eff-01",
+    "subtest": "PBM",
+    "skillNodeId": "10000000-0000-4000-8000-000000000022",
+    "topicTitle": "Kalimat Efektif: Syarat Wajib Subjek-Predikat & Anti-Pleonasme",
+    "priorityLevel": 9,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Kalimat Efektif (Prioritas Lv.9)",
+    "sourceLabel": "Prioritas SNBT 2026 + Quipper PPU/PBM",
+    "whyBeforeHow": "Kalimat bahasa Indonesia tidak sah bila tidak punya inti Subjek + Predikat yang jelas. Kesalahan tersering di UTBK ialah menempatkan kata depan (*Bagi, Untuk, Dalam, Menurut, Kepada*) di depan Subjek sehingga Subjeknya lenyap berubah menjadi Keterangan.",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "Tes Coret Keterangan + Audit Kata Mubazir (Pleonasme)",
+      "shortcutMarkdown": "Tutup bagian awal berpreposisi hingga tanda koma: jika sisanya diawali predikat langsung ('...menyatakan bahwa...'), kalimat tersebut CACAT tidak punya Subjek! Buang kata mubazir: *agar supaya, adalah merupakan, para siswa-siswa, sangat ... sekali, saling tolong-menolong, naik ke atas*.",
+      "validityConditions": "Preposisi di awal kalimat menjadi sah hanya jika setelah tanda koma masih diikuti Subjek baru (*Dalam rapat itu, ketua komite menyampaikan laporan*)."
+    },
+    "utbkTraps": [
+      "Mengira kalimat panjang penuh anak kalimat 'yang...' pasti lengkap, padahal kata 'yang' menurunkan Predikat menjadi perluasan Subjek saja.",
+      "Membiarkan kata kerja berulang ganda tidak sejajar dalam rincian (*meningkatkan, perbaikan, dan mengevaluasi*)."
+    ],
+    "keywords": [
+      "kalimat efektif",
+      "tidak efektif",
+      "subjek predikat",
+      "pleonasme",
+      "kata mubazir",
+      "kesejajaran",
+      "keambiguan"
+    ],
+    "quickDrillTip": "Cari kata kerja utama (Predikat) di luar klausa 'yang', lalu pastikan di kirinya ada Subjek tanpa preposisi."
+  },
+  {
+    "id": "kb-pbm-inti-02",
+    "subtest": "PBM",
+    "skillNodeId": "10000000-0000-4000-8000-000000000022",
+    "topicTitle": "Kalimat Inti, Perluasan Kalimat & Pola Kalimat Dasar (S-P-O-K-Pel)",
+    "priorityLevel": 9,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Kalimat Inti (Quipper Bab 4)",
+    "sourceLabel": "Quipper PBM (Bab 4 Kalimat Inti)",
+    "whyBeforeHow": "Kalimat inti adalah kerangka minimal suatu kalimat setelah seluruh keterangan, aposisi, dan anak kalimat perluasan (*yang..., bahwa..., ketika...*) dilucuti. Syarat kalimat inti: bermakna lengkap, susunan normal S-P (atau S-P-O jika transitif), positif, dan berupa kalimat berita.",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "Lucuti Anak Kalimat & Klausa 'yang...' untuk Menemukan Inti S-P(-O)",
+      "shortcutMarkdown": "Tutup sementara frasa di dalam apit dua koma dan semua perluasan yang diawali *yang, karena, meskipun, sehingga, untuk*. Kata benda inti tersisa + predikat utamanya itulah kalimat intinya.",
+      "validityConditions": "Bila predikatnya kata kerja transitif aktif berimbuhan *me-* yang butuh objek (misal *membahas, membangun*), objek intinya wajib ikut ke dalam kalimat inti."
+    },
+    "utbkTraps": [
+      "Mengambil inti dari anak kalimat setelah kata *bahwa* atau *karena*, bukan induk kalimat.",
+      "Memilih kalimat pasif atau kalimat negatif ketika aslinya diminta pola inti positif."
+    ],
+    "keywords": [
+      "kalimat inti",
+      "pola kalimat",
+      "subjek",
+      "predikat",
+      "objek",
+      "pelengkap",
+      "perluasan"
+    ],
+    "quickDrillTip": "Cek perbedaan Objek (bisa dipasifkan ke depan kalimat) vs Pelengkap (tidak bisa menjadi subjek pasif)."
+  },
+  {
+    "id": "kb-pbm-baku-01",
+    "subtest": "PBM",
+    "skillNodeId": "10000000-0000-4000-8000-000000000033",
+    "topicTitle": "Kata Baku KBBI & Ketepatan Bentuk Kata Morfologis (K-T-S-P & Serapan)",
+    "priorityLevel": 9,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Kata Baku & Tidak Baku (Prioritas Lv.9)",
+    "sourceLabel": "Prioritas SNBT 2026 + Quipper PPU (Kata Baku)",
+    "whyBeforeHow": "Pembentukan kata baku mengikuti hukum peluluhan fonem K, T, S, P saat bertemu awalan *me-* atau *pe-* pada satu suku konsonan-vokal (memengaruhi bukan mempengaruhi, memesona bukan mempesona, mengubah bukan merubah!).",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "Hukum Luluh K-T-S-P & Daftar Kata Baku Favorit UTBK",
+      "shortcutMarkdown": "Luluh bila awalannya 1 huruf konsonan+vokal (*pesona -> memesona*, *suplai -> menyuplai* TIDAK berlaku krn kluster `sp` -> *mensuplai*, *kritik -> mengkritik*). Wajib hafal pasangan baku: *apotek, analisis, sistem, praktik, risiko, teknik, kualitas, jadwal, antre, ijazah, nasihat, kuitansi, sekadar, memengaruhi, memerhatikan, mengubah, mengesampingkan*.",
+      "validityConditions": "Kata serapan berkluster dua konsonan (*tr, pr, kr, sp, st, sy*) seperti *memproduksi, mentransfer, memprakarsai* TIDAK meluluh; khusus *mengkaji* (arti menelaah) vs *mengaji* (membaca Al-Qur'an)."
+    },
+    "utbkTraps": [
+      "Terbiasa memakai bentuk populer tidak baku: *merubah, mensukseskan, mempesona, menganalisa, kwalitas, tehnik, resiko, sekedar, jadual*.",
+      "Lupa meluluhkan imbuhan ganda (*memerhatikan* berasal dari *perhati* -> *me-per-hati-kan*, luluh jadi *memerhatikan*!)."
+    ],
+    "keywords": [
+      "kata baku",
+      "tidak baku",
+      "kbbi",
+      "luluh",
+      "ktsp",
+      "afiksasi pbm",
+      "serapan"
+    ],
+    "quickDrillTip": "Uji *merubah* (salah -> bentuk dasar *ubah* memberi *mengubah*) dan *memengaruhi* (luluh *p*)."
+  },
+  {
+    "id": "kb-pbm-konj-02",
+    "subtest": "PBM",
+    "skillNodeId": "10000000-0000-4000-8000-000000000033",
+    "topicTitle": "Konjungsi Intrakalimat, Antarkalimat & Pasangan Korelatif",
+    "priorityLevel": 8,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Konjungsi (Quipper Bab 2 + Prioritas Lv.8)",
+    "sourceLabel": "Prioritas SNBT 2026 + Quipper PBM (Bab 2 Konjungsi)",
+    "whyBeforeHow": "Konjungsi bahasa Indonesia dikunci oleh dua tempat berbeda: konjungsi intrakalimat menyambung klausa di dalam SATU kalimat, sedangkan konjungsi antarkalimat memulai kalimat BARU setelah titik dan wajib diikuti koma. Konjungsi korelatif harus hadir berpasangan tepat.",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "Peta 3 Jenis Konjungsi & Pasangan Korelatif Baku",
+      "shortcutMarkdown": "Intrakalimat setara berkoma di depan: *, sedangkan*, *, melainkan*. Intrakalimat bertingkat tanpa koma sebelum: *karena, sehingga, bahwa, agar*. Antarkalimat di awal kalimat + koma: *Namun, Oleh karena itu, Akan tetapi, Sementara itu, Selain itu, Meskipun demikian*. Korelatif baku: *tidak... tetapi*, *bukan... melainkan*, *baik... maupun*, *antara... dan*.",
+      "validityConditions": "Dilarang keras menulis 'Namun demikian' (campuran salah) atau 'Sedangkan...' di awal kalimat atau memakai konjungsi ganda ('Meskipun..., tetapi...')."
+    },
+    "utbkTraps": [
+      "Memakai ', tetapi' pada awal kalimat atau 'Namun,' di tengah kalimat setelah koma.",
+      "Pasangan korelatif silang (*bukan... tetapi* atau *antara A hingga B* seharusnya *antara A dan B*)."
+    ],
+    "keywords": [
+      "konjungsi",
+      "intrakalimat",
+      "antarkalimat",
+      "korelatif",
+      "namun",
+      "sedangkan",
+      "melainkan"
+    ],
+    "quickDrillTip": "Cek posisi titik sebelum kata hubung: setelah titik wajib Antarkalimat + tanda koma!"
+  },
+  {
+    "id": "kb-pbm-edit-03",
+    "subtest": "PBM",
+    "skillNodeId": "10000000-0000-4000-8000-000000000033",
+    "topicTitle": "Penyuntingan Kalimat, Diksi Idiomatik & Penghilangan Kata Tidak Tepat",
+    "priorityLevel": 7,
+    "priorityBadge": "Sering Muncul",
+    "chapterGroup": "Menyunting Teks (Quipper Bab 7)",
+    "sourceLabel": "Prioritas SNBT 2026 + Quipper PBM (Bab 7 Menyunting)",
+    "whyBeforeHow": "Penyuntingan kalimat tidak hanya mengecek ejaan, melainkan menguji ketepatan padanan preposisi (*berbeda dengan* bukan *berbeda dari/terhadap*, *terdiri atas* bukan *terdiri dari*, *disebabkan oleh* bukan *dikarenakan*) serta mencegah kata berlebihan.",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "Pasangan Kata Idiomatik Baku UTBK",
+      "shortcutMarkdown": "Pasangan tepat: *tergantung pada / bergantung pada*, *sesuai dengan*, *berkaitan dengan*, *berdasarkan [objek langsung]* (jangan pakai 'berdasarkan pada'), *terdiri atas*, *antara X dan Y*, *membahas [objek]* (hapus 'tentang'). Ganti *di mana* penghubung klausa terjemahan Inggris dengan *yang* atau *tempat*.",
+      "validityConditions": "Hindari penghilangan preposisi wajib sebelum kata kerja intransitif seperti *bertemu dengan* atau *berdiskusi tentang*."
+    },
+    "utbkTraps": [
+      "Mengikuti terjemahan langsung bahasa Inggris memakai *di mana*, *daripada* untuk posesif, atau *berbeda dari*.",
+      "Menambahkan 'tentang/mengenai' sesudah kata kerja transitif *membahas, mendiskusikan, membicarakan*."
+    ],
+    "keywords": [
+      "menyunting",
+      "perbaikan kalimat",
+      "idiomatik",
+      "di mana",
+      "terdiri atas",
+      "disebabkan oleh",
+      "penghilangan kata"
+    ],
+    "quickDrillTip": "Coba hapus kandidat kata berlebih (*adalah, bahwa, tentang, agar*); jika makna utuh dan S-P lebih jernih, kata itu memang mubazir."
+  },
+  {
+    "id": "kb-pbm-imbuhan-04",
+    "subtest": "PBM",
+    "skillNodeId": "10000000-0000-4000-8000-000000000033",
+    "topicTitle": "Makna Imbuhan Kontekstual (Drilling 2026: ber-, me-kan, me-i, pe-an, ke-an, ter-)",
+    "priorityLevel": 8,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Makna Imbuhan & Kata Bentukan",
+    "sourceLabel": "Drilling UTBK 2026 (PBM Makna Imbuhan)",
+    "whyBeforeHow": "Satu imbuhan bisa membawa 4-5 arti gramatikal berbeda! Untuk mencari pasangan kalimat bermakna imbuhan sama, ubah kata berimbuhan itu menjadi parafrasa definisi tepatnya lalu uji ke opsi A-E.",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "Teknik Parafrasa Imbuhan -> Definisi Eksplisit",
+      "shortcutMarkdown": "*ber-* pada 'bersorban' = memakai (sama dengan 'berdasi', beda dengan 'berenang' [kegiatan] atau 'bersedih' [merasa]). *me-kan* 'mendinginkan' = membuat jadi dingin (kausatif, sama dengan 'melebarkan'), beda dengan 'membelikan' (benefaktif untuk orang lain). *pe-an* 'penginapan' = tempat menginap (sama dengan 'perantauan'), beda dengan 'pembangunan' (proses). *ter-* 'tersandung' = tidak sengaja (sama dengan 'tertelan'). *ke-an* 'keretakan' = hal/keadaan retak (sama dengan 'kemiskinan'), beda dengan 'kekecilan' (terlalu kecil).",
+      "validityConditions": "Bedakan makna *pe-* alat ('penggaris', 'pewangi') vs pelaku ('peternak', 'penonton') vs sifat ('pemarah')."
+    },
+    "utbkTraps": [
+      "Hanya mencocokkan awalan ejaannya sama tanpa menguji apakah maknanya berupa tempat, proses, alat, kausatif, atau ketidaksengajaan.",
+      "Tertukar *me-kan* kausatif ('membuat jadi...') dengan *me-kan* mengarahkan benda ('melemparkan bola')."
+    ],
+    "keywords": [
+      "makna imbuhan",
+      "ber-",
+      "me-kan",
+      "me-i",
+      "pe-an",
+      "ke-an",
+      "ter-",
+      "pe-",
+      "per-an"
+    ],
+    "quickDrillTip": "Ganti kata berimbuhan di soal dengan frasa makna (*memakai X*, *membuat jadi X*, *tempat X*, *tidak sengaja X*) lalu tempel ke opsi."
+  },
+  {
+    "id": "kb-pbm-judul-01",
+    "subtest": "PBM",
+    "skillNodeId": "10000000-0000-4000-8000-000000000034",
+    "topicTitle": "Penentuan Judul Karangan Nonfiksi & Aturan Kapitalisasi Judul EYD V",
+    "priorityLevel": 7,
+    "priorityBadge": "Sering Muncul",
+    "chapterGroup": "Judul Karangan & Wacana (Quipper Bab 1)",
+    "sourceLabel": "Quipper PBM (Bab 1 Judul Karangan)",
+    "whyBeforeHow": "Judul ilmiah wajib memenuhi dua syarat sekaligus: syarat ISI (spesifik, relevan seluruh teks, singkat tanpa bertele-tele) dan syarat PENULISAN EYD V (kapital setiap kata inti; preposisi/konjungsi pendek di tengah huruf kecil; tanpa tanda titik di akhir).",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "Checklist Judul EYD V + Uji Cakupan Spesifik",
+      "shortcutMarkdown": "Kata tugas huruf kecil jika di TENGAH judul: *di, ke, dari, pada, dalam, untuk, bagi, terhadap, tentang, dan, atau, yang, sebagai, secara*. Jika kata tersebut berdiri di AWAL atau paling AKHIR judul, wajib KAPITAL. Contoh benar: 'Peran Teknologi dalam Pendidikan di Daerah Terpencil'.",
+      "validityConditions": "Judul karangan nonfiksi umumnya berbentuk frasa nominal tanpa tanda baca titik."
+    },
+    "utbkTraps": [
+      "Mengapitalkan kata hubung tengah seperti *Dan, Yang, Terhadap, Untuk* di opsi judul.",
+      "Memilih judul berbentuk kalimat lengkap yang terlalu sempit atau terlalu umum."
+    ],
+    "keywords": [
+      "judul karangan",
+      "judul yang tepat",
+      "penulisan judul",
+      "kata tugas judul"
+    ],
+    "quickDrillTip": "Cek isi teks dulu (eliminasi opsi kurang relevan), baru cek huruf kapital kata tugas di tengah judul."
+  },
+  {
+    "id": "kb-pbm-koh-02",
+    "subtest": "PBM",
+    "skillNodeId": "10000000-0000-4000-8000-000000000034",
+    "topicTitle": "Kohesi, Koherensi, Kalimat Sumbang & Menyusun Wacana Padu",
+    "priorityLevel": 7,
+    "priorityBadge": "Sering Muncul",
+    "chapterGroup": "Menyusun Wacana, Kohesi & Koherensi (Quipper Bab 8 & 10)",
+    "sourceLabel": "Quipper PBM (Bab 8 Menyusun Wacana & Bab 10 Kohesi)",
+    "whyBeforeHow": "Paragraf disebut kohesif jika kalimatnya terikat secara gramatikal lewat pengulangan kata kunci, kata ganti (*itu, tersebut, ini, mereka*), dan konjungsi yang tepat; disebut koheren jika alur idenya nyambung runtut tanpa kalimat sumbang.",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "Algoritma Urutan Kalimat Acak & Detektor Kalimat Sumbang",
+      "shortcutMarkdown": "Untuk mengurutkan 5 kalimat acak: (1) Kalimat pembuka bersifat umum dan TIDAK diawali kata rujukan (*hal ini, tersebut, oleh karena itu*); (2) Hubungkan ekor kata benda kalimat sebelumnya ke kata tunjuk kalimat berikutnya (*itu/tersebut*). Untuk menyisipkan kalimat baru atau memecah 1 paragraf panjang menjadi 2, cari kalimat pertama yang mulai menggeser fokus ke subtopik baru.",
+      "validityConditions": "Kalimat yang mengulang topik besar namun membahas sudut/objek lain yang tidak menyambung ke kalimat sesudahnya tetap dikategorikan kalimat sumbang."
+    },
+    "utbkTraps": [
+      "Menaruh kalimat berawal kata ganti rujukan (*Oleh karena itu*, *Hal tersebut*) di posisi ke-1.",
+      "Memecah paragraf di tengah kalimat-kalimat yang masih merujuk satu kasus yang sama."
+    ],
+    "keywords": [
+      "kohesi",
+      "koherensi",
+      "kalimat sumbang",
+      "memecah paragraf",
+      "urutan kalimat",
+      "wacana padu"
+    ],
+    "quickDrillTip": "Pasangkan kata akhir sebuah kalimat dengan rujukan (*hal ini/tersebut*) di kalimat berikutnya."
+  },
+  {
+    "id": "kb-ppu-sem-01",
+    "subtest": "PPU",
+    "skillNodeId": "10000000-0000-4000-8000-000000000023",
+    "topicTitle": "Sinonim, Antonim & Makna Kata Kontekstual Berbagai Bidang",
+    "priorityLevel": 10,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Makna Kata & Perubahannya (Prioritas Lv.10)",
+    "sourceLabel": "Prioritas SNBT 2026 + Quipper PPU Indonesia (Bab 1 & 2)",
+    "whyBeforeHow": "Sinonim absolut jarang muncul; sebagian besar sinonim dan antonim PPU terikat konteks dan KELAS KATA yang sama (verba diganti verba, adjektiva diganti adjektiva, nomina diganti nomina).",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "Tes Substitusi + Kesamaan Kelas Kata + Polisemi",
+      "shortcutMarkdown": "Masukkan kandidat sinonim langsung menggantikan kata di kalimat sumber. Coret otomatis kandidat yang berbeda jenis kelas kata walaupun secara kamus mirip.",
+      "validityConditions": "Untuk antonim, pastikan kutub makna berlawanan langsung pada skala konteks kalimat tersebut (*konvergen* <-> *divergen*, *progresif* <-> *regresif*, *epilog* <-> *prolog*)."
+    },
+    "utbkTraps": [
+      "Memilih kata yang tepat artinya di bidang lain tetapi canggung di kalimat sumber.",
+      "Memilih kata benda sebagai sinonim dari kata kerja atau kata sifat."
+    ],
+    "keywords": [
+      "sinonim",
+      "antonim",
+      "makna kata",
+      "padanan kata",
+      "berlawanan makna",
+      "kata terdekat"
+    ],
+    "quickDrillTip": "Periksa imbuhan kata target dan pilih opsi dengan kelas kata setara."
+  },
+  {
+    "id": "kb-ppu-shift-02",
+    "subtest": "PPU",
+    "skillNodeId": "10000000-0000-4000-8000-000000000023",
+    "topicTitle": "Pergeseran Makna (Ameliorasi, Peyorasi, Sinestesia, Asosiasi & Spesialisasi)",
+    "priorityLevel": 9,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Makna Kata & Perubahannya (Quipper Bab 2)",
+    "sourceLabel": "Quipper PPU Indonesia (Bab 2) + Prioritas Lv.10",
+    "whyBeforeHow": "Makna kata hidup dan bergeser dalam penggunaan: meluas (*generalisasi*: ibu/bapak ke guru), menyempit (*spesialisasi*: sarjana dulu cendekiawan kini lulusan S1), meninggi (*ameliorasi*: tunanetra lebih halus dari buta), merendah (*peyorasi*: oknum/kroni), bertukar indra (*sinestesia*: kata-kata pedas, suara hangat), dan kiasan (*asosiasi*: amplop = suap).",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "6 Klasifikasi Pergeseran Makna PPU",
+      "shortcutMarkdown": "Ingat jembatan kata: Ameliorasi = makin halus/mulia; Peyorasi = makin kasar/negatif; Sinestesia = dua indra berbeda bertabrakan (*senyum manis* -> lihat vs kecap); Asosiasi = kemiripan sifat nyata (*kursi empuk* = jabatan nyaman).",
+      "validityConditions": "Selalu baca kalimat lengkapnya untuk memastikan apakah kata tersebut dipakai bermakna lugas (denotatif) atau kiasan (konotatif)."
+    },
+    "utbkTraps": [
+      "Tertukar antara *asosiasi* (kemiripan sifat) dengan *sinestesia* (pertukaran pancaindra).",
+      "Mengira kata bermakna konotasi negatif selalu peyorasi padahal bergantung pada perubahan historis maknanya."
+    ],
+    "keywords": [
+      "pergeseran makna",
+      "ameliorasi",
+      "peyorasi",
+      "sinestesia",
+      "asosiasi",
+      "generalisasi",
+      "spesialisasi",
+      "konotasi",
+      "denotasi"
+    ],
+    "quickDrillTip": "Jika gabungan kata mencampurkan dua pancaindra (penglihatan + perasa/pendengaran), pastikan jawabannya Sinestesia."
+  },
+  {
+    "id": "kb-ppu-morph-03",
+    "subtest": "PPU",
+    "skillNodeId": "10000000-0000-4000-8000-000000000023",
+    "topicTitle": "Kata Bentukan, Reduplikasi (Kata Ulang) & Makna Afiks PPU",
+    "priorityLevel": 8,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Kata Bentukan & Reduplikasi (Quipper Bab 3)",
+    "sourceLabel": "Quipper PPU Indonesia (Bab 3) + PPU Latsol Reduplikasi",
+    "whyBeforeHow": "Kata ulang (reduplikasi) terbagi atas: dwilingga utuh (*buku-buku* = banyak), dwilingga salin suara (*sayur-mayur*), dwipurwa (*lelaki, pepohonan*), berimbuhan (*salam-salaman* = saling/resiprokal, *kekanak-kanakan* = menyerupai), dan kata ulang SEMU (*kupu-kupu, ubur-ubur, laba-laba*) yang tidak punya bentuk tunggal.",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "Uji Kembali ke Kata Dasar Tunggal",
+      "shortcutMarkdown": "Jika bentuk tunggalnya tidak bermakna (*kupu* bukan satu ekor serangga), kata itu adalah reduplikasi SEMU. Pada kata ulang berimbuhan *ber-...-an* atau *-an* dua pihak (*berpelukan, dorong-dorongan*), maknanya saling (resiprokal); *kemerah-merahan* bermakna agak merah; *sebaik-baiknya* bermakna paling.",
+      "validityConditions": "Waspadai reduplikasi semu vs kata berulang yang memang bisa berdiri tunggal pada konteks teknis."
+    },
+    "utbkTraps": [
+      "Mengira 'kura-kura' atau 'cumi-cumi' menyatakan makna jamak (padahal 1 ekor pun tetap disebut kura-kura!).",
+      "Tidak membedakan *berlarian* (banyak pelaku) dari *salam-salaman* (saling melakukan)."
+    ],
+    "keywords": [
+      "reduplikasi",
+      "kata ulang",
+      "semu",
+      "dwipurwa",
+      "resiprokal",
+      "kata bentukan",
+      "afiksasi"
+    ],
+    "quickDrillTip": "Coba hilangkan pengulangannya dalam kalimat; kalau artinya hancur, berarti kata ulang semu."
+  },
+  {
+    "id": "kb-ppu-ref-01",
+    "subtest": "PPU",
+    "skillNodeId": "10000000-0000-4000-8000-000000000024",
+    "topicTitle": "Rujukan Kata dalam Teks serta Relasi Hiponim-Hipernim",
+    "priorityLevel": 9,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Rujukan pada Teks (Prioritas Lv.9)",
+    "sourceLabel": "Prioritas SNBT 2026 + Quipper PPU Indonesia (Bab 6)",
+    "whyBeforeHow": "Rujukan teks menanyakan kata/frasa mana yang ditunjuk oleh kata ganti (*ia, mereka, ini, tersebut, di sana*), serta menguji relasi makna payung-cabang: Hipernim adalah kata superordinat yang lebih luas (*bunga, kendaraan*), sedangkan Hiponim adalah kata bawahannya (*mawar, bus*).",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "Panah Hipernim (Payung Luas) -> Hiponim (Rincian Khusus)",
+      "shortcutMarkdown": "Untuk rujukan kata (*tersebut, itu, hal ini*), lihat kalimat tepat sebelum kata rujukan. Untuk soal 'kata yang memiliki makna lebih luas dari kata mawar', cari kata payung kategori atasnya (hipernim) yang tertulis di paragraf!",
+      "validityConditions": "Pastikan kandidat hipernim atau hiponim memang diambil dari kata yang ada dalam bacaan jika soal mensyaratkan 'dalam teks tersebut'."
+    },
+    "utbkTraps": [
+      "Tertukar antara hipernim (payung lebih luas) dan hiponim (anggota lebih sempit).",
+      "Mengambil frasa di kalimat SESUDAH kata tunjuk *ini/tersebut* (kecuali kata tunjuk kataforis seperti *berikut ini:*)."
+    ],
+    "keywords": [
+      "rujukan",
+      "merujuk",
+      "hiponim",
+      "hipernim",
+      "kata ganti",
+      "tersebut",
+      "makna lebih luas"
+    ],
+    "quickDrillTip": "Baca kalimat sebelum kata tunjuk lalu cocokkan jenis (benda/orang/peristiwa) dan jumlahnya."
+  },
+  {
+    "id": "kb-ppu-rel-02",
+    "subtest": "PPU",
+    "skillNodeId": "10000000-0000-4000-8000-000000000024",
+    "topicTitle": "Hubungan Antarkalimat, Hubungan Antarparagraf & Teks Rumpang PPU",
+    "priorityLevel": 8,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Hubungan Antarkalimat (Prioritas Lv.8)",
+    "sourceLabel": "Prioritas SNBT 2026 + Quipper PPU (Bab 9 & 10)",
+    "whyBeforeHow": "Hubungan antarkalimat dan antarparagraf ditentukan oleh peran informasi kalimat kedua terhadap kalimat pertama: perincian, pemaparan contoh, penguatan/penegasan, pertentangan/kontras, sebab-akibat, atau solusi atas masalah.",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "Tes Hubungan Logis 2 Kalimat Berurutan",
+      "shortcutMarkdown": "Uji kalimat (n) terhadap kalimat (n-1) dengan menyisipkan kata penguji mental: jika 'yaitu...' masuk -> perincian; jika 'akibatnya...' -> akibat; jika 'sebaliknya/padahal...' -> pertentangan; jika 'untuk mengatasi hal itu...' -> solusi masalah.",
+      "validityConditions": "Untuk melengkapi bagian rumpang atau menentukan fungsi kata hubung ('serta', 'bahkan'), pahami apakah bobot informasinya setara, menguatkan eskalasi (*bahkan*), atau memperluas rincian."
+    },
+    "utbkTraps": [
+      "Memilih hubungan 'sebab-akibat' padahal paragraf 2 hanya memberi contoh kasus spesifik dari paragraf 1.",
+      "Menganggap dua pernyataan berbeda berarti 'pertentangan' padahal saling melengkapi."
+    ],
+    "keywords": [
+      "hubungan antarkalimat",
+      "hubungan antarparagraf",
+      "perincian",
+      "penguatan",
+      "penegasan",
+      "rumpang"
+    ],
+    "quickDrillTip": "Sisipkan kata bantu (*contohnya, akibatnya, sebaliknya*) antara kalimat 1 dan 2."
+  },
+  {
+    "id": "kb-ppu-frasa-03",
+    "subtest": "PPU",
+    "skillNodeId": "10000000-0000-4000-8000-000000000024",
+    "topicTitle": "Pola Frasa (Hukum D-M), Kesamaan Pola Makna & Inti Kalimat PPU",
+    "priorityLevel": 8,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Inti Kalimat & Pola Frasa (Prioritas Lv.8)",
+    "sourceLabel": "Prioritas SNBT 2026 + Kurikulum PPU",
+    "whyBeforeHow": "Soal klasik PPU menanyakan kelompok kata dalam bacaan yang memiliki pola makna sama dengan contoh (misal *bengkel mobil* = tempat memperbaiki mobil -> *klinik hewan*, bukan *pintu mobil* [bagian dari] atau *mobil tua* [D-Sifat]).",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "Buat Kalimat Jembatan Hubungan 2 Kata + Uji Kelas Kata (N+N vs N+Adj vs V+N)",
+      "shortcutMarkdown": "Langkah cepat pola frasa: (1) Kunci jenis kelas kata pembentuknya (Nomina+Nomina, Nomina+Adjektiva, Verba+Nomina); (2) Tulis makna penghubung di antara kedua kata (*tempat untuk*, *terbuat dari*, *alat untuk*, *bersifat*). Opsi benar wajib memenuhi keduanya sekaligus!",
+      "validityConditions": "Perhatikan kata yang tampak sama kelas katanya namun berbeda arah D-M (Diterangkan-Menerangkan)."
+    },
+    "utbkTraps": [
+      "Hanya menyamakan kelas kata (sama-sama Nomina + Nomina) namun relasi maknanya beda ('kayu bakar' = kayu untuk dibakar vs 'pintu kayu' = pintu terbuat dari kayu).",
+      "Tertukar urutan kiri-kanan pada soal analogi kata."
+    ],
+    "keywords": [
+      "pola frasa",
+      "kelompok kata",
+      "pola makna",
+      "hukum d-m",
+      "analogi ppu",
+      "inti kalimat"
+    ],
+    "quickDrillTip": "Selalu rumuskan jembatan kata penghubung ('X yang...', 'X terbuat dari Y', 'tempat X') sebelum membandingkan opsi."
+  },
+  {
+    "id": "kb-ppu-panda-01",
+    "subtest": "PPU",
+    "skillNodeId": "10000000-0000-4000-8000-000000000035",
+    "topicTitle": "Bahasa Panda: Teknik Irisan Kata, Deteksi D-M/M-D & Imbuhan Sandi",
+    "priorityLevel": 9,
+    "priorityBadge": "Penguat Skor 800",
+    "chapterGroup": "Bahasa Panda (Prioritas Lv.8-9 HOTS)",
+    "sourceLabel": "Prioritas SNBT 2026 + Bank Soal UTBK PPU Asli",
+    "whyBeforeHow": "Bahasa buatan (Bahasa Panda) bukan tebak kata, melainkan algoritma logika pola! Irisan dua kalimat contoh yang berbagi tepat 1 kata Indonesia langsung membongkar padanan kata sandinya, lalu posisi letaknya membongkar apakah bahasa itu memakai urutan D-M atau M-D terbalik.",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "3 Langkah Dekode Bahasa Panda dalam 30 Detik",
+      "shortcutMarkdown": "1) Cari kata yang muncul di DUA baris Indonesia -> cari kata sandi yang muncul di dua baris sandinya -> kunci padanannya. 2) Cek posisi: apakah kata penjelas/sifat ditaruh di depan atau belakang kata benda? (Jika `rumah besar` menjadi `biro kula` sementara `kula` = rumah, berarti polanya terbalik M-D!). 3) Jika ada prefiks/sufiks konstan (*di-*, jamak, lampau), pisahkan imbuhan dari akar kata.",
+      "validityConditions": "Jika bahasa buatan menggunakan sandi geser huruf (Caesar cipher) atau angka huruf ($A=1..Z=26$), cek selisih urutan alfabet pada pasangan petunjuk soal."
+    },
+    "utbkTraps": [
+      "Langsung menerjemahkan urutan kata ke-1 -> ke-1 tanpa mengecek pembalikan struktur kalimat.",
+      "Melewatkan perubahan imbuhan waktu (lampau vs akan) atau tunggal-jamak di antara kedua contoh."
+    ],
+    "keywords": [
+      "bahasa panda",
+      "bahasa buatan",
+      "kriptografi",
+      "sandi",
+      "terjemahan",
+      "pola bahasa"
+    ],
+    "quickDrillTip": "Tandakan irisan kata dengan garis bawah sebelum menyusun kalimat terjemahan target."
+  },
+  {
+    "id": "kb-ppu-logika-02",
+    "subtest": "PPU",
+    "skillNodeId": "10000000-0000-4000-8000-000000000035",
+    "topicTitle": "Kelogisan Kalimat, Ketidaktepatan Diksi & Kalimat Ambigu di PPU",
+    "priorityLevel": 7,
+    "priorityBadge": "Sering Muncul",
+    "chapterGroup": "Kelogisan Kalimat (Prioritas Lv.7)",
+    "sourceLabel": "Prioritas SNBT 2026 (PPU Kelogisan Kalimat)",
+    "whyBeforeHow": "Kalimat yang ejaannya benar tetap bisa TIDAK LOGIS bila pelaku dan predikatnya mustahil secara nalar ('Pencuri berhasil ditangkap polisi' -> 'berhasil' berarti niat pencuri sukses, padahal polisi yang menangkap!). Ambiguitas muncul bila penjelas 'baru' atau 'yang' bisa menempel ke dua unsur berbeda ('Lukisan tokoh baru selesai').",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "Audit Pelaku Aksi + Detektor Makna Ganda (Ambiguitas)",
+      "shortcutMarkdown": "Cek siapa yang melakukan predikat: 'Rumah itu akan dijual karena pemiliknya butuh uang' (logis) vs 'Motor dilarang masuk kecuali petugas' (tidak logis: petugas disamakan dengan motor -> seharusnya 'kecuali pengendara yang merupakan petugas'). Hindari ungkapan waktu ambigu atau jamak ganda.",
+      "validityConditions": "Pada kalimat 'Waktu dan tempat kami persilakan', tidak logis karena yang dipersilakan seharusnya orang/pembicara, bukan waktu."
+    },
+    "utbkTraps": [
+      "Menganggap kalimat tidak logis sebagai kalimat efektif hanya karena kata-katanya baku.",
+      "Lolos membaca rancunya 'berhasil dikalahkan' atau 'menginjak usia 50 tahun' pada benda mati."
+    ],
+    "keywords": [
+      "kelogisan kalimat",
+      "tidak logis",
+      "ambiguitas",
+      "kalimat rancu",
+      "diksi tidak tepat"
+    ],
+    "quickDrillTip": "Tanyakan secara harfiah: apakah Subjek kalimat ini benar-benar sanggup melakukan Predikatnya?"
+  },
+  {
+    "id": "kb-ppu-tujuan-03",
+    "subtest": "PPU",
+    "skillNodeId": "10000000-0000-4000-8000-000000000023",
+    "topicTitle": "Tujuan Penggunaan Kata Tertentu & Pandangan Penulis dalam PPU",
+    "priorityLevel": 7,
+    "priorityBadge": "Sering Muncul",
+    "chapterGroup": "Tujuan & Gagasan Utama PPU (Prioritas Lv.7)",
+    "sourceLabel": "Prioritas SNBT 2026 (PPU Bab 5)",
+    "whyBeforeHow": "Soal modern PPU sering menanyakan: 'Tujuan penggunaan kata *dapat/berpotensi/seharusnya* pada kalimat (4) adalah...' atau 'Bagaimana sikap/pandangan penulis terhadap fenomena X?'. Kata modalitas tersebut mengatur derajat klaim dari fakta absolut menjadi kemungkinan atau anjuran.",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "Peta Modalitas Kata (Kemungkinan / Kepastian / Keharusan)",
+      "shortcutMarkdown": "Kata *dapat, berpotensi, cenderung* -> membuka kemungkinan/peluang; *harus, wajib, perlu* -> desakan/keharusan solusi; *padahal, sayangnya, ironisnya* -> kritik penulis; data netral -> sikap objektif/informatif.",
+      "validityConditions": "Jangan menyamakan pandangan penulis keseluruhan teks dengan pandangan narasumber yang hanya dikutip di satu kalimat."
+    },
+    "utbkTraps": [
+      "Mengira kata *dapat* bermakna keharusan mutlak.",
+      "Terjebak kutipan pendapat pihak lain di Paragraf 2 sebagai pandangan pribadi penulis."
+    ],
+    "keywords": [
+      "tujuan penggunaan kata",
+      "pandangan penulis",
+      "sikap penulis",
+      "modalitas",
+      "keberpihakan"
+    ],
+    "quickDrillTip": "Cek kata sifat bernuansa emosi atau modalitas tepat di sekitar kata yang ditanyakan."
+  },
+  {
+    "id": "kb-pk-algo-04",
+    "subtest": "PK",
+    "skillNodeId": "10000000-0000-4000-8000-000000000002",
+    "topicTitle": "Penyederhanaan Pecahan Aljabar & Substitusi Simetris",
+    "priorityLevel": 8,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Aljabar (Quipper Bab 2)",
+    "sourceLabel": "Quipper PK + Soal Asli UTBK Aljabar",
+    "whyBeforeHow": "Pecahan aljabar sering terlihat rumit sebelum pembilang dan penyebutnya difaktorkan. Identitas $(x+y)^2 = x^2+y^2+2xy$ memungkinkanmu menghitung $\\dfrac{1}{x} + \\dfrac{1}{y} = \\dfrac{x+y}{xy}$ dalam dua detik.",
+    "keyFormulasLatex": [
+      "\\dfrac{1}{x} + \\dfrac{1}{y} = \\dfrac{x + y}{xy}",
+      "x^2 + \\dfrac{1}{x^2} = \\left(x + \\dfrac{1}{x}\\right)^2 - 2"
+    ],
+    "shortcutWithBoundary": {
+      "methodLabel": "Identitas Kebalikan (x + 1/x)",
+      "shortcutMarkdown": "Jika diketahui $x + \\dfrac{1}{x} = k$, maka langsung $x^2 + \\dfrac{1}{x^2} = k^2 - 2$ tanpa mencari nilai $x$ lewat rumus kuadrat!",
+      "validityConditions": "Identitas berlaku untuk semua $x \\neq 0$ dan $y \\neq 0$."
+    },
+    "utbkTraps": [
+      "Mencoret suku penjumlahan $(x + 2)/x$ menjadi $2$ (hanya faktor perkalian yang boleh dicoret!).",
+      "Lupa mengurangkan $2$ saat mengkuadratkan $(x + 1/x)^2$."
+    ],
+    "keywords": [
+      "pecahan aljabar",
+      "kebalikan",
+      "x + 1/x",
+      "penyederhanaan aljabar"
+    ],
+    "quickDrillTip": "Faktorkan pembilang dan penyebut dulu; jangan pernah mencoret suku yang dipisahkan tanda + atau -."
+  },
+  {
+    "id": "kb-pk-quad-03",
+    "subtest": "PK",
+    "skillNodeId": "10000000-0000-4000-8000-000000000005",
+    "topicTitle": "Perpotongan Garis-Parabola & Pertidaksamaan Kuadrat Interval",
+    "priorityLevel": 9,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Persamaan & Fungsi Kuadrat (@maikesense Bab 2-3)",
+    "sourceLabel": "@maikesense (Bab 2-3) + Prioritas SNBT 2026",
+    "whyBeforeHow": "Garis $y = mx + k$ memotong atau menyinggung parabola $y = ax^2 + bx + c$ ketika keduanya disamakan ($ax^2 + (b-m)x + (c-k) = 0$) lalu diuji diskriminannya. Sementara pada pertidaksamaan kuadrat $x^2 - px + q < 0$, daerah bertanda negatif diapit DI ANTARA kedua pembuat nol!",
+    "keyFormulasLatex": [
+      "D_{\\text{gab}} > 0 \\;(\\text{potong 2 titik}), \\quad D_{\\text{gab}} = 0 \\;(\\text{singgung}), \\quad D_{\\text{gab}} < 0 \\;(\\text{tidak potong})",
+      "(x - r_1)(x - r_2) < 0 \\iff r_1 < x < r_2 \\; (r_1 < r_2)"
+    ],
+    "shortcutWithBoundary": {
+      "methodLabel": "Aturan Cepat Daerah Kuadrat: '<' di Tengah, '>' di Tepi",
+      "shortcutMarkdown": "Asalkan koefisien $x^2$ positif ($a > 0$), tanda $< 0$ menghasilkan himpunan diapit di antara dua akar ($r_1 < x < r_2$), sedangkan tanda $> 0$ terpisah ke dua ujung ($x < r_1$ atau $x > r_2$).",
+      "validityConditions": "Jika koefisien $x^2$ negatif, kalikan seluruh pertidaksamaan dengan $-1$ dan BALIK tanda pertidaksamaan terlebih dahulu."
+    },
+    "utbkTraps": [
+      "Langsung menguji akar tanpa membalik tanda ketika koefisien $x^2$ negatif.",
+      "Memakai diskriminan parabola awal tanpa mengurangkan $mx + k$ persamaan garis."
+    ],
+    "keywords": [
+      "singgung garis parabola",
+      "pertidaksamaan kuadrat",
+      "interval akar",
+      "diskriminan gabungan"
+    ],
+    "quickDrillTip": "Pastikan koefisien $x^2$ sudah dibuat positif sebelum membaca interval di garis bilangan."
+  },
+  {
+    "id": "kb-pk-calc-04",
+    "subtest": "PK",
+    "skillNodeId": "10000000-0000-4000-8000-000000000026",
+    "topicTitle": "Limit Bentuk Tak Tentu 0/0 & Turunan Pertama Gradien Singgung",
+    "priorityLevel": 6,
+    "priorityBadge": "Sering Muncul",
+    "chapterGroup": "Limit & Turunan Dasar (@maikesense & Analitica PK)",
+    "sourceLabel": "Prioritas SNBT 2026 (PK Lanjutan) + @maikesense",
+    "whyBeforeHow": "Limit fungsi pecahan menghasilkan bentuk tak tentu $0/0$ karena pembilang dan penyebut sama-sama memuat faktor pembuat nol $(x - c)$. Faktorkan atau pakai turunan atas-bawah (L'Hopital). Turunan pertama $f'(x)$ langsung memberi gradien garis singgung kurva di titik $(x_0, f(x_0))$.",
+    "keyFormulasLatex": [
+      "\\lim_{x \\to c}\\dfrac{f(x)}{g(x)} = \\lim_{x \\to c}\\dfrac{f'(x)}{g'(x)} \\; \\left(\\text{khusus } \\dfrac{0}{0}\\right)",
+      "(x^n)' = n x^{n-1}, \\quad m_{\\text{singgung}} = f'(x_0)"
+    ],
+    "shortcutWithBoundary": {
+      "methodLabel": "Uji Substitusi Nol Dulu -> Jika 0/0 Pakai Faktorisasi/Turunan Atas-Bawah",
+      "shortcutMarkdown": "Jika $\\lim_{x\\to 2}$ memberi $\\frac{0}{0}$ dari fungsi kuadrat/linear, menurunkan pembilang dan penyebut masing-masing (BUKAN aturan hasil bagi $u'v$) memberi jawaban instan.",
+      "validityConditions": "Aturan L'Hopital hanya sah ketika substitusi langsung benar-benar menghasilkan $\\frac{0}{0}$ atau $\\frac{\\infty}{\\infty}$!"
+    },
+    "utbkTraps": [
+      "Langsung memakai L'Hopital padahal penyebut substitusi hasilnya bukan nol.",
+      "Tertukar menggunakan rumus $u'v$ saat menghitung limit pembagian."
+    ],
+    "keywords": [
+      "limit",
+      "turunan",
+      "gradien singgung",
+      "stasioner",
+      "maksimum turunan"
+    ],
+    "quickDrillTip": "Cek substitusi angka limit terlebih dahulu; bila penyebut bukan nol, jawabannya sudah selesai!"
+  },
+  {
+    "id": "kb-pk-geom3d-03",
+    "subtest": "PK",
+    "skillNodeId": "10000000-0000-4000-8000-000000000027",
+    "topicTitle": "Dimensi Tiga Dasar PK: Diagonal Bidang, Ruang & Jarak Titik",
+    "priorityLevel": 7,
+    "priorityBadge": "Sering Muncul",
+    "chapterGroup": "Dimensi Tiga & Bangun Ruang PK (@maikesense Geometri)",
+    "sourceLabel": "Prioritas SNBT 2026 + Quipper PK (Bangun Ruang)",
+    "whyBeforeHow": "Pada kubus berusuk $s$, semua masalah jarak tiga dimensi diproyeksikan menjadi satu segitiga siku-siku datar. Hafalkan rasio kubus: diagonal sisi $= s\\sqrt{2}$ dan diagonal ruang $= s\\sqrt{3}$.",
+    "keyFormulasLatex": [
+      "d_{\\text{sisi}} = s\\sqrt{2}, \\quad d_{\\text{ruang}} = s\\sqrt{3}",
+      "t_{\\Delta} = \\dfrac{a \\cdot b}{c} \\; (\\text{segitiga siku-siku sisi } a, b, c)"
+    ],
+    "shortcutWithBoundary": {
+      "methodLabel": "Rumus Tinggi Siku-Siku untuk Jarak Titik ke Garis",
+      "shortcutMarkdown": "Pada segitiga siku-siku dengan kaki $a, b$ dan sisi miring $c$, jarak dari sudut siku-siku ke sisi miring selalu $t = \\dfrac{a \\cdot b}{c}$ (dari kesamaan luas $\\frac{1}{2}ab = \\frac{1}{2}ct$).",
+      "validityConditions": "Rumus $t = ab/c$ berlaku khusus untuk tinggi menuju sisi miring pada segitiga siku-siku."
+    },
+    "utbkTraps": [
+      "Salah mengidentifikasi segitiga proyeksi tempat garis tegak lurus jatuh.",
+      "Tertukar diagonal bidang ($s\\sqrt{2}$) dan diagonal ruang ($s\\sqrt{3}$)."
+    ],
+    "keywords": [
+      "dimensi tiga",
+      "kubus",
+      "diagonal ruang",
+      "diagonal bidang",
+      "jarak titik ke garis"
+    ],
+    "quickDrillTip": "Gambarkan penampang segitiga datar di luar kubus supaya sudut siku-sikunya tampak jelas."
+  },
+  {
+    "id": "kb-pu-log-03",
+    "subtest": "PU",
+    "skillNodeId": "10000000-0000-4000-8000-000000000007",
+    "topicTitle": "Syarat Perlu vs Syarat Cukup & Bentuk Kalimat Logika Terselubung",
+    "priorityLevel": 9,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Logika Matematika (Quipper Bab 4)",
+    "sourceLabel": "Quipper PU (Simpulan dari Pernyataan)",
+    "whyBeforeHow": "Dalam soal kalimat naratif PU, kata 'jika', 'apabila', 'syarat untuk' menunjuk sisi sebab (anteseden), sementara 'maka', 'pasti', 'menjamin' menunjuk akibat (konsekuen). Kalimat 'A hanya jika B' berarti A -> B (B adalah syarat perlu).",
+    "keyFormulasLatex": [
+      "\\text{Jika } P \\text{ maka } Q \\equiv P \\to Q",
+      "Q \\text{ jika } P \\equiv P \\to Q",
+      "P \\text{ hanya jika } Q \\equiv P \\to Q"
+    ],
+    "shortcutWithBoundary": {
+      "methodLabel": "Detektor Posisi Sebab (Setelah kata 'jika/kalau/bila')",
+      "shortcutMarkdown": "Kata yang menempel TEPAT di belakang 'jika/apabila/bila' SELALU menjadi pangkal panah ($P$), walaupun diletakkan di paruh kedua kalimat ('$Q$ akan terjadi apabila $P$ terjadi' tetap dibaca $P \\to Q$!).",
+      "validityConditions": "Waspadai kata 'hanya' di depan 'jika' ('hanya jika') karena ia membalik arah panah menjadi $P \\to Q$."
+    },
+    "utbkTraps": [
+      "Mengira klausa di depan kalimat selalu merupakan sebab padahal kata 'jika' terletak di tengah kalimat.",
+      "Tertukar kalimat 'A karena B' (B -> A) dengan 'A mengakibatkan B' (A -> B)."
+    ],
+    "keywords": [
+      "syarat cukup",
+      "syarat perlu",
+      "apabila",
+      "jika di tengah",
+      "kalimat implikasi"
+    ],
+    "quickDrillTip": "Tandai kata 'jika/apabila' dan tarik panah DARInya menuju klausa satunya."
+  },
+  {
+    "id": "kb-pu-arg-04",
+    "subtest": "PU",
+    "skillNodeId": "10000000-0000-4000-8000-000000000009",
+    "topicTitle": "Menjelaskan Perbedaan Hasil Dua Kondisi & Anomali Klaim PU",
+    "priorityLevel": 9,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Kesesuaian Pernyataan (Prioritas Lv.10)",
+    "sourceLabel": "Prioritas SNBT 2026 (PU Induktif Lv.10)",
+    "whyBeforeHow": "Tipe soal PU 'Alasan perbedaan hasil' membandingkan dua kelompok atau dua tahun dengan kondisi awal tampak mirip namun hasilnya berlainan. Penyebab sah harus menjelaskan FAKTOR PEMBEDA di antara kedua kelompok itu, bukan hal yang sama-sama dimiliki keduanya.",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "Tes Faktor Pembeda (Apa yang Ada di Kelompok A tetapi Tidak di B?)",
+      "shortcutMarkdown": "Opsi jawaban yang benar wajib mengontraskan kondisi spesifik antara Kelompok A dan Kelompok B serta nyambung langsung dengan variabel hasil yang diukur.",
+      "validityConditions": "Coret opsi yang menyebut karakteristik yang sama-sama terjadi di kedua kelompok atau di luar tahun pengamatan."
+    },
+    "utbkTraps": [
+      "Memilih fakta umum yang berlaku di kedua kota sehingga gagal menjelaskan mengapa hasilnya berbeda.",
+      "Menjelaskan sebab umum masalah, bukan alasan perbedaan antar kedua kasus."
+    ],
+    "keywords": [
+      "alasan perbedaan",
+      "perbedaan hasil",
+      "dua kondisi",
+      "anomali argumen"
+    ],
+    "quickDrillTip": "Rumuskan pertanyaan: 'Mengapa A naik sedangkan B turun pada kondisi X yang sama?'"
+  },
+  {
+    "id": "kb-pu-data-03",
+    "subtest": "PU",
+    "skillNodeId": "10000000-0000-4000-8000-000000000029",
+    "topicTitle": "Pemahaman Visual: Pie Chart Persentase, Grafik Garis Ganda & Prediksi",
+    "priorityLevel": 9,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Pemahaman Visual (Quipper Bab 5)",
+    "sourceLabel": "Quipper PU (Bab 5 Pemahaman Visual) + Prioritas Lv.9",
+    "whyBeforeHow": "Diagram lingkaran mengukur porsi terhadap $100\\%$ ($360^{\\circ}$), sedangkan grafik garis ganda membandingkan selisih maupun tren naik-turun antar periode. Jangan membandingkan angka absolut dua diagram lingkaran bila total populasinya berbeda!",
+    "keyFormulasLatex": [
+      "\\text{Nilai Sektor} = \\dfrac{\\%\\text{Sektor}}{100\\%} \\times \\text{Total Populasi}",
+      "\\text{Sudut Sektor} = \\dfrac{\\%\\text{Sektor}}{100\\%} \\times 360^\\circ"
+    ],
+    "shortcutWithBoundary": {
+      "methodLabel": "Ubah Sudut ke Persen ($3{,}6^{\\circ} = 1\\%$) & Cek Total Pembanding",
+      "shortcutMarkdown": "Pada pie chart bersudut derajat, bagi langsung sudut sektor dengan $3{,}6$ untuk mendapat persen (misal $72^\\circ = 20\\%$, $90^\\circ = 25\\%$).",
+      "validityConditions": "Untuk membandingkan jumlah absolut antar dua tahun dari 2 pie chart, kalikan persentase sektor dengan total populasi masing-masing tahun."
+    },
+    "utbkTraps": [
+      "Menyimpulkan kategori $30\\%$ di tahun A jumlahnya lebih besar dari $25\\%$ di tahun B tanpa mengecek total populasinya.",
+      "Salah membaca garis putus-putus vs garis utuh di legenda grafik ganda."
+    ],
+    "keywords": [
+      "pie chart",
+      "diagram lingkaran",
+      "derajat",
+      "grafik garis",
+      "legenda",
+      "prediksi tren"
+    ],
+    "quickDrillTip": "Cek selalu nilai TOTAL $N$ masing-masing grafik sebelum membandingkan dua kategori."
+  },
+  {
+    "id": "kb-pu-pat-02",
+    "subtest": "PU",
+    "skillNodeId": "10000000-0000-4000-8000-000000000010",
+    "topicTitle": "Pola Bilangan Aritmetika Bertingkat, Pecahan Berpola & Matriks Angka",
+    "priorityLevel": 8,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Pola Bilangan (Quipper PK Bab 1 & PU)",
+    "sourceLabel": "Quipper TPS (Pola Bilangan)",
+    "whyBeforeHow": "Jika pecahan dalam deret tampak tidak beraturan, jangan langsung disederhanakan; justru seragamkan penyebut atau amati pembilang dan penyebut secara terpisah! Pola matriks/gambar angka selalu menerapkan rumus operasi baris atau kolom yang identik.",
+    "keyFormulasLatex": [
+      "U_n = U_1 + \\Delta_1(n-1) + \\dfrac{\\Delta_2(n-1)(n-2)}{2} \\; (\\text{tingkat 2})"
+    ],
+    "shortcutWithBoundary": {
+      "methodLabel": "Pisahkan Pola Pembilang vs Penyebut & Uji Operasi Kolom-Baris",
+      "shortcutMarkdown": "Pada deret pecahan seperti $\\frac{1}{2}, \\frac{2}{5}, \\frac{3}{8}, \\dots$, cari aturan pembilang $+1$ dan penyebut $+3$ terpisah. Pada gambar berangka, uji pola di gambar 1 dan WAJIB verifikasi persis ke gambar 2 sebelum menghitung gambar 3.",
+      "validityConditions": "Jika aturan hanya berlaku di gambar contoh pertama tetapi gagal di gambar kedua, ganti hipotesis operasi!"
+    },
+    "utbkTraps": [
+      "Menyederhanakan pecahan deret sehingga pola penyebut/pembilangnya hilang.",
+      "Mencoba rumus gambar hanya pada contoh pertama tanpa verifikasi gambar kedua."
+    ],
+    "keywords": [
+      "deret pecahan",
+      "tingkat dua",
+      "matriks angka",
+      "pola gambar angka"
+    ],
+    "quickDrillTip": "Jika angka di deret melompat ekstrem ke kuadrat/kubik, bandingkan dengan $n^2 \\pm k$ atau faktorial."
+  },
+  {
+    "id": "kb-pm-unit-03",
+    "subtest": "PM",
+    "skillNodeId": "10000000-0000-4000-8000-000000000011",
+    "topicTitle": "Rasio Tiga Besaran ($A:B:C$), Skala Peta & Campuran Bahan",
+    "priorityLevel": 8,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Perbandingan & Bilangan Bulat PM (Prioritas Lv.8)",
+    "sourceLabel": "Prioritas SNBT 2026 + Quipper PK",
+    "whyBeforeHow": "Dua perbandingan terpisah $A:B$ dan $B:C$ bisa disatukan hanya jika nilai elemen jembatan $B$ disamakan menjadi KPK-nya! Pada soal pencampuran dua jenis beras/kopi berbeda harga, harga campuran terletak di antara keduanya sesuai pembobotan berat.",
+    "keyFormulasLatex": [
+      "A:B = x:y \\;\\land\\; B:C = p:q \\implies A:B:C = (xp):(yp):(yq)",
+      "H_{\\text{camp}} = \\dfrac{m_1 H_1 + m_2 H_2}{m_1 + m_2}"
+    ],
+    "shortcutWithBoundary": {
+      "methodLabel": "Jembatan KPK Rasio $B$ & Pemisalan Faktor $k$",
+      "shortcutMarkdown": "Kalikan baris rasio atas dengan $p$ dan baris bawah dengan $y$ sampai angka tengah $B$ sama persis, lalu pasang $A = ak, B = bk, C = ck$.",
+      "validityConditions": "Hanya berlaku bila satuan semua unsur yang dicampur atau dibandingkan sudah sama persis."
+    },
+    "utbkTraps": [
+      "Langsung menggabungkan $A:B=2:3$ dan $B:C=4:5$ menjadi $2:3:5$.",
+      "Merata-ratakan harga dua jenis bahan dengan $(H_1+H_2)/2$ padahal berat campurannya berbeda."
+    ],
+    "keywords": [
+      "rasio tiga besaran",
+      "campuran",
+      "kpk rasio",
+      "skala",
+      "pembobotan harga"
+    ],
+    "quickDrillTip": "Tulis perbandingan bertumpuk dengan variabel jembatan di kolom tengah."
+  },
+  {
+    "id": "kb-pm-pct-02",
+    "subtest": "PM",
+    "skillNodeId": "10000000-0000-4000-8000-000000000012",
+    "topicTitle": "Pajak PPN, Biaya Layanan, Komisi Bertingkat & Perbandingan Terbalik",
+    "priorityLevel": 8,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Aritmetika Sosial PM (Prioritas Lv.8)",
+    "sourceLabel": "Prioritas SNBT 2026 (PM Aritmetika Sosial)",
+    "whyBeforeHow": "Dalam tagihan restoran atau promo marketplace, diskon umumnya dihitung lebih dulu dari harga label, baru pajak/PPN dikalikan pada harga setelah diskon. Perubahan persentase bersih $(1 - d)(1 + t)$ memberi faktor pengali tunggal.",
+    "keyFormulasLatex": [
+      "H_{\\text{bayar}} = H_0 \\cdot (1 - d) \\cdot (1 + \\text{pajak})"
+    ],
+    "shortcutWithBoundary": {
+      "methodLabel": "Urutan Pengali: Diskon Dulu Baru Pajak (Kecuali Teks Menyatakan Sebaliknya)",
+      "shortcutMarkdown": "Diskon $20\\%$ lalu PPN $10\\%$ menghasilkan pengali $0{,}8 \\times 1{,}1 = 0{,}88$ (bayar $88\\%$, bukan $90\\%$!).",
+      "validityConditions": "Baca teliti kalimat soal apakah pajak/biaya admin dikenakan sebelum atau sesudah potongan."
+    },
+    "utbkTraps": [
+      "Mengurangkan persen diskon dan pajak langsung ($20\\% - 10\\% = 10\\%$).",
+      "Mengira komisi bertingkat tetap berlaku pada porsi penjualan awal padahal hanya berlaku pada kelebihan target omzet."
+    ],
+    "keywords": [
+      "ppn",
+      "pajak",
+      "biaya layanan",
+      "komisi",
+      "tagihan",
+      "marketplace"
+    ],
+    "quickDrillTip": "Cek syarat komisi/tarif apakah berlaku atas total keseluruhan atau hanya atas kelebihannya."
+  },
+  {
+    "id": "kb-pm-prob-03",
+    "subtest": "PM",
+    "skillNodeId": "10000000-0000-4000-8000-000000000014",
+    "topicTitle": "Permutasi Unsur Sama, Frekuensi Harapan & Tabel Distribusi Peluang",
+    "priorityLevel": 8,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Peluang & Kombinatorika PM (Prioritas Lv.8)",
+    "sourceLabel": "Prioritas SNBT 2026 + @maikesense",
+    "whyBeforeHow": "Jika menyusun kata atau urutan benda dengan beberapa unsur identik (misal huruf `MATEMATIKA` atau $3$ lampu merah & $2$ biru sejenis), bagi total faktorial $n!$ dengan faktorial jumlah tiap unsur kembar. Frekuensi harapan mengalikan peluang satu kejadian dengan banyaknya percobaan $N$.",
+    "keyFormulasLatex": [
+      "P_{\\text{kembar}} = \\dfrac{n!}{k_1! k_2! \\dots k_m!}",
+      "F_h(A) = P(A) \\times N"
+    ],
+    "shortcutWithBoundary": {
+      "methodLabel": "Bagi Faktorial Unsur Identik & Kalikan N untuk Frekuensi Harapan",
+      "shortcutMarkdown": "Hitung huruf atau objek yang identik dengan cermat, bagi oleh masing-masing faktorialnya agar tidak menghitung susunan identik berkali-kali.",
+      "validityConditions": "Untuk frekuensi harapan dalam eksperimen berulang, percobaan diasumsikan saling bebas dan peluang tiap kali tetap sama."
+    },
+    "utbkTraps": [
+      "Memakai $n!$ mentah padahal ada 2-3 objek yang identik tak terbedakan.",
+      "Menjawab peluang ($\\le 1$) saat soal menanyakan frekuensi harapan (jumlah kali muncul dari $N$ lemparan)."
+    ],
+    "keywords": [
+      "unsur sama",
+      "frekuensi harapan",
+      "ekspektasi",
+      "susunan huruf",
+      "permutasi kembar"
+    ],
+    "quickDrillTip": "Cek apakah jawaban diminta dalam pecahan peluang ($0..1$) atau perkiraan banyaknya kejadian ($\\times N$)."
+  },
+  {
+    "id": "kb-lbi-idea-03",
+    "subtest": "LBI",
+    "skillNodeId": "10000000-0000-4000-8000-000000000015",
+    "topicTitle": "Pelacakan Kata Rujukan & Hubungan Antargagasan dalam Bacaan Panjang",
+    "priorityLevel": 8,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Inti Bacaan & Kohesi Teks LBI",
+    "sourceLabel": "Taklukan Literasi UTBK (Kak Tutik) + Prioritas LBI",
+    "whyBeforeHow": "Teks UTBK modern panjangnya 3-5 paragraf. Memahami ke mana kata tunjuk (*fenomena tersebut, kondisi ini, kebijakan demikian*) mengarah menjaga pembaca agar tidak salah mengaitkan masalah di Paragraf 1 ke dampak di Paragraf 3.",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "Jangkar Ide Utama Tiap Paragraf (Label 3 Kata per Paragraf)",
+      "shortcutMarkdown": "Saat membaca cepat paragraf 1-4, beri label mental 3 kata per paragraf (P1: Defisit energi; P2: Penyebab batu bara; P3: Solusi surya). Saat soal menanyakan fungsi paragraf atau rujukan, kamu langsung melompat ke paragraf tepat!",
+      "validityConditions": "Pastikan frasa yang dirujuk hadir sebelum kata tunjuk pada paragraf yang sama atau akhir paragraf sebelumnya."
+    },
+    "utbkTraps": [
+      "Membaca ulang seluruh 5 paragraf dari awal di setiap pertanyaan sehingga kehabisan waktu.",
+      "Tertukar subjek yang dirujuk pada bacaan bertopik dua negara/metode yang dibandingkan."
+    ],
+    "keywords": [
+      "rujukan lbi",
+      "antargagasan",
+      "teks panjang",
+      "label paragraf"
+    ],
+    "quickDrillTip": "Beri tanda mental 1 ide per paragraf untuk navigasi kilat antar-nomor soal."
+  },
+  {
+    "id": "kb-lbi-inf-04",
+    "subtest": "LBI",
+    "skillNodeId": "10000000-0000-4000-8000-000000000017",
+    "topicTitle": "Sikap Penulis, Keberpihakan & Implikasi Masa Depan Teks LBI",
+    "priorityLevel": 9,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Inferensi Bacaan LBI (Prioritas Lv.10)",
+    "sourceLabel": "Prioritas SNBT 2026 (LBI Inferensi Lv.10)",
+    "whyBeforeHow": "Sikap penulis terhadap kebijakan atau temuan dalam teks LBI dibaca dari pilihan kata modalitas dan konjungsi perlawanan (*sayangnya, ironisnya, masih perlu diteliti lebih lanjut, berpotensi menjanjikan*). Prediksi masa depan hanya sah bila mengikuti pola syarat-akibat dalam teks.",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "Detektor Kata Sikap Evaluatif Penulis",
+      "shortcutMarkdown": "Jika penulis menyajikan data kegagalan sekaligus peluang perbaikan tanpa memaki atau memuji membabi-buta, sikapnya adalah *kritis konstruktif / objektif / hati-hati*, bukan *apatis* atau *menolak keras*.",
+      "validityConditions": "Bedakan sikap PENULIS dengan kutipan sikap NARASUMBER di dalam teks."
+    },
+    "utbkTraps": [
+      "Memilih sikap ekstrem ('menolak total', 'mengecam keras') pada artikel analitis yang berimbang.",
+      "Tertukar antara sikap skeptis narasumber ahli dengan sikap penulis berita."
+    ],
+    "keywords": [
+      "sikap penulis lbi",
+      "pandangan penulis",
+      "keberpihakan",
+      "implikasi masa depan"
+    ],
+    "quickDrillTip": "Cek kalimat penutup paragraf terakhir karena penulis sering merangkum sikap/rekomendasinya di situ."
+  },
+  {
+    "id": "kb-lbi-sastra-02",
+    "subtest": "LBI",
+    "skillNodeId": "10000000-0000-4000-8000-000000000036",
+    "topicTitle": "Majas, Makna Kiasan, Sudut Pandang & Latar Sosial dalam Teks Sastra",
+    "priorityLevel": 7,
+    "priorityBadge": "Sering Muncul",
+    "chapterGroup": "Tema & Nilai Teks Sastra (Quipper & Bank Soal LBI)",
+    "sourceLabel": "Bank Soal Kemendikbud LBI + Prioritas LBI",
+    "whyBeforeHow": "Dalam kutipan cerpen/novel/puisi LBI, latar sosial tercermin dari profesi, adat istiadat, dan kesenjangan ekonomi tokoh; majas (*metafora, personifikasi, ironi, hiperbola*) menyampaikan makna konotatif yang harus diterjemahkan sesuai emosi adegan.",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "Audit Unsur Intrinsik: Sudut Pandang + Latar Sosial vs Fisik",
+      "shortcutMarkdown": "Sudut pandang 'aku' yang terlibat konflik utama = orang pertama pelaku utama; 'ia/nama tokoh' yang membocorkan isi pikiran tokoh = orang ketiga serba tahu. Latar tempat = lokasi fisik, latar suasana = emosi tegang/haru, latar sosial = kondisi status/budaya masyarakat.",
+      "validityConditions": "Selalu buktikan watak tokoh dari dialog maupun perbuatan nyata tokoh, bukan tebakan stereotip."
+    },
+    "utbkTraps": [
+      "Tertukar latar suasana dengan latar sosial-budaya masyarakat dalam cerita.",
+      "Mengartikan kalimat sinis/ironi tokoh secara harfiah."
+    ],
+    "keywords": [
+      "majas",
+      "sudut pandang",
+      "latar sosial",
+      "personifikasi",
+      "metafora",
+      "kutipan cerpen"
+    ],
+    "quickDrillTip": "Cek kata ganti ('aku' vs 'dia/nama') dan emosi dominan kalimat untuk mengunci sudut pandang dan suasana."
+  },
+  {
+    "id": "kb-lbi-info-05",
+    "subtest": "LBI",
+    "skillNodeId": "10000000-0000-4000-8000-000000000016",
+    "topicTitle": "Pola Pengembangan Paragraf (Deduktif/Induktif) & Fungsi Kutipan Ahli",
+    "priorityLevel": 8,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Struktur Paragraf & Klaim LBI",
+    "sourceLabel": "Prioritas SNBT 2026 + Kak Tutik",
+    "whyBeforeHow": "Paragraf deduktif meletakkan kalimat umum di awal lalu memerinci dengan data/contoh; induktif mengumpulkan kasus khusus dulu lalu menyimpulkannya di akhir. Kutipan ahli atau hasil studi ditambahkan penulis untuk memperkuat kredibilitas klaim utama, bukan sekadar hiasan.",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "Uji Kalimat Umum vs Kalimat Bukti",
+      "shortcutMarkdown": "Kalimat yang memuat kata 'oleh karena itu', 'dengan demikian', 'jadi', atau simpulan umum di posisi akhir menandai pola Induktif (atau Campuran jika kalimat awal juga sudah memuat gagasan utama).",
+      "validityConditions": "Pada teks ilmiah populer, contoh kasus di paragraf pertama sering berfungsi memancing konteks masalah sebelum tesis utama muncul di paragraf kedua."
+    },
+    "utbkTraps": [
+      "Mengira setiap kalimat pertama paragraf selalu kalimat utama (lupa mengecek kesimpulan akhir).",
+      "Menganggap fungsi kutipan ahli hanya sebagai opini tambahan yang melemahkan fakta."
+    ],
+    "keywords": [
+      "deduktif",
+      "induktif",
+      "fungsi kutipan",
+      "pola paragraf",
+      "struktur argumen lbi"
+    ],
+    "quickDrillTip": "Bandingkan kalimat 1 dan kalimat terakhir tiap paragraf: mana yang lebih umum memayungi sisanya?"
+  },
+  {
+    "id": "kb-lbe-ref-04",
+    "subtest": "LBE",
+    "skillNodeId": "10000000-0000-4000-8000-000000000018",
+    "topicTitle": "Cloze Test & Transition Connectors (Contrast, Cause, Addition)",
+    "priorityLevel": 8,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Vocabulary & Cloze Coherence (Quipper PPU English Bab 1)",
+    "sourceLabel": "Quipper PPU English + INTEN LBE",
+    "whyBeforeHow": "Untuk mengisi bagian rumpang atau kalimat transisi di LBE, tentukan dulu hubungan logis kedua sisi titik rumpang: kontras (*however, nevertheless, despite + noun, although + S+V*), sebab-akibat (*therefore, consequently, due to + noun*), atau penambahan sejajar (*moreover, in addition*).",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "Formula Tata Bahasa + Logika Hubungan: Preposition vs Clause Connector",
+      "shortcutMarkdown": "*Although/Even though/Whereas* wajib diikuti Subjek+Verb lengkap; *Despite/In spite of/Because of/Due to* wajib diikuti Noun Phrase/Gerund (V-ing) tanpa kata kerja utama!",
+      "validityConditions": "Setelah mengeliminasi pilihan yang salah struktur gramatikalnya, uji arah maknanya (searah vs berlawanan)."
+    },
+    "utbkTraps": [
+      "Memilih *although* tepat sebelum frasa benda atau memilih *despite* sebelum klausa S+V lengkap.",
+      "Tidak menyadari kata bermakna kontras padahal kalimat kedua membalik arah ekspektasi."
+    ],
+    "keywords": [
+      "cloze",
+      "connector",
+      "however",
+      "despite",
+      "although",
+      "consequently",
+      "transition"
+    ],
+    "quickDrillTip": "Lihat elemen setelah titik rumpang: Frasa Benda -> *despite/due to*; Klausa S+V -> *although/because*."
+  },
+  {
+    "id": "kb-lbe-purp-03",
+    "subtest": "LBE",
+    "skillNodeId": "10000000-0000-4000-8000-000000000019",
+    "topicTitle": "Text Organization: Chronological, Compare-Contrast, Cause-Effect & Problem-Solution",
+    "priorityLevel": 7,
+    "priorityBadge": "Sering Muncul",
+    "chapterGroup": "Idea Development & Organization (Quipper Bab 5)",
+    "sourceLabel": "Quipper PPU English (Bab 5) + Analitica LBE",
+    "whyBeforeHow": "Soal organisasi teks menanyakan pola penulis menyusun ide dari awal ke akhir paragraf: memaparkan kronologi tahun (Chronological), membandingkan keunggulan-kekurangan dua opsi (Compare-Contrast), menguraikan masalah lalu solusi (Problem-Solution), atau definisi lalu klasifikasi contoh.",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "Pindai Penanda Waktu, Penanda Masalah & Kata Kerja Klasifikasi",
+      "shortcutMarkdown": "Ada deretan tahun berurutan -> Chronological/Historical; ada 'problem, challenge, however one solution is...' -> Problem-Solution; ada 'unlike, whereas, on the other hand' -> Contrast/Comparison.",
+      "validityConditions": "Jika pertanyaan khusus menanyakan 'How is the idea in paragraph 2 related to paragraph 1?', fokus pada transisi kalimat akhir P1 ke awal P2."
+    },
+    "utbkTraps": [
+      "Menyimpulkan Chronological hanya karena teks menyebut satu tahun riset.",
+      "Tertukar Cause-Effect (menjelaskan pemicu dan dampak) dengan Problem-Solution (menawarkan langkah perbaikan)."
+    ],
+    "keywords": [
+      "organization",
+      "author organizes",
+      "how does the writer",
+      "chronological",
+      "problem solution",
+      "compare contrast"
+    ],
+    "quickDrillTip": "Tulis 1 kata peran untuk Paragraf 1, 2, dan 3 secara berurutan (misal: Mitos -> Bukti -> Dampak)."
+  },
+  {
+    "id": "kb-lbe-eval-06",
+    "subtest": "LBE",
+    "skillNodeId": "10000000-0000-4000-8000-000000000020",
+    "topicTitle": "Best Summary vs Conclusion of Multi-Paragraph Passage",
+    "priorityLevel": 7,
+    "priorityBadge": "Sering Muncul",
+    "chapterGroup": "Conclusion & Summary (Quipper Bab 8)",
+    "sourceLabel": "Quipper PPU English (Bab 8) + Prioritas SNBT",
+    "whyBeforeHow": "Best Summary merangkum pilar ide utama seluruh paragraf secara ringkas tanpa memasukkan detail angka minor. Jangan pilih opsi yang isinya hanya mengulang Paragraf 1 secara panjang lebar atau menyelipkan saran baru yang tidak ada di bacaan.",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "Uji 3 Syarat Summary: Komprehensif (Semua Paragraf) + Akurat + Netral",
+      "shortcutMarkdown": "Gabungkan kalimat topik dari tiap paragraf teks! Opsi Summary terbaik wajib menyentuh unsur inti dari awal, tengah, hingga akhir bacaan.",
+      "validityConditions": "Opsi Summary dengan kalimat terlalu panjang tetapi menyisipkan klaim palsu tetap wajib dicoret."
+    },
+    "utbkTraps": [
+      "Memilih ringkasan akurat tetapi hanya mencakup setengah bagian teks saja.",
+      "Terjebak kesimpulan moral yang terdengar bijak padahal teks tidak membahasnya."
+    ],
+    "keywords": [
+      "best summary",
+      "summarizes",
+      "conclusion",
+      "conclude the passage"
+    ],
+    "quickDrillTip": "Cek apakah setiap paragraf utama teks terwakili dalam opsi Summary pilihanmu."
+  },
+  {
+    "id": "kb-lbe-inf-06",
+    "subtest": "LBE",
+    "skillNodeId": "10000000-0000-4000-8000-000000000019",
+    "topicTitle": "Modal Auxiliaries (can, may, might, must, should) Meaning in LBE Context",
+    "priorityLevel": 8,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Vocabulary & Nuance in Context (Analitica LBE 2026)",
+    "sourceLabel": "Prioritas SNBT 2026 (LBE Ciri Pertanyaan Modalitas)",
+    "whyBeforeHow": "Soal SNBT modern kerap bertanya: 'The word *may/must/should* in paragraph 2 expresses...'. Modal yang sama bisa berarti kepastian logis vs kewajiban (*must* = pasti terjadi vs wajib dilakukan) atau kemungkinan vs izin (*may* = mungkin vs boleh).",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "Klasifikasi Konteks Modal: Possibility / Deduction / Obligation / Ability",
+      "shortcutMarkdown": "*can/be able to* -> ability/possibility; *may/might/could* -> possibility; *must* + evidence -> logical certainty/deduction; *should/ought to* -> advice/expectation; *should have V3* -> unfulfilled past regret/criticism!",
+      "validityConditions": "Untuk bentuk lampau *modal + have + V3*, artinya bersifat spekulasi atau penyesalan terhadap kejadian yang SUDAH terlewat."
+    },
+    "utbkTraps": [
+      "Mengira *must* selalu bermakna perintah keharusan padahal konteksnya adalah kesimpulan deduksi ilmiah.",
+      "Melewatkan makna berlawanan fakta pada *could have / should have V3*."
+    ],
+    "keywords": [
+      "modals",
+      "used to express",
+      "may",
+      "must",
+      "might",
+      "should",
+      "possibility",
+      "certainty"
+    ],
+    "quickDrillTip": "Terjemahkan kalimat berisi modal ke bahasa Indonesia natural (*mungkin/pasti/seharusnya*) lalu cocokkan dengan opsi Inggrisnya."
+  },
+  {
+    "id": "kb-pbm-eja-04",
+    "subtest": "PBM",
+    "skillNodeId": "10000000-0000-4000-8000-000000000021",
+    "topicTitle": "EYD V: Angka/Bilangan Tingkat, Singkatan, Akronim & Gelar Akademik",
+    "priorityLevel": 8,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Ejaan Lanjutan (Quipper PBM Bab 5)",
+    "sourceLabel": "Quipper PBM + Pedoman EYD V",
+    "whyBeforeHow": "Bilangan pada awal kalimat WAJIB ditulis dengan huruf atau kalimatnya diubah agar angka tidak berada di depan! Bilangan yang dapat dinyatakan 1-2 kata ditulis dengan huruf (*dua puluh siswa*), kecuali dalam perincian berurutan atau ukuran satuan.",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "Aturan Angka Tingkat (ke-2 / II / kedua) & Tanda Koma Gelar",
+      "shortcutMarkdown": "Penulisan tingkat yang baku hanya 3 bentuk: *abad ke-21*, *abad XXI*, atau *abad kedua puluh satu* (JANGAN campur: *abad ke-XXI* salah total!). Gelar di belakang nama dipisah koma (*Dr. Budi, M.Pd.*, dan jika ada beberapa gelar dipisah koma: *S.Kom., M.T.*). Angka di awal kalimat salah jika ditulis '25 peserta hadir'.",
+      "validityConditions": "Dalam perincian lebih dari dua angka ('15 buku, 8 pensil, dan 3 tas'), seluruh bilangan tetap ditulis dengan angka agar seragam."
+    },
+    "utbkTraps": [
+      "Menulis ganda bentuk tingkat seperti 'ke-II' atau 'HUT ke-79 RI' (seharusnya 'HUT Ke-79 RI' atau 'peringatan ke-79').",
+      "Lupa titik akhir singkatan gelar bertumpuk sebelum tanda koma."
+    ],
+    "keywords": [
+      "angka bilangan",
+      "bilangan tingkat",
+      "singkatan",
+      "akronim",
+      "gelar",
+      "awal kalimat angka"
+    ],
+    "quickDrillTip": "Cek di awal setiap kalimat: jangan sampai kalimat dimulai langsung dengan digit angka!"
+  },
+  {
+    "id": "kb-pbm-konj-05",
+    "subtest": "PBM",
+    "skillNodeId": "10000000-0000-4000-8000-000000000033",
+    "topicTitle": "Perbedaan Preposisi vs Konjungsi & Kata Rancu (sehingga, maka, adalah, yaitu)",
+    "priorityLevel": 8,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Konjungsi & Penyuntingan PBM (Quipper Bab 2 & 7)",
+    "sourceLabel": "Quipper PBM + Prosus INTEN PBM",
+    "whyBeforeHow": "Kesalahan paling halus di soal PBM: menukar preposisi (*untuk, guna, bagi* yang diikuti frasa benda) dengan konjungsi (*agar, supaya* yang diikuti klausa S+P), atau menumpuk *sehingga* dengan *maka*, serta meletakkan *adalah/merupakan* sebelum sifat atau tanpa subjek.",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "Cek Struktur Kanan Kata Penghubung + Anti Konjungsi Ganda",
+      "shortcutMarkdown": "*Meskipun / Walaupun* TIDAK boleh diikuti *namun / tetapi / melainkan* dalam kalimat yang sama. *Karena / Sebab* TIDAK boleh dipasangkan dengan *maka* atau *sehingga* di kalimat induk-anak. Gunakan *di antara* sebelum perincian benda/orang dan *antara... dan...* pada pasangan eksplisit.",
+      "validityConditions": "Kata *maka* bukan penghubung induk kalimat setelah *karena/jika* dalam ragam tulis ilmiah baku UTBK."
+    },
+    "utbkTraps": [
+      "Menulis 'Karena hujan lebat, maka acara ditunda.' atau 'Walaupun lelah, namun ia terus belajar.'",
+      "Menulis 'antara X sampai Y' atau 'terdiri dari'."
+    ],
+    "keywords": [
+      "konjungsi ganda",
+      "meskipun tetapi",
+      "karena maka",
+      "antara dan",
+      "preposisi konjungsi"
+    ],
+    "quickDrillTip": "Jika di awal kalimat sudah ada *Jika / Karena / Meskipun*, hilangkan kata *maka / sehingga / tetapi / namun* di klausa kedua!"
+  },
+  {
+    "id": "kb-pbm-wac-03",
+    "subtest": "PBM",
+    "skillNodeId": "10000000-0000-4000-8000-000000000034",
+    "topicTitle": "Pemecahan Paragraf, Penggabungan Kalimat & Kalimat Sisipan Wacana",
+    "priorityLevel": 7,
+    "priorityBadge": "Sering Muncul",
+    "chapterGroup": "Pemahaman Isi & Menyusun Wacana (Quipper Bab 8-10)",
+    "sourceLabel": "Quipper PBM + Prosus INTEN PBM",
+    "whyBeforeHow": "Satu paragraf panjang hanya boleh memecah jadi dua tepat di kalimat yang memperkenalkan sub-ide utama BARU dan tidak memakai kata rujukan ke detail kalimat tepat sebelumnya. Sebaliknya, kalimat sisipan ditempatkan tepat di antara kalimat yang punya kata kunci penyambung sebelum dan sesudahnya.",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "Teknik Sambung Rantai Kata Kunci Kiri-Kanan",
+      "shortcutMarkdown": "Untuk memposisikan kalimat sisipan $X$: cek (1) Jika $X$ menyebut kata tunjuk *hal itu / cara tersebut*, kalimat sebelumnya WAJIB menjelaskan hal tersebut; (2) Jika kalimat setelah celah menyebut *dampak tersebut*, $X$ harus berisi dampak. Untuk pemecahan paragraf: cari pergeseran dari subtopik umum ke sudut pandang baru (misal dari 'masalah' ke 'solusi').",
+      "validityConditions": "Dua kalimat tidak bisa dipisahkan jadi paragraf berbeda jika kalimat kedua dimulai dengan 'Namun, upaya ini...' yang jelas merujuk kalimat sebelumnya."
+    },
+    "utbkTraps": [
+      "Memecah paragraf tepat sebelum kalimat penjelas/contoh dari gagasan yang sama.",
+      "Menyisipkan kalimat berisi kata ganti tanpa memperkenalkan objeknya dulu di kalimat sebelum posisi sisipan."
+    ],
+    "keywords": [
+      "memecah paragraf",
+      "pemecahan paragraf",
+      "kalimat sisipan",
+      "penempatan kalimat",
+      "penggabungan kalimat"
+    ],
+    "quickDrillTip": "Cek kata pertama kandidat kalimat pecah paragraf: tidak boleh dimulai dengan rujukan langsung (*hal ini, mereka, akibatnya*)."
+  },
+  {
+    "id": "kb-ppu-sem-04",
+    "subtest": "PPU",
+    "skillNodeId": "10000000-0000-4000-8000-000000000023",
+    "topicTitle": "Istilah Bidang Khusus (Sains, Ekonomi, Hukum), Homonim & Polisemi PPU",
+    "priorityLevel": 9,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Makna Kata & Istilah (Quipper PPU Bab 2)",
+    "sourceLabel": "Quipper PPU Indonesia (Bab 2) + Prioritas SNBT",
+    "whyBeforeHow": "Istilah khusus bidang ilmu di PPU (*inflasi, defisit, mitigasi, residu, anomali, stagna, signifikan*) selalu diuji pemaknaannya secara presisi sesuai konteks paragraf berita/ilmiah. Polisemi adalah satu kata bercabang banyak makna masih terkait (*kepala* kantor vs *kepala* manusia), sedangkan homonim kebetulan sama ejaan tapi beda akar makna (*bisa* racun vs *bisa* mampu).",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "Substitusi Terminologi Ilmu ke Definisi Sederhana",
+      "shortcutMarkdown": "Saat bertemu istilah asing/teknis (*mitigasi, kalibrasi, stagnasi, korelasi*), ubah ke padanan tindakan sederhananya (*pengurangan dampak risiko, penyesuaian ketepatan skala, kemandekan/tidak bergerak, hubungan timbal balik*) sesuai konteks kalimat.",
+      "validityConditions": "Jangan memilih makna kata bidang kedokteran jika konteks bacaan sedang membahas kebijakan moneter bank sentral."
+    },
+    "utbkTraps": [
+      "Tertukar arti istilah populer (*signifikan* = penting/bermakna nyata secara statistik, bukan sekadar 'sangat besar'; *masif* = utuh/kuat/besar-besaran).",
+      "Menganggap kata berpolisemi berbeda kelas kata punya makna identik."
+    ],
+    "keywords": [
+      "istilah bidang",
+      "homonim",
+      "polisemi",
+      "mitigasi",
+      "stagnasi",
+      "anomali",
+      "signifikan"
+    ],
+    "quickDrillTip": "Cocokkan imbuhan dan bidang pembahasan bacaan (sains/ekonomi/hukum) sebelum memilih arti istilah."
+  },
+  {
+    "id": "kb-ppu-assoc-04",
+    "subtest": "PPU",
+    "skillNodeId": "10000000-0000-4000-8000-000000000024",
+    "topicTitle": "Analogi Hubungan Kata Vertikal-Horizontal & Kalimat Setara Struktur",
+    "priorityLevel": 8,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Asosiasi & Pola Kalimat PPU (Prioritas Lv.8)",
+    "sourceLabel": "Prioritas SNBT 2026 + Prosus INTEN PPU",
+    "whyBeforeHow": "Soal analogi pasangan kata dan kesejajaran pola kalimat menuntut relasi struktural yang persis sebangun (S-P-O-K harus cocok dengan S-P-O-K, termasuk aktif/pasif dan kelas kata keterangan tempat/cara).",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "Kalimat Jembatan Ketat + Bedah Fungsi S-P-O-K",
+      "shortcutMarkdown": "Pada 'Kalimat X berpola sama dengan kalimat...', tandai fungsi setiap kelompok kata dulu (contoh: `[Subjek] [Predikat aktif-transitif] [Objek] [Keterangan tempat]`), lalu coret opsi yang memakai Predikat pasif (*di-*) atau meletakkan Pelengkap bukan Objek!",
+      "validityConditions": "Periksa perbedaan Objek (terletak setelah kata kerja berimbuhan *me-.../-kan/-i*, bisa dipasifkan) dan Pelengkap (terletak setelah *ber-*, *adalah*, *menjadi*, tidak dapat dipasifkan)."
+    },
+    "utbkTraps": [
+      "Tertukar kalimat berpola S-P-O dengan S-P-Pel (misal 'Ia menjadi guru' = S-P-Pel, BUKAN S-P-O!).",
+      "Pada analogi kata, memilih hubungan berkaitan umum tetapi arah/fungsi utamanya berbeda."
+    ],
+    "keywords": [
+      "pola kalimat sama",
+      "s-p-o-k",
+      "pelengkap",
+      "objek",
+      "analogi ppu",
+      "kesejajaran struktur"
+    ],
+    "quickDrillTip": "Cek imbuhan Predikat (*me-* aktif transitif vs *ber-* intransitif) untuk membedakan S-P-O dari S-P-Pel."
+  },
+  {
+    "id": "kb-ppu-panda-03",
+    "subtest": "PPU",
+    "skillNodeId": "10000000-0000-4000-8000-000000000035",
+    "topicTitle": "Bahasa Panda Lanjutan: Pola Imbuhan Waktu/Pasif & Sandi Geser Abjad",
+    "priorityLevel": 8,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Bahasa Panda HOTS (Prioritas Lv.8)",
+    "sourceLabel": "Prioritas SNBT 2026 + Soal Asli UTBK PPU",
+    "whyBeforeHow": "Varian HOTS Bahasa Panda menyelipkan penanda gramatikal (awalan pasif, akhiran jamak, atau sisipan waktu lampau) atau pengkodean geser alfabet ($A \\to D$ berarti $+3$). Selalu pecah perubahan antarbentuk kata sebelum menebak arti akarnya.",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "Dekode Morfologi Sandi + Indeks Alfabet (A=1..Z=26)",
+      "shortcutMarkdown": "Jika `makan` = `pola` dan `dimakan` = `supola`, kunci `su-` sebagai awalan pasif `di-`. Pada soal sandi huruf (`KUCING` -> `MXE...`), tuliskan selisih angka urutan huruf per posisi ($+2, +3, +2, +3$) atau periksa balik urutan + cermin alfabet ($A \\leftrightarrow Z$).",
+      "validityConditions": "Cek selalu contoh pasangan terpendek di soal untuk mengonfirmasi pola geser konsisten di seluruh huruf."
+    },
+    "utbkTraps": [
+      "Mengira seluruh kata yang mirip punya arti berbeda total tanpa menyadari itu akar kata + imbuhan waktu/pasif.",
+      "Lupa membungkus kembali pergeseran melewati huruf Z kembali ke A (modulo 26)."
+    ],
+    "keywords": [
+      "bahasa panda lanjutan",
+      "imbuhan panda",
+      "sandi geser",
+      "caesar cipher",
+      "kode huruf"
+    ],
+    "quickDrillTip": "Bandingkan kata paling pendek yang sama akar maknanya di dua kalimat untuk memisahkan imbuhan dari kata dasar."
+  }
+]

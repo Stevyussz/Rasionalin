@@ -2,45 +2,13 @@ import rawIngestedSnbtBank from "./ingested-snbt-bank.json";
 import type {
   BrainVaultChunk,
   QuestionEntity,
-  QuestionTemplateEntity,
   SkillNode,
   SkillPrerequisiteEdge,
 } from "./types";
 
 // Deterministic UUID constants (RFC 4122 compliant for PostgreSQL uuid columns)
-export const NODE_IDS = {
-  // PK (Pengetahuan Kuantitatif)
-  PK_T0_FRAC: "10000000-0000-4000-8000-000000000001",
-  PK_T0_ALG: "10000000-0000-4000-8000-000000000002",
-  PK_T1_LIN: "10000000-0000-4000-8000-000000000003",
-  PK_T2_RATE: "10000000-0000-4000-8000-000000000004",
-  PK_T2_QUAD: "10000000-0000-4000-8000-000000000005",
-  PK_T3_INEQ: "10000000-0000-4000-8000-000000000006",
-  // PU (Penalaran Umum)
-  PU_T0_LOG: "10000000-0000-4000-8000-000000000007",
-  PU_T1_SYL: "10000000-0000-4000-8000-000000000008",
-  PU_T2_ARG: "10000000-0000-4000-8000-000000000009",
-  PU_T3_PAT: "10000000-0000-4000-8000-000000000010",
-  // PM (Penalaran Matematika)
-  PM_T0_UNIT: "10000000-0000-4000-8000-000000000011",
-  PM_T1_PCT: "10000000-0000-4000-8000-000000000012",
-  PM_T2_LIN: "10000000-0000-4000-8000-000000000013",
-  PM_T3_PROB: "10000000-0000-4000-8000-000000000014",
-  // LBI (Literasi Bahasa Indonesia)
-  LBI_T0_IDEA: "10000000-0000-4000-8000-000000000015",
-  LBI_T1_CLAIM: "10000000-0000-4000-8000-000000000016",
-  LBI_T2_INF: "10000000-0000-4000-8000-000000000017",
-  // LBE (Literasi Bahasa Inggris)
-  LBE_T0_REF: "10000000-0000-4000-8000-000000000018",
-  LBE_T1_PURP: "10000000-0000-4000-8000-000000000019",
-  LBE_T3_EVAL: "10000000-0000-4000-8000-000000000020",
-  // PBM (Pemahaman Bacaan dan Menulis)
-  PBM_T0_EJA: "10000000-0000-4000-8000-000000000021",
-  PBM_T1_EFF: "10000000-0000-4000-8000-000000000022",
-  // PPU (Pengetahuan dan Pemahaman Umum)
-  PPU_T1_SEM: "10000000-0000-4000-8000-000000000023",
-  PPU_T2_ASSOC: "10000000-0000-4000-8000-000000000024",
-} as const;
+import { NODE_IDS } from "./node-ids";
+export { NODE_IDS };
 
 export const SEED_SKILL_NODES: SkillNode[] = [
   // PK
@@ -152,6 +120,78 @@ export const SEED_SKILL_NODES: SkillNode[] = [
     graphY: 110,
     displayOrder: 6,
   },
+  {
+    id: NODE_IDS.PK_T1_EXP,
+    code: "PK-T1-EXP",
+    subtest: "PK",
+    track: "quantitative",
+    tier: "tier_1_core",
+    titleId: "Eksponen, Bentuk Akar & Logaritma",
+    titleEn: "Exponents, Radicals & Logarithms",
+    descriptionMarkdown: "Menyamakan basis pangkat, merasionalkan bentuk akar sekawan, dan menerapkan sifat perkalian-basis logaritma tanpa salah arah.",
+    firstPrinciplesSummary: "Logaritma adalah pertanyaan balik dari eksponen: a log b = c berarti a pangkat c sama dengan b.",
+    isFoundationRepair: false,
+    softGateThreshold: 0.75,
+    conquestThreshold: 0.85,
+    targetSolveSeconds: 70,
+    graphX: 250,
+    graphY: 165,
+    displayOrder: 7,
+  },
+  {
+    id: NODE_IDS.PK_T2_FUNC,
+    code: "PK-T2-FUNC",
+    subtest: "PK",
+    track: "quantitative",
+    tier: "tier_2_standard",
+    titleId: "Fungsi Komposisi, Invers & Relasi",
+    titleEn: "Function Composition & Inverses",
+    descriptionMarkdown: "Mengevaluasi (g o f)(x) secara bertahap dari fungsi terdalam serta membalik fungsi invers tanpa selalu mencari rumus invers eksplisit.",
+    firstPrinciplesSummary: "Jika f(a) = b pada fungsi satu-ke-satu, maka f^(-1)(b) otomatis bernilai a.",
+    isFoundationRepair: false,
+    softGateThreshold: 0.75,
+    conquestThreshold: 0.85,
+    targetSolveSeconds: 75,
+    graphX: 430,
+    graphY: 220,
+    displayOrder: 8,
+  },
+  {
+    id: NODE_IDS.PK_T2_GEO,
+    code: "PK-T2-GEO",
+    subtest: "PK",
+    track: "quantitative",
+    tier: "tier_2_standard",
+    titleId: "Geometri Sudut, Bangun Datar & Lingkaran",
+    titleEn: "Angles, Plane Geometry & Circles",
+    descriptionMarkdown: "Menggunakan sifat sudut garis sejajar-transversal, segitiga istimewa, Pythagoras, dan unsur lingkaran dalam soal PK.",
+    firstPrinciplesSummary: "Sudut berpelurus selalu berjumlah 180 derajat dan jumlah sudut dalam segitiga selalu tepat 180 derajat.",
+    isFoundationRepair: false,
+    softGateThreshold: 0.75,
+    conquestThreshold: 0.85,
+    targetSolveSeconds: 80,
+    graphX: 620,
+    graphY: 165,
+    displayOrder: 9,
+  },
+  {
+    id: NODE_IDS.PK_T3_STAT,
+    code: "PK-T3-STAT",
+    subtest: "PK",
+    track: "quantitative",
+    tier: "tier_3_hots_800",
+    titleId: "Statistika, Himpunan & Matriks 2x2",
+    titleEn: "Statistics, Sets & 2x2 Matrices",
+    descriptionMarkdown: "Menghitung rata-rata gabungan, median data bergeser, diagram Venn dua himpunan, serta determinan dan invers matriks 2x2.",
+    firstPrinciplesSummary: "Rata-rata adalah rasio jumlah total nilai terhadap banyaknya data; setiap perubahan satu data mengubah pembilang sekaligus penyebut.",
+    isFoundationRepair: false,
+    softGateThreshold: 0.75,
+    conquestThreshold: 0.85,
+    targetSolveSeconds: 90,
+    graphX: 800,
+    graphY: 190,
+    displayOrder: 10,
+  },
   // PU
   {
     id: NODE_IDS.PU_T0_LOG,
@@ -168,8 +208,8 @@ export const SEED_SKILL_NODES: SkillNode[] = [
     conquestThreshold: 0.85,
     targetSolveSeconds: 50,
     graphX: 80,
-    graphY: 270,
-    displayOrder: 7,
+    graphY: 310,
+    displayOrder: 11,
   },
   {
     id: NODE_IDS.PU_T1_SYL,
@@ -186,8 +226,8 @@ export const SEED_SKILL_NODES: SkillNode[] = [
     conquestThreshold: 0.85,
     targetSolveSeconds: 65,
     graphX: 280,
-    graphY: 270,
-    displayOrder: 8,
+    graphY: 310,
+    displayOrder: 12,
   },
   {
     id: NODE_IDS.PU_T2_ARG,
@@ -204,8 +244,26 @@ export const SEED_SKILL_NODES: SkillNode[] = [
     conquestThreshold: 0.85,
     targetSolveSeconds: 75,
     graphX: 480,
-    graphY: 270,
-    displayOrder: 9,
+    graphY: 310,
+    displayOrder: 13,
+  },
+  {
+    id: NODE_IDS.PU_T2_DATA,
+    code: "PU-T2-DATA",
+    subtest: "PU",
+    track: "quantitative",
+    tier: "tier_2_standard",
+    titleId: "Analisis Data Tabel, Grafik & Hitung Cepat",
+    titleEn: "Data Interpretation & Fast Quantitative Reasoning",
+    descriptionMarkdown: "Membaca persentase kenaikan, perbandingan rasio, dan kecenderungan tren data numerik sederhana tanpa terjebak nilai absolut vs proporsi.",
+    firstPrinciplesSummary: "Kenaikan persentase terbesar belum tentu berasal dari selisih angka terbesar karena bergantung pada nilai pembanding awalnya.",
+    isFoundationRepair: false,
+    softGateThreshold: 0.75,
+    conquestThreshold: 0.85,
+    targetSolveSeconds: 70,
+    graphX: 480,
+    graphY: 375,
+    displayOrder: 14,
   },
   {
     id: NODE_IDS.PU_T3_PAT,
@@ -222,8 +280,26 @@ export const SEED_SKILL_NODES: SkillNode[] = [
     conquestThreshold: 0.85,
     targetSolveSeconds: 80,
     graphX: 680,
-    graphY: 270,
-    displayOrder: 10,
+    graphY: 310,
+    displayOrder: 15,
+  },
+  {
+    id: NODE_IDS.PU_T3_ANAL,
+    code: "PU-T3-ANAL",
+    subtest: "PU",
+    track: "quantitative",
+    tier: "tier_3_hots_800",
+    titleId: "Penalaran Analitik (Urutan, Posisi & Kombinasi)",
+    titleEn: "Analytical Ordering, Seating & Constraints",
+    descriptionMarkdown: "Menyelesaikan soal syarat posisi meja melingkar, jadwal berurutan, dan kombinasi syarat penempatan secara sistematis.",
+    firstPrinciplesSummary: "Kunci syarat paling ketat (posisi absolut atau pasangan berdampingan) lebih dahulu sebelum menguji syarat relatif.",
+    isFoundationRepair: false,
+    softGateThreshold: 0.75,
+    conquestThreshold: 0.85,
+    targetSolveSeconds: 90,
+    graphX: 680,
+    graphY: 375,
+    displayOrder: 16,
   },
   // PM
   {
@@ -241,8 +317,8 @@ export const SEED_SKILL_NODES: SkillNode[] = [
     conquestThreshold: 0.85,
     targetSolveSeconds: 60,
     graphX: 80,
-    graphY: 420,
-    displayOrder: 11,
+    graphY: 470,
+    displayOrder: 17,
   },
   {
     id: NODE_IDS.PM_T1_PCT,
@@ -259,8 +335,8 @@ export const SEED_SKILL_NODES: SkillNode[] = [
     conquestThreshold: 0.85,
     targetSolveSeconds: 70,
     graphX: 280,
-    graphY: 420,
-    displayOrder: 12,
+    graphY: 470,
+    displayOrder: 18,
   },
   {
     id: NODE_IDS.PM_T2_LIN,
@@ -277,8 +353,26 @@ export const SEED_SKILL_NODES: SkillNode[] = [
     conquestThreshold: 0.85,
     targetSolveSeconds: 85,
     graphX: 480,
-    graphY: 420,
-    displayOrder: 13,
+    graphY: 470,
+    displayOrder: 19,
+  },
+  {
+    id: NODE_IDS.PM_T2_ARIT,
+    code: "PM-T2-ARIT",
+    subtest: "PM",
+    track: "quantitative",
+    tier: "tier_2_standard",
+    titleId: "Aritmetika Sosial, Diskon Bertingkat & Bunga Majemuk",
+    titleEn: "Social Arithmetic & Compound Interest",
+    descriptionMarkdown: "Menghitung harga beli dari harga jual setelah diskon/laba, neto-bruto-tara, serta pertumbuhan bunga tunggal maupun majemuk.",
+    firstPrinciplesSummary: "Persentase untung/rugi selalu dihitung dari harga beli (modal awal), sedangkan diskon dihitung dari harga label.",
+    isFoundationRepair: false,
+    softGateThreshold: 0.75,
+    conquestThreshold: 0.85,
+    targetSolveSeconds: 80,
+    graphX: 480,
+    graphY: 535,
+    displayOrder: 20,
   },
   {
     id: NODE_IDS.PM_T3_PROB,
@@ -295,8 +389,26 @@ export const SEED_SKILL_NODES: SkillNode[] = [
     conquestThreshold: 0.85,
     targetSolveSeconds: 95,
     graphX: 680,
-    graphY: 420,
-    displayOrder: 14,
+    graphY: 470,
+    displayOrder: 21,
+  },
+  {
+    id: NODE_IDS.PM_T3_GEOM,
+    code: "PM-T3-GEOM",
+    subtest: "PM",
+    track: "quantitative",
+    tier: "tier_3_hots_800",
+    titleId: "Geometri Terapan, Bangun Ruang & Trigonometri",
+    titleEn: "Applied Geometry, Solids & Trigonometry",
+    descriptionMarkdown: "Menghitung volume balok-tabung-kerucut, luas permukaan gabungan, jarak sudut elevasi, dan perbandingan trigonometri kontekstual.",
+    firstPrinciplesSummary: "Volume prisma tegak selalu sama dengan Luas Alas dikali Tinggi, apa pun bentuk poligon atau lingkaran alasnya.",
+    isFoundationRepair: false,
+    softGateThreshold: 0.75,
+    conquestThreshold: 0.85,
+    targetSolveSeconds: 95,
+    graphX: 680,
+    graphY: 535,
+    displayOrder: 22,
   },
   // LBI
   {
@@ -314,8 +426,8 @@ export const SEED_SKILL_NODES: SkillNode[] = [
     conquestThreshold: 0.85,
     targetSolveSeconds: 65,
     graphX: 80,
-    graphY: 560,
-    displayOrder: 15,
+    graphY: 630,
+    displayOrder: 23,
   },
   {
     id: NODE_IDS.LBI_T1_CLAIM,
@@ -332,8 +444,8 @@ export const SEED_SKILL_NODES: SkillNode[] = [
     conquestThreshold: 0.85,
     targetSolveSeconds: 75,
     graphX: 290,
-    graphY: 560,
-    displayOrder: 16,
+    graphY: 630,
+    displayOrder: 24,
   },
   {
     id: NODE_IDS.LBI_T2_INF,
@@ -350,8 +462,26 @@ export const SEED_SKILL_NODES: SkillNode[] = [
     conquestThreshold: 0.85,
     targetSolveSeconds: 85,
     graphX: 500,
-    graphY: 560,
-    displayOrder: 17,
+    graphY: 630,
+    displayOrder: 25,
+  },
+  {
+    id: NODE_IDS.LBI_T3_SASTRA,
+    code: "LBI-T3-SASTRA",
+    subtest: "LBI",
+    track: "literacy",
+    tier: "tier_3_hots_800",
+    titleId: "Teks Sastra, Fakta vs Opini & Evaluasi Bacaan",
+    titleEn: "Literary Analysis, Fact vs Opinion & Text Critique",
+    descriptionMarkdown: "Menilai nilai amanat, sudut pandang tokoh, majas/makna konotatif teks sastra, serta membedakan fakta terverifikasi dari opini dan kelemahan teks.",
+    firstPrinciplesSummary: "Fakta memuat peristiwa/data terukur tanpa kata sifat evaluatif ('seharusnya', 'terlalu', 'paling tepat'), sedangkan amanat sastra terbaca dari konflik tokoh.",
+    isFoundationRepair: false,
+    softGateThreshold: 0.75,
+    conquestThreshold: 0.85,
+    targetSolveSeconds: 85,
+    graphX: 700,
+    graphY: 630,
+    displayOrder: 26,
   },
   // LBE
   {
@@ -369,8 +499,8 @@ export const SEED_SKILL_NODES: SkillNode[] = [
     conquestThreshold: 0.85,
     targetSolveSeconds: 65,
     graphX: 80,
-    graphY: 690,
-    displayOrder: 18,
+    graphY: 750,
+    displayOrder: 27,
   },
   {
     id: NODE_IDS.LBE_T1_PURP,
@@ -387,8 +517,8 @@ export const SEED_SKILL_NODES: SkillNode[] = [
     conquestThreshold: 0.85,
     targetSolveSeconds: 75,
     graphX: 290,
-    graphY: 690,
-    displayOrder: 19,
+    graphY: 750,
+    displayOrder: 28,
   },
   {
     id: NODE_IDS.LBE_T3_EVAL,
@@ -405,8 +535,8 @@ export const SEED_SKILL_NODES: SkillNode[] = [
     conquestThreshold: 0.85,
     targetSolveSeconds: 90,
     graphX: 500,
-    graphY: 690,
-    displayOrder: 20,
+    graphY: 750,
+    displayOrder: 29,
   },
   // PBM
   {
@@ -424,8 +554,8 @@ export const SEED_SKILL_NODES: SkillNode[] = [
     conquestThreshold: 0.85,
     targetSolveSeconds: 50,
     graphX: 80,
-    graphY: 820,
-    displayOrder: 21,
+    graphY: 880,
+    displayOrder: 30,
   },
   {
     id: NODE_IDS.PBM_T1_EFF,
@@ -442,8 +572,44 @@ export const SEED_SKILL_NODES: SkillNode[] = [
     conquestThreshold: 0.85,
     targetSolveSeconds: 65,
     graphX: 290,
-    graphY: 820,
-    displayOrder: 22,
+    graphY: 880,
+    displayOrder: 31,
+  },
+  {
+    id: NODE_IDS.PBM_T2_KONJ,
+    code: "PBM-T2-KONJ",
+    subtest: "PBM",
+    track: "literacy",
+    tier: "tier_2_standard",
+    titleId: "Konjungsi, Kata Baku & Penyuntingan Teks",
+    titleEn: "Conjunctions, Standard Words & Text Editing",
+    descriptionMarkdown: "Memilih konjungsi intrakalimat vs antarkalimat sesuai KBBI/EYD V, memperbaiki kesalahan kata baku, dan menyunting diksi tidak tepat.",
+    firstPrinciplesSummary: "Konjungsi antarkalimat (Oleh karena itu, Namun, Meskipun demikian) berdiri di awal kalimat baru dan wajib diikuti tanda koma.",
+    isFoundationRepair: false,
+    softGateThreshold: 0.75,
+    conquestThreshold: 0.85,
+    targetSolveSeconds: 60,
+    graphX: 500,
+    graphY: 880,
+    displayOrder: 32,
+  },
+  {
+    id: NODE_IDS.PBM_T3_WAC,
+    code: "PBM-T3-WAC",
+    subtest: "PBM",
+    track: "literacy",
+    tier: "tier_3_hots_800",
+    titleId: "Kohesi, Koherensi, Judul & Menyusun Wacana",
+    titleEn: "Text Cohesion, Coherence, Titles & Discourse Ordering",
+    descriptionMarkdown: "Menentukan judul karangan sesuai EYD V, kalimat sumbang, penggabungan/pemecahan paragraf, serta urutan logis kalimat membentuk wacana padu.",
+    firstPrinciplesSummary: "Kalimat sumbang membahas topik di luar gagasan utama paragraf, sedangkan judul karangan ilmiah menulis huruf kapital di kata inti kecuali preposisi/konjungsi tengah.",
+    isFoundationRepair: false,
+    softGateThreshold: 0.75,
+    conquestThreshold: 0.85,
+    targetSolveSeconds: 70,
+    graphX: 700,
+    graphY: 880,
+    displayOrder: 33,
   },
   // PPU
   {
@@ -460,9 +626,9 @@ export const SEED_SKILL_NODES: SkillNode[] = [
     softGateThreshold: 0.75,
     conquestThreshold: 0.85,
     targetSolveSeconds: 60,
-    graphX: 500,
-    graphY: 820,
-    displayOrder: 23,
+    graphX: 290,
+    graphY: 1000,
+    displayOrder: 34,
   },
   {
     id: NODE_IDS.PPU_T2_ASSOC,
@@ -478,9 +644,27 @@ export const SEED_SKILL_NODES: SkillNode[] = [
     softGateThreshold: 0.75,
     conquestThreshold: 0.85,
     targetSolveSeconds: 70,
+    graphX: 500,
+    graphY: 1000,
+    displayOrder: 35,
+  },
+  {
+    id: NODE_IDS.PPU_T3_PANDA,
+    code: "PPU-T3-PANDA",
+    subtest: "PPU",
+    track: "literacy",
+    tier: "tier_3_hots_800",
+    titleId: "Bahasa Panda (Kriptografi) & Kelogisan Wacana",
+    titleEn: "Artificial Language Decoding & Discourse Logic",
+    descriptionMarkdown: "Memecahkan kode bahasa buatan/panda dengan pembandingan dua kalimat bertumpang-tindih, urutan kata D-M/M-D, serta menguji kelogisan kalimat.",
+    firstPrinciplesSummary: "Cari kata yang muncul di dua kalimat contoh untuk mengunci arti kata tunggalnya terlebih dulu, lalu amati urutan Diterangkan-Menerangkannya.",
+    isFoundationRepair: false,
+    softGateThreshold: 0.75,
+    conquestThreshold: 0.85,
+    targetSolveSeconds: 80,
     graphX: 700,
-    graphY: 820,
-    displayOrder: 24,
+    graphY: 1000,
+    displayOrder: 36,
   },
 ];
 
@@ -493,26 +677,40 @@ export const SEED_SKILL_EDGES: SkillPrerequisiteEdge[] = [
   { parentNodeId: NODE_IDS.PK_T1_LIN, childNodeId: NODE_IDS.PK_T2_QUAD, edgeType: "soft_prereq", weight: 0.7 },
   { parentNodeId: NODE_IDS.PK_T2_QUAD, childNodeId: NODE_IDS.PK_T3_INEQ, edgeType: "hard_prereq", weight: 1.0 },
   { parentNodeId: NODE_IDS.PK_T1_LIN, childNodeId: NODE_IDS.PK_T0_ALG, edgeType: "remedial_bridge", weight: 0.9 },
+  { parentNodeId: NODE_IDS.PK_T0_ALG, childNodeId: NODE_IDS.PK_T1_EXP, edgeType: "hard_prereq", weight: 1.0 },
+  { parentNodeId: NODE_IDS.PK_T0_ALG, childNodeId: NODE_IDS.PK_T2_FUNC, edgeType: "hard_prereq", weight: 1.0 },
+  { parentNodeId: NODE_IDS.PK_T1_LIN, childNodeId: NODE_IDS.PK_T2_GEO, edgeType: "hard_prereq", weight: 1.0 },
+  { parentNodeId: NODE_IDS.PK_T2_FUNC, childNodeId: NODE_IDS.PK_T3_STAT, edgeType: "hard_prereq", weight: 1.0 },
+  { parentNodeId: NODE_IDS.PK_T1_LIN, childNodeId: NODE_IDS.PK_T3_STAT, edgeType: "soft_prereq", weight: 0.8 },
   // PU DAG
   { parentNodeId: NODE_IDS.PU_T0_LOG, childNodeId: NODE_IDS.PU_T1_SYL, edgeType: "hard_prereq", weight: 1.0 },
   { parentNodeId: NODE_IDS.PU_T1_SYL, childNodeId: NODE_IDS.PU_T2_ARG, edgeType: "hard_prereq", weight: 1.0 },
+  { parentNodeId: NODE_IDS.PU_T1_SYL, childNodeId: NODE_IDS.PU_T2_DATA, edgeType: "hard_prereq", weight: 1.0 },
   { parentNodeId: NODE_IDS.PU_T2_ARG, childNodeId: NODE_IDS.PU_T3_PAT, edgeType: "soft_prereq", weight: 0.8 },
+  { parentNodeId: NODE_IDS.PU_T2_ARG, childNodeId: NODE_IDS.PU_T3_ANAL, edgeType: "hard_prereq", weight: 1.0 },
   // PM DAG
   { parentNodeId: NODE_IDS.PM_T0_UNIT, childNodeId: NODE_IDS.PM_T1_PCT, edgeType: "hard_prereq", weight: 1.0 },
   { parentNodeId: NODE_IDS.PK_T0_FRAC, childNodeId: NODE_IDS.PM_T1_PCT, edgeType: "soft_prereq", weight: 0.8 },
   { parentNodeId: NODE_IDS.PM_T1_PCT, childNodeId: NODE_IDS.PM_T2_LIN, edgeType: "hard_prereq", weight: 1.0 },
+  { parentNodeId: NODE_IDS.PM_T1_PCT, childNodeId: NODE_IDS.PM_T2_ARIT, edgeType: "hard_prereq", weight: 1.0 },
   { parentNodeId: NODE_IDS.PK_T1_LIN, childNodeId: NODE_IDS.PM_T2_LIN, edgeType: "soft_prereq", weight: 0.8 },
   { parentNodeId: NODE_IDS.PM_T2_LIN, childNodeId: NODE_IDS.PM_T3_PROB, edgeType: "hard_prereq", weight: 1.0 },
+  { parentNodeId: NODE_IDS.PM_T2_LIN, childNodeId: NODE_IDS.PM_T3_GEOM, edgeType: "hard_prereq", weight: 1.0 },
+  { parentNodeId: NODE_IDS.PK_T2_GEO, childNodeId: NODE_IDS.PM_T3_GEOM, edgeType: "soft_prereq", weight: 0.8 },
   // LBI DAG
   { parentNodeId: NODE_IDS.LBI_T0_IDEA, childNodeId: NODE_IDS.LBI_T1_CLAIM, edgeType: "hard_prereq", weight: 1.0 },
   { parentNodeId: NODE_IDS.LBI_T1_CLAIM, childNodeId: NODE_IDS.LBI_T2_INF, edgeType: "hard_prereq", weight: 1.0 },
+  { parentNodeId: NODE_IDS.LBI_T2_INF, childNodeId: NODE_IDS.LBI_T3_SASTRA, edgeType: "hard_prereq", weight: 1.0 },
   // LBE DAG
   { parentNodeId: NODE_IDS.LBE_T0_REF, childNodeId: NODE_IDS.LBE_T1_PURP, edgeType: "hard_prereq", weight: 1.0 },
   { parentNodeId: NODE_IDS.LBE_T1_PURP, childNodeId: NODE_IDS.LBE_T3_EVAL, edgeType: "hard_prereq", weight: 1.0 },
   // PBM & PPU DAG
   { parentNodeId: NODE_IDS.PBM_T0_EJA, childNodeId: NODE_IDS.PBM_T1_EFF, edgeType: "hard_prereq", weight: 1.0 },
+  { parentNodeId: NODE_IDS.PBM_T1_EFF, childNodeId: NODE_IDS.PBM_T2_KONJ, edgeType: "hard_prereq", weight: 1.0 },
+  { parentNodeId: NODE_IDS.PBM_T2_KONJ, childNodeId: NODE_IDS.PBM_T3_WAC, edgeType: "hard_prereq", weight: 1.0 },
   { parentNodeId: NODE_IDS.PBM_T1_EFF, childNodeId: NODE_IDS.PPU_T1_SEM, edgeType: "soft_prereq", weight: 0.7 },
   { parentNodeId: NODE_IDS.PPU_T1_SEM, childNodeId: NODE_IDS.PPU_T2_ASSOC, edgeType: "hard_prereq", weight: 1.0 },
+  { parentNodeId: NODE_IDS.PPU_T2_ASSOC, childNodeId: NODE_IDS.PPU_T3_PANDA, edgeType: "hard_prereq", weight: 1.0 },
 ];
 
 export const CURATED_CORE_QUESTIONS: QuestionEntity[] = [
@@ -1427,766 +1625,7 @@ export const SEED_QUESTIONS: QuestionEntity[] = [
   ...INGESTED_SNBT_QUESTIONS,
 ];
 
-export const SEED_TEMPLATES: QuestionTemplateEntity[] = [
-  {
-    id: "30000000-0000-4000-8000-000000000001",
-    skillNodeId: NODE_IDS.PK_T2_RATE,
-    subtest: "PK",
-    tier: "tier_2_standard",
-    sandboxRuntime: "quickjs_wasm",
-    sourceQuestionId: "20000000-0000-4000-8000-000000000004",
-    templateTitle: "PK Perbandingan Berbalik Nilai (Pekerja vs Hari)",
-    stemTemplateLatex:
-      "Sebuah tim yang terdiri atas {{w1}} orang teknisi dapat merampungkan instalasi jaringan dalam waktu {{d1}} hari. Jika pengelola menambah {{extra}} orang teknisi baru dengan kecepatan kerja setara sejak hari pertama, waktu penyelesaian proyek tersebut menjadi $\\dots$",
-    sbiSchemaType: "inverse_proportion_work",
-    polyaVariablesSchema: [
-      { symbol: "w1", role: "known", labelId: "Jumlah teknisi awal" },
-      { symbol: "d1", role: "known", labelId: "Durasi awal (hari)" },
-      { symbol: "extra", role: "known", labelId: "Tambahan teknisi" },
-      { symbol: "d2", role: "unknown", labelId: "Durasi selesai baru (hari)" },
-    ],
-    solutionStepTemplates: [
-      {
-        stage: "deconstruct",
-        instructionTemplate: "Kenali bahwa total beban kerja bersifat konstan (perbandingan berbalik nilai).",
-        formulaTemplateLatex: "W = {{w1}} \\times {{d1}}",
-      },
-      {
-        stage: "setup",
-        instructionTemplate: "Hitung jumlah pekerja baru w2 = {{w1}} + {{extra}} = {{w2}} orang.",
-        formulaTemplateLatex: "{{w1}} \\cdot {{d1}} = {{w2}} \\cdot d_2",
-      },
-      {
-        stage: "solve",
-        instructionTemplate: "Bagi total beban kerja dengan jumlah pekerja baru.",
-        formulaTemplateLatex: "d_2 = \\frac{{{w1}} \\times {{d1}}}{{{w2}}}",
-      },
-    ],
-    generatorCode: `function generate(seed) {
-  var r = rng(seed);
-  var w1 = r.pick([8, 10, 12, 15, 18]);
-  var extra = r.pick([2, 3, 4, 5, 6]);
-  var m = r.pick([2, 3]);
-  var w2 = w1 + extra;
-  var d1 = w2 * m;
-
-  var totalWork = new Fraction(w1 * d1);
-  var d2 = totalWork.div(w2);
-
-  // Mathematically ordered distinct distractors:
-  // trapInverted (w1 / m) < trapSlip (d2 - 1) < d2 < trapAdditive (d1 - extra) < trapDirect
-  var trapDirect = new Fraction(d1 * w2, w1);
-  var trapAdditive = new Fraction(d1 - extra);
-  var trapInverted = new Fraction(w1 * w2, d1);
-  var trapSlip = d2.sub(1);
-
-  function fmt(f) {
-    return f.d === 1 ? String(f.n) : "\\\\frac{" + f.n + "}{" + f.d + "}";
-  }
-
-  return {
-    params: { w1: String(w1), d1: String(d1), extra: String(extra), w2: String(w2) },
-    correct: { canonical: d2.toFraction(false), display_latex: fmt(d2) + " \\\\text{ hari}" },
-    distractors: [
-      { canonical: trapDirect.toFraction(false), display_latex: fmt(trapDirect) + " \\\\text{ hari}", trap_type: "formula_misapplication", rationale: "Keliru memakai perbandingan senilai." },
-      { canonical: trapAdditive.toFraction(false), display_latex: fmt(trapAdditive) + " \\\\text{ hari}", trap_type: "translation_error", rationale: "Mengurangi hari secara linear (d1 - extra)." },
-      { canonical: trapInverted.toFraction(false), display_latex: fmt(trapInverted) + " \\\\text{ hari}", trap_type: "arithmetic_slip", rationale: "Terbalik mengalikan pekerja awal dengan pekerja baru." },
-      { canonical: trapSlip.toFraction(false), display_latex: fmt(trapSlip) + " \\\\text{ hari}", trap_type: "arithmetic_slip", rationale: "Selip hitung pengurangan satu satuan pada langkah akhir." }
-    ],
-    feasibility_assertions: [
-      w1 > 0 && d1 > 0 && w2 > w1,
-      d2.valueOf() > 0 && d2.valueOf() < d1,
-      trapInverted.valueOf() < trapSlip.valueOf() && trapSlip.valueOf() < d2.valueOf(),
-      d2.valueOf() < trapAdditive.valueOf() && trapAdditive.valueOf() < trapDirect.valueOf()
-    ]
-  };
-}`,
-    parameterBoundsJson: { w1: [6, 15], d1: [10, 32], extra: [3, 8] },
-    codeSha256: "seed_template_pk_rate_v1_000000000000000000000000000000000000001",
-    isActive: true,
-    createdByModel: "curated-verified-template",
-    createdAt: "2026-01-01T00:00:00.000Z",
-  },
-  {
-    id: "30000000-0000-4000-8000-000000000002",
-    skillNodeId: NODE_IDS.PM_T2_LIN,
-    subtest: "PM",
-    tier: "tier_2_standard",
-    sandboxRuntime: "quickjs_wasm",
-    sourceQuestionId: "20000000-0000-4000-8000-000000000012",
-    templateTitle: "PM Optimasi Margin Kontribusi & Target Laba",
-    stemTemplateLatex:
-      "Sebuah unit usaha kampus memproduksi paket modul belajar dengan biaya tetap harian $\\text{Rp}{{fixed_k}}.000$ dan biaya variabel $\\text{Rp}{{var_k}}.000$ per paket. Jika setiap paket dijual seharga $\\text{Rp}{{price_k}}.000$, jumlah minimal paket yang wajib terjual agar usaha mencatat keuntungan bersih minimal $\\text{Rp}{{profit_k}}.000$ adalah $\\dots$",
-    sbiSchemaType: "linear_profit_breakeven",
-    polyaVariablesSchema: [
-      { symbol: "fixed_k", role: "known", labelId: "Biaya tetap (ribu Rp)" },
-      { symbol: "var_k", role: "known", labelId: "Biaya variabel per unit (ribu Rp)" },
-      { symbol: "price_k", role: "known", labelId: "Harga jual per unit (ribu Rp)" },
-      { symbol: "profit_k", role: "constraint", labelId: "Target keuntungan bersih (ribu Rp)" },
-      { symbol: "n", role: "unknown", labelId: "Jumlah minimal paket" },
-    ],
-    solutionStepTemplates: [
-      {
-        stage: "deconstruct",
-        instructionTemplate: "Hitung margin kontribusi bersih per paket: harga jual {{price_k}}.000 dikurangi biaya variabel {{var_k}}.000.",
-        formulaTemplateLatex: "m = ({{price_k}} - {{var_k}}) \\times 1.000",
-      },
-      {
-        stage: "setup",
-        instructionTemplate: "Jumlahkan biaya tetap {{fixed_k}}.000 dan target laba {{profit_k}}.000.",
-        formulaTemplateLatex: "m \\cdot n \\ge ({{fixed_k}} + {{profit_k}}) \\times 1.000",
-      },
-      {
-        stage: "solve",
-        instructionTemplate: "Bagi total target kontribusi dengan margin per paket.",
-        formulaTemplateLatex: "n = \\frac{{{fixed_k}} + {{profit_k}}}{{{price_k}} - {{var_k}}}",
-      },
-    ],
-    generatorCode: `function generate(seed) {
-  var r = rng(seed);
-  var margin = r.pick([6, 8, 10, 12]);
-  var var_k = r.pick([11, 13, 15, 17]);
-  var price_k = var_k + margin;
-  var n = r.int(24, 48);
-  var totalNeed = margin * n;
-  var fixedRatio = r.pick([5, 6]);
-  var fixed_k = Math.floor((totalNeed * fixedRatio) / 10);
-  fixed_k = fixed_k - (fixed_k % 2);
-  var profit_k = totalNeed - fixed_k;
-
-  var trapBreakeven = new Fraction(Math.ceil(fixed_k / margin));
-  var trapGrossPrice = new Fraction(totalNeed, price_k);
-  var trapVarDiv = new Fraction(totalNeed, var_k);
-  var trapSignDiff = new Fraction(Math.abs(fixed_k - profit_k) + margin, margin);
-
-  function fmt(f) {
-    return f.d === 1 ? String(f.n) : "\\\\frac{" + f.n + "}{" + f.d + "}";
-  }
-
-  return {
-    params: {
-      fixed_k: String(fixed_k),
-      var_k: String(var_k),
-      price_k: String(price_k),
-      profit_k: String(profit_k)
-    },
-    correct: { canonical: String(n), display_latex: String(n) + " \\\\text{ paket}" },
-    distractors: [
-      { canonical: trapBreakeven.toFraction(false), display_latex: fmt(trapBreakeven) + " \\\\text{ paket}", trap_type: "formula_misapplication", rationale: "Hanya menghitung titik impas tanpa memasukkan target laba." },
-      { canonical: trapGrossPrice.toFraction(false), display_latex: fmt(trapGrossPrice) + " \\\\text{ paket}", trap_type: "formula_misapplication", rationale: "Membagi target total dengan harga jual kotor, lupa biaya variabel." },
-      { canonical: trapVarDiv.toFraction(false), display_latex: fmt(trapVarDiv) + " \\\\text{ paket}", trap_type: "formula_misapplication", rationale: "Membagi dengan biaya variabel alih-alih margin kontribusi." },
-      { canonical: trapSignDiff.toFraction(false), display_latex: fmt(trapSignDiff) + " \\\\text{ paket}", trap_type: "sign_error", rationale: "Mengurangkan target laba dari biaya tetap." }
-    ],
-    feasibility_assertions: [
-      margin > 0 && fixed_k > 0 && profit_k > 0,
-      fixed_k + profit_k === margin * n,
-      n >= 20
-    ]
-  };
-}`,
-    parameterBoundsJson: { margin: [6, 12], n: [24, 48] },
-    codeSha256: "seed_template_pm_lin_v1_0000000000000000000000000000000000000002",
-    isActive: true,
-    createdByModel: "curated-verified-template",
-    createdAt: "2026-01-01T00:00:00.000Z",
-  },
-  {
-    id: "30000000-0000-4000-8000-000000000003",
-    skillNodeId: NODE_IDS.PU_T1_SYL,
-    subtest: "PU",
-    tier: "tier_1_core",
-    sandboxRuntime: "quickjs_wasm",
-    sourceQuestionId: "20000000-0000-4000-8000-000000000008",
-    templateTitle: "PU Silogisme Kontraposisi & Modus Tollens (SAT-Verified)",
-    stemTemplateLatex:
-      "Diketahui premis berikut berlaku benar:\n1. Jika {{p_stmt}}, maka {{q_stmt}}.\n2. {{q_neg_stmt}} atau {{r_stmt}}.\n3. Fakta menunjukkan {{r_neg_stmt}}.\n\nSimpulan deduktif yang pasti sah adalah $\\dots$",
-    sbiSchemaType: "syllogism_modus_tollens",
-    polyaVariablesSchema: [
-      { symbol: "P", role: "known", labelId: "Proposisi P" },
-      { symbol: "Q", role: "known", labelId: "Proposisi Q" },
-      { symbol: "R", role: "known", labelId: "Proposisi R" },
-    ],
-    solutionStepTemplates: [
-      {
-        stage: "deconstruct",
-        instructionTemplate: "Konversi premis kedua (~Q v R) menjadi bentuk implikasi Q -> R.",
-        formulaTemplateLatex: "\\neg Q \\lor R \\equiv (Q \\to R)",
-      },
-      {
-        stage: "setup",
-        instructionTemplate: "Gabungkan rantai silogisme P -> Q dan Q -> R menjadi P -> R.",
-        formulaTemplateLatex: "(P \\to Q) \\land (Q \\to R) \\implies (P \\to R)",
-      },
-      {
-        stage: "solve",
-        instructionTemplate: "Dengan fakta ~R, terapkan Modus Tollens untuk menarik kesimpulan pasti ~P.",
-        formulaTemplateLatex: "(P \\to R) \\land \\neg R \\vdash \\neg P",
-      },
-    ],
-    generatorCode: `function generate(seed) {
-  var r = rng(seed);
-  var scenarios = [
-    {
-      p_pos: "siswa menguasai operasi pecahan dasar",
-      p_neg: "Siswa tidak menguasai operasi pecahan dasar.",
-      q_pos: "ia menyelesaikan soal perbandingan dengan tepat",
-      q_neg: "Ia tidak menyelesaikan soal perbandingan dengan tepat",
-      r_pos: "skor PK meningkat di atas 750",
-      r_neg: "skor PK tidak meningkat di atas 750",
-      r_neg_cap: "Skor PK tidak meningkat di atas 750."
-    },
-    {
-      p_pos: "tim riset menstandarkan kalibrasi sensor",
-      p_neg: "Tim riset tidak menstandarkan kalibrasi sensor.",
-      q_pos: "data lapangan terbaca konsisten",
-      q_neg: "Data lapangan tidak terbaca konsisten",
-      r_pos: "laporan evaluasi disetujui komite",
-      r_neg: "laporan evaluasi tidak disetujui komite",
-      r_neg_cap: "Laporan evaluasi tidak disetujui komite."
-    },
-    {
-      p_pos: "jalur pengumpan bus terintegrasi dengan perumahan",
-      p_neg: "Jalur pengumpan bus tidak terintegrasi dengan perumahan.",
-      q_pos: "pekerja beralih ke angkutan umum secara rutin",
-      q_neg: "Pekerja tidak beralih ke angkutan umum secara rutin",
-      r_pos: "kemacetan jam sibuk berkurang signifikan",
-      r_neg: "kemacetan jam sibuk tidak berkurang signifikan",
-      r_neg_cap: "Kemacetan jam sibuk tidak berkurang signifikan."
-    }
-  ];
-  var sc = r.pick(scenarios);
-  // Propositional variables: 1 = P, 2 = Q, 3 = R
-  // Premises CNF: (-1 v 2) [P->Q], (-2 v 3) [~Q v R], (-3) [~R]
-  var premisesCnf = [[-1, 2], [-2, 3], [-3]];
-  var models = satSolve(3, premisesCnf);
-  var allNotP = models.length > 0 && models.every(function (m) { return m[1] === false && m[2] === false; });
-
-  return {
-    params: {
-      p_stmt: sc.p_pos,
-      q_stmt: sc.q_pos,
-      q_neg_stmt: sc.q_neg,
-      r_stmt: sc.r_pos,
-      r_neg_stmt: sc.r_neg
-    },
-    logic_check: {
-      num_vars: 3,
-      premises_cnf: premisesCnf,
-      entailed_literal: -1
-    },
-    correct: {
-      canonical: "logic:var_-1",
-      display_latex: "\\\\text{" + sc.p_neg + "}"
-    },
-    distractors: [
-      { canonical: "logic:var_1", display_latex: "\\\\text{" + sc.p_pos.charAt(0).toUpperCase() + sc.p_pos.slice(1) + ".}", trap_type: "sign_error", rationale: "Bertentangan langsung dengan hasil Modus Tollens." },
-      { canonical: "logic:var_2", display_latex: "\\\\text{" + sc.q_pos.charAt(0).toUpperCase() + sc.q_pos.slice(1) + ".}", trap_type: "formula_misapplication", rationale: "Gagal menarik ~Q dari premis disjungsi dan ~R." },
-      { canonical: "logic:var_3", display_latex: "\\\\text{" + sc.r_pos.charAt(0).toUpperCase() + sc.r_pos.slice(1) + ".}", trap_type: "sign_error", rationale: "Berlawanan dengan fakta premis ketiga." },
-      { canonical: "logic:indeterminate", display_latex: "\\\\text{Tidak dapat ditarik simpulan deduktif apa pun.}", trap_type: "unsupported_inference", rationale: "Mengabaikan rantai silogisme kontraposisi yang sahih." }
-    ],
-    feasibility_assertions: [allNotP === true]
-  };
-}`,
-    parameterBoundsJson: { scenario_count: 3 },
-    codeSha256: "seed_template_pu_syl_v1_0000000000000000000000000000000000000003",
-    isActive: true,
-    createdByModel: "curated-verified-template",
-    createdAt: "2026-01-01T00:00:00.000Z",
-  },
-  {
-    id: "30000000-0000-4000-8000-000000000004",
-    skillNodeId: NODE_IDS.PK_T0_FRAC,
-    subtest: "PK",
-    tier: "tier_0_foundation",
-    sandboxRuntime: "quickjs_wasm",
-    sourceQuestionId: "20000000-0000-4000-8000-000000000001",
-    templateTitle: "PK Tier 0 Operasi Pecahan & Tanda Negatif",
-    stemTemplateLatex:
-      "Hitung hasil paling sederhana dari operasi pecahan berikut: $\\dfrac{{{a}}}{{{b}}} - \\dfrac{{{c}}}{{{d}}} + \\dfrac{{{e}}}{{{f}}} = \\dots$",
-    sbiSchemaType: "fraction_signed_arithmetic",
-    polyaVariablesSchema: [
-      { symbol: "a", role: "known", labelId: "Pembilang pertama" },
-      { symbol: "b", role: "known", labelId: "Penyebut pertama" },
-      { symbol: "c", role: "known", labelId: "Pembilang kedua" },
-      { symbol: "d", role: "known", labelId: "Penyebut kedua" },
-    ],
-    solutionStepTemplates: [
-      {
-        stage: "deconstruct",
-        instructionTemplate: "Samakan penyebut ketiga pecahan ke KPK dari {{b}}, {{d}}, dan {{f}}.",
-        formulaTemplateLatex: "\\dfrac{{{a}}}{{{b}}} - \\dfrac{{{c}}}{{{d}}} + \\dfrac{{{e}}}{{{f}}}",
-      },
-      {
-        stage: "solve",
-        instructionTemplate: "Operasikan pembilang dari kiri ke kanan dengan teliti pada tanda minus, lalu sederhanakan.",
-        formulaTemplateLatex: "\\dfrac{{{a}}}{{{b}}} - \\dfrac{{{c}}}{{{d}}} + \\dfrac{{{e}}}{{{f}}}",
-      },
-    ],
-    generatorCode: `function generate(seed) {
-  var r = rng(seed);
-  var sets = [
-    { a: 3, b: 4, c: 5, d: 6, e: 1, f: 2 },
-    { a: 5, b: 6, c: 3, d: 4, e: 1, f: 3 },
-    { a: 2, b: 3, c: 3, d: 4, e: 5, f: 6 },
-    { a: 4, b: 5, c: 1, d: 2, e: 3, f: 10 },
-    { a: 7, b: 8, c: 3, d: 4, e: 1, f: 2 }
-  ];
-  var s = r.pick(sets);
-  var f1 = new Fraction(s.a, s.b);
-  var f2 = new Fraction(s.c, s.d);
-  var f3 = new Fraction(s.e, s.f);
-  var ans = f1.sub(f2).add(f3);
-
-  var trapAddAll = f1.add(f2).add(f3);
-  var trapSubAll = f1.sub(f2).sub(f3);
-  var trapNeg = new Fraction(0).sub(ans);
-  var trapPlusHalf = ans.add(new Fraction(1, 4));
-
-  function fmt(fr) {
-    var sign = fr.valueOf() < 0 ? "-" : "";
-    var num = Math.abs(fr.n);
-    if (fr.d === 1) return sign + String(num);
-    return sign + "\\\\dfrac{" + num + "}{" + fr.d + "}";
-  }
-
-  return {
-    params: { a: String(s.a), b: String(s.b), c: String(s.c), d: String(s.d), e: String(s.e), f: String(s.f) },
-    correct: { canonical: ans.toFraction(false), display_latex: fmt(ans) },
-    distractors: [
-      { canonical: trapAddAll.toFraction(false), display_latex: fmt(trapAddAll), trap_type: "sign_error", rationale: "Keliru menjumlahkan seluruh suku tanpa mengurangkan pecahan tengah." },
-      { canonical: trapSubAll.toFraction(false), display_latex: fmt(trapSubAll), trap_type: "sign_error", rationale: "Keliru mengurangkan pecahan terakhir yang seharusnya ditambah." },
-      { canonical: trapNeg.toFraction(false), display_latex: fmt(trapNeg), trap_type: "sign_error", rationale: "Terbalik tanda positif/negatif pada hasil akhir." },
-      { canonical: trapPlusHalf.toFraction(false), display_latex: fmt(trapPlusHalf), trap_type: "arithmetic_slip", rationale: "Selip hitung saat menyamakan penyebut pecahan." }
-    ],
-    feasibility_assertions: [
-      ans.valueOf() > 0,
-      ans.valueOf() !== trapAddAll.valueOf(),
-      ans.valueOf() !== trapSubAll.valueOf()
-    ]
-  };
-}`,
-    parameterBoundsJson: { sets: 5 },
-    codeSha256: "seed_template_pk_frac_v1_000000000000000000000000000000000000004",
-    isActive: true,
-    createdByModel: "curated-verified-template",
-    createdAt: "2026-01-01T00:00:00.000Z",
-  },
-  {
-    id: "30000000-0000-4000-8000-000000000005",
-    skillNodeId: NODE_IDS.PK_T0_ALG,
-    subtest: "PK",
-    tier: "tier_0_foundation",
-    sandboxRuntime: "quickjs_wasm",
-    sourceQuestionId: "20000000-0000-4000-8000-000000000002",
-    templateTitle: "PK Tier 0 Persamaan Linear & Distribusi Kurung",
-    stemTemplateLatex:
-      "Diketahui persamaan linear ${{k}}({{a}}x - {{b}}) = {{c}}x + {{rhs}}$. Nilai dari $x + {{shift}}$ adalah $\\dots$",
-    sbiSchemaType: "linear_single_variable",
-    polyaVariablesSchema: [
-      { symbol: "x", role: "unknown", labelId: "Nilai variabel x" },
-      { symbol: "shift", role: "known", labelId: "Konstanta tambahan target" },
-    ],
-    solutionStepTemplates: [
-      {
-        stage: "deconstruct",
-        instructionTemplate: "Kalikan {{k}} ke seluruh suku di dalam tanda kurung.",
-        formulaTemplateLatex: "{{ka}}x - {{kb}} = {{c}}x + {{rhs}}",
-      },
-      {
-        stage: "solve",
-        instructionTemplate: "Kumpulkan suku x di kiri dan konstanta di kanan, lalu tambahkan {{shift}} pada x.",
-        formulaTemplateLatex: "x + {{shift}}",
-      },
-    ],
-    generatorCode: `function generate(seed) {
-  var r = rng(seed);
-  var k = r.pick([2, 3, 4]);
-  var a = r.pick([2, 3]);
-  var c = k * a - r.pick([2, 3]);
-  var x = r.int(3, 9);
-  var b = r.int(2, 6);
-  var rhs = k * (a * x - b) - c * x;
-  var shift = r.pick([2, 3, 4]);
-  var target = x + shift;
-
-  var trapOnlyX = x;
-  var trapSubShift = x - shift;
-  var trapDouble = target + 2;
-  var trapOffOne = target + 1;
-
-  return {
-    params: {
-      k: String(k),
-      a: String(a),
-      b: String(b),
-      c: String(c),
-      rhs: String(rhs),
-      ka: String(k * a),
-      kb: String(k * b),
-      shift: String(shift)
-    },
-    correct: { canonical: String(target), display_latex: String(target) },
-    distractors: [
-      { canonical: String(trapOnlyX), display_latex: String(trapOnlyX), trap_type: "formula_misapplication", rationale: "Berhenti di nilai x, lupa soal menanyakan x + " + shift + "." },
-      { canonical: String(trapSubShift), display_latex: String(trapSubShift), trap_type: "sign_error", rationale: "Keliru mengurangkan shift alih-alih menambahkan." },
-      { canonical: String(trapOffOne), display_latex: String(trapOffOne), trap_type: "arithmetic_slip", rationale: "Selip hitung satu satuan saat membagi koefisien x." },
-      { canonical: String(trapDouble), display_latex: String(trapDouble), trap_type: "arithmetic_slip", rationale: "Selip hitung dua satuan pada penjumlahan konstanta." }
-    ],
-    feasibility_assertions: [
-      k * (a * x - b) === c * x + rhs,
-      trapSubShift < trapOnlyX && trapOnlyX < target && target < trapOffOne && trapOffOne < trapDouble
-    ]
-  };
-}`,
-    parameterBoundsJson: { x: [3, 9] },
-    codeSha256: "seed_template_pk_alg_v1_0000000000000000000000000000000000000005",
-    isActive: true,
-    createdByModel: "curated-verified-template",
-    createdAt: "2026-01-01T00:00:00.000Z",
-  },
-  {
-    id: "30000000-0000-4000-8000-000000000006",
-    skillNodeId: NODE_IDS.PM_T1_PCT,
-    subtest: "PM",
-    tier: "tier_1_core",
-    sandboxRuntime: "quickjs_wasm",
-    sourceQuestionId: "20000000-0000-4000-8000-000000000011",
-    templateTitle: "PM Diskon Bertingkat (Faktor Pengali Berantai)",
-    stemTemplateLatex:
-      "Sebuah toko buku menjual paket persiapan SNBT seharga $\\text{Rp}{{price_k}}.000$. Pada pekan promo, toko memberi diskon ${{d1}}\\%$ lalu memberikan diskon tambahan ${{d2}}\\%$ khusus bagi pembeli yang membayar non-tunai. Harga akhir yang harus dibayar adalah $\\dots$",
-    sbiSchemaType: "chained_discount_multiplier",
-    polyaVariablesSchema: [
-      { symbol: "price_k", role: "known", labelId: "Harga awal (ribu Rp)" },
-      { symbol: "d1", role: "known", labelId: "Diskon pertama (%)" },
-      { symbol: "d2", role: "known", labelId: "Diskon tambahan (%)" },
-    ],
-    solutionStepTemplates: [
-      {
-        stage: "deconstruct",
-        instructionTemplate: "Ubah diskon {{d1}}% dan {{d2}}% menjadi porsi bayarnya lalu kalikan berantai.",
-        formulaTemplateLatex: "\\text{Harga Akhir} = {{price_k}}.000 \\times (1 - 0{,}{{d1}}) \\times (1 - 0{,}{{d2}})",
-      },
-      {
-        stage: "solve",
-        instructionTemplate: "Kalikan hasil tahap pertama dengan pengali diskon kedua.",
-        formulaTemplateLatex: "\\text{Harga Akhir}",
-      },
-    ],
-    generatorCode: `function generate(seed) {
-  var r = rng(seed);
-  var price_k = r.pick([200, 300, 400, 500]);
-  var pairs = [
-    { d1: 20, d2: 25 },
-    { d1: 20, d2: 10 },
-    { d1: 30, d2: 20 },
-    { d1: 10, d2: 20 }
-  ];
-  var pair = r.pick(pairs);
-  var d1 = pair.d1;
-  var d2 = pair.d2;
-
-  var after1 = (price_k * (100 - d1)) / 100;
-  var final_k = (after1 * (100 - d2)) / 100;
-  var trapAdditive = (price_k * (100 - (d1 + d2))) / 100;
-  var trapOnlyFirst = after1;
-  var trapOnlySecond = (price_k * (100 - d2)) / 100;
-  var trapSlip = final_k + 5;
-
-  function fmtRp(kVal) {
-    return "\\\\text{Rp}" + String(kVal) + ".000";
-  }
-
-  return {
-    params: { price_k: String(price_k), d1: String(d1), d2: String(d2) },
-    correct: { canonical: String(final_k), display_latex: fmtRp(final_k) },
-    distractors: [
-      { canonical: String(trapAdditive), display_latex: fmtRp(trapAdditive), trap_type: "formula_misapplication", rationale: "Salah menjumlahkan diskon " + d1 + "% + " + d2 + "% langsung." },
-      { canonical: String(trapOnlyFirst), display_latex: fmtRp(trapOnlyFirst), trap_type: "arithmetic_slip", rationale: "Berhenti setelah diskon tahap pertama saja." },
-      { canonical: String(trapOnlySecond), display_latex: fmtRp(trapOnlySecond), trap_type: "arithmetic_slip", rationale: "Hanya menerapkan diskon kedua tanpa diskon pertama." },
-      { canonical: String(trapSlip), display_latex: fmtRp(trapSlip), trap_type: "arithmetic_slip", rationale: "Selip hitung persentase diskon tahap kedua." }
-    ],
-    feasibility_assertions: [
-      Number.isInteger(final_k),
-      trapAdditive < final_k,
-      final_k < trapOnlyFirst,
-      final_k < trapOnlySecond
-    ]
-  };
-}`,
-    parameterBoundsJson: { price_k: [200, 500] },
-    codeSha256: "seed_template_pm_pct_v1_0000000000000000000000000000000000000006",
-    isActive: true,
-    createdByModel: "curated-verified-template",
-    createdAt: "2026-01-01T00:00:00.000Z",
-  },
-  {
-    id: "30000000-0000-4000-8000-000000000007",
-    skillNodeId: NODE_IDS.PK_T1_LIN,
-    subtest: "PK",
-    tier: "tier_1_core",
-    sandboxRuntime: "quickjs_wasm",
-    sourceQuestionId: "20000000-0000-4000-8000-000000000003",
-    templateTitle: "PK Barisan Aritmetika (Selisih Dua Suku ke Suku ke-n)",
-    stemTemplateLatex:
-      "Diketahui sebuah barisan aritmetika memiliki suku ke-${{p}}$ bernilai ${{up}}$ dan suku ke-${{q}}$ bernilai ${{uq}}$. Nilai suku ke-${{n}}$ barisan tersebut adalah $\\dots$",
-    sbiSchemaType: "arithmetic_sequence_two_terms",
-    polyaVariablesSchema: [
-      { symbol: "up", role: "known", labelId: "Nilai suku ke-p" },
-      { symbol: "uq", role: "known", labelId: "Nilai suku ke-q" },
-      { symbol: "n", role: "unknown", labelId: "Indeks target suku ke-n" },
-    ],
-    solutionStepTemplates: [
-      {
-        stage: "deconstruct",
-        instructionTemplate: "Hitung beda konstan b melalui selisih nilai dan selisih indeks {{q}} - {{p}}.",
-        formulaTemplateLatex: "b = \\dfrac{{{uq}} - {{up}}}{{{q}} - {{p}}}",
-      },
-      {
-        stage: "solve",
-        instructionTemplate: "Lompat dari suku ke-{{q}} sejauh ({{n}} - {{q}}) langkah beda b.",
-        formulaTemplateLatex: "U_{{{n}}} = {{uq}} + ({{n}} - {{q}})b",
-      },
-    ],
-    generatorCode: `function generate(seed) {
-  var r = rng(seed);
-  var b = r.int(3, 7);
-  var a = r.int(2, 11);
-  var p = r.pick([2, 3]);
-  var q = p + r.pick([3, 4]);
-  var n = q + r.pick([3, 5, 6]);
-  var up = a + (p - 1) * b;
-  var uq = a + (q - 1) * b;
-  var un = a + (n - 1) * b;
-
-  var trapPlusB = un + b;
-  var trapMinusB = un - b;
-  var trapDoubleB = un + 2 * b;
-  var trapSumTerms = up + uq;
-
-  return {
-    params: { p: String(p), q: String(q), n: String(n), up: String(up), uq: String(uq) },
-    correct: { canonical: String(un), display_latex: String(un) },
-    distractors: [
-      { canonical: String(trapPlusB), display_latex: String(trapPlusB), trap_type: "formula_misapplication", rationale: "Keliru memakai rumus a + n*b tanpa mengurangkan 1 pada indeks." },
-      { canonical: String(trapMinusB), display_latex: String(trapMinusB), trap_type: "arithmetic_slip", rationale: "Kurang satu langkah penjumlahan beda dari suku ke-q." },
-      { canonical: String(trapDoubleB), display_latex: String(trapDoubleB), trap_type: "arithmetic_slip", rationale: "Kelebihan dua langkah beda saat melompat ke suku target." },
-      { canonical: String(trapSumTerms), display_latex: String(trapSumTerms), trap_type: "formula_misapplication", rationale: "Langsung menjumlahkan nilai kedua suku yang diketahui." }
-    ],
-    feasibility_assertions: [
-      b >= 3,
-      uq - up === (q - p) * b,
-      un !== trapSumTerms && trapMinusB < un && un < trapPlusB && trapPlusB < trapDoubleB
-    ]
-  };
-}`,
-    parameterBoundsJson: { b: [3, 7] },
-    codeSha256: "seed_template_pk_seq_v1_0000000000000000000000000000000000000007",
-    isActive: true,
-    createdByModel: "curated-verified-template",
-    createdAt: "2026-01-01T00:00:00.000Z",
-  },
-  {
-    id: "30000000-0000-4000-8000-000000000008",
-    skillNodeId: NODE_IDS.PK_T2_QUAD,
-    subtest: "PK",
-    tier: "tier_2_standard",
-    sandboxRuntime: "quickjs_wasm",
-    sourceQuestionId: "20000000-0000-4000-8000-000000000005",
-    templateTitle: "PK Identitas Vieta Jumlah Kuadrat Akar",
-    stemTemplateLatex:
-      "Jika $\\alpha$ dan $\\beta$ adalah akar-akar real persamaan kuadrat $x^2 - {{s}}x + {{p}} = 0$, maka nilai dari $\\alpha^2 + \\beta^2$ adalah $\\dots$",
-    sbiSchemaType: "vieta_symmetric_sum_squares",
-    polyaVariablesSchema: [
-      { symbol: "s", role: "known", labelId: "Jumlah akar (alpha + beta)" },
-      { symbol: "p", role: "known", labelId: "Hasil kali akar (alpha * beta)" },
-    ],
-    solutionStepTemplates: [
-      {
-        stage: "deconstruct",
-        instructionTemplate: "Baca jumlah dan hasil kali akar langsung dari koefisien Vieta.",
-        formulaTemplateLatex: "\\alpha + \\beta = {{s}}, \\quad \\alpha\\beta = {{p}}",
-      },
-      {
-        stage: "solve",
-        instructionTemplate: "Terapkan identitas kuadrat jumlah dikurangi 2 kali hasil kali akar.",
-        formulaTemplateLatex: "\\alpha^2 + \\beta^2 = ({{s}})^2 - 2({{p}})",
-      },
-    ],
-    generatorCode: `function generate(seed) {
-  var r = rng(seed);
-  var s = r.pick([5, 6, 7, 8, 9]);
-  var p = r.pick([2, 3, 4, 5]);
-  var disc = s * s - 4 * p;
-  var ans = s * s - 2 * p;
-
-  var trapOnlySquare = s * s;
-  var trapPlusTwoP = s * s + 2 * p;
-  var trapMinusOneP = s * s - p;
-  var trapDisc = disc;
-
-  return {
-    params: { s: String(s), p: String(p) },
-    correct: { canonical: String(ans), display_latex: String(ans) },
-    distractors: [
-      { canonical: String(trapOnlySquare), display_latex: String(trapOnlySquare), trap_type: "formula_misapplication", rationale: "Mengira jumlah kuadrat akar sama dengan kuadrat jumlah akar tanpa dikurangi 2 kali hasil kali akar." },
-      { canonical: String(trapPlusTwoP), display_latex: String(trapPlusTwoP), trap_type: "sign_error", rationale: "Keliru menukar tanda pengurang menjadi tambah 2*alpha*beta." },
-      { canonical: String(trapMinusOneP), display_latex: String(trapMinusOneP), trap_type: "arithmetic_slip", rationale: "Lupa mengalikan faktor 2 pada suku hasil kali akar." },
-      { canonical: String(trapDisc), display_latex: String(trapDisc), trap_type: "formula_misapplication", rationale: "Tertukar rumus identitas akar dengan rumus diskriminan b^2 - 4ac." }
-    ],
-    feasibility_assertions: [
-      disc > 0,
-      trapDisc < ans && ans < trapMinusOneP && trapMinusOneP < trapOnlySquare && trapOnlySquare < trapPlusTwoP
-    ]
-  };
-}`,
-    parameterBoundsJson: { s: [5, 9], p: [2, 5] },
-    codeSha256: "seed_template_pk_vta_v1_0000000000000000000000000000000000000008",
-    isActive: true,
-    createdByModel: "curated-verified-template",
-    createdAt: "2026-01-01T00:00:00.000Z",
-  },
-  {
-    id: "30000000-0000-4000-8000-000000000009",
-    skillNodeId: NODE_IDS.PM_T2_LIN,
-    subtest: "PM",
-    tier: "tier_2_standard",
-    sandboxRuntime: "quickjs_wasm",
-    sourceQuestionId: "20000000-0000-4000-8000-000000000012",
-    templateTitle: "PM Statistika Rata-Rata Gabungan Berbobot",
-    stemTemplateLatex:
-      "Kelas A berjumlah ${{n1}}$ siswa memiliki rata-rata nilai tryout ${{x1}}$, sedangkan Kelas B berjumlah ${{n2}}$ siswa memiliki rata-rata nilai ${{x2}}$. Rata-rata nilai gabungan kedua kelas tersebut adalah $\\dots$",
-    sbiSchemaType: "weighted_combined_mean",
-    polyaVariablesSchema: [
-      { symbol: "n1", role: "known", labelId: "Banyak siswa kelas A" },
-      { symbol: "x1", role: "known", labelId: "Rata-rata kelas A" },
-      { symbol: "n2", role: "known", labelId: "Banyak siswa kelas B" },
-      { symbol: "x2", role: "known", labelId: "Rata-rata kelas B" },
-    ],
-    solutionStepTemplates: [
-      {
-        stage: "deconstruct",
-        instructionTemplate: "Hitung total skor masing-masing kelas sebelum dibagi jumlah seluruh siswa.",
-        formulaTemplateLatex: "\\sum X = ({{n1}} \\times {{x1}}) + ({{n2}} \\times {{x2}})",
-      },
-      {
-        stage: "solve",
-        instructionTemplate: "Bagi total skor gabungan dengan ({{n1}} + {{n2}}).",
-        formulaTemplateLatex: "\\bar{x}_{\\text{gab}} = \\dfrac{{{n1}}({{x1}}) + {{n2}}({{x2}})}{{{n1}} + {{n2}}}",
-      },
-    ],
-    generatorCode: `function generate(seed) {
-  var r = rng(seed);
-  var m1 = r.pick([2, 3]);
-  var k = r.pick([6, 8, 10]);
-  var n1 = m1 * k;
-  var n2 = k;
-  var t = r.pick([2, 3, 4]);
-  var x1 = r.pick([68, 70, 72, 74]);
-  var x2 = x1 + 2 * (m1 + 1) * t;
-  var ans = (m1 * x1 + x2) / (m1 + 1);
-  var trapUnweighted = (x1 + x2) / 2;
-  var trapPlusOne = ans + 1;
-  var trapMinusTwo = ans - 2;
-  var trapCloserRight = x2 - t;
-
-  return {
-    params: { n1: String(n1), n2: String(n2), x1: String(x1), x2: String(x2) },
-    correct: { canonical: String(ans), display_latex: String(ans) },
-    distractors: [
-      { canonical: String(trapUnweighted), display_latex: String(trapUnweighted), trap_type: "formula_misapplication", rationale: "Langsung merata-ratakan dua nilai kelas tanpa memperhitungkan bobot jumlah siswanya." },
-      { canonical: String(trapPlusOne), display_latex: String(trapPlusOne), trap_type: "arithmetic_slip", rationale: "Selip hitung satu satuan saat membagi total nilai gabungan." },
-      { canonical: String(trapMinusTwo), display_latex: String(trapMinusTwo), trap_type: "arithmetic_slip", rationale: "Selip hitung pengurangan saat menaksir bobot selisih." },
-      { canonical: String(trapCloserRight), display_latex: String(trapCloserRight), trap_type: "sign_error", rationale: "Keliru membobotkan rata-rata gabungan lebih dekat ke kelas yang siswanya lebih sedikit." }
-    ],
-    feasibility_assertions: [
-      Number.isInteger(ans),
-      Number.isInteger(trapUnweighted),
-      trapMinusTwo < ans && ans < trapPlusOne && trapPlusOne < trapUnweighted && trapUnweighted < trapCloserRight
-    ]
-  };
-}`,
-    parameterBoundsJson: { m1: [2, 3], k: [6, 10] },
-    codeSha256: "seed_template_pm_avg_v1_0000000000000000000000000000000000000009",
-    isActive: true,
-    createdByModel: "curated-verified-template",
-    createdAt: "2026-01-01T00:00:00.000Z",
-  },
-  {
-    id: "30000000-0000-4000-8000-000000000010",
-    skillNodeId: NODE_IDS.PM_T3_PROB,
-    subtest: "PM",
-    tier: "tier_3_hots_800",
-    sandboxRuntime: "quickjs_wasm",
-    sourceQuestionId: "20000000-0000-4000-8000-000000000013",
-    templateTitle: "PM Peluang Pengambilan Berurutan Tanpa Pengembalian",
-    stemTemplateLatex:
-      "Sebuah kotak berisi ${{red}}$ bola merah dan ${{blue}}$ bola biru. Jika diambil $2$ bola satu per satu **tanpa pengembalian**, peluang terambilnya kedua bola berwarna **merah** adalah $\\dots$",
-    sbiSchemaType: "probability_without_replacement",
-    polyaVariablesSchema: [
-      { symbol: "red", role: "known", labelId: "Jumlah bola merah" },
-      { symbol: "blue", role: "known", labelId: "Jumlah bola biru" },
-    ],
-    solutionStepTemplates: [
-      {
-        stage: "deconstruct",
-        instructionTemplate: "Hitung total ruang sampel awal ({{red}} + {{blue}}) dan kurangi 1 pada pengambilan kedua.",
-        formulaTemplateLatex: "P(M_1) = \\dfrac{{{red}}}{{{total}}}, \\quad P(M_2 \\mid M_1) = \\dfrac{{{red_minus_1}}}{{{total_minus_1}}}",
-      },
-      {
-        stage: "solve",
-        instructionTemplate: "Kalikan kedua peluang bersyarat lalu sederhanakan pecahannya.",
-        formulaTemplateLatex: "\\dfrac{{{red}}}{{{total}}} \\times \\dfrac{{{red_minus_1}}}{{{total_minus_1}}}",
-      },
-    ],
-    generatorCode: `function generate(seed) {
-  var r = rng(seed);
-  var red = r.pick([4, 5, 6]);
-  var blue = r.pick([3, 4, 5]);
-  var total = red + blue;
-
-  var p1 = new Fraction(red, total);
-  var p2 = new Fraction(red - 1, total - 1);
-  var ans = p1.mul(p2);
-
-  var trapWithReplacement = p1.mul(p1);
-  var trapOnlyDenom = new Fraction(red * red, total * (total - 1));
-  var trapComplement = new Fraction(1).sub(ans);
-  var trapOneBall = p1;
-
-  function fmt(f) {
-    return f.d === 1 ? String(f.n) : "\\\\dfrac{" + f.n + "}{" + f.d + "}";
-  }
-
-  return {
-    params: {
-      red: String(red),
-      blue: String(blue),
-      total: String(total),
-      red_minus_1: String(red - 1),
-      total_minus_1: String(total - 1)
-    },
-    correct: { canonical: ans.toFraction(false), display_latex: fmt(ans) },
-    distractors: [
-      { canonical: trapWithReplacement.toFraction(false), display_latex: fmt(trapWithReplacement), trap_type: "formula_misapplication", rationale: "Menggunakan model dengan pengembalian sehingga ruang sampel tidak berkurang 1." },
-      { canonical: trapOnlyDenom.toFraction(false), display_latex: fmt(trapOnlyDenom), trap_type: "arithmetic_slip", rationale: "Hanya mengurangi total bola penyebut, lupa mengurangi pembilang bola merah tersisa." },
-      { canonical: trapComplement.toFraction(false), display_latex: fmt(trapComplement), trap_type: "sign_error", rationale: "Tertukar menghitung peluang komplemen (tidak keduanya merah)." },
-      { canonical: trapOneBall.toFraction(false), display_latex: fmt(trapOneBall), trap_type: "formula_misapplication", rationale: "Hanya menghitung peluang pengambilan bola pertama." }
-    ],
-    feasibility_assertions: [
-      ans.valueOf() > 0 && ans.valueOf() < trapWithReplacement.valueOf(),
-      trapWithReplacement.valueOf() < trapOnlyDenom.valueOf(),
-      trapOnlyDenom.valueOf() < trapOneBall.valueOf(),
-      ans.valueOf() < trapComplement.valueOf()
-    ]
-  };
-}`,
-    parameterBoundsJson: { red: [4, 6], blue: [3, 5] },
-    codeSha256: "seed_template_pm_prb_v1_0000000000000000000000000000000000000010",
-    isActive: true,
-    createdByModel: "curated-verified-template",
-    createdAt: "2026-01-01T00:00:00.000Z",
-  },
-];
+export { SEED_TEMPLATES } from "./seed-templates";
 
 export const SEED_VAULT_CHUNKS: BrainVaultChunk[] = [
   {

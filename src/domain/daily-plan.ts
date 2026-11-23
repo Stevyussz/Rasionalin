@@ -1,3 +1,4 @@
+import { getPrimaryKnowledgeForNode } from "./snbt-knowledge-base";
 import type {
   QuestionAttemptEntity,
   SkillNode,
@@ -53,26 +54,36 @@ export function buildAdaptiveDailyPlan(params: {
   const masteryMap = new Map(params.masteries.map((m) => [m.skillNodeId, m]));
   const todayAttempts = params.recentAttempts.filter((a) => a.createdAt.slice(0, 10) === todayStr);
 
-  // Pick Mission 2: Highest priority unmastered foundation or in-progress node for Micro-Lesson
+  // Pick Mission 2: Highest priority unmastered fracture/foundation repair, then highest Analitica priorityLevel
+  const priorityOf = (nodeId: string): number =>
+    getPrimaryKnowledgeForNode(nodeId)?.priorityLevel ?? 5;
   const sortedNodes = [...params.nodes].sort((a, b) => a.displayOrder - b.displayOrder);
+  const byAnaliticaNodes = [...params.nodes].sort(
+    (a, b) => priorityOf(b.id) - priorityOf(a.id) || a.displayOrder - b.displayOrder,
+  );
   const lessonNode =
     sortedNodes.find((n) => masteryMap.get(n.id)?.status === "foundation_fracture") ??
-    sortedNodes.find((n) => {
+    byAnaliticaNodes.find((n) => {
       const m = masteryMap.get(n.id);
       return n.isFoundationRepair && m?.status !== "mastered";
     }) ??
-    sortedNodes.find((n) => masteryMap.get(n.id)?.status === "in_progress") ??
+    byAnaliticaNodes.find((n) => {
+      const m = masteryMap.get(n.id);
+      return m?.status !== "mastered" && m?.status !== "locked";
+    }) ??
+    byAnaliticaNodes.find((n) => masteryMap.get(n.id)?.status !== "mastered") ??
+    byAnaliticaNodes[0] ??
     sortedNodes[0];
 
-  // Pick Mission 3: Complementary track (if lesson is quant, pick literacy & vice versa)
+  // Pick Mission 3: Complementary track prioritized by Analitica score (if lesson is quant, pick literacy & vice versa)
   const oppositeTrack = lessonNode?.track === "quantitative" ? "literacy" : "quantitative";
   const drillNode =
-    sortedNodes.find((n) => {
+    byAnaliticaNodes.find((n) => {
       const m = masteryMap.get(n.id);
       return n.track === oppositeTrack && m?.status !== "mastered" && m?.status !== "locked";
     }) ??
-    sortedNodes.find((n) => n.track === oppositeTrack) ??
-    sortedNodes[1] ??
+    byAnaliticaNodes.find((n) => n.track === oppositeTrack) ??
+    byAnaliticaNodes[1] ??
     lessonNode;
 
   const didLessonNodeToday = lessonNode
@@ -107,7 +118,9 @@ export function buildAdaptiveDailyPlan(params: {
       estimatedMinutes: 12,
       href: lessonNode ? `/study?skillNodeId=${lessonNode.id}&mode=lesson` : "/study?mode=lesson",
       completed: didLessonNodeToday,
-      badgeLabel: lessonNode ? `${lessonNode.subtest} · Materi` : "Materi",
+      badgeLabel: lessonNode
+        ? `Lv.${priorityOf(lessonNode.id)} · ${lessonNode.subtest}`
+        : "Materi",
     },
     {
       id: "mission-drill",
@@ -120,7 +133,9 @@ export function buildAdaptiveDailyPlan(params: {
       estimatedMinutes: 15,
       href: drillNode ? `/study?skillNodeId=${drillNode.id}&mode=lesson` : "/study",
       completed: didDrillToday,
-      badgeLabel: drillNode ? `${drillNode.subtest} · Latihan` : "Latihan",
+      badgeLabel: drillNode
+        ? `Lv.${priorityOf(drillNode.id)} · ${drillNode.subtest}`
+        : "Latihan",
     },
   ];
 

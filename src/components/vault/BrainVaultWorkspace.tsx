@@ -10,7 +10,9 @@ import {
 } from "@/components/icons/ArchitecturalIcons";
 import { AppShell } from "@/components/layout/AppShell";
 import { MathText } from "@/components/math/MathText";
+import { CurriculumLibrarySection } from "@/components/vault/CurriculumLibrarySection";
 import { PersonalNotesSection } from "@/components/vault/PersonalNotesSection";
+import { SNBT_KNOWLEDGE_BASE } from "@/domain/snbt-knowledge-base";
 import type {
   BrainVaultChunk,
   BrainVaultDocument,
@@ -85,6 +87,7 @@ async function rasterizePdfToPngBlobs(
 }
 
 export function BrainVaultWorkspace() {
+  const [activeTab, setActiveTab] = useState<"library" | "personal">("library");
   const [documents, setDocuments] = useState<BrainVaultDocument[]>([]);
   const [chunks, setChunks] = useState<BrainVaultChunk[]>([]);
   const [loading, setLoading] = useState(true);
@@ -334,40 +337,7 @@ export function BrainVaultWorkspace() {
       }
     }
     window.addEventListener("keydown", onKeyDown);
-    async function handleImportTrainingQuestions(e: React.FormEvent) {
-    e.preventDefault();
-    if (!importJson.trim() || importing) return;
-    setImporting(true);
-    setImportFeedback(null);
-    try {
-      const parsed = JSON.parse(importJson) as unknown;
-      const payload = Array.isArray(parsed) ? { items: parsed } : parsed;
-      const res = await fetch("/api/questions/import", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      const json = (await res.json()) as {
-        importedCount?: number;
-        rejected?: Array<{ index: number; reason: string }>;
-        error?: string;
-      };
-      if (!res.ok) throw new Error(json.error ?? "Impor soal gagal.");
-      setImportFeedback(
-        `Berhasil menambahkan ${json.importedCount ?? 0} soal & pembahasan ke bank latihan!` +
-          (json.rejected?.length ? ` (${json.rejected.length} ditolak karena format/KaTeX.)` : ""),
-      );
-      setImportJson("");
-    } catch (err) {
-      setImportFeedback(
-        err instanceof Error ? err.message : "Format JSON tidak valid. Periksa kembali tanda kutip.",
-      );
-    } finally {
-      setImporting(false);
-    }
-  }
-
-  return () => window.removeEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
   }, [currentQc, handleReviewItem]);
 
   async function handleSearch(e: React.FormEvent) {
@@ -439,11 +409,49 @@ export function BrainVaultWorkspace() {
             </p>
           </div>
           <div className="text-sm font-extrabold text-[var(--accent-text-on-secondary)] shrink-0">
-            <span className="font-num text-xl mr-1">{chunks.length}</span>
-            rumus terindeks
+            <span className="font-num text-xl mr-1">{SNBT_KNOWLEDGE_BASE.length}</span>
+            topik UTBK · <span className="font-num">{chunks.length}</span> catatanmu
           </div>
         </header>
 
+        {/* 2-Tab Switcher: Pustaka Materi UTBK vs Catatan & Upload Pribadi */}
+        <div
+          role="tablist"
+          aria-label="Mode tampilan Brain Vault"
+          className="inline-flex flex-wrap gap-2 p-1.5 rounded-2xl bg-[var(--surface-secondary)] border border-[var(--border-structural)]"
+        >
+          <button
+            type="button"
+            role="tab"
+            aria-selected={activeTab === "library"}
+            onClick={() => setActiveTab("library")}
+            className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all cursor-pointer ${
+              activeTab === "library"
+                ? "bg-[var(--surface-elevated)] text-[var(--ink-primary)] shadow-sm border border-[var(--border-structural)]"
+                : "text-[var(--ink-secondary)] hover:text-[var(--ink-primary)]"
+            }`}
+          >
+            Pustaka Materi UTBK ({SNBT_KNOWLEDGE_BASE.length})
+          </button>
+          <button
+            type="button"
+            role="tab"
+            aria-selected={activeTab === "personal"}
+            onClick={() => setActiveTab("personal")}
+            className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all cursor-pointer ${
+              activeTab === "personal"
+                ? "bg-[var(--surface-elevated)] text-[var(--ink-primary)] shadow-sm border border-[var(--border-structural)]"
+                : "text-[var(--ink-secondary)] hover:text-[var(--ink-primary)]"
+            }`}
+          >
+            Catatan &amp; Upload Pribadi ({chunks.length})
+          </button>
+        </div>
+
+        {activeTab === "library" ? (
+          <CurriculumLibrarySection />
+        ) : (
+          <div className="space-y-6">
         {/* Quick Personal Study Notes & AI Memory (Synced with /study & /tutor) */}
         <PersonalNotesSection />
 
@@ -810,6 +818,8 @@ export function BrainVaultWorkspace() {
             </form>
           </details>
         </section>
+          </div>
+        )}
       </div>
     </AppShell>
   );

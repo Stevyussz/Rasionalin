@@ -12,9 +12,10 @@ import {
   ShieldIcon,
   TutorChatIcon,
 } from "@/components/icons/ArchitecturalIcons";
+import Link from "next/link";
 import { MathText } from "@/components/math/MathText";
 import type { MicroLessonContent } from "@/domain/micro-lessons";
-import { getPrimaryKnowledgeForNode } from "@/domain/snbt-knowledge-base";
+import { getAllKnowledgeForNode } from "@/domain/snbt-knowledge-base";
 import type { SkillNode } from "@/domain/types";
 
 interface MicroLessonViewProps {
@@ -24,7 +25,8 @@ interface MicroLessonViewProps {
 }
 
 export function MicroLessonView({ skillNode, lesson, onStartPractice }: MicroLessonViewProps) {
-  const kb = getPrimaryKnowledgeForNode(skillNode.id);
+  const allKb = getAllKnowledgeForNode(skillNode.id);
+  const kb = allKb[0] ?? null;
   const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
   const [warmupSelected, setWarmupSelected] = useState<"A" | "B" | "C" | null>(null);
   const [aiSimpleLoading, setAiSimpleLoading] = useState(false);
@@ -289,6 +291,31 @@ export function MicroLessonView({ skillNode, lesson, onStartPractice }: MicroLes
                     Syarat berlaku: <MathText text={kb.shortcutWithBoundary.validityConditions} />
                   </div>
                 </div>
+              )}
+
+              {allKb.length > 1 && (
+                <details className="pt-2 border-t border-[var(--border-structural)]">
+                  <summary className="text-xs font-extrabold text-[var(--olive-ink)] cursor-pointer select-none">
+                    Topik Terkait di Pustaka Materi ({allKb.length} bab kurikulum)
+                  </summary>
+                  <ul className="mt-2 space-y-1 text-xs font-semibold text-[var(--ink-secondary)]">
+                    {allKb.slice(1, 5).map((item) => (
+                      <li key={item.id} className="flex items-center justify-between gap-2">
+                        <span>• {item.topicTitle}</span>
+                        <span className="font-num text-[11px] font-extrabold text-[var(--ochre-ink)] shrink-0">
+                          Lv.{item.priorityLevel}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                  <Link
+                    href="/vault"
+                    className="inline-flex items-center gap-1 mt-2 text-xs font-extrabold text-[var(--accent-text-on-secondary)] hover:underline"
+                  >
+                    <span>Buka Pustaka Lengkap di Brain Vault</span>
+                    <ArrowRightIcon size={13} />
+                  </Link>
+                </details>
               )}
             </div>
           )}

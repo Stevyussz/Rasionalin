@@ -157,10 +157,17 @@ export class LocalJsonRepository implements AppRepository {
       simulationBlocks: Array.isArray(parsed.simulationBlocks) ? parsed.simulationBlocks : [],
     };
 
-    // Safely merge any newly added seed nodes, questions, or WASM templates
+    // Safely merge any newly added seed nodes, edges, questions, or WASM templates
+    const seedNodeMap = new Map(SEED_SKILL_NODES.map((n) => [n.id, n]));
+    state.skillNodes = state.skillNodes.map((n) => seedNodeMap.get(n.id) ?? n);
     const existingNodeIds = new Set(state.skillNodes.map((n) => n.id));
     for (const n of SEED_SKILL_NODES) {
       if (!existingNodeIds.has(n.id)) state.skillNodes.push(n);
+    }
+    const edgeKey = (e: SkillPrerequisiteEdge) => `${e.parentNodeId}:${e.childNodeId}`;
+    const existingEdges = new Set(state.skillEdges.map(edgeKey));
+    for (const e of SEED_SKILL_EDGES) {
+      if (!existingEdges.has(edgeKey(e))) state.skillEdges.push(e);
     }
     const existingTemplateIds = new Set(state.templates.map((t) => t.id));
     for (const t of SEED_TEMPLATES) {
@@ -410,10 +417,13 @@ export class LocalJsonRepository implements AppRepository {
 
   async listUserSkillMasteries(userId: string): Promise<UserSkillMastery[]> {
     const s = await this.load();
-    let rows = s.masteries.filter((m) => m.userId === userId);
-    if (rows.length === 0) {
-      rows = buildInitialMasteries(userId, s.skillNodes, s.skillEdges);
-      s.masteries.push(...rows);
+    const rows = s.masteries.filter((m) => m.userId === userId);
+    const existingNodeIds = new Set(rows.map((m) => m.skillNodeId));
+    const missingNodes = s.skillNodes.filter((n) => !existingNodeIds.has(n.id));
+    if (missingNodes.length > 0) {
+      const created = buildInitialMasteries(userId, missingNodes, s.skillEdges);
+      s.masteries.push(...created);
+      rows.push(...created);
       await this.persist();
     }
     return rows;

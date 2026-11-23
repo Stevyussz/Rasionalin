@@ -1,6 +1,10 @@
 import crypto from "node:crypto";
 import { computeCompositeIrtScore, computeTriageEfficiency, updateIrtSubtestScore } from "@/domain/irt-calibrator";
-import { isBlockSubmissionAllowed, SIMULATION_PRESETS } from "@/domain/simulation-rules";
+import {
+  getSimulationBlueprint,
+  isBlockSubmissionAllowed,
+  type SimulationIntensity,
+} from "@/domain/simulation-rules";
 import type {
   QuestionEntity,
   SimulationMode,
@@ -30,22 +34,13 @@ export class SimulationService {
     userId: string,
     mode: SimulationMode,
     focusSubtest?: SnbtSubtest | null,
+    intensity: SimulationIntensity = "standard",
   ): Promise<{
     session: SimulationSessionEntity;
     blocks: SimulationSubtestBlockEntity[];
     questionsById: Record<string, Omit<QuestionEntity, "correctAnswerKey" | "officialSolutionMarkdown" | "solutionSteps">>;
   }> {
-    const drillPreset = SIMULATION_PRESETS.subtest_drill[0];
-    const blueprint =
-      mode === "subtest_drill" && focusSubtest
-        ? [
-            {
-              subtest: focusSubtest,
-              questionCount: drillPreset.questionCount,
-              allocatedSeconds: drillPreset.allocatedSeconds,
-            },
-          ]
-        : SIMULATION_PRESETS[mode];
+    const blueprint = getSimulationBlueprint(mode, focusSubtest, intensity);
     const [allApproved, recentAttempts] = await Promise.all([
       this.repo.listQuestions({ userId, qcStatus: "approved" }),
       this.repo.listUserAttempts(userId, { limit: 300 }),
@@ -90,17 +85,21 @@ export class SimulationService {
       }
 
       const isFirst = idx === 0;
+      const allocatedSeconds =
+        chosen.length < bp.questionCount && bp.questionCount > 0
+          ? Math.max(60, Math.round((bp.allocatedSeconds * chosen.length) / bp.questionCount))
+          : bp.allocatedSeconds;
       blocks.push({
         id: crypto.randomUUID(),
         simulationSessionId: sessionId,
         subtest: bp.subtest,
         blockOrder: idx + 1,
         questionCount: chosen.length,
-        allocatedSeconds: bp.allocatedSeconds,
+        allocatedSeconds,
         questionIds: chosen.map((q) => q.id),
         startedAt: isFirst ? nowIso : null,
         lockedAt: null,
-        endsAt: isFirst ? new Date(now + bp.allocatedSeconds * 1000).toISOString() : null,
+        endsAt: isFirst ? new Date(now + allocatedSeconds * 1000).toISOString() : null,
         isLocked: false,
         subtestIrtScore: null,
         correctCount: 0,

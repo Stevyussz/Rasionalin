@@ -6,6 +6,45 @@ export interface SimulationBlockBlueprint {
   allocatedSeconds: number;
 }
 
+export type SimulationIntensity = "standard" | "official_utbk";
+
+export const OFFICIAL_UTBK_BLUEPRINT: Record<SnbtSubtest, SimulationBlockBlueprint> = {
+  PU: { subtest: "PU", questionCount: 30, allocatedSeconds: 1800 },
+  PPU: { subtest: "PPU", questionCount: 20, allocatedSeconds: 900 },
+  PBM: { subtest: "PBM", questionCount: 20, allocatedSeconds: 1500 },
+  PK: { subtest: "PK", questionCount: 20, allocatedSeconds: 1200 },
+  LBI: { subtest: "LBI", questionCount: 30, allocatedSeconds: 2550 },
+  LBE: { subtest: "LBE", questionCount: 20, allocatedSeconds: 1200 },
+  PM: { subtest: "PM", questionCount: 20, allocatedSeconds: 2550 },
+};
+
+const OFFICIAL_UTBK_ORDER: SnbtSubtest[] = ["PU", "PPU", "PBM", "PK", "LBI", "LBE", "PM"];
+
+export function getSimulationBlueprint(
+  mode: SimulationMode,
+  focusSubtest?: SnbtSubtest | null,
+  intensity: SimulationIntensity = "standard",
+): SimulationBlockBlueprint[] {
+  if (mode === "full_tryout_utbk" && intensity === "official_utbk") {
+    return OFFICIAL_UTBK_ORDER.map((sub) => OFFICIAL_UTBK_BLUEPRINT[sub]);
+  }
+  if (mode === "subtest_drill") {
+    const targetSub: SnbtSubtest = focusSubtest ?? "PK";
+    if (intensity === "official_utbk") {
+      return [OFFICIAL_UTBK_BLUEPRINT[targetSub]];
+    }
+    const drillPreset = SIMULATION_PRESETS.subtest_drill[0];
+    return [
+      {
+        subtest: targetSub,
+        questionCount: drillPreset.questionCount,
+        allocatedSeconds: drillPreset.allocatedSeconds,
+      },
+    ];
+  }
+  return SIMULATION_PRESETS[mode];
+}
+
 export const SIMULATION_PRESETS: Record<SimulationMode, SimulationBlockBlueprint[]> = {
   diagnostic_placement: [
     { subtest: "PK", questionCount: 3, allocatedSeconds: 270 },
