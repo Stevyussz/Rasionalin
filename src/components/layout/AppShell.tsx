@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import {
+  BrainIcon,
   CompassIcon,
   FlameIcon,
   FractureIcon,
@@ -35,6 +36,7 @@ const DESKTOP_NAV = [
   { href: "/graveyard", label: "Pemulihan", icon: FractureIcon },
   { href: "/vault", label: "Catatan", icon: VaultIcon },
   { href: "/simulation", label: "Tryout", icon: SimulationIcon },
+  { href: "/neural", label: "Neural Cortex", icon: BrainIcon },
   { href: "/settings", label: "Profil", icon: UserIcon },
 ];
 
@@ -234,6 +236,18 @@ export function AppShell({ children, momentum: momentumProp, rightRail, fullBlee
               </span>
             </div>
           )}
+
+          <Link
+            href="/neural"
+            aria-label="Buka Neural Cortex 3D"
+            className={`inline-flex items-center justify-center min-w-[38px] min-h-[38px] rounded-lg ${
+              pathname === "/neural"
+                ? "text-[var(--accent-primary)] bg-[var(--accent-tint)]"
+                : "text-[var(--accent-primary)] hover:bg-[var(--accent-tint)]"
+            }`}
+          >
+            <BrainIcon size={20} />
+          </Link>
 
           <button
             type="button"

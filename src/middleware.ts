@@ -2,7 +2,16 @@ import { NextRequest, NextResponse } from "next/server";
 
 const SESSION_COOKIE_NAME = "kejarsnbt_session";
 
-const PROTECTED_PATHS = ["/", "/tutor", "/study", "/vault", "/graveyard", "/simulation", "/settings"];
+const PROTECTED_PATHS = [
+  "/",
+  "/tutor",
+  "/study",
+  "/vault",
+  "/graveyard",
+  "/simulation",
+  "/settings",
+  "/neural",
+];
 
 function isProtectedPath(pathname: string): boolean {
   return PROTECTED_PATHS.some((p) => (p === "/" ? pathname === "/" : pathname.startsWith(p)));
@@ -37,5 +46,6 @@ export const config = {
     "/graveyard/:path*",
     "/simulation/:path*",
     "/settings/:path*",
+    "/neural/:path*",
   ],
 };
