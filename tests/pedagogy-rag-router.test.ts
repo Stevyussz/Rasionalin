@@ -6,7 +6,8 @@ import { SocraticTutorService } from "@/application/tutor-service";
 import { buildFadedSolutionView, validateEvidenceHighlight } from "@/domain/dual-track-pedagogy";
 import { classifyRootCauseDeterministically } from "@/domain/root-cause-rules";
 import { scoreHybridRrf } from "@/domain/rrf-scorer";
-import { SEED_QUESTIONS } from "@/domain/seed-data";
+import { SEED_QUESTIONS, SEED_SKILL_NODES } from "@/domain/seed-data";
+import { searchSnbtKnowledgeBase } from "@/domain/snbt-knowledge-base";
 import { LocalJsonRepository } from "@/infrastructure/db/memory/local-repository";
 
 describe("Dual-Track Pedagogy, Hybrid RRF 1.35x Boost & Socratic Fallback", () => {
@@ -72,6 +73,41 @@ describe("Dual-Track Pedagogy, Hybrid RRF 1.35x Boost & Socratic Fallback", () =
         hasPrerequisiteFracture: false,
       });
       expect(rc.primaryRootCause).toBe("careless_time_panic");
+    } finally {
+      await fs.rm(tmpFile, { force: true });
+    }
+  });
+
+  it("covers all 7 SNBT subtests and 24 skill nodes with clean curriculum KB grounding", async () => {
+    expect(SEED_QUESTIONS.length).toBeGreaterThanOrEqual(150);
+    const coveredSubtests = new Set(SEED_QUESTIONS.map((q) => q.subtest));
+    expect(coveredSubtests.size).toBe(7);
+
+    const coveredNodes = new Set(SEED_QUESTIONS.map((q) => q.skillNodeId));
+    for (const node of SEED_SKILL_NODES) {
+      expect(coveredNodes.has(node.id)).toBe(true);
+    }
+
+    expect(JSON.stringify(SEED_QUESTIONS)).not.toContain("\u2014");
+
+    for (const subtest of ["PU", "PPU", "PBM", "PK", "LBI", "LBE", "PM"] as const) {
+      const kb = searchSnbtKnowledgeBase({ queryText: "strategi dan jebakan", subtest, limit: 2 });
+      expect(kb.length).toBeGreaterThan(0);
+      expect(kb[0].subtest).toBe(subtest);
+    }
+
+    const tmpFile = path.join(os.tmpdir(), `rasionalin-kb-tutor-${Date.now()}.json`);
+    const repo = new LocalJsonRepository(tmpFile);
+    const owner = await repo.ensureDefaultOwnerUser();
+    try {
+      const tutor = new SocraticTutorService(repo);
+      const reply = await tutor.askInteractiveTutor({
+        userId: owner.id,
+        subtest: "PPU",
+        message: "Jelaskan cara menjawab soal bahasa panda dan jebakannya!",
+      });
+      expect(reply.whyFirstMarkdown.toLowerCase()).toContain("bahasa panda");
+      expect(reply.citedChunks.length).toBeGreaterThan(0);
     } finally {
       await fs.rm(tmpFile, { force: true });
     }

@@ -9,26 +9,26 @@ export interface SimulationBlockBlueprint {
 export const SIMULATION_PRESETS: Record<SimulationMode, SimulationBlockBlueprint[]> = {
   diagnostic_placement: [
     { subtest: "PK", questionCount: 3, allocatedSeconds: 270 },
-    { subtest: "PU", questionCount: 2, allocatedSeconds: 180 },
-    { subtest: "PM", questionCount: 2, allocatedSeconds: 180 },
-    { subtest: "LBI", questionCount: 2, allocatedSeconds: 180 },
-    { subtest: "LBE", questionCount: 2, allocatedSeconds: 180 },
+    { subtest: "PU", questionCount: 3, allocatedSeconds: 270 },
+    { subtest: "PM", questionCount: 3, allocatedSeconds: 270 },
+    { subtest: "LBI", questionCount: 3, allocatedSeconds: 270 },
+    { subtest: "LBE", questionCount: 3, allocatedSeconds: 270 },
   ],
   triage_sprint: [
-    { subtest: "PK", questionCount: 3, allocatedSeconds: 240 },
-    { subtest: "PM", questionCount: 2, allocatedSeconds: 180 },
+    { subtest: "PK", questionCount: 5, allocatedSeconds: 360 },
+    { subtest: "PM", questionCount: 5, allocatedSeconds: 360 },
   ],
   subtest_drill: [
-    { subtest: "PK", questionCount: 5, allocatedSeconds: 450 },
+    { subtest: "PK", questionCount: 10, allocatedSeconds: 900 },
   ],
   full_tryout_utbk: [
-    { subtest: "PU", questionCount: 3, allocatedSeconds: 300 },
-    { subtest: "PPU", questionCount: 2, allocatedSeconds: 180 },
-    { subtest: "PBM", questionCount: 2, allocatedSeconds: 180 },
-    { subtest: "PK", questionCount: 3, allocatedSeconds: 300 },
-    { subtest: "LBI", questionCount: 3, allocatedSeconds: 300 },
-    { subtest: "LBE", questionCount: 3, allocatedSeconds: 300 },
-    { subtest: "PM", questionCount: 3, allocatedSeconds: 300 },
+    { subtest: "PU", questionCount: 5, allocatedSeconds: 450 },
+    { subtest: "PPU", questionCount: 5, allocatedSeconds: 450 },
+    { subtest: "PBM", questionCount: 5, allocatedSeconds: 450 },
+    { subtest: "PK", questionCount: 5, allocatedSeconds: 450 },
+    { subtest: "LBI", questionCount: 5, allocatedSeconds: 450 },
+    { subtest: "LBE", questionCount: 5, allocatedSeconds: 450 },
+    { subtest: "PM", questionCount: 5, allocatedSeconds: 450 },
   ],
 };
 

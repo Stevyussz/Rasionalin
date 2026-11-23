@@ -14,6 +14,7 @@ import {
 } from "@/components/icons/ArchitecturalIcons";
 import { MathText } from "@/components/math/MathText";
 import type { MicroLessonContent } from "@/domain/micro-lessons";
+import { getPrimaryKnowledgeForNode } from "@/domain/snbt-knowledge-base";
 import type { SkillNode } from "@/domain/types";
 
 interface MicroLessonViewProps {
@@ -23,6 +24,7 @@ interface MicroLessonViewProps {
 }
 
 export function MicroLessonView({ skillNode, lesson, onStartPractice }: MicroLessonViewProps) {
+  const kb = getPrimaryKnowledgeForNode(skillNode.id);
   const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
   const [warmupSelected, setWarmupSelected] = useState<"A" | "B" | "C" | null>(null);
   const [aiSimpleLoading, setAiSimpleLoading] = useState(false);
@@ -63,6 +65,7 @@ export function MicroLessonView({ skillNode, lesson, onStartPractice }: MicroLes
             <BookOpenIcon size={17} />
             <span>
               Pahami dari Nol · {skillNode.subtest} · ±{lesson.estimatedMinutes} Menit
+              {kb ? ` · Prioritas UTBK Lv.${kb.priorityLevel}/10` : ""}
             </span>
           </div>
           <h1 className="text-xl sm:text-2xl font-bold leading-snug">{skillNode.titleId}</h1>
@@ -256,6 +259,39 @@ export function MicroLessonView({ skillNode, lesson, onStartPractice }: MicroLes
               </div>
             </div>
           </div>
+
+          {kb && (kb.utbkTraps.length > 0 || kb.shortcutWithBoundary) && (
+            <div className="border-l-4 border-[var(--ochre-ink)] pl-4 py-1 space-y-2.5 text-sm">
+              {kb.utbkTraps.length > 0 && (
+                <div className="space-y-1">
+                  <div className="text-xs font-extrabold uppercase tracking-wider text-[var(--ochre-ink)]">
+                    Checklist Jebakan UTBK ({kb.priorityBadge})
+                  </div>
+                  <ul className="list-disc pl-4 space-y-1 text-xs sm:text-sm font-semibold text-[var(--ink-secondary)]">
+                    {kb.utbkTraps.map((trap, idx) => (
+                      <li key={idx}>
+                        <MathText text={trap} />
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {kb.shortcutWithBoundary && (
+                <div className="space-y-0.5 text-xs sm:text-sm">
+                  <div className="font-extrabold text-[var(--ink-primary)]">
+                    Strategi Cepat: {kb.shortcutWithBoundary.methodLabel}
+                  </div>
+                  <div className="font-semibold text-[var(--ink-secondary)]">
+                    <MathText text={kb.shortcutWithBoundary.shortcutMarkdown} />
+                  </div>
+                  <div className="text-xs font-bold text-[var(--coral-ink)]">
+                    Syarat berlaku: <MathText text={kb.shortcutWithBoundary.validityConditions} />
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
 
           <div className="flex items-center justify-between gap-3 pt-2">
             <button type="button" onClick={() => setStep(2)} className="btn-secondary">

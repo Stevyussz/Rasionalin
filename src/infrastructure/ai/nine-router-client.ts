@@ -30,7 +30,7 @@ export type TierName =
 interface TaskRoutingPolicy {
   tier: TierName;
   primaryAliasKey: "embed" | "fast" | "vision" | "reason" | "codeMath";
-  fallbackChain: string[];
+  fallbackChain: Array<"fast" | "vision" | "reason" | "codeMath">;
   temperature: number;
   maxTokens: number;
   timeoutMs: number;
@@ -40,111 +40,111 @@ export const ROUTING_MATRIX: Record<AiTaskId, TaskRoutingPolicy> = {
   vision_pdf_extract: {
     tier: "TIER-2-VISION",
     primaryAliasKey: "vision",
-    fallbackChain: ["snbt-vision-fallback"],
+    fallbackChain: ["reason", "fast"],
     temperature: 0.05,
     maxTokens: 3200,
-    timeoutMs: 20000,
+    timeoutMs: 25000,
   },
   vault_note_chunk_classify: {
     tier: "TIER-1-FAST",
     primaryAliasKey: "fast",
-    fallbackChain: ["snbt-reason"],
+    fallbackChain: ["reason"],
     temperature: 0.1,
     maxTokens: 700,
-    timeoutMs: 6000,
+    timeoutMs: 10000,
   },
   socratic_hint_l1_l2: {
     tier: "TIER-1-FAST",
     primaryAliasKey: "fast",
-    fallbackChain: ["snbt-reason"],
+    fallbackChain: ["reason"],
     temperature: 0.3,
     maxTokens: 700,
-    timeoutMs: 12000,
+    timeoutMs: 14000,
   },
   socratic_hint_l3_l4: {
     tier: "TIER-3-REASON",
     primaryAliasKey: "reason",
-    fallbackChain: ["snbt-fast"],
+    fallbackChain: ["fast"],
     temperature: 0.35,
     maxTokens: 1100,
-    timeoutMs: 16000,
+    timeoutMs: 18000,
   },
   why_before_how_explain: {
     tier: "TIER-3-REASON",
     primaryAliasKey: "reason",
-    fallbackChain: ["snbt-fast"],
+    fallbackChain: ["fast"],
     temperature: 0.35,
     maxTokens: 1400,
-    timeoutMs: 18000,
+    timeoutMs: 22000,
   },
   tutor_freeform_chat: {
     tier: "TIER-3-REASON",
     primaryAliasKey: "reason",
-    fallbackChain: ["snbt-fast"],
+    fallbackChain: ["fast"],
     temperature: 0.4,
     maxTokens: 1400,
-    timeoutMs: 18000,
+    timeoutMs: 22000,
   },
   tutor_multimodal_chat: {
     tier: "TIER-2-VISION",
     primaryAliasKey: "vision",
-    fallbackChain: ["snbt-reason", "snbt-fast"],
+    fallbackChain: ["reason", "fast"],
     temperature: 0.3,
     maxTokens: 1600,
-    timeoutMs: 24000,
+    timeoutMs: 25000,
   },
   root_cause_classify: {
     tier: "TIER-1-FAST",
     primaryAliasKey: "fast",
-    fallbackChain: [],
+    fallbackChain: ["reason"],
     temperature: 0.05,
     maxTokens: 320,
-    timeoutMs: 4000,
+    timeoutMs: 8000,
   },
   neuro_symbolic_template_gen: {
     tier: "TIER-4-CODE-MATH",
     primaryAliasKey: "codeMath",
-    fallbackChain: ["snbt-reason"],
+    fallbackChain: ["reason", "fast"],
     temperature: 0.2,
     maxTokens: 2400,
-    timeoutMs: 18000,
+    timeoutMs: 22000,
   },
   neuro_symbolic_code_repair: {
     tier: "TIER-4-CODE-MATH",
     primaryAliasKey: "codeMath",
-    fallbackChain: ["snbt-reason"],
+    fallbackChain: ["reason", "fast"],
     temperature: 0.1,
     maxTokens: 1800,
-    timeoutMs: 14000,
+    timeoutMs: 18000,
   },
   literacy_evidence_tagger: {
     tier: "TIER-3-REASON",
     primaryAliasKey: "reason",
-    fallbackChain: ["snbt-fast"],
+    fallbackChain: ["fast"],
     temperature: 0.1,
     maxTokens: 1100,
-    timeoutMs: 10000,
+    timeoutMs: 15000,
   },
   sbi_polya_deconstruct: {
     tier: "TIER-3-REASON",
     primaryAliasKey: "reason",
-    fallbackChain: ["snbt-fast"],
+    fallbackChain: ["fast"],
     temperature: 0.15,
     maxTokens: 1200,
-    timeoutMs: 10000,
+    timeoutMs: 15000,
   },
   diagnostic_gap_synthesizer: {
     tier: "TIER-3-REASON",
     primaryAliasKey: "reason",
-    fallbackChain: ["snbt-fast"],
+    fallbackChain: ["fast"],
     temperature: 0.25,
     maxTokens: 1100,
-    timeoutMs: 12000,
+    timeoutMs: 16000,
   },
   rag_text_embed: {
     tier: "TIER-0-EMBED",
     primaryAliasKey: "embed",
-    fallbackChain: ["snbt-embed-fallback"],
+    fallbackChain: [],
     temperature: 0,
     maxTokens: 0,
     timeoutMs: 5000,
@@ -191,9 +191,86 @@ function recordAliasSuccess(alias: string): void {
 
 function extractJsonObject(rawContent: string): string {
   const trimmed = rawContent.trim();
-  const fenced = trimmed.match(/^```(?:json)?\s*([\s\S]*?)\s*```$/i);
+  const fenced = trimmed.match(/```(?:json)?\s*([\s\S]*?)\s*```/i);
   if (fenced) return fenced[1].trim();
+  if (trimmed.startsWith("{") && trimmed.endsWith("}")) return trimmed;
+  const firstBrace = trimmed.indexOf("{");
+  const lastBrace = trimmed.lastIndexOf("}");
+  if (firstBrace >= 0 && lastBrace > firstBrace) {
+    return trimmed.slice(firstBrace, lastBrace + 1).trim();
+  }
   return trimmed;
+}
+
+function parseChatCompletionResponse(rawText: string): {
+  model: string | null;
+  content: string;
+  promptTokens: number;
+  completionTokens: number;
+} {
+  const trimmed = rawText.trim();
+  if (trimmed.startsWith("data:")) {
+    let content = "";
+    let model: string | null = null;
+    let promptTokens = 0;
+    let completionTokens = 0;
+    for (const line of trimmed.split(/\r?\n/)) {
+      if (!line.startsWith("data:")) continue;
+      const payload = line.slice(5).trim();
+      if (!payload || payload === "[DONE]") continue;
+      try {
+        const chunk = JSON.parse(payload) as {
+          model?: string;
+          choices?: Array<{ delta?: { content?: string }; message?: { content?: string } }>;
+          usage?: { prompt_tokens?: number; completion_tokens?: number };
+        };
+        if (chunk.model) model = chunk.model;
+        if (chunk.usage?.prompt_tokens) promptTokens = chunk.usage.prompt_tokens;
+        if (chunk.usage?.completion_tokens) completionTokens = chunk.usage.completion_tokens;
+        const piece = chunk.choices?.[0]?.delta?.content ?? chunk.choices?.[0]?.message?.content;
+        if (typeof piece === "string") content += piece;
+      } catch {
+        // Skip partial/malformed SSE chunk
+      }
+    }
+    return { model, content, promptTokens, completionTokens };
+  }
+
+  const body = JSON.parse(trimmed) as {
+    model?: string;
+    choices?: Array<{ message?: { content?: string } }>;
+    usage?: { prompt_tokens?: number; completion_tokens?: number };
+  };
+  return {
+    model: body.model ?? null,
+    content: body.choices?.[0]?.message?.content ?? "",
+    promptTokens: body.usage?.prompt_tokens ?? 0,
+    completionTokens: body.usage?.completion_tokens ?? 0,
+  };
+}
+
+function buildSchemaContractReminder(jsonSchema: Record<string, unknown>): string {
+  const props = jsonSchema.properties as Record<string, Record<string, unknown>> | undefined;
+  const required = Array.isArray(jsonSchema.required)
+    ? (jsonSchema.required as string[])
+    : props
+      ? Object.keys(props)
+      : [];
+  const fieldDescs = required.map((key) => {
+    const def = props?.[key];
+    if (def?.type === "array" && def.items && typeof def.items === "object") {
+      const itemObj = def.items as Record<string, unknown>;
+      const itemProps = itemObj.properties as Record<string, unknown> | undefined;
+      if (itemProps) {
+        return `"${key}": array of objects {${Object.keys(itemProps).join(", ")}}`;
+      }
+    }
+    if (def?.const !== undefined) {
+      return `"${key}": ${JSON.stringify(def.const)}`;
+    }
+    return `"${key}"`;
+  });
+  return `Format keluaran WAJIB berupa 1 objek JSON valid SAJA tanpa teks pengantar/penutup dan tanpa markdown fence, memuat tepat properti: ${fieldDescs.join(", ")}.`;
 }
 
 function estimateCostUsd(modelAlias: string, promptTokens: number, completionTokens: number): number {
@@ -233,10 +310,52 @@ interface DiscoveredModelsCache {
   fetchedAt: number;
 }
 
+interface HealthCheckResult {
+  reachable: boolean;
+  baseUrl: string;
+  modelsCount: number;
+  modelsList: string[];
+  error: string | null;
+}
+
+const HEALTH_CACHE_TTL_MS = 5 * 60 * 1000;
+const PREFERRED_MODEL_ORDER = [
+  "ag/claude-sonnet-4-6",
+  "ag/gemini-3.8-flash-low",
+  "ag/claude-opus-4-6-thinking",
+  "ag/gemini-3.8-flash",
+  "mistral/codestral-latest",
+];
+
 let discoveredModelsCache: (DiscoveredModelsCache & { baseUrl: string }) | null = null;
+let healthCache: { baseUrl: string; fetchedAt: number; result: HealthCheckResult } | null = null;
+const embedUnsupportedUntilMs = new Map<string, number>();
 
 export function clearDiscoveredModelsCache(): void {
   discoveredModelsCache = null;
+  healthCache = null;
+}
+
+function rankRouterModels(ids: string[]): string[] {
+  const preferredRank = new Map(PREFERRED_MODEL_ORDER.map((id, i) => [id, i]));
+  return [...ids].sort((a, b) => {
+    const ra = preferredRank.get(a);
+    const rb = preferredRank.get(b);
+    if (ra !== undefined && rb !== undefined) return ra - rb;
+    if (ra !== undefined) return -1;
+    if (rb !== undefined) return 1;
+    const providerOrder = (m: string) => {
+      if (m.startsWith("ag/")) return 0;
+      if (m.startsWith("mistral/")) return 1;
+      if (m.startsWith("groq/")) return 2;
+      if (m.startsWith("gemini/")) return 3;
+      if (m.startsWith("nvidia/")) return 4;
+      return 5;
+    };
+    const pa = providerOrder(a);
+    const pb = providerOrder(b);
+    return pa !== pb ? pa - pb : a.localeCompare(b);
+  });
 }
 
 async function discoverLiveRouterModels(): Promise<string[]> {
@@ -244,7 +363,7 @@ async function discoverLiveRouterModels(): Promise<string[]> {
   if (
     discoveredModelsCache &&
     discoveredModelsCache.baseUrl === cfg.baseUrl &&
-    Date.now() - discoveredModelsCache.fetchedAt < 30_000
+    Date.now() - discoveredModelsCache.fetchedAt < HEALTH_CACHE_TTL_MS
   ) {
     return discoveredModelsCache.models;
   }
@@ -252,14 +371,16 @@ async function discoverLiveRouterModels(): Promise<string[]> {
     const res = await fetch(`${cfg.baseUrl}/models`, {
       method: "GET",
       headers: { Authorization: `Bearer ${cfg.apiKey}` },
-      signal: AbortSignal.timeout(2500),
+      signal: AbortSignal.timeout(15000),
     });
     if (!res.ok) return [];
     const payload = (await res.json()) as { data?: Array<{ id?: string }> };
     const ids = Array.isArray(payload.data)
-      ? payload.data
-          .map((m) => (typeof m?.id === "string" ? m.id.trim() : ""))
-          .filter((id) => id.length > 0 && !id.toLowerCase().includes("embed"))
+      ? rankRouterModels(
+          payload.data
+            .map((m) => (typeof m?.id === "string" ? m.id.trim() : ""))
+            .filter((id) => id.length > 0 && !id.toLowerCase().includes("embed")),
+        )
       : [];
     discoveredModelsCache = { baseUrl: cfg.baseUrl, models: ids, fetchedAt: Date.now() };
     return ids;
@@ -268,19 +389,20 @@ async function discoverLiveRouterModels(): Promise<string[]> {
   }
 }
 
-export async function checkNineRouterHealth(): Promise<{
-  reachable: boolean;
-  baseUrl: string;
-  modelsCount: number;
-  modelsList: string[];
-  error: string | null;
-}> {
+export async function checkNineRouterHealth(): Promise<HealthCheckResult> {
   const cfg = getEffectiveAiConfig();
+  if (
+    healthCache &&
+    healthCache.baseUrl === cfg.baseUrl &&
+    Date.now() - healthCache.fetchedAt < HEALTH_CACHE_TTL_MS
+  ) {
+    return healthCache.result;
+  }
   try {
     const res = await fetch(`${cfg.baseUrl}/models`, {
       method: "GET",
       headers: { Authorization: `Bearer ${cfg.apiKey}` },
-      signal: AbortSignal.timeout(3000),
+      signal: AbortSignal.timeout(18000),
     });
     if (!res.ok) {
       return {
@@ -292,23 +414,26 @@ export async function checkNineRouterHealth(): Promise<{
       };
     }
     const payload = (await res.json()) as { data?: Array<{ id?: string }> };
-    const modelsList = Array.isArray(payload.data)
+    const rawList = Array.isArray(payload.data)
       ? payload.data
           .map((m) => (typeof m?.id === "string" ? m.id.trim() : ""))
           .filter(Boolean)
       : [];
+    const ranked = rankRouterModels(rawList);
     discoveredModelsCache = {
       baseUrl: cfg.baseUrl,
-      models: modelsList.filter((id) => !id.toLowerCase().includes("embed")),
+      models: ranked.filter((id) => !id.toLowerCase().includes("embed")),
       fetchedAt: Date.now(),
     };
-    return {
+    const result: HealthCheckResult = {
       reachable: true,
       baseUrl: cfg.baseUrl,
-      modelsCount: modelsList.length,
-      modelsList: modelsList.slice(0, 24),
+      modelsCount: rawList.length,
+      modelsList: ranked.slice(0, 40),
       error: null,
     };
+    healthCache = { baseUrl: cfg.baseUrl, fetchedAt: Date.now(), result };
+    return result;
   } catch (err) {
     return {
       reachable: false,
@@ -360,12 +485,28 @@ export class NineRouterClient {
     const cfg = getEffectiveAiConfig();
     const policy = ROUTING_MATRIX[params.taskId];
     const primaryAlias = cfg.models[policy.primaryAliasKey];
-    const discovered = await discoverLiveRouterModels();
-    const aliases = [
-      primaryAlias,
-      ...(cfg.isCustomConfigured ? [] : policy.fallbackChain),
-      ...discovered.slice(0, 2),
-    ].filter((v, idx, arr) => v && arr.indexOf(v) === idx);
+    const fallbackAliases = cfg.isCustomConfigured
+      ? []
+      : policy.fallbackChain.map((k) => cfg.models[k]);
+    const warmDiscovered =
+      discoveredModelsCache &&
+      discoveredModelsCache.baseUrl === cfg.baseUrl &&
+      Date.now() - discoveredModelsCache.fetchedAt < HEALTH_CACHE_TTL_MS
+        ? discoveredModelsCache.models.slice(0, 2)
+        : [];
+    const aliases = [primaryAlias, ...fallbackAliases, ...warmDiscovered].filter(
+      (v, idx, arr) => v && arr.indexOf(v) === idx,
+    );
+
+    const schemaReminder = buildSchemaContractReminder(params.jsonSchema);
+    const messagesForRouter: ChatMessage[] = params.messages.some((m) => m.role === "system")
+      ? params.messages.map((m, idx) =>
+          idx === params.messages.findIndex((x) => x.role === "system") && typeof m.content === "string"
+            ? { ...m, content: `${m.content}\n\n${schemaReminder}` }
+            : m,
+        )
+      : [{ role: "system", content: schemaReminder }, ...params.messages];
+
     const correlationId = crypto.randomUUID();
     const overallStart = Date.now();
 
@@ -394,10 +535,11 @@ export class NineRouterClient {
             headers: this.buildHeaders(correlationId, params.taskId, params.userId),
             body: JSON.stringify({
               model: alias,
+              stream: false,
               temperature: policy.temperature,
               max_tokens: policy.maxTokens,
               response_format: responseFormat,
-              messages: params.messages,
+              messages: messagesForRouter,
             }),
             signal: AbortSignal.timeout(Math.min(policy.timeoutMs, cfg.timeoutMs)),
           });
@@ -439,15 +581,12 @@ export class NineRouterClient {
             break;
           }
 
-          const body = (await res.json()) as {
-            model?: string;
-            choices?: Array<{ message?: { content?: string } }>;
-            usage?: { prompt_tokens?: number; completion_tokens?: number };
-          };
-          const rawText = body.choices?.[0]?.message?.content ?? "";
-          const promptTokens = body.usage?.prompt_tokens ?? 0;
-          const completionTokens = body.usage?.completion_tokens ?? 0;
-          const actualModel = body.model || alias;
+          const rawHttpText = await res.text();
+          const parsedBody = parseChatCompletionResponse(rawHttpText);
+          const rawText = parsedBody.content;
+          const promptTokens = parsedBody.promptTokens;
+          const completionTokens = parsedBody.completionTokens;
+          const actualModel = parsedBody.model || alias;
 
           let parsedJson: unknown;
           try {
@@ -576,6 +715,7 @@ export class NineRouterClient {
         headers: this.buildHeaders(correlationId, taskId, userId),
         body: JSON.stringify({
           model: cfg.models.fast,
+          stream: false,
           temperature: 0,
           max_tokens: 1400,
           response_format: { type: "json_object" },
@@ -590,13 +730,11 @@ export class NineRouterClient {
             },
           ],
         }),
-        signal: AbortSignal.timeout(4000),
+        signal: AbortSignal.timeout(Math.min(12000, cfg.timeoutMs)),
       });
       if (!res.ok) return null;
-      const body = (await res.json()) as {
-        choices?: Array<{ message?: { content?: string } }>;
-      };
-      const raw = body.choices?.[0]?.message?.content ?? "";
+      const parsedBody = parseChatCompletionResponse(await res.text());
+      const raw = parsedBody.content;
       const parsed = schema.safeParse(JSON.parse(extractJsonObject(raw)));
       await this.logLedger({
         correlationId,
@@ -625,6 +763,13 @@ export class NineRouterClient {
     const cfg = getEffectiveAiConfig();
     const policy = ROUTING_MATRIX.rag_text_embed;
     const alias = cfg.models.embed;
+    if (!alias || /^(none|disabled|off)$/i.test(alias)) {
+      return null;
+    }
+    const disabledUntil = embedUnsupportedUntilMs.get(cfg.baseUrl) ?? 0;
+    if (disabledUntil > Date.now()) {
+      return null;
+    }
     const correlationId = crypto.randomUUID();
     const start = Date.now();
 
@@ -639,7 +784,12 @@ export class NineRouterClient {
         }),
         signal: AbortSignal.timeout(policy.timeoutMs),
       });
-      if (!res.ok) return null;
+      if (!res.ok) {
+        if (res.status === 400 || res.status === 404 || res.status === 405 || res.status === 501) {
+          embedUnsupportedUntilMs.set(cfg.baseUrl, Date.now() + 10 * 60 * 1000);
+        }
+        return null;
+      }
       const body = (await res.json()) as {
         data?: Array<{ embedding?: number[] }>;
         usage?: { prompt_tokens?: number };

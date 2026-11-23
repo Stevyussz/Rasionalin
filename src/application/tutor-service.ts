@@ -1,4 +1,9 @@
 import crypto from "node:crypto";
+import {
+  formatKnowledgeBasePromptBlock,
+  searchSnbtKnowledgeBase,
+  type SnbtKnowledgeEntry,
+} from "@/domain/snbt-knowledge-base";
 import type {
   QuestionEntity,
   SnbtSubtest,
@@ -154,6 +159,12 @@ export class SocraticTutorService {
       .join("\n\n");
 
     const studentMemory = buildStudentMemoryPromptBlock(params.userId, question.subtest);
+    const kbMatches = searchSnbtKnowledgeBase({
+      queryText,
+      subtest: question.subtest,
+      skillNodeId: question.skillNodeId,
+      limit: 2,
+    });
 
     const aiResponse = await routerClient.invokeStructuredJson({
       taskId,
@@ -198,6 +209,7 @@ export class SocraticTutorService {
             sbi_deconstruction: question.sbiDeconstruction,
             step_1_only: question.solutionSteps[0] ?? null,
             student_stuck_note: params.userStuckInput ?? null,
+            snbt_curriculum_knowledge: formatKnowledgeBasePromptBlock(kbMatches),
             brain_vault_context: fencedVaultContext || "Tidak ada catatan vault cocok.",
           }),
         },
@@ -248,6 +260,7 @@ export class SocraticTutorService {
       skillNode?.firstPrinciplesSummary ?? "",
       params.hintLevel,
       ragResults,
+      kbMatches,
     );
 
     const log: SocraticHintLogEntity = {
@@ -300,6 +313,12 @@ export class SocraticTutorService {
     const correctOpt = question.options.find((o) => o.key === question.correctAnswerKey);
 
     const studentMemory = buildStudentMemoryPromptBlock(params.userId, question.subtest);
+    const kbMatches = searchSnbtKnowledgeBase({
+      queryText: `${question.stemMarkdown} ${skillNode?.titleId ?? ""}`,
+      subtest: question.subtest,
+      skillNodeId: question.skillNodeId,
+      limit: 2,
+    });
     const routerClient = new NineRouterClient(this.repo);
     const aiRes = await routerClient.invokeStructuredJson({
       taskId: "why_before_how_explain",
@@ -360,6 +379,7 @@ export class SocraticTutorService {
             correct_text: correctOpt?.textMarkdown ?? "",
             verified_steps: question.solutionSteps,
             official_solution: question.officialSolutionMarkdown,
+            snbt_curriculum_knowledge: formatKnowledgeBasePromptBlock(kbMatches),
           }),
         },
       ],
@@ -399,8 +419,13 @@ export class SocraticTutorService {
             },
           ];
 
+    const topKb = kbMatches[0] ?? null;
+    const kbShortcutNote = topKb?.shortcutWithBoundary
+      ? ` Strategi cepat (${topKb.shortcutWithBoundary.methodLabel}): ${topKb.shortcutWithBoundary.shortcutMarkdown} Syarat berlaku: ${topKb.shortcutWithBoundary.validityConditions}`
+      : "";
+
     return {
-      whyIntuitionMarkdown: `**Mengapa ini bekerja:** ${skillNode?.firstPrinciplesSummary ?? "Setiap soal UTBK selalu punya satu aturan inti yang tidak berubah."} Pahami alasan di balik aturannya dulu sebelum menghafal rumus agar kamu tetap bisa mengerjakannya meski angkanya diganti.`,
+      whyIntuitionMarkdown: `**Mengapa ini bekerja:** ${skillNode?.firstPrinciplesSummary ?? topKb?.whyBeforeHow ?? "Setiap soal UTBK selalu punya satu aturan inti yang tidak berubah."} Pahami alasan di balik aturannya dulu sebelum menghafal rumus agar kamu tetap bisa mengerjakannya meski angkanya diganti.${kbShortcutNote}`,
       everydayAnalogy:
         question.track === "quantitative"
           ? "Bayangkan persamaan atau pecahan seperti menimbang barang di pasar: kamu hanya bisa menjumlahkan atau membandingkan jika satuannya dibuat setara terlebih dahulu."
@@ -409,7 +434,8 @@ export class SocraticTutorService {
       trapWatchout:
         chosenOpt && chosenOpt.key !== question.correctAnswerKey
           ? `Opsi ${chosenOpt.key} sering mengecoh karena: ${chosenOpt.distractorRationale}`
-          : `Hati-hati pada kesalahan tanda, satuan, atau kata mutlak (semua/selalu/pasti) yang sering dipakai pengecoh di subtes ${question.subtest}.`,
+          : (topKb?.utbkTraps[0] ??
+            `Hati-hati pada kesalahan tanda, satuan, atau kata mutlak (semua/selalu/pasti) yang sering dipakai pengecoh di subtes ${question.subtest}.`),
       activeRecallPrompt:
         question.track === "quantitative"
           ? `Tanpa melihat catatan di atas, apa syarat atau langkah PALING PERTAMA yang harus dilakukan saat bertemu soal ${skillNode?.titleId ?? question.subtest}?`
@@ -519,6 +545,12 @@ export class SocraticTutorService {
     ]
       .join(" ")
       .trim();
+    const kbMatches = searchSnbtKnowledgeBase({
+      queryText: searchInput,
+      subtest: resolvedSubtest,
+      skillNodeId: question?.skillNodeId ?? null,
+      limit: 3,
+    });
     const queryEmbedding = await routerClient.embedText(params.userId, searchInput);
 
     const ragResults = await this.repo.searchHybridVaultChunks({
@@ -569,6 +601,7 @@ export class SocraticTutorService {
       explicit_context_tags: resolvedTags,
       attached_files: fencedFilesContext || null,
       attached_images_count: imageAttachments.length,
+      snbt_curriculum_knowledge: formatKnowledgeBasePromptBlock(kbMatches),
       brain_vault_notes: fencedVaultContext || "Belum ada catatan pribadi yang cocok.",
       student_question: params.message,
     };
@@ -648,6 +681,7 @@ export class SocraticTutorService {
 
     // Helpful beginner Why-Before-How offline fallback (acknowledging persona, tags, and attachments)
     const lower = params.message.toLowerCase();
+    const topKb = kbMatches[0] ?? null;
     const matchedVault = ragResults[0]?.chunk ?? null;
     const greetingPrefix = studentMemory.nickname ? `Halo ${studentMemory.nickname}! ` : "";
 
@@ -676,6 +710,29 @@ export class SocraticTutorService {
           "1. Buka menu **Profil -> Pengaturan AI & Sistem** dan masukkan API Key Gemini/OpenAI atau jalankan 9router.\n2. Pilih model Vision (misal `gemini-2.5-flash` atau `gpt-4o-mini`).\n3. Kirim ulang gambar soalmu di sini agar Tutor AI langsung membaca gambarnya dan menjelaskan Why Before How.";
       }
       recall = "Sambil menyiapkan AI live, bagian mana dari lampiran tersebut yang paling membuatmu bingung?";
+    } else if (matchedVault) {
+      whyFirst = `${greetingPrefix}Berdasarkan catatan pribadimu (**${matchedVault.methodLabel ?? "Brain Vault"}**): ${matchedVault.contentMarkdown}`;
+      if (matchedVault.validityConditions) {
+        stepByStep = `1. Pastikan syarat batas ini terpenuhi dulu: ${matchedVault.validityConditions}\n2. Cocokkan besaran yang diketahui dari soal dengan variabel di catatanmu.\n3. Hitung bertahap dan cek masuk akal tidaknya hasil akhir.`;
+      }
+    } else if (topKb) {
+      whyFirst = `${greetingPrefix}**Why Before How (${topKb.subtest} · ${topKb.topicTitle}):**\n${topKb.whyBeforeHow}`;
+      const formulaBlock =
+        topKb.keyFormulasLatex.length > 0
+          ? `Rumus inti yang sering muncul: ${topKb.keyFormulasLatex.map((f) => `$${f}$`).join(" , ")}.`
+          : "Terapkan pembacaan bukti kalimat secara ketat sebelum memilih opsi.";
+      const shortcutLine = topKb.shortcutWithBoundary
+        ? `\n2. Strategi cepat (**${topKb.shortcutWithBoundary.methodLabel}**): ${topKb.shortcutWithBoundary.shortcutMarkdown} *(Syarat berlaku: ${topKb.shortcutWithBoundary.validityConditions})*`
+        : "\n2. Pisahkan klaim utama teks dari detail pengecoh lalu uji kata pembatas setiap opsi.";
+      const trapLine =
+        topKb.utbkTraps.length > 0
+          ? `\n3. Waspadai jebakan UTBK berikut: ${topKb.utbkTraps.slice(0, 2).join("; ")}`
+          : "";
+      stepByStep = `1. ${formulaBlock}${shortcutLine}${trapLine}`;
+      recall =
+        topKb.shortcutWithBoundary
+          ? `Cek paham (Active Recall): kapan strategi "${topKb.shortcutWithBoundary.methodLabel}" TIDAK boleh dipakai secara langsung?`
+          : `Active Recall: sebutkan 1 jebakan UTBK paling sering pada materi "${topKb.topicTitle}"!`;
     } else if (lower.includes("pecahan") || lower.includes("penyebut")) {
       whyFirst =
         `${greetingPrefix}Bayangkan pizza yang dipotong 4 bagian ($\\dfrac{1}{4}$) dan pizza lain yang dipotong 6 bagian ($\\dfrac{1}{6}$). Ukurannya beda, jadi kamu tidak bisa langsung menjumlahkan potongannya. Itulah **mengapa** penyebut wajib disamakan dulu ke KPK-nya agar semua potongan berukuran persis sama.`;
@@ -697,12 +754,16 @@ export class SocraticTutorService {
         "1. Uji logika dulu: jika besaran A naik, apakah besaran B ikut naik (senilai) atau malah turun (berbalik nilai)?\n2. Untuk berbalik nilai, hitung total beban kerja: $W = P_1 \\times t_1$.\n3. Bagi total beban kerja dengan jumlah pekerja baru: $t_2 = \\dfrac{P_1 \\times t_1}{P_2}$.";
       recall =
         "Active Recall: kalau $10$ orang butuh $6$ hari, mengapa $20$ orang butuh $3$ hari dan bukan $12$ hari?";
-    } else if (matchedVault) {
-      whyFirst = `${greetingPrefix}Berdasarkan catatan pribadimu (**${matchedVault.methodLabel ?? "Brain Vault"}**): ${matchedVault.contentMarkdown}`;
-      if (matchedVault.validityConditions) {
-        stepByStep = `1. Pastikan syarat batas ini terpenuhi dulu: ${matchedVault.validityConditions}\n2. Cocokkan besaran yang diketahui dari soal dengan variabel di catatanmu.\n3. Hitung bertahap dan cek masuk akal tidaknya hasil akhir.`;
-      }
     }
+
+    const effectiveCitedChunks =
+      citedChunks.length > 0
+        ? citedChunks
+        : kbMatches.slice(0, 1).map((kb) => ({
+            id: kb.id,
+            methodLabel: `Modul SNBT: ${kb.topicTitle}`,
+            subtest: kb.subtest,
+          }));
 
     return {
       whyFirstMarkdown: `${whyFirst}\n\n*(Mode Panduan Lokal aktif · hubungkan Gemini/OpenAI/9router di Profil -> Pengaturan AI untuk jawaban live penuh.)*`,
@@ -714,7 +775,7 @@ export class SocraticTutorService {
         "Apa jebakan paling sering di materi ini?",
       ],
       groundedInVault: Boolean(matchedVault),
-      citedChunks,
+      citedChunks: effectiveCitedChunks,
       sourceMode: "deterministic_fallback",
       modelUsed: null,
       latencyMs: Date.now() - start,
@@ -728,10 +789,14 @@ export class SocraticTutorService {
     firstPrinciplesSummary: string,
     hintLevel: SocraticHintLevel,
     ragResults: VaultSearchResultItem[],
+    kbMatches: SnbtKnowledgeEntry[] = [],
   ): Omit<SocraticHintOutput, "citedChunks" | "sourceMode" | "modelUsed" | "latencyMs"> {
     const topVault = ragResults[0];
+    const topKb = kbMatches[0] ?? null;
     const boundary =
-      ragResults.find((r) => r.chunk.validityConditions)?.chunk.validityConditions ?? null;
+      ragResults.find((r) => r.chunk.validityConditions)?.chunk.validityConditions ??
+      topKb?.shortcutWithBoundary?.validityConditions ??
+      null;
 
     if (hintLevel === "L1_vault_nudge") {
       if (topVault) {
@@ -746,11 +811,14 @@ export class SocraticTutorService {
               : "Kalimat mana dalam bacaan yang memiliki kata pembatas serupa dengan catatan di atas?",
         };
       }
+      const shortcutSection = topKb?.shortcutWithBoundary
+        ? `\n\n**Strategi Modul SNBT (${topKb.shortcutWithBoundary.methodLabel}):** ${topKb.shortcutWithBoundary.shortcutMarkdown}`
+        : "";
       return {
         hintLevel,
         groundedInUserVault: false,
-        boundaryConditionWarning: null,
-        hintMarkdown: `**Why Before How (Prinsip Dasar):** ${firstPrinciplesSummary}`,
+        boundaryConditionWarning: boundary,
+        hintMarkdown: `**Why Before How (Prinsip Dasar):** ${topKb?.whyBeforeHow ?? firstPrinciplesSummary}${shortcutSection}`,
         promptQuestionForStudent:
           "Sebelum menghitung, hubungan dasar apa yang terjadi pada soal ini?",
       };
@@ -795,6 +863,7 @@ export class SocraticTutorService {
     }
 
     const setupStep = question.solutionSteps[1] ?? question.solutionSteps[0];
+    const kbTrapTip = topKb?.utbkTraps[0] ? `\n\n**Waspada Jebakan UTBK:** ${topKb.utbkTraps[0]}` : "";
     return {
       hintLevel,
       groundedInUserVault: ragResults.length > 0,
@@ -805,7 +874,7 @@ export class SocraticTutorService {
               setupStep.formulaLatex ? `\n\n$$${setupStep.formulaLatex}$$` : ""
             }`
           : ""
-      }\n\nCoba selesaikan langkah akhirnya sendiri dulu ya agar ingatan aktifmu (Active Recall) langsung terkunci.`,
+      }${kbTrapTip}\n\nCoba selesaikan langkah akhirnya sendiri dulu ya agar ingatan aktifmu (Active Recall) langsung terkunci.`,
       promptQuestionForStudent: "Dari hubungan di atas, hasil akhir atau opsi mana yang paling konsisten?",
     };
   }

@@ -41,7 +41,7 @@ const MODES: Array<{
 }> = [
   {
     mode: "diagnostic_placement",
-    badge: "5 Subtes · ~15 Menit",
+    badge: "5 Subtes · 15 Soal",
     title: "Diagnostik Penempatan Awal",
     desc: "Petakan materi dasar yang perlu diperbaiki lintas PK, PU, PM, LBI, dan LBE sekaligus ukur skor IRT awalmu.",
     cta: "Mulai Diagnostik",
@@ -49,7 +49,7 @@ const MODES: Array<{
   },
   {
     mode: "triage_sprint",
-    badge: "PK & PM · Refleks 15-20 Detik",
+    badge: "PK & PM · 10 Soal Refleks",
     title: "Sprint Triase Cepat",
     desc: "Latih keputusan cepat antara mengerjakan soal sekarang atau melewati cerdas pada blok kuantitatif.",
     cta: "Mulai Sprint Triase",
@@ -57,7 +57,7 @@ const MODES: Array<{
   },
   {
     mode: "full_tryout_utbk",
-    badge: "7 Subtes Resmi · Blok Terkunci",
+    badge: "7 Subtes Resmi · 35 Soal Terkunci",
     title: "Tryout Penuh UTBK-SNBT",
     desc: "Mode ujian fokus layar penuh dengan urutan 7 blok subtes terkunci permanen persis UTBK resmi.",
     cta: "Mulai Tryout UTBK",
@@ -255,7 +255,7 @@ export function SimulationWorkspace() {
                 <div className="space-y-3">
                   <div className="space-y-1.5">
                     <span className="text-xs font-extrabold uppercase tracking-wider block text-[var(--accent-text-on-secondary)]">
-                      1 Subtes Pilihan · 5 Soal Fokus
+                      1 Subtes Pilihan · 10 Soal · 15 Menit
                     </span>
                     <h2 className="font-bold text-lg leading-snug">Drill Subtes Spesifik</h2>
                     <p className="text-sm font-semibold text-[var(--ink-secondary)] leading-relaxed">

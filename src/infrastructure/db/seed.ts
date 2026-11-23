@@ -72,16 +72,23 @@ async function main() {
       );
     }
 
-    for (const q of SEED_QUESTIONS) {
-      await repo.saveQuestion(q);
+    // Upsert questions in bounded parallel batches for fast remote seeding
+    for (let i = 0; i < SEED_QUESTIONS.length; i += 8) {
+      const batch = SEED_QUESTIONS.slice(i, i + 8);
+      await Promise.all(batch.map((q) => repo.saveQuestion(q)));
     }
 
     for (const tpl of SEED_TEMPLATES) {
       await repo.saveTemplate(tpl);
     }
 
+    const subtestSummary = SEED_QUESTIONS.reduce<Record<string, number>>((acc, q) => {
+      acc[q.subtest] = (acc[q.subtest] ?? 0) + 1;
+      return acc;
+    }, {});
+
     console.log(
-      `Seeded cleanly: ${SEED_SKILL_NODES.length} skill nodes, ${SEED_QUESTIONS.length} questions, ${SEED_TEMPLATES.length} verified math templates (zero dummy accounts).`,
+      `Seeded cleanly: ${SEED_SKILL_NODES.length} skill nodes, ${SEED_QUESTIONS.length} questions (${JSON.stringify(subtestSummary)}), ${SEED_TEMPLATES.length} verified math templates (zero dummy accounts).`,
     );
   } finally {
     await pool.end();

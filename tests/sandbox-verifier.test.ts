@@ -45,13 +45,14 @@ describe("QuickJS-WASM Sandbox Security & Outer Verifier", () => {
     expect(check.failureReason).toMatch(/collision/i);
   });
 
-  it("verifies all 3 seeded SNBT templates (PK Fraction, PM Linear, PU SAT) across K=3 seeds", async () => {
+  it("verifies all 10 seeded SNBT templates across K=3 seeds", async () => {
     const tmpFile = path.join(os.tmpdir(), `kejarsnbt-sandbox-${Date.now()}.json`);
     const repo = new LocalJsonRepository(tmpFile);
     const owner = await repo.ensureDefaultOwnerUser();
     const ns = new NeuroSymbolicService(repo);
 
     try {
+      expect(SEED_TEMPLATES.length).toBeGreaterThanOrEqual(10);
       for (const tpl of SEED_TEMPLATES) {
         const outcome = await ns.generateVerifiedVariant({
           templateId: tpl.id,
@@ -71,5 +72,5 @@ describe("QuickJS-WASM Sandbox Security & Outer Verifier", () => {
     } finally {
       await fs.rm(tmpFile, { force: true });
     }
-  }, 15000);
+  }, 30000);
 });

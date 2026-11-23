@@ -15,6 +15,17 @@ import { StudyService } from "./study-service";
 export class SimulationService {
   constructor(private readonly repo: AppRepository) {}
 
+  private shuffleQuestions(items: QuestionEntity[]): QuestionEntity[] {
+    const arr = [...items];
+    for (let i = arr.length - 1; i > 0; i -= 1) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const tmp = arr[i];
+      arr[i] = arr[j];
+      arr[j] = tmp;
+    }
+    return arr;
+  }
+
   async startSimulation(
     userId: string,
     mode: SimulationMode,
@@ -24,11 +35,26 @@ export class SimulationService {
     blocks: SimulationSubtestBlockEntity[];
     questionsById: Record<string, Omit<QuestionEntity, "correctAnswerKey" | "officialSolutionMarkdown" | "solutionSteps">>;
   }> {
+    const drillPreset = SIMULATION_PRESETS.subtest_drill[0];
     const blueprint =
       mode === "subtest_drill" && focusSubtest
-        ? [{ subtest: focusSubtest, questionCount: 5, allocatedSeconds: 450 }]
+        ? [
+            {
+              subtest: focusSubtest,
+              questionCount: drillPreset.questionCount,
+              allocatedSeconds: drillPreset.allocatedSeconds,
+            },
+          ]
         : SIMULATION_PRESETS[mode];
-    const allApproved = await this.repo.listQuestions({ userId, qcStatus: "approved" });
+    const [allApproved, recentAttempts] = await Promise.all([
+      this.repo.listQuestions({ userId, qcStatus: "approved" }),
+      this.repo.listUserAttempts(userId, { limit: 300 }),
+    ]);
+
+    const seenCount = new Map<string, number>();
+    for (const a of recentAttempts) {
+      seenCount.set(a.questionId, (seenCount.get(a.questionId) ?? 0) + 1);
+    }
 
     const sessionId = crypto.randomUUID();
     const now = Date.now();
@@ -42,7 +68,13 @@ export class SimulationService {
 
     blueprint.forEach((bp, idx) => {
       const subPool = allApproved.filter((q) => q.subtest === bp.subtest);
-      const chosen = subPool.slice(0, bp.questionCount);
+      const unseen = this.shuffleQuestions(subPool.filter((q) => (seenCount.get(q.id) ?? 0) === 0));
+      const seen = this.shuffleQuestions(
+        subPool
+          .filter((q) => (seenCount.get(q.id) ?? 0) > 0)
+          .sort((a, b) => (seenCount.get(a.id) ?? 0) - (seenCount.get(b.id) ?? 0)),
+      );
+      const chosen = [...unseen, ...seen].slice(0, bp.questionCount);
       if (chosen.length === 0 && allApproved.length > 0) {
         chosen.push(allApproved[0]);
       }

@@ -114,7 +114,10 @@ export function getEffectiveAiConfig(): EffectiveAiConfig {
     baseUrl: env.nineRouterBaseUrl,
     apiKey: env.nineRouterApiKey,
     defaultModel: null,
-    providerLabel: "9router Lokal (.env.local)",
+    providerLabel:
+      env.nineRouterBaseUrl.includes("localhost") || env.nineRouterBaseUrl.includes("127.0.0.1")
+        ? "9router Lokal (.env.local)"
+        : "9router Hosted (.env.local)",
     isCustomConfigured: false,
     maskedApiKey: maskKey(env.nineRouterApiKey),
     models: env.models,

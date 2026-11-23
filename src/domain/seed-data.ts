@@ -1,3 +1,4 @@
+import rawIngestedSnbtBank from "./ingested-snbt-bank.json";
 import type {
   BrainVaultChunk,
   QuestionEntity,
@@ -514,7 +515,7 @@ export const SEED_SKILL_EDGES: SkillPrerequisiteEdge[] = [
   { parentNodeId: NODE_IDS.PPU_T1_SEM, childNodeId: NODE_IDS.PPU_T2_ASSOC, edgeType: "hard_prereq", weight: 1.0 },
 ];
 
-export const SEED_QUESTIONS: QuestionEntity[] = [
+export const CURATED_CORE_QUESTIONS: QuestionEntity[] = [
   {
     id: "20000000-0000-4000-8000-000000000001",
     ownerUserId: null,
@@ -1418,6 +1419,14 @@ export const SEED_QUESTIONS: QuestionEntity[] = [
   },
 ];
 
+export const INGESTED_SNBT_QUESTIONS: QuestionEntity[] =
+  rawIngestedSnbtBank as QuestionEntity[];
+
+export const SEED_QUESTIONS: QuestionEntity[] = [
+  ...CURATED_CORE_QUESTIONS,
+  ...INGESTED_SNBT_QUESTIONS,
+];
+
 export const SEED_TEMPLATES: QuestionTemplateEntity[] = [
   {
     id: "30000000-0000-4000-8000-000000000001",
@@ -1906,6 +1915,273 @@ export const SEED_TEMPLATES: QuestionTemplateEntity[] = [
 }`,
     parameterBoundsJson: { price_k: [200, 500] },
     codeSha256: "seed_template_pm_pct_v1_0000000000000000000000000000000000000006",
+    isActive: true,
+    createdByModel: "curated-verified-template",
+    createdAt: "2026-01-01T00:00:00.000Z",
+  },
+  {
+    id: "30000000-0000-4000-8000-000000000007",
+    skillNodeId: NODE_IDS.PK_T1_LIN,
+    subtest: "PK",
+    tier: "tier_1_core",
+    sandboxRuntime: "quickjs_wasm",
+    sourceQuestionId: "20000000-0000-4000-8000-000000000003",
+    templateTitle: "PK Barisan Aritmetika (Selisih Dua Suku ke Suku ke-n)",
+    stemTemplateLatex:
+      "Diketahui sebuah barisan aritmetika memiliki suku ke-${{p}}$ bernilai ${{up}}$ dan suku ke-${{q}}$ bernilai ${{uq}}$. Nilai suku ke-${{n}}$ barisan tersebut adalah $\\dots$",
+    sbiSchemaType: "arithmetic_sequence_two_terms",
+    polyaVariablesSchema: [
+      { symbol: "up", role: "known", labelId: "Nilai suku ke-p" },
+      { symbol: "uq", role: "known", labelId: "Nilai suku ke-q" },
+      { symbol: "n", role: "unknown", labelId: "Indeks target suku ke-n" },
+    ],
+    solutionStepTemplates: [
+      {
+        stage: "deconstruct",
+        instructionTemplate: "Hitung beda konstan b melalui selisih nilai dan selisih indeks {{q}} - {{p}}.",
+        formulaTemplateLatex: "b = \\dfrac{{{uq}} - {{up}}}{{{q}} - {{p}}}",
+      },
+      {
+        stage: "solve",
+        instructionTemplate: "Lompat dari suku ke-{{q}} sejauh ({{n}} - {{q}}) langkah beda b.",
+        formulaTemplateLatex: "U_{{{n}}} = {{uq}} + ({{n}} - {{q}})b",
+      },
+    ],
+    generatorCode: `function generate(seed) {
+  var r = rng(seed);
+  var b = r.int(3, 7);
+  var a = r.int(2, 11);
+  var p = r.pick([2, 3]);
+  var q = p + r.pick([3, 4]);
+  var n = q + r.pick([3, 5, 6]);
+  var up = a + (p - 1) * b;
+  var uq = a + (q - 1) * b;
+  var un = a + (n - 1) * b;
+
+  var trapPlusB = un + b;
+  var trapMinusB = un - b;
+  var trapDoubleB = un + 2 * b;
+  var trapSumTerms = up + uq;
+
+  return {
+    params: { p: String(p), q: String(q), n: String(n), up: String(up), uq: String(uq) },
+    correct: { canonical: String(un), display_latex: String(un) },
+    distractors: [
+      { canonical: String(trapPlusB), display_latex: String(trapPlusB), trap_type: "formula_misapplication", rationale: "Keliru memakai rumus a + n*b tanpa mengurangkan 1 pada indeks." },
+      { canonical: String(trapMinusB), display_latex: String(trapMinusB), trap_type: "arithmetic_slip", rationale: "Kurang satu langkah penjumlahan beda dari suku ke-q." },
+      { canonical: String(trapDoubleB), display_latex: String(trapDoubleB), trap_type: "arithmetic_slip", rationale: "Kelebihan dua langkah beda saat melompat ke suku target." },
+      { canonical: String(trapSumTerms), display_latex: String(trapSumTerms), trap_type: "formula_misapplication", rationale: "Langsung menjumlahkan nilai kedua suku yang diketahui." }
+    ],
+    feasibility_assertions: [
+      b >= 3,
+      uq - up === (q - p) * b,
+      un !== trapSumTerms && trapMinusB < un && un < trapPlusB && trapPlusB < trapDoubleB
+    ]
+  };
+}`,
+    parameterBoundsJson: { b: [3, 7] },
+    codeSha256: "seed_template_pk_seq_v1_0000000000000000000000000000000000000007",
+    isActive: true,
+    createdByModel: "curated-verified-template",
+    createdAt: "2026-01-01T00:00:00.000Z",
+  },
+  {
+    id: "30000000-0000-4000-8000-000000000008",
+    skillNodeId: NODE_IDS.PK_T2_QUAD,
+    subtest: "PK",
+    tier: "tier_2_standard",
+    sandboxRuntime: "quickjs_wasm",
+    sourceQuestionId: "20000000-0000-4000-8000-000000000005",
+    templateTitle: "PK Identitas Vieta Jumlah Kuadrat Akar",
+    stemTemplateLatex:
+      "Jika $\\alpha$ dan $\\beta$ adalah akar-akar real persamaan kuadrat $x^2 - {{s}}x + {{p}} = 0$, maka nilai dari $\\alpha^2 + \\beta^2$ adalah $\\dots$",
+    sbiSchemaType: "vieta_symmetric_sum_squares",
+    polyaVariablesSchema: [
+      { symbol: "s", role: "known", labelId: "Jumlah akar (alpha + beta)" },
+      { symbol: "p", role: "known", labelId: "Hasil kali akar (alpha * beta)" },
+    ],
+    solutionStepTemplates: [
+      {
+        stage: "deconstruct",
+        instructionTemplate: "Baca jumlah dan hasil kali akar langsung dari koefisien Vieta.",
+        formulaTemplateLatex: "\\alpha + \\beta = {{s}}, \\quad \\alpha\\beta = {{p}}",
+      },
+      {
+        stage: "solve",
+        instructionTemplate: "Terapkan identitas kuadrat jumlah dikurangi 2 kali hasil kali akar.",
+        formulaTemplateLatex: "\\alpha^2 + \\beta^2 = ({{s}})^2 - 2({{p}})",
+      },
+    ],
+    generatorCode: `function generate(seed) {
+  var r = rng(seed);
+  var s = r.pick([5, 6, 7, 8, 9]);
+  var p = r.pick([2, 3, 4, 5]);
+  var disc = s * s - 4 * p;
+  var ans = s * s - 2 * p;
+
+  var trapOnlySquare = s * s;
+  var trapPlusTwoP = s * s + 2 * p;
+  var trapMinusOneP = s * s - p;
+  var trapDisc = disc;
+
+  return {
+    params: { s: String(s), p: String(p) },
+    correct: { canonical: String(ans), display_latex: String(ans) },
+    distractors: [
+      { canonical: String(trapOnlySquare), display_latex: String(trapOnlySquare), trap_type: "formula_misapplication", rationale: "Mengira jumlah kuadrat akar sama dengan kuadrat jumlah akar tanpa dikurangi 2 kali hasil kali akar." },
+      { canonical: String(trapPlusTwoP), display_latex: String(trapPlusTwoP), trap_type: "sign_error", rationale: "Keliru menukar tanda pengurang menjadi tambah 2*alpha*beta." },
+      { canonical: String(trapMinusOneP), display_latex: String(trapMinusOneP), trap_type: "arithmetic_slip", rationale: "Lupa mengalikan faktor 2 pada suku hasil kali akar." },
+      { canonical: String(trapDisc), display_latex: String(trapDisc), trap_type: "formula_misapplication", rationale: "Tertukar rumus identitas akar dengan rumus diskriminan b^2 - 4ac." }
+    ],
+    feasibility_assertions: [
+      disc > 0,
+      trapDisc < ans && ans < trapMinusOneP && trapMinusOneP < trapOnlySquare && trapOnlySquare < trapPlusTwoP
+    ]
+  };
+}`,
+    parameterBoundsJson: { s: [5, 9], p: [2, 5] },
+    codeSha256: "seed_template_pk_vta_v1_0000000000000000000000000000000000000008",
+    isActive: true,
+    createdByModel: "curated-verified-template",
+    createdAt: "2026-01-01T00:00:00.000Z",
+  },
+  {
+    id: "30000000-0000-4000-8000-000000000009",
+    skillNodeId: NODE_IDS.PM_T2_LIN,
+    subtest: "PM",
+    tier: "tier_2_standard",
+    sandboxRuntime: "quickjs_wasm",
+    sourceQuestionId: "20000000-0000-4000-8000-000000000012",
+    templateTitle: "PM Statistika Rata-Rata Gabungan Berbobot",
+    stemTemplateLatex:
+      "Kelas A berjumlah ${{n1}}$ siswa memiliki rata-rata nilai tryout ${{x1}}$, sedangkan Kelas B berjumlah ${{n2}}$ siswa memiliki rata-rata nilai ${{x2}}$. Rata-rata nilai gabungan kedua kelas tersebut adalah $\\dots$",
+    sbiSchemaType: "weighted_combined_mean",
+    polyaVariablesSchema: [
+      { symbol: "n1", role: "known", labelId: "Banyak siswa kelas A" },
+      { symbol: "x1", role: "known", labelId: "Rata-rata kelas A" },
+      { symbol: "n2", role: "known", labelId: "Banyak siswa kelas B" },
+      { symbol: "x2", role: "known", labelId: "Rata-rata kelas B" },
+    ],
+    solutionStepTemplates: [
+      {
+        stage: "deconstruct",
+        instructionTemplate: "Hitung total skor masing-masing kelas sebelum dibagi jumlah seluruh siswa.",
+        formulaTemplateLatex: "\\sum X = ({{n1}} \\times {{x1}}) + ({{n2}} \\times {{x2}})",
+      },
+      {
+        stage: "solve",
+        instructionTemplate: "Bagi total skor gabungan dengan ({{n1}} + {{n2}}).",
+        formulaTemplateLatex: "\\bar{x}_{\\text{gab}} = \\dfrac{{{n1}}({{x1}}) + {{n2}}({{x2}})}{{{n1}} + {{n2}}}",
+      },
+    ],
+    generatorCode: `function generate(seed) {
+  var r = rng(seed);
+  var m1 = r.pick([2, 3]);
+  var k = r.pick([6, 8, 10]);
+  var n1 = m1 * k;
+  var n2 = k;
+  var t = r.pick([2, 3, 4]);
+  var x1 = r.pick([68, 70, 72, 74]);
+  var x2 = x1 + 2 * (m1 + 1) * t;
+  var ans = (m1 * x1 + x2) / (m1 + 1);
+  var trapUnweighted = (x1 + x2) / 2;
+  var trapPlusOne = ans + 1;
+  var trapMinusTwo = ans - 2;
+  var trapCloserRight = x2 - t;
+
+  return {
+    params: { n1: String(n1), n2: String(n2), x1: String(x1), x2: String(x2) },
+    correct: { canonical: String(ans), display_latex: String(ans) },
+    distractors: [
+      { canonical: String(trapUnweighted), display_latex: String(trapUnweighted), trap_type: "formula_misapplication", rationale: "Langsung merata-ratakan dua nilai kelas tanpa memperhitungkan bobot jumlah siswanya." },
+      { canonical: String(trapPlusOne), display_latex: String(trapPlusOne), trap_type: "arithmetic_slip", rationale: "Selip hitung satu satuan saat membagi total nilai gabungan." },
+      { canonical: String(trapMinusTwo), display_latex: String(trapMinusTwo), trap_type: "arithmetic_slip", rationale: "Selip hitung pengurangan saat menaksir bobot selisih." },
+      { canonical: String(trapCloserRight), display_latex: String(trapCloserRight), trap_type: "sign_error", rationale: "Keliru membobotkan rata-rata gabungan lebih dekat ke kelas yang siswanya lebih sedikit." }
+    ],
+    feasibility_assertions: [
+      Number.isInteger(ans),
+      Number.isInteger(trapUnweighted),
+      trapMinusTwo < ans && ans < trapPlusOne && trapPlusOne < trapUnweighted && trapUnweighted < trapCloserRight
+    ]
+  };
+}`,
+    parameterBoundsJson: { m1: [2, 3], k: [6, 10] },
+    codeSha256: "seed_template_pm_avg_v1_0000000000000000000000000000000000000009",
+    isActive: true,
+    createdByModel: "curated-verified-template",
+    createdAt: "2026-01-01T00:00:00.000Z",
+  },
+  {
+    id: "30000000-0000-4000-8000-000000000010",
+    skillNodeId: NODE_IDS.PM_T3_PROB,
+    subtest: "PM",
+    tier: "tier_3_hots_800",
+    sandboxRuntime: "quickjs_wasm",
+    sourceQuestionId: "20000000-0000-4000-8000-000000000013",
+    templateTitle: "PM Peluang Pengambilan Berurutan Tanpa Pengembalian",
+    stemTemplateLatex:
+      "Sebuah kotak berisi ${{red}}$ bola merah dan ${{blue}}$ bola biru. Jika diambil $2$ bola satu per satu **tanpa pengembalian**, peluang terambilnya kedua bola berwarna **merah** adalah $\\dots$",
+    sbiSchemaType: "probability_without_replacement",
+    polyaVariablesSchema: [
+      { symbol: "red", role: "known", labelId: "Jumlah bola merah" },
+      { symbol: "blue", role: "known", labelId: "Jumlah bola biru" },
+    ],
+    solutionStepTemplates: [
+      {
+        stage: "deconstruct",
+        instructionTemplate: "Hitung total ruang sampel awal ({{red}} + {{blue}}) dan kurangi 1 pada pengambilan kedua.",
+        formulaTemplateLatex: "P(M_1) = \\dfrac{{{red}}}{{{total}}}, \\quad P(M_2 \\mid M_1) = \\dfrac{{{red_minus_1}}}{{{total_minus_1}}}",
+      },
+      {
+        stage: "solve",
+        instructionTemplate: "Kalikan kedua peluang bersyarat lalu sederhanakan pecahannya.",
+        formulaTemplateLatex: "\\dfrac{{{red}}}{{{total}}} \\times \\dfrac{{{red_minus_1}}}{{{total_minus_1}}}",
+      },
+    ],
+    generatorCode: `function generate(seed) {
+  var r = rng(seed);
+  var red = r.pick([4, 5, 6]);
+  var blue = r.pick([3, 4, 5]);
+  var total = red + blue;
+
+  var p1 = new Fraction(red, total);
+  var p2 = new Fraction(red - 1, total - 1);
+  var ans = p1.mul(p2);
+
+  var trapWithReplacement = p1.mul(p1);
+  var trapOnlyDenom = new Fraction(red * red, total * (total - 1));
+  var trapComplement = new Fraction(1).sub(ans);
+  var trapOneBall = p1;
+
+  function fmt(f) {
+    return f.d === 1 ? String(f.n) : "\\\\dfrac{" + f.n + "}{" + f.d + "}";
+  }
+
+  return {
+    params: {
+      red: String(red),
+      blue: String(blue),
+      total: String(total),
+      red_minus_1: String(red - 1),
+      total_minus_1: String(total - 1)
+    },
+    correct: { canonical: ans.toFraction(false), display_latex: fmt(ans) },
+    distractors: [
+      { canonical: trapWithReplacement.toFraction(false), display_latex: fmt(trapWithReplacement), trap_type: "formula_misapplication", rationale: "Menggunakan model dengan pengembalian sehingga ruang sampel tidak berkurang 1." },
+      { canonical: trapOnlyDenom.toFraction(false), display_latex: fmt(trapOnlyDenom), trap_type: "arithmetic_slip", rationale: "Hanya mengurangi total bola penyebut, lupa mengurangi pembilang bola merah tersisa." },
+      { canonical: trapComplement.toFraction(false), display_latex: fmt(trapComplement), trap_type: "sign_error", rationale: "Tertukar menghitung peluang komplemen (tidak keduanya merah)." },
+      { canonical: trapOneBall.toFraction(false), display_latex: fmt(trapOneBall), trap_type: "formula_misapplication", rationale: "Hanya menghitung peluang pengambilan bola pertama." }
+    ],
+    feasibility_assertions: [
+      ans.valueOf() > 0 && ans.valueOf() < trapWithReplacement.valueOf(),
+      trapWithReplacement.valueOf() < trapOnlyDenom.valueOf(),
+      trapOnlyDenom.valueOf() < trapOneBall.valueOf(),
+      ans.valueOf() < trapComplement.valueOf()
+    ]
+  };
+}`,
+    parameterBoundsJson: { red: [4, 6], blue: [3, 5] },
+    codeSha256: "seed_template_pm_prb_v1_0000000000000000000000000000000000000010",
     isActive: true,
     createdByModel: "curated-verified-template",
     createdAt: "2026-01-01T00:00:00.000Z",

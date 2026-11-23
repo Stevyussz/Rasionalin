@@ -504,11 +504,20 @@ export class PostgresRepository implements AppRepository {
         $19,$20,$21,$22::jsonb,$23,$24,$25::jsonb,$26::jsonb,$27,$28,$29,$30
       )
       ON CONFLICT (id) DO UPDATE SET
+        skill_node_id = EXCLUDED.skill_node_id,
+        tier = EXCLUDED.tier,
         qc_status = EXCLUDED.qc_status,
         stem_markdown = EXCLUDED.stem_markdown,
         stem_latex = EXCLUDED.stem_latex,
+        passage_text = EXCLUDED.passage_text,
+        passage_sentences = EXCLUDED.passage_sentences,
+        evidence_sentence_ids = EXCLUDED.evidence_sentence_ids,
         options = EXCLUDED.options,
-        correct_answer_key = EXCLUDED.correct_answer_key`,
+        correct_answer_key = EXCLUDED.correct_answer_key,
+        official_solution_markdown = EXCLUDED.official_solution_markdown,
+        solution_steps = EXCLUDED.solution_steps,
+        sbi_deconstruction = EXCLUDED.sbi_deconstruction,
+        expected_solve_seconds = EXCLUDED.expected_solve_seconds`,
       [
         q.id,
         q.ownerUserId,

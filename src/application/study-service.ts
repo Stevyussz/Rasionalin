@@ -82,19 +82,50 @@ export interface SubmitAttemptResult {
 export class StudyService {
   constructor(private readonly repo: AppRepository) {}
 
+  private pickFreshQuestion(
+    candidates: QuestionEntity[],
+    seenCount: Map<string, number>,
+    lastSeenRank: Map<string, number>,
+  ): QuestionEntity | null {
+    if (candidates.length === 0) return null;
+    const unseen = candidates.filter((q) => (seenCount.get(q.id) ?? 0) === 0);
+    if (unseen.length > 0) {
+      return unseen[Math.floor(Math.random() * unseen.length)] ?? unseen[0];
+    }
+    const sorted = [...candidates].sort((a, b) => {
+      const ca = seenCount.get(a.id) ?? 0;
+      const cb = seenCount.get(b.id) ?? 0;
+      if (ca !== cb) return ca - cb;
+      const ra = lastSeenRank.get(a.id) ?? Number.MAX_SAFE_INTEGER;
+      const rb = lastSeenRank.get(b.id) ?? Number.MAX_SAFE_INTEGER;
+      return rb - ra;
+    });
+    return sorted[0] ?? null;
+  }
+
   async selectNextStudyItem(params: {
     userId: string;
     questionId?: string | null;
     skillNodeId?: string | null;
     fractureId?: string | null;
   }): Promise<StudySessionItemPayload> {
-    const [nodes, edges, masteries, momentum, allApproved] = await Promise.all([
+    const [nodes, edges, masteries, momentum, allApproved, recentAttempts] = await Promise.all([
       this.repo.listSkillNodes(),
       this.repo.listSkillEdges(),
       this.repo.listUserSkillMasteries(params.userId),
       this.repo.getOrInitMomentum(params.userId),
       this.repo.listQuestions({ userId: params.userId, qcStatus: "approved" }),
+      this.repo.listUserAttempts(params.userId, { limit: 200 }),
     ]);
+
+    const seenCount = new Map<string, number>();
+    const lastSeenRank = new Map<string, number>();
+    recentAttempts.forEach((a, idx) => {
+      seenCount.set(a.questionId, (seenCount.get(a.questionId) ?? 0) + 1);
+      if (!lastSeenRank.has(a.questionId)) {
+        lastSeenRank.set(a.questionId, idx);
+      }
+    });
 
     const nodeMap = new Map(nodes.map((n) => [n.id, n]));
     const masteryMap = new Map(masteries.map((m) => [m.skillNodeId, m]));
@@ -131,10 +162,11 @@ export class StudyService {
           }
         }
         if (!selectedQuestion) {
+          const fracturePool = allApproved.filter(
+            (q) => q.skillNodeId === fracture.skillNodeId && q.id !== fracture.originQuestionId,
+          );
           selectedQuestion =
-            allApproved.find(
-              (q) => q.skillNodeId === fracture.skillNodeId && q.id !== fracture.originQuestionId,
-            ) ??
+            this.pickFreshQuestion(fracturePool, seenCount, lastSeenRank) ??
             allApproved.find((q) => q.id === fracture.originQuestionId) ??
             null;
           selectionReason = "Pemulihan Fraktur FSRS dari arsip node terkait.";
@@ -146,7 +178,7 @@ export class StudyService {
     if (!selectedQuestion && params.skillNodeId) {
       const candidates = allApproved.filter((q) => q.skillNodeId === params.skillNodeId);
       if (candidates.length > 0) {
-        selectedQuestion = candidates[0];
+        selectedQuestion = this.pickFreshQuestion(candidates, seenCount, lastSeenRank);
         selectionReason = `Fokus node ${nodeMap.get(params.skillNodeId)?.code ?? "terpilih"}.`;
       } else {
         const ns = new NeuroSymbolicService(this.repo);
@@ -170,7 +202,11 @@ export class StudyService {
           selectedQuestion = allApproved.find((q) => q.id === topCard.questionId) ?? null;
         }
         if (!selectedQuestion) {
-          selectedQuestion = allApproved.find((q) => q.skillNodeId === topCard.skillNodeId) ?? null;
+          selectedQuestion = this.pickFreshQuestion(
+            allApproved.filter((q) => q.skillNodeId === topCard.skillNodeId),
+            seenCount,
+            lastSeenRank,
+          );
         }
         if (selectedQuestion) {
           selectionReason = "Jadwal ulang FSRS aktif sebelum kurva lupa menurun.";
@@ -195,7 +231,11 @@ export class StudyService {
         });
 
       for (const m of prioritizedMasteries) {
-        const candidate = allApproved.find((q) => q.skillNodeId === m.skillNodeId);
+        const candidate = this.pickFreshQuestion(
+          allApproved.filter((q) => q.skillNodeId === m.skillNodeId),
+          seenCount,
+          lastSeenRank,
+        );
         if (candidate) {
           selectedQuestion = candidate;
           selectionReason =
@@ -210,7 +250,7 @@ export class StudyService {
     }
 
     if (!selectedQuestion) {
-      selectedQuestion = allApproved[0];
+      selectedQuestion = this.pickFreshQuestion(allApproved, seenCount, lastSeenRank) ?? allApproved[0];
     }
 
     if (!selectedQuestion) {
