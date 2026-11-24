@@ -1,3 +1,4 @@
+import { computeExamCountdown } from "./exam-countdown";
 import { getPrimaryKnowledgeForNode } from "./snbt-knowledge-base";
 import type {
   QuestionAttemptEntity,
@@ -21,8 +22,10 @@ export interface DailyMissionItem {
 }
 
 export interface AdaptiveDailyPlan {
-  daysUntilExam: number | null;
-  examDate: string | null;
+  daysUntilExam: number;
+  examDate: string;
+  isDefaultExamDate: boolean;
+  examPhaseLabel: string;
   currentIrt: number;
   targetScore: number;
   scoreGap: number;
@@ -48,13 +51,8 @@ export function buildAdaptiveDailyPlan(params: {
   const weakSet = new Set<SnbtSubtest>(params.weakSubtests ?? []);
   const isFastTrack = params.studyPace === "kejar_cepat";
 
-  let daysUntilExam: number | null = null;
-  if (params.user.examDate) {
-    const targetMs = new Date(`${params.user.examDate}T00:00:00Z`).getTime();
-    if (Number.isFinite(targetMs)) {
-      daysUntilExam = Math.max(0, Math.ceil((targetMs - now.getTime()) / (1000 * 60 * 60 * 24)));
-    }
-  }
+  const countdown = computeExamCountdown(params.user.examDate, now.getTime());
+  const daysUntilExam = countdown.daysLeft;
 
   const masteryMap = new Map(params.masteries.map((m) => [m.skillNodeId, m]));
   const todayAttempts = params.recentAttempts.filter((a) => a.createdAt.slice(0, 10) === todayStr);
@@ -164,7 +162,9 @@ export function buildAdaptiveDailyPlan(params: {
 
   return {
     daysUntilExam,
-    examDate: params.user.examDate,
+    examDate: countdown.effectiveDate,
+    isDefaultExamDate: countdown.isDefaultDate,
+    examPhaseLabel: countdown.phaseLabel,
     currentIrt,
     targetScore: params.user.targetScore,
     scoreGap,

@@ -14,6 +14,7 @@ import {
   SimulationIcon,
   SunIcon,
   TargetIcon,
+  TimerIcon,
   TutorChatIcon,
   UserIcon,
   VaultIcon,
@@ -21,6 +22,7 @@ import {
 } from "@/components/icons/ArchitecturalIcons";
 import { RasionalinLogo } from "@/components/brand/RasionalinLogo";
 import { PwaInstallButton } from "@/components/pwa/PwaInstallController";
+import { computeExamCountdown } from "@/domain/exam-countdown";
 import type { UserMomentumState } from "@/domain/types";
 
 interface AppShellProps {
@@ -54,6 +56,7 @@ export function AppShell({ children, momentum: momentumProp, rightRail, fullBlee
   const [theme, setTheme] = useState<"daylight" | "warm">("daylight");
   const [momentum, setMomentum] = useState<UserMomentumState | null>(momentumProp ?? null);
   const [displayName, setDisplayName] = useState<string | null>(null);
+  const [examDate, setExamDate] = useState<string | null>(null);
   const [loggingOut, setLoggingOut] = useState(false);
 
   useEffect(() => {
@@ -75,9 +78,10 @@ export function AppShell({ children, momentum: momentumProp, rightRail, fullBlee
         }
         return res.ok ? res.json() : null;
       })
-      .then((json: { user?: { displayName?: string }; momentum?: UserMomentumState } | null) => {
+      .then((json: { user?: { displayName?: string; examDate?: string | null }; momentum?: UserMomentumState } | null) => {
         if (!active || !json) return;
         if (json.user?.displayName) setDisplayName(json.user.displayName);
+        if (json.user && "examDate" in json.user) setExamDate(json.user.examDate ?? null);
         if (!momentumProp && json.momentum) setMomentum(json.momentum);
       })
       .catch(() => {});
@@ -85,6 +89,17 @@ export function AppShell({ children, momentum: momentumProp, rightRail, fullBlee
       active = false;
     };
   }, [momentumProp, router]);
+
+  useEffect(() => {
+    const onExamDateChanged = (evt: Event) => {
+      const custom = evt as CustomEvent<{ examDate?: string | null }>;
+      if (custom.detail && "examDate" in custom.detail) {
+        setExamDate(custom.detail.examDate ?? null);
+      }
+    };
+    window.addEventListener("rasionalin:exam-date-changed", onExamDateChanged);
+    return () => window.removeEventListener("rasionalin:exam-date-changed", onExamDateChanged);
+  }, []);
 
   async function toggleTheme() {
     const nextTheme: "daylight" | "warm" = theme === "daylight" ? "warm" : "daylight";
@@ -164,13 +179,23 @@ export function AppShell({ children, momentum: momentumProp, rightRail, fullBlee
 
         <div className="space-y-1 pt-4 border-t border-[var(--border-structural)]">
           {displayName && (
-            <div className="px-2 py-1.5 flex items-center justify-between gap-2 text-xs">
-              <span className="font-extrabold truncate text-[var(--ink-primary)]">{displayName}</span>
-              {momentum && (
-                <span className="font-num font-bold text-[var(--accent-text-on-secondary)]">
-                  IRT {Math.round(momentum.estimatedIrtComposite)}
-                </span>
-              )}
+            <div className="px-2 py-1.5 space-y-1 text-xs">
+              <div className="flex items-center justify-between gap-2">
+                <span className="font-extrabold truncate text-[var(--ink-primary)]">{displayName}</span>
+                {momentum && (
+                  <span className="font-num font-bold text-[var(--accent-text-on-secondary)]">
+                    IRT {Math.round(momentum.estimatedIrtComposite)}
+                  </span>
+                )}
+              </div>
+              <Link
+                href="/settings"
+                className="inline-flex items-center gap-1.5 font-num text-[11px] font-extrabold text-[var(--ochre-ink)] hover:underline"
+                title="Klik untuk atur tanggal UTBK-SNBT"
+              >
+                <TimerIcon size={13} />
+                <span>H-{computeExamCountdown(examDate).daysLeft} menuju UTBK</span>
+              </Link>
             </div>
           )}
 
@@ -207,21 +232,29 @@ export function AppShell({ children, momentum: momentumProp, rightRail, fullBlee
       </aside>
 
       {/* Mobile Compact Header (< lg) */}
-      <header className="lg:hidden sticky top-0 z-30 bg-[var(--surface-elevated)] border-b border-[var(--border-structural)] px-4 h-14 flex items-center justify-between gap-2">
+      <header className="lg:hidden sticky top-0 z-30 bg-[var(--surface-elevated)] border-b border-[var(--border-structural)] px-3 h-14 flex items-center justify-between gap-1.5">
         <Link href="/" className="flex items-center min-h-[44px]" aria-label="Beranda Rasionalin">
           <RasionalinLogo size={32} compact />
         </Link>
 
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-1.5">
           <PwaInstallButton compact />
           {momentum && (
-            <div className="flex items-center gap-3 text-xs font-num font-bold">
+            <div className="flex items-center gap-1.5 text-xs font-num font-bold shrink-0">
+              <Link
+                href="/settings"
+                className="inline-flex items-center gap-1 whitespace-nowrap shrink-0 text-[var(--accent-text-on-secondary)] bg-[var(--accent-tint)] px-2 py-0.5 rounded-md"
+                title="Hitung mundur UTBK-SNBT"
+              >
+                <TimerIcon size={13} />
+                <span>H-{computeExamCountdown(examDate).daysLeft}</span>
+              </Link>
               <span className="inline-flex items-center gap-1 text-[var(--ochre-ink)]" title="Kombo Presisi">
                 <FlameIcon size={17} />
                 {momentum.precisionComboCurrent}
               </span>
               <span
-                className="inline-flex items-center gap-1 text-[var(--accent-text-on-secondary)]"
+                className="hidden sm:inline-flex items-center gap-1 text-[var(--accent-text-on-secondary)]"
                 title="Perisai Pemulihan"
               >
                 <ShieldIcon size={17} />

@@ -14,6 +14,7 @@ import {
   ShieldIcon,
   TargetIcon,
 } from "@/components/icons/ArchitecturalIcons";
+import { ExamCountdownCard } from "@/components/countdown/ExamCountdownCard";
 import { AppShell } from "@/components/layout/AppShell";
 import type { AdaptiveDailyPlan } from "@/domain/daily-plan";
 import type {
@@ -100,6 +101,8 @@ export function TopologyWorkspace() {
   const [data, setData] = useState<TopologyPayload | null>(null);
   const [dailyPlan, setDailyPlan] = useState<AdaptiveDailyPlan | null>(null);
   const [diagnosticCompleted, setDiagnosticCompleted] = useState<boolean | null>(null);
+  const [examDate, setExamDate] = useState<string | null>(null);
+  const [targetScore, setTargetScore] = useState<number>(800);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedSubtest, setSelectedSubtest] = useState<SnbtSubtest>("PK");
@@ -120,11 +123,21 @@ export function TopologyWorkspace() {
       if (dashRes.ok) {
         const dashJson = (await dashRes.json()) as {
           dailyPlan?: AdaptiveDailyPlan;
-          user?: { diagnosticCompleted?: boolean };
+          user?: {
+            diagnosticCompleted?: boolean;
+            examDate?: string | null;
+            targetScore?: number;
+          };
         };
         if (dashJson.dailyPlan) setDailyPlan(dashJson.dailyPlan);
         if (typeof dashJson.user?.diagnosticCompleted === "boolean") {
           setDiagnosticCompleted(dashJson.user.diagnosticCompleted);
+        }
+        if (dashJson.user && "examDate" in dashJson.user) {
+          setExamDate(dashJson.user.examDate ?? null);
+        }
+        if (typeof dashJson.user?.targetScore === "number") {
+          setTargetScore(dashJson.user.targetScore);
         }
       }
     } catch (err) {
@@ -422,6 +435,18 @@ export function TopologyWorkspace() {
               </Link>
             </section>
           )}
+
+          {/* Live WIB SNBT/UTBK Day Countdown */}
+          <ExamCountdownCard
+            examDate={examDate}
+            masteredNodes={summaryCounts.mastered}
+            totalNodes={summaryCounts.total}
+            targetScore={targetScore}
+            onExamDateUpdated={(nextDate) => {
+              setExamDate(nextDate);
+              void loadTopology();
+            }}
+          />
 
           {/* Adaptive Daily Study Plan (Rencana Belajar Harian menuju UTBK) */}
           {dailyPlan && (

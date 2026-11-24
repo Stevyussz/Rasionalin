@@ -77,10 +77,10 @@ describe("Dual-Track Pedagogy, Hybrid RRF 1.35x Boost & Socratic Fallback", () =
     } finally {
       await fs.rm(tmpFile, { force: true });
     }
-  });
+  }, 15_000);
 
-  it("covers all 7 SNBT subtests and 36 skill nodes with clean curriculum KB grounding", async () => {
-    expect(SEED_SKILL_NODES).toHaveLength(36);
+  it("covers all 7 SNBT subtests and 38 skill nodes with clean curriculum KB grounding", async () => {
+    expect(SEED_SKILL_NODES).toHaveLength(38);
     expect(SEED_QUESTIONS.length).toBeGreaterThanOrEqual(900);
 
     const subCounts = new Map<string, number>();
@@ -93,14 +93,20 @@ describe("Dual-Track Pedagogy, Hybrid RRF 1.35x Boost & Socratic Fallback", () =
     expect(subCounts.size).toBe(7);
     for (const subtest of ["PU", "PPU", "PBM", "PK", "LBI", "LBE", "PM"] as const) {
       expect(subCounts.get(subtest) ?? 0).toBeGreaterThanOrEqual(90);
+      expect(
+        SEED_SKILL_NODES.some((n) => n.subtest === subtest && n.tier === "tier_0_foundation"),
+      ).toBe(true);
     }
+    expect(
+      SEED_SKILL_NODES.some((n) => n.subtest === "LBE" && n.tier === "tier_2_standard"),
+    ).toBe(true);
 
     for (const node of SEED_SKILL_NODES) {
       expect(nodeCounts.get(node.id) ?? 0).toBeGreaterThanOrEqual(8);
       expect(MICRO_LESSONS_BY_NODE_ID[node.id]).toBeDefined();
     }
 
-    expect(SNBT_KNOWLEDGE_BASE.length).toBeGreaterThanOrEqual(105);
+    expect(SNBT_KNOWLEDGE_BASE.length).toBeGreaterThanOrEqual(120);
     const kbNodes = new Set(SNBT_KNOWLEDGE_BASE.map((e) => e.skillNodeId));
     for (const node of SEED_SKILL_NODES) {
       expect(kbNodes.has(node.id)).toBe(true);
@@ -129,5 +135,5 @@ describe("Dual-Track Pedagogy, Hybrid RRF 1.35x Boost & Socratic Fallback", () =
     } finally {
       await fs.rm(tmpFile, { force: true });
     }
-  });
+  }, 15_000);
 });

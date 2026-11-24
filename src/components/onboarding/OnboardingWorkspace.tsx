@@ -15,6 +15,7 @@ import {
   TutorChatIcon,
 } from "@/components/icons/ArchitecturalIcons";
 import { MathText } from "@/components/math/MathText";
+import { computeExamCountdown, DEFAULT_UTBK_EXAM_DATE } from "@/domain/exam-countdown";
 import type { SnbtSubtest } from "@/domain/types";
 
 interface DiagnosticQuestionItem {
@@ -218,7 +219,7 @@ export function OnboardingWorkspace() {
       setNickname(data.persona.nickname || data.user.displayName);
       setTargetMajor(data.user.targetMajor ?? "");
       setTargetScore(data.user.targetScore || 750);
-      setExamDate(data.user.examDate ?? "");
+      setExamDate(data.user.examDate || DEFAULT_UTBK_EXAM_DATE);
       if (data.persona.studyPace) setStudyPace(data.persona.studyPace);
       setStartingLevel(data.persona.startingLevel);
       setExplanationStyle(data.persona.explanationStyle);
@@ -497,9 +498,14 @@ export function OnboardingWorkspace() {
               </div>
 
               <label className="block space-y-1.5">
-                <span className="text-xs font-extrabold text-[var(--ink-secondary)]">
-                  Tanggal UTBK (opsional, buat hitung mundur)
-                </span>
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-xs font-extrabold text-[var(--ink-secondary)]">
+                    Tanggal UTBK (buat hitung mundur)
+                  </span>
+                  <span className="font-num text-[11px] font-extrabold text-[var(--accent-text-on-secondary)]">
+                    H-{computeExamCountdown(examDate).daysLeft}
+                  </span>
+                </div>
                 <input
                   id="onboarding-exam-date"
                   type="date"

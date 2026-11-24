@@ -1,4 +1,5 @@
 import {
+  NODE_IDS,
   SEED_QUESTIONS,
   SEED_SKILL_EDGES,
   SEED_SKILL_NODES,
@@ -69,6 +70,12 @@ async function main() {
         ],
       );
     }
+
+    // Remove legacy shortcut edge replaced by LBE-T2-SYN bridge
+    await pool.query(
+      `DELETE FROM skill_prerequisite_edges WHERE parent_node_id = $1 AND child_node_id = $2`,
+      [NODE_IDS.LBE_T1_PURP, NODE_IDS.LBE_T3_EVAL],
+    );
 
     for (const edge of SEED_SKILL_EDGES) {
       await pool.query(

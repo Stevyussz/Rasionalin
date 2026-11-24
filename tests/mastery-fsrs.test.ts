@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
 import {
+  computeExamCountdown,
+  computeRecommendedWeeklyNodes,
+  DEFAULT_UTBK_EXAM_DATE,
+} from "@/domain/exam-countdown";
+import {
   createInitialFsrsCard,
   deriveFsrsRating,
   evaluateFractureHealing,
@@ -198,5 +203,22 @@ describe("FsrsScheduler & 2-Pass Fracture Healing", () => {
     expect(fracture.status).toBe("healed");
     expect(fracture.revivalPassesAchieved).toBe(2);
     expect(fracture.healedAt).not.toBeNull();
+  });
+
+  it("computes WIB UTBK day countdown and weekly pacing accurately", () => {
+    const refNow = new Date("2027-04-18T07:30:00+07:00").getTime();
+    const thirtyDays = computeExamCountdown("2027-05-18", refNow);
+    expect(thirtyDays.daysLeft).toBe(30);
+    expect(thirtyDays.hoursLeft).toBe(0);
+    expect(thirtyDays.phase).toBe("sprint_final");
+    expect(thirtyDays.isDefaultDate).toBe(false);
+
+    const fallback = computeExamCountdown(null, refNow);
+    expect(fallback.effectiveDate).toBe(DEFAULT_UTBK_EXAM_DATE);
+    expect(fallback.isDefaultDate).toBe(true);
+    expect(fallback.daysLeft).toBe(30);
+
+    expect(computeRecommendedWeeklyNodes(20, 70)).toBe(2);
+    expect(computeRecommendedWeeklyNodes(0, 30)).toBe(0);
   });
 });

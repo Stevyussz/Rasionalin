@@ -649,7 +649,7 @@
       }
     ],
     "sbiDeconstruction": null,
-    "irtDifficultyB": -1.0,
+    "irtDifficultyB": -1,
     "irtDiscriminationA": 1.35,
     "irtGuessingC": 0.2,
     "expectedSolveSeconds": 40,
@@ -2705,7 +2705,7 @@
       }
     ],
     "sbiDeconstruction": null,
-    "irtDifficultyB": 0.0,
+    "irtDifficultyB": 0,
     "irtDiscriminationA": 1.35,
     "irtGuessingC": 0.2,
     "expectedSolveSeconds": 55,
@@ -9114,10 +9114,10 @@
   {
     "id": "21000000-0000-4000-8000-000000000111",
     "ownerUserId": null,
-    "skillNodeId": "10000000-0000-4000-8000-000000000023",
+    "skillNodeId": "10000000-0000-4000-8000-000000000038",
     "subtest": "PPU",
     "track": "literacy",
-    "tier": "tier_1_core",
+    "tier": "tier_0_foundation",
     "sourceType": "curated_seed",
     "sourceDocumentId": null,
     "sourcePageId": null,
@@ -9671,7 +9671,9 @@
         "text": "(8) Oleh karena itu, partisipasi dalam tren olahraga sebaiknya didasarkan pada [...] pribadi, bukan sematamata untuk mendapatkan [...] sosial. Diadaptasi dari https://rri.co.id/"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S5"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -9737,10 +9739,10 @@
   {
     "id": "21000000-0000-4000-8000-000000000116",
     "ownerUserId": null,
-    "skillNodeId": "10000000-0000-4000-8000-000000000023",
+    "skillNodeId": "10000000-0000-4000-8000-000000000038",
     "subtest": "PPU",
     "track": "literacy",
-    "tier": "tier_1_core",
+    "tier": "tier_0_foundation",
     "sourceType": "curated_seed",
     "sourceDocumentId": null,
     "sourcePageId": null,
@@ -9862,10 +9864,10 @@
   {
     "id": "21000000-0000-4000-8000-000000000117",
     "ownerUserId": null,
-    "skillNodeId": "10000000-0000-4000-8000-000000000023",
+    "skillNodeId": "10000000-0000-4000-8000-000000000038",
     "subtest": "PPU",
     "track": "literacy",
-    "tier": "tier_1_core",
+    "tier": "tier_0_foundation",
     "sourceType": "curated_seed",
     "sourceDocumentId": null,
     "sourcePageId": null,
@@ -9987,10 +9989,10 @@
   {
     "id": "21000000-0000-4000-8000-000000000118",
     "ownerUserId": null,
-    "skillNodeId": "10000000-0000-4000-8000-000000000023",
+    "skillNodeId": "10000000-0000-4000-8000-000000000038",
     "subtest": "PPU",
     "track": "literacy",
-    "tier": "tier_1_core",
+    "tier": "tier_0_foundation",
     "sourceType": "curated_seed",
     "sourceDocumentId": null,
     "sourcePageId": null,
@@ -10169,7 +10171,9 @@
         "text": "(8) Dengan demikian, penanaman mangrove dapat menjadi solusi nyata dalam menjaga kelestarian lingkungan dan masa depan wilayah pesisir."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S4"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -10235,10 +10239,10 @@
   {
     "id": "21000000-0000-4000-8000-000000000120",
     "ownerUserId": null,
-    "skillNodeId": "10000000-0000-4000-8000-000000000023",
+    "skillNodeId": "10000000-0000-4000-8000-000000000038",
     "subtest": "PPU",
     "track": "literacy",
-    "tier": "tier_1_core",
+    "tier": "tier_0_foundation",
     "sourceType": "curated_seed",
     "sourceDocumentId": null,
     "sourcePageId": null,
@@ -10360,10 +10364,10 @@
   {
     "id": "21000000-0000-4000-8000-000000000121",
     "ownerUserId": null,
-    "skillNodeId": "10000000-0000-4000-8000-000000000023",
+    "skillNodeId": "10000000-0000-4000-8000-000000000038",
     "subtest": "PPU",
     "track": "literacy",
-    "tier": "tier_1_core",
+    "tier": "tier_0_foundation",
     "sourceType": "curated_seed",
     "sourceDocumentId": null,
     "sourcePageId": null,
@@ -10417,7 +10421,10 @@
         "text": "(8) Dengan demikian, penanaman mangrove dapat menjadi solusi nyata dalam menjaga kelestarian lingkungan dan masa depan wilayah pesisir."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S2",
+      "S4"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -10540,7 +10547,10 @@
         "text": "(8) Dengan demikian, penanaman mangrove dapat menjadi solusi nyata dalam menjaga kelestarian lingkungan dan masa depan wilayah pesisir."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S4",
+      "S5"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -10788,7 +10798,9 @@
         "text": "(8) Dengan demikian, pengendalian konsumsi makanan manis dapat menjadi langkah penting dalam menjaga keseimbangan kesehatan tubuh."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S6"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -10854,10 +10866,10 @@
   {
     "id": "21000000-0000-4000-8000-000000000125",
     "ownerUserId": null,
-    "skillNodeId": "10000000-0000-4000-8000-000000000023",
+    "skillNodeId": "10000000-0000-4000-8000-000000000038",
     "subtest": "PPU",
     "track": "literacy",
-    "tier": "tier_1_core",
+    "tier": "tier_0_foundation",
     "sourceType": "curated_seed",
     "sourceDocumentId": null,
     "sourcePageId": null,
@@ -11309,10 +11321,10 @@
   {
     "id": "21000000-0000-4000-8000-000000000129",
     "ownerUserId": null,
-    "skillNodeId": "10000000-0000-4000-8000-000000000023",
+    "skillNodeId": "10000000-0000-4000-8000-000000000038",
     "subtest": "PPU",
     "track": "literacy",
-    "tier": "tier_1_core",
+    "tier": "tier_0_foundation",
     "sourceType": "curated_seed",
     "sourceDocumentId": null,
     "sourcePageId": null,
@@ -11391,10 +11403,10 @@
   {
     "id": "21000000-0000-4000-8000-000000000130",
     "ownerUserId": null,
-    "skillNodeId": "10000000-0000-4000-8000-000000000023",
+    "skillNodeId": "10000000-0000-4000-8000-000000000038",
     "subtest": "PPU",
     "track": "literacy",
-    "tier": "tier_1_core",
+    "tier": "tier_0_foundation",
     "sourceType": "curated_seed",
     "sourceDocumentId": null,
     "sourcePageId": null,
@@ -11637,10 +11649,10 @@
   {
     "id": "21000000-0000-4000-8000-000000000133",
     "ownerUserId": null,
-    "skillNodeId": "10000000-0000-4000-8000-000000000023",
+    "skillNodeId": "10000000-0000-4000-8000-000000000038",
     "subtest": "PPU",
     "track": "literacy",
-    "tier": "tier_1_core",
+    "tier": "tier_0_foundation",
     "sourceType": "curated_seed",
     "sourceDocumentId": null,
     "sourcePageId": null,
@@ -11801,10 +11813,10 @@
   {
     "id": "21000000-0000-4000-8000-000000000135",
     "ownerUserId": null,
-    "skillNodeId": "10000000-0000-4000-8000-000000000023",
+    "skillNodeId": "10000000-0000-4000-8000-000000000038",
     "subtest": "PPU",
     "track": "literacy",
-    "tier": "tier_1_core",
+    "tier": "tier_0_foundation",
     "sourceType": "curated_seed",
     "sourceDocumentId": null,
     "sourcePageId": null,
@@ -11965,10 +11977,10 @@
   {
     "id": "21000000-0000-4000-8000-000000000137",
     "ownerUserId": null,
-    "skillNodeId": "10000000-0000-4000-8000-000000000023",
+    "skillNodeId": "10000000-0000-4000-8000-000000000038",
     "subtest": "PPU",
     "track": "literacy",
-    "tier": "tier_1_core",
+    "tier": "tier_0_foundation",
     "sourceType": "curated_seed",
     "sourceDocumentId": null,
     "sourcePageId": null,
@@ -12047,10 +12059,10 @@
   {
     "id": "21000000-0000-4000-8000-000000000138",
     "ownerUserId": null,
-    "skillNodeId": "10000000-0000-4000-8000-000000000023",
+    "skillNodeId": "10000000-0000-4000-8000-000000000038",
     "subtest": "PPU",
     "track": "literacy",
-    "tier": "tier_1_core",
+    "tier": "tier_0_foundation",
     "sourceType": "curated_seed",
     "sourceDocumentId": null,
     "sourcePageId": null,
@@ -12129,10 +12141,10 @@
   {
     "id": "21000000-0000-4000-8000-000000000139",
     "ownerUserId": null,
-    "skillNodeId": "10000000-0000-4000-8000-000000000023",
+    "skillNodeId": "10000000-0000-4000-8000-000000000038",
     "subtest": "PPU",
     "track": "literacy",
-    "tier": "tier_1_core",
+    "tier": "tier_0_foundation",
     "sourceType": "curated_seed",
     "sourceDocumentId": null,
     "sourcePageId": null,
@@ -12211,10 +12223,10 @@
   {
     "id": "21000000-0000-4000-8000-000000000140",
     "ownerUserId": null,
-    "skillNodeId": "10000000-0000-4000-8000-000000000023",
+    "skillNodeId": "10000000-0000-4000-8000-000000000038",
     "subtest": "PPU",
     "track": "literacy",
-    "tier": "tier_1_core",
+    "tier": "tier_0_foundation",
     "sourceType": "curated_seed",
     "sourceDocumentId": null,
     "sourcePageId": null,
@@ -12375,10 +12387,10 @@
   {
     "id": "21000000-0000-4000-8000-000000000142",
     "ownerUserId": null,
-    "skillNodeId": "10000000-0000-4000-8000-000000000023",
+    "skillNodeId": "10000000-0000-4000-8000-000000000038",
     "subtest": "PPU",
     "track": "literacy",
-    "tier": "tier_1_core",
+    "tier": "tier_0_foundation",
     "sourceType": "curated_seed",
     "sourceDocumentId": null,
     "sourcePageId": null,
@@ -12621,10 +12633,10 @@
   {
     "id": "21000000-0000-4000-8000-000000000145",
     "ownerUserId": null,
-    "skillNodeId": "10000000-0000-4000-8000-000000000023",
+    "skillNodeId": "10000000-0000-4000-8000-000000000038",
     "subtest": "PPU",
     "track": "literacy",
-    "tier": "tier_1_core",
+    "tier": "tier_0_foundation",
     "sourceType": "curated_seed",
     "sourceDocumentId": null,
     "sourcePageId": null,
@@ -12785,10 +12797,10 @@
   {
     "id": "21000000-0000-4000-8000-000000000147",
     "ownerUserId": null,
-    "skillNodeId": "10000000-0000-4000-8000-000000000023",
+    "skillNodeId": "10000000-0000-4000-8000-000000000038",
     "subtest": "PPU",
     "track": "literacy",
-    "tier": "tier_1_core",
+    "tier": "tier_0_foundation",
     "sourceType": "curated_seed",
     "sourceDocumentId": null,
     "sourcePageId": null,
@@ -12867,10 +12879,10 @@
   {
     "id": "21000000-0000-4000-8000-000000000148",
     "ownerUserId": null,
-    "skillNodeId": "10000000-0000-4000-8000-000000000023",
+    "skillNodeId": "10000000-0000-4000-8000-000000000038",
     "subtest": "PPU",
     "track": "literacy",
-    "tier": "tier_1_core",
+    "tier": "tier_0_foundation",
     "sourceType": "curated_seed",
     "sourceDocumentId": null,
     "sourcePageId": null,
@@ -13286,7 +13298,9 @@
         "text": "(10) Oleh karena itu, .... Diadaptasi dari https://www.bbc.com/indonesia/"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S8"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -13491,7 +13505,9 @@
         "text": "(8) Oleh karena itu, sedotan bambu berpotensi menjadi alternatif ramah lingkungan untuk menggantikan sedotan plastik. Diadaptasi dari https://nationalgeographic.grid.id/"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S1"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -13614,7 +13630,9 @@
         "text": "(8) Oleh karena itu, sedotan bambu berpotensi menjadi alternatif ramah lingkungan untuk menggantikan sedotan plastik. Diadaptasi dari https://nationalgeographic.grid.id/"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S8"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -14222,7 +14240,10 @@
         "text": "(7) Oleh karena itu, mitigasi bencana, perencanaan yang tepat, dan kesadaran masyarakat penting untuk mengurangi risiko tanah bergerak. Diadaptasi dari https://www.metrotvnews.com/"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S1",
+      "S3"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -15058,7 +15079,9 @@
         "text": "(Sumber: lestari.kompas.com dengan modifikasi)"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S12"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -15226,7 +15249,9 @@
         "text": "(Sumber: lestari.kompas.com dengan modifikasi)"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S5"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -15394,7 +15419,9 @@
         "text": "(Sumber: lestari.kompas.com dengan modifikasi)"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S16"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -15562,7 +15589,9 @@
         "text": "(Sumber: lestari.kompas.com dengan modifikasi)"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S10"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -15730,7 +15759,9 @@
         "text": "(Sumber: lestari.kompas.com dengan modifikasi)"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S5"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -15923,7 +15954,9 @@
         "text": "(Sumber:\nhttps://www.pge.pertamina.com/l dengan modifikasi)"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S15"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -16116,7 +16149,9 @@
         "text": "(Sumber:\nhttps://www.pge.pertamina.com/l dengan modifikasi)"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S20"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -16309,7 +16344,9 @@
         "text": "(Sumber:\nhttps://www.pge.pertamina.com/l dengan modifikasi)"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S12"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -16695,7 +16732,9 @@
         "text": "(Sumber:\nhttps://www.pge.pertamina.com/l dengan modifikasi)"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S18"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -16923,7 +16962,9 @@
         "text": "Sumber BPS"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S23"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -17151,7 +17192,9 @@
         "text": "Sumber BPS"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S27"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -17607,7 +17650,9 @@
         "text": "Sumber BPS"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S23"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -17835,7 +17880,9 @@
         "text": "Sumber BPS"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S23"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -17958,7 +18005,9 @@
         "text": "Selamat pagi, Indonesia, seekor burung kecil memberi salam kepada si anak kecil; terasa benar: aku tak lain milikmu"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S3"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -18081,7 +18130,9 @@
         "text": "Selamat pagi, Indonesia, seekor burung kecil memberi salam kepada si anak kecil; terasa benar: aku tak lain milikmu"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S7"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -18204,7 +18255,9 @@
         "text": "Selamat pagi, Indonesia, seekor burung kecil memberi salam kepada si anak kecil; terasa benar: aku tak lain milikmu"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S7"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -18327,7 +18380,9 @@
         "text": "Selamat pagi, Indonesia, seekor burung kecil memberi salam kepada si anak kecil; terasa benar: aku tak lain milikmu"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S7"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -18495,7 +18550,9 @@
         "text": "(Sumber: https://lestari.kompas.com dengan modifikasi)"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S9"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -18663,7 +18720,9 @@
         "text": "(Sumber: https://lestari.kompas.com dengan modifikasi)"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S12"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -18831,7 +18890,9 @@
         "text": "(Sumber: https://lestari.kompas.com dengan modifikasi)"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S5"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -18999,7 +19060,9 @@
         "text": "(Sumber: https://lestari.kompas.com dengan modifikasi)"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S1"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -19040,18 +19103,18 @@
       }
     ],
     "correctAnswerKey": "A",
-    "officialSolutionMarkdown": "Gagasan pokok harus mampu mewakili keseluruhan isi teks.",
+    "officialSolutionMarkdown": "Gagasan pokok harus mampu mewakili keseluruhan isi teks. Jawaban yang tepat adalah **A** (\"Perlunya penyelamatan ayam hutan asli Indonesia dari kepunahan dan kerusakan genetik melalui perlindungan habi\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
     "solutionSteps": [
       {
         "stage": "deconstruct",
         "title": "Identifikasi Konsep Soal",
-        "instructionMarkdown": "Pilah kata kunci soal LBI lalu cari kalimat rujukan eksplisit pada teks.",
+        "instructionMarkdown": "Tangkap kata kunci utama di pertanyaan lalu cari langsung kalimat bukti yang paling relevan di bacaan.",
         "formulaLatex": null
       },
       {
         "stage": "solve",
         "title": "Verifikasi Jawaban Tepat",
-        "instructionMarkdown": "Gagasan pokok harus mampu mewakili keseluruhan isi teks.",
+        "instructionMarkdown": "Gagasan pokok harus mampu mewakili keseluruhan isi teks. Jawaban yang tepat adalah **A** (\"Perlunya penyelamatan ayam hutan asli Indonesia dari kepunahan dan kerusakan genetik melalui perlindungan habi\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
         "formulaLatex": null
       }
     ],
@@ -19172,7 +19235,9 @@
         "text": "(diadaptasi dari tirto.id dengan modifikasi)"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S11"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -19345,7 +19410,9 @@
         "text": "(diadaptasi dari tirto.id dengan modifikasi)"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S13"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -19518,7 +19585,9 @@
         "text": "(diadaptasi dari tirto.id dengan modifikasi)"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S6"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -19656,7 +19725,10 @@
         "text": "(11) Penerangan yang tepat sangat diperlukan demi efek yang optimal bagi seluruh ekosistem."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S5",
+      "S7"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -19794,7 +19866,9 @@
         "text": "(11) Penerangan yang tepat sangat diperlukan demi efek yang optimal bagi seluruh ekosistem."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S8"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -20072,7 +20146,9 @@
         "text": "(11) Penerangan yang tepat sangat diperlukan demi efek yang optimal bagi seluruh ekosistem."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S9"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -20180,7 +20256,9 @@
         "text": "(5) Dalam perubahan itu ada bagian yang tetap, tetapi ada pula bagian yang mengalami perubahan dan mengikuti perkembangan sesuai dengan kondisi, baik alam serta lingkungan. Zaman kuno(sekitar 4000 SM - 500 M) Adab pertengahan (500-1500M) Renaissance (1400-1600 M) Baroque (1600-1750 M) Neoclassical (1750 - 1850 M) Modern (1900 - 1960) Post - modern (1960 - saat ini) Sejarah Arsitektur"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S4"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -20288,7 +20366,9 @@
         "text": "(5) Dalam perubahan itu ada bagian yang tetap, tetapi ada pula bagian yang mengalami perubahan dan mengikuti perkembangan sesuai dengan kondisi, baik alam serta lingkungan. Zaman kuno(sekitar 4000 SM - 500 M) Adab pertengahan (500-1500M) Renaissance (1400-1600 M) Baroque (1600-1750 M) Neoclassical (1750 - 1850 M) Modern (1900 - 1960) Post - modern (1960 - saat ini) Sejarah Arsitektur"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S3"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -20329,18 +20409,18 @@
       }
     ],
     "correctAnswerKey": "C",
-    "officialSolutionMarkdown": "Kata konkrit adalah bentuk tidak baku dari konkret (KBBI).",
+    "officialSolutionMarkdown": "Kata konkrit adalah bentuk tidak baku dari konkret (KBBI). Jawaban yang tepat adalah **C** (\"Kata konkrit dalam kalimat (3)\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
     "solutionSteps": [
       {
         "stage": "deconstruct",
         "title": "Identifikasi Konsep Soal",
-        "instructionMarkdown": "Pilah kata kunci soal LBI lalu cari kalimat rujukan eksplisit pada teks.",
+        "instructionMarkdown": "Tangkap kata kunci utama di pertanyaan lalu cari langsung kalimat bukti yang paling relevan di bacaan.",
         "formulaLatex": null
       },
       {
         "stage": "solve",
         "title": "Verifikasi Jawaban Tepat",
-        "instructionMarkdown": "Kata konkrit adalah bentuk tidak baku dari konkret (KBBI).",
+        "instructionMarkdown": "Kata konkrit adalah bentuk tidak baku dari konkret (KBBI). Jawaban yang tepat adalah **C** (\"Kata konkrit dalam kalimat (3)\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
         "formulaLatex": null
       }
     ],
@@ -20396,7 +20476,9 @@
         "text": "(5) Dalam perubahan itu ada bagian yang tetap, tetapi ada pula bagian yang mengalami perubahan dan mengikuti perkembangan sesuai dengan kondisi, baik alam serta lingkungan. Zaman kuno(sekitar 4000 SM - 500 M) Adab pertengahan (500-1500M) Renaissance (1400-1600 M) Baroque (1600-1750 M) Neoclassical (1750 - 1850 M) Modern (1900 - 1960) Post - modern (1960 - saat ini) Sejarah Arsitektur"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S5"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -20504,7 +20586,9 @@
         "text": "(5) Dalam perubahan itu ada bagian yang tetap, tetapi ada pula bagian yang mengalami perubahan dan mengikuti perkembangan sesuai dengan kondisi, baik alam serta lingkungan. Zaman kuno(sekitar 4000 SM - 500 M) Adab pertengahan (500-1500M) Renaissance (1400-1600 M) Baroque (1600-1750 M) Neoclassical (1750 - 1850 M) Modern (1900 - 1960) Post - modern (1960 - saat ini) Sejarah Arsitektur"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S5"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -20988,7 +21072,9 @@
         "text": "Kandidat kemudian dipersempit melalui pemilihan yang dilakukan langsung dari perwakilan 20 organisasi nirlaba Asia di Amerika Serikat, serta anggota Gold House."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S1"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -21141,7 +21227,9 @@
         "text": "Kandidat kemudian dipersempit melalui pemilihan yang dilakukan langsung dari perwakilan 20 organisasi nirlaba Asia di Amerika Serikat, serta anggota Gold House."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S1"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -21294,7 +21382,10 @@
         "text": "Kandidat kemudian dipersempit melalui pemilihan yang dilakukan langsung dari perwakilan 20 organisasi nirlaba Asia di Amerika Serikat, serta anggota Gold House."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S4",
+      "S5"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -21467,7 +21558,9 @@
         "text": "(Diadaptasi dari https://axiomq.com/blog/themostimportant-technological-innovations-ofthe- 21st-century/ dan https://www.osvehicle.com/thedifferenttypes-of-electric-car-technology)"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S2"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -21640,7 +21733,9 @@
         "text": "(Diadaptasi dari https://axiomq.com/blog/themostimportant-technological-innovations-ofthe- 21st-century/ dan https://www.osvehicle.com/thedifferenttypes-of-electric-car-technology)"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S17"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -21803,7 +21898,9 @@
         "text": "(Diadaptasi dari https://www.alodokter.com/galaktosemia)"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S3"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -21966,7 +22063,9 @@
         "text": "(Diadaptasi dari https://www.alodokter.com/galaktosemia)"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S6"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -22184,7 +22283,9 @@
         "text": "200-201)"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S23"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -22402,7 +22503,9 @@
         "text": "200-201)"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S11"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -22520,7 +22623,10 @@
         "text": "(7) Kemudian, masih banyak hambatan yang berada di luar jangkauan kementerian karena merupakan otoritas daerah. Sumber: https://tirto.id/"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S2",
+      "S1"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -22638,7 +22744,9 @@
         "text": "(7) Kemudian, masih banyak hambatan yang berada di luar jangkauan kementerian karena merupakan otoritas daerah. Sumber: https://tirto.id/"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S5"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -22799,18 +22907,18 @@
       }
     ],
     "correctAnswerKey": "C",
-    "officialSolutionMarkdown": "Kalimat (6) mengungkapkan perlunya waktu untuk beradaptasi bagi kementerian investasi yang baru.",
+    "officialSolutionMarkdown": "Kalimat (6) mengungkapkan perlunya waktu untuk beradaptasi bagi kementerian investasi yang baru. Jawaban yang tepat adalah **C** (\"Menegaskan kembali kementerian baru agar selalu adaptif\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
     "solutionSteps": [
       {
         "stage": "deconstruct",
         "title": "Identifikasi Konsep Soal",
-        "instructionMarkdown": "Pilah kata kunci soal LBI lalu cari kalimat rujukan eksplisit pada teks.",
+        "instructionMarkdown": "Tangkap kata kunci utama di pertanyaan lalu cari langsung kalimat bukti yang paling relevan di bacaan.",
         "formulaLatex": null
       },
       {
         "stage": "solve",
         "title": "Verifikasi Jawaban Tepat",
-        "instructionMarkdown": "Kalimat (6) mengungkapkan perlunya waktu untuk beradaptasi bagi kementerian investasi yang baru.",
+        "instructionMarkdown": "Kalimat (6) mengungkapkan perlunya waktu untuk beradaptasi bagi kementerian investasi yang baru. Jawaban yang tepat adalah **C** (\"Menegaskan kembali kementerian baru agar selalu adaptif\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
         "formulaLatex": null
       }
     ],
@@ -22896,7 +23004,9 @@
         "text": "Mencairnya gletser dan gunung es menyebabkan erosi pantai oleh gelombang air laut."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S9"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -23034,7 +23144,9 @@
         "text": "Mencairnya gletser dan gunung es menyebabkan erosi pantai oleh gelombang air laut."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S3"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -23328,7 +23440,9 @@
         "text": "(6) ... That America would once again have the highest proportion of college graduates in the world by 2020."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S1"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -23476,7 +23590,9 @@
         "text": "The hope is that this and further research can help clarify how and when the developmental trajectory is altered in children who develop autism and potentially, develop targeted interventions that could normalize their developmental processes."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S9"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -23624,7 +23740,9 @@
         "text": "The hope is that this and further research can help clarify how and when the developmental trajectory is altered in children who develop autism and potentially, develop targeted interventions that could normalize their developmental processes."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S8"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -23772,7 +23890,9 @@
         "text": "The hope is that this and further research can help clarify how and when the developmental trajectory is altered in children who develop autism and potentially, develop targeted interventions that could normalize their developmental processes."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S9"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -23920,7 +24040,9 @@
         "text": "The hope is that this and further research can help clarify how and when the developmental trajectory is altered in children who develop autism and potentially, develop targeted interventions that could normalize their developmental processes."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S9"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -23986,10 +24108,10 @@
   {
     "id": "21000000-0000-4000-8000-000000000223",
     "ownerUserId": null,
-    "skillNodeId": "10000000-0000-4000-8000-000000000020",
+    "skillNodeId": "10000000-0000-4000-8000-000000000037",
     "subtest": "LBE",
     "track": "literacy",
-    "tier": "tier_3_hots_800",
+    "tier": "tier_2_standard",
     "sourceType": "curated_seed",
     "sourceDocumentId": null,
     "sourcePageId": null,
@@ -24068,7 +24190,9 @@
         "text": "The hope is that this and further research can help clarify how and when the developmental trajectory is altered in children who develop autism and potentially, develop targeted interventions that could normalize their developmental processes."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S13"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -24161,7 +24285,9 @@
         "text": "And can be linked to many native peoples in Central and South America as well.\""
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S1"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -24274,7 +24400,9 @@
         "text": "The number of teens and tweenagers (children between the ages of about 10 and 14) using these products doubled between 2011 and 2012"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S3"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -24387,7 +24515,9 @@
         "text": "The number of teens and tweenagers (children between the ages of about 10 and 14) using these products doubled between 2011 and 2012"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S6"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -24453,10 +24583,10 @@
   {
     "id": "21000000-0000-4000-8000-000000000227",
     "ownerUserId": null,
-    "skillNodeId": "10000000-0000-4000-8000-000000000020",
+    "skillNodeId": "10000000-0000-4000-8000-000000000037",
     "subtest": "LBE",
     "track": "literacy",
-    "tier": "tier_3_hots_800",
+    "tier": "tier_2_standard",
     "sourceType": "curated_seed",
     "sourceDocumentId": null,
     "sourcePageId": null,
@@ -24500,7 +24630,9 @@
         "text": "The number of teens and tweenagers (children between the ages of about 10 and 14) using these products doubled between 2011 and 2012"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S6"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -24633,7 +24765,9 @@
         "text": "All they have to do is to get around the way the Community gets around by walking and cycling, and they get enough physical activity,\" she says."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S5"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -24766,7 +24900,9 @@
         "text": "All they have to do is to get around the way the Community gets around by walking and cycling, and they get enough physical activity,\" she says."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S5"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -24899,7 +25035,9 @@
         "text": "All they have to do is to get around the way the Community gets around by walking and cycling, and they get enough physical activity,\" she says."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S1"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -24965,10 +25103,10 @@
   {
     "id": "21000000-0000-4000-8000-000000000231",
     "ownerUserId": null,
-    "skillNodeId": "10000000-0000-4000-8000-000000000020",
+    "skillNodeId": "10000000-0000-4000-8000-000000000037",
     "subtest": "LBE",
     "track": "literacy",
-    "tier": "tier_3_hots_800",
+    "tier": "tier_2_standard",
     "sourceType": "curated_seed",
     "sourceDocumentId": null,
     "sourcePageId": null,
@@ -25097,7 +25235,9 @@
         "text": "(Adapted from SFGATE)"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S11"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -25295,7 +25435,9 @@
         "text": "(Adapted from SFGATE)"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S11"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -25691,7 +25833,9 @@
         "text": "(Adapted from SFGATE)"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S11"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -26419,18 +26563,18 @@
       }
     ],
     "correctAnswerKey": "E",
-    "officialSolutionMarkdown": "Sikap penulis tersebut adalah concerned (peduli) terhadap bagaimana cara menjaga pola hidup sehat.",
+    "officialSolutionMarkdown": "Sikap penulis tersebut adalah concerned (peduli) terhadap bagaimana cara menjaga pola hidup sehat. Jawaban yang tepat adalah **E** (\"Concerned\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
     "solutionSteps": [
       {
         "stage": "deconstruct",
         "title": "Identifikasi Konsep Soal",
-        "instructionMarkdown": "Pilah kata kunci soal LBE lalu cari kalimat rujukan eksplisit pada teks.",
+        "instructionMarkdown": "Tangkap kata kunci utama di pertanyaan lalu cari langsung kalimat bukti yang paling relevan di bacaan.",
         "formulaLatex": null
       },
       {
         "stage": "solve",
         "title": "Verifikasi Jawaban Tepat",
-        "instructionMarkdown": "Sikap penulis tersebut adalah concerned (peduli) terhadap bagaimana cara menjaga pola hidup sehat.",
+        "instructionMarkdown": "Sikap penulis tersebut adalah concerned (peduli) terhadap bagaimana cara menjaga pola hidup sehat. Jawaban yang tepat adalah **E** (\"Concerned\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
         "formulaLatex": null
       }
     ],
@@ -26576,7 +26720,9 @@
         "text": "FR UTBK SNBT 2023"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S1"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -26617,18 +26763,18 @@
       }
     ],
     "correctAnswerKey": "A",
-    "officialSolutionMarkdown": "Ide pokok teks 2A, ada di paragraf pertama, kalimat pertama.",
+    "officialSolutionMarkdown": "Ide pokok teks 2A, ada di paragraf pertama, kalimat pertama. Jawaban yang tepat adalah **A** (\"Maintaining a healthy lifestyle is crucial for overall well-being\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
     "solutionSteps": [
       {
         "stage": "deconstruct",
         "title": "Identifikasi Konsep Soal",
-        "instructionMarkdown": "Pilah kata kunci soal LBE lalu cari kalimat rujukan eksplisit pada teks.",
+        "instructionMarkdown": "Tangkap kata kunci utama di pertanyaan lalu cari langsung kalimat bukti yang paling relevan di bacaan.",
         "formulaLatex": null
       },
       {
         "stage": "solve",
         "title": "Verifikasi Jawaban Tepat",
-        "instructionMarkdown": "Ide pokok teks 2A, ada di paragraf pertama, kalimat pertama.",
+        "instructionMarkdown": "Ide pokok teks 2A, ada di paragraf pertama, kalimat pertama. Jawaban yang tepat adalah **A** (\"Maintaining a healthy lifestyle is crucial for overall well-being\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
         "formulaLatex": null
       }
     ],
@@ -26774,7 +26920,9 @@
         "text": "FR UTBK SNBT 2023"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S4"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -26972,7 +27120,9 @@
         "text": "FR UTBK SNBT 2023"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S21"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -27170,7 +27320,9 @@
         "text": "FR UTBK SNBT 2023"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S2"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -27368,7 +27520,9 @@
         "text": "FR UTBK SNBT 2023"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S2"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -27566,7 +27720,9 @@
         "text": "FR UTBK SNBT 2023"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S1"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -27607,18 +27763,18 @@
       }
     ],
     "correctAnswerKey": "C",
-    "officialSolutionMarkdown": "Persamaan kata neglect (mengabaikan) adalah ignore.",
+    "officialSolutionMarkdown": "Persamaan kata neglect (mengabaikan) adalah ignore. Jawaban yang tepat adalah **C** (\"Ignore\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
     "solutionSteps": [
       {
         "stage": "deconstruct",
         "title": "Identifikasi Konsep Soal",
-        "instructionMarkdown": "Pilah kata kunci soal LBE lalu cari kalimat rujukan eksplisit pada teks.",
+        "instructionMarkdown": "Tangkap kata kunci utama di pertanyaan lalu cari langsung kalimat bukti yang paling relevan di bacaan.",
         "formulaLatex": null
       },
       {
         "stage": "solve",
         "title": "Verifikasi Jawaban Tepat",
-        "instructionMarkdown": "Persamaan kata neglect (mengabaikan) adalah ignore.",
+        "instructionMarkdown": "Persamaan kata neglect (mengabaikan) adalah ignore. Jawaban yang tepat adalah **C** (\"Ignore\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
         "formulaLatex": null
       }
     ],
@@ -27632,10 +27788,10 @@
   {
     "id": "21000000-0000-4000-8000-000000000245",
     "ownerUserId": null,
-    "skillNodeId": "10000000-0000-4000-8000-000000000020",
+    "skillNodeId": "10000000-0000-4000-8000-000000000037",
     "subtest": "LBE",
     "track": "literacy",
-    "tier": "tier_3_hots_800",
+    "tier": "tier_2_standard",
     "sourceType": "curated_seed",
     "sourceDocumentId": null,
     "sourcePageId": null,
@@ -28677,18 +28833,18 @@
       }
     ],
     "correctAnswerKey": "E",
-    "officialSolutionMarkdown": "Kedua teks kemungkinan terdapat di botanical book (membahas tentang tanaman).",
+    "officialSolutionMarkdown": "Kedua teks kemungkinan terdapat di botanical book (membahas tentang tanaman). Jawaban yang tepat adalah **E** (\"Botanical book\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
     "solutionSteps": [
       {
         "stage": "deconstruct",
         "title": "Identifikasi Konsep Soal",
-        "instructionMarkdown": "Pilah kata kunci soal LBE lalu cari kalimat rujukan eksplisit pada teks.",
+        "instructionMarkdown": "Tangkap kata kunci utama di pertanyaan lalu cari langsung kalimat bukti yang paling relevan di bacaan.",
         "formulaLatex": null
       },
       {
         "stage": "solve",
         "title": "Verifikasi Jawaban Tepat",
-        "instructionMarkdown": "Kedua teks kemungkinan terdapat di botanical book (membahas tentang tanaman).",
+        "instructionMarkdown": "Kedua teks kemungkinan terdapat di botanical book (membahas tentang tanaman). Jawaban yang tepat adalah **E** (\"Botanical book\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
         "formulaLatex": null
       }
     ],
@@ -28895,18 +29051,18 @@
       }
     ],
     "correctAnswerKey": "B",
-    "officialSolutionMarkdown": "Persamaan kata extensively (secara luas) adalah widely.",
+    "officialSolutionMarkdown": "Persamaan kata extensively (secara luas) adalah widely. Jawaban yang tepat adalah **B** (\"Widely\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
     "solutionSteps": [
       {
         "stage": "deconstruct",
         "title": "Identifikasi Konsep Soal",
-        "instructionMarkdown": "Pilah kata kunci soal LBE lalu cari kalimat rujukan eksplisit pada teks.",
+        "instructionMarkdown": "Tangkap kata kunci utama di pertanyaan lalu cari langsung kalimat bukti yang paling relevan di bacaan.",
         "formulaLatex": null
       },
       {
         "stage": "solve",
         "title": "Verifikasi Jawaban Tepat",
-        "instructionMarkdown": "Persamaan kata extensively (secara luas) adalah widely.",
+        "instructionMarkdown": "Persamaan kata extensively (secara luas) adalah widely. Jawaban yang tepat adalah **B** (\"Widely\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
         "formulaLatex": null
       }
     ],
@@ -29356,10 +29512,10 @@
   {
     "id": "21000000-0000-4000-8000-000000000253",
     "ownerUserId": null,
-    "skillNodeId": "10000000-0000-4000-8000-000000000020",
+    "skillNodeId": "10000000-0000-4000-8000-000000000037",
     "subtest": "LBE",
     "track": "literacy",
-    "tier": "tier_3_hots_800",
+    "tier": "tier_2_standard",
     "sourceType": "curated_seed",
     "sourceDocumentId": null,
     "sourcePageId": null,
@@ -30467,7 +30623,7 @@
       }
     ],
     "sbiDeconstruction": null,
-    "irtDifficultyB": 0.0,
+    "irtDifficultyB": 0,
     "irtDiscriminationA": 1.35,
     "irtGuessingC": 0.2,
     "expectedSolveSeconds": 50,
@@ -35059,7 +35215,7 @@
       }
     ],
     "sbiDeconstruction": null,
-    "irtDifficultyB": 0.0,
+    "irtDifficultyB": 0,
     "irtDiscriminationA": 1.35,
     "irtGuessingC": 0.2,
     "expectedSolveSeconds": 45,
@@ -35223,7 +35379,7 @@
       }
     ],
     "sbiDeconstruction": null,
-    "irtDifficultyB": 0.0,
+    "irtDifficultyB": 0,
     "irtDiscriminationA": 1.35,
     "irtGuessingC": 0.2,
     "expectedSolveSeconds": 50,
@@ -35715,7 +35871,7 @@
       }
     ],
     "sbiDeconstruction": null,
-    "irtDifficultyB": 0.0,
+    "irtDifficultyB": 0,
     "irtDiscriminationA": 1.35,
     "irtGuessingC": 0.2,
     "expectedSolveSeconds": 45,
@@ -36945,7 +37101,7 @@
       }
     ],
     "sbiDeconstruction": null,
-    "irtDifficultyB": 0.0,
+    "irtDifficultyB": 0,
     "irtDiscriminationA": 1.35,
     "irtGuessingC": 0.2,
     "expectedSolveSeconds": 55,
@@ -37519,7 +37675,7 @@
       }
     ],
     "sbiDeconstruction": null,
-    "irtDifficultyB": 0.0,
+    "irtDifficultyB": 0,
     "irtDiscriminationA": 1.35,
     "irtGuessingC": 0.2,
     "expectedSolveSeconds": 55,
@@ -39733,7 +39889,7 @@
       }
     ],
     "sbiDeconstruction": null,
-    "irtDifficultyB": 0.0,
+    "irtDifficultyB": 0,
     "irtDiscriminationA": 1.35,
     "irtGuessingC": 0.2,
     "expectedSolveSeconds": 45,
@@ -40225,7 +40381,7 @@
       }
     ],
     "sbiDeconstruction": null,
-    "irtDifficultyB": 0.0,
+    "irtDifficultyB": 0,
     "irtDiscriminationA": 1.35,
     "irtGuessingC": 0.2,
     "expectedSolveSeconds": 45,
@@ -40471,7 +40627,7 @@
       }
     ],
     "sbiDeconstruction": null,
-    "irtDifficultyB": 0.0,
+    "irtDifficultyB": 0,
     "irtDiscriminationA": 1.35,
     "irtGuessingC": 0.2,
     "expectedSolveSeconds": 50,
@@ -41111,7 +41267,7 @@
       }
     ],
     "correctAnswerKey": "B",
-    "officialSolutionMarkdown": "Karena jumlah suku hanya $4$, jumlahkan langsung jarak setiap jam: $8 + 4 + 2 + 1 = 15\\text{ km}$.",
+    "officialSolutionMarkdown": "Karena jumlah suku hanya $4$, jumlahkan langsung jarak setiap jam: $8 + 4 + 2 + 1 = 15\\text{ km}$. Hasil perhitungannya mengarah tepat ke opsi **B** (\"$15\\text{ km}$\"). Pastikan tanda plus-minus dan syarat langkah akhirnya dicek ulang biar nggak kepleset di angka jebakan.",
     "solutionSteps": [
       {
         "stage": "deconstruct",
@@ -41122,7 +41278,7 @@
       {
         "stage": "solve",
         "title": "Jumlahkan Langsung",
-        "instructionMarkdown": "$8+4+2+1=15$.",
+        "instructionMarkdown": "Karena jumlah suku hanya $4$, jumlahkan langsung jarak setiap jam: $8 + 4 + 2 + 1 = 15\\text{ km}$. Hasil perhitungannya mengarah tepat ke opsi **B** (\"$15\\text{ km}$\"). Pastikan tanda plus-minus dan syarat langkah akhirnya dicek ulang biar nggak kepleset di angka jebakan.",
         "formulaLatex": "15\\text{ km}"
       }
     ],
@@ -43095,7 +43251,7 @@
       }
     ],
     "sbiDeconstruction": null,
-    "irtDifficultyB": 0.0,
+    "irtDifficultyB": 0,
     "irtDiscriminationA": 1.35,
     "irtGuessingC": 0.2,
     "expectedSolveSeconds": 45,
@@ -44325,7 +44481,7 @@
       }
     ],
     "sbiDeconstruction": null,
-    "irtDifficultyB": 0.0,
+    "irtDifficultyB": 0,
     "irtDiscriminationA": 1.35,
     "irtGuessingC": 0.2,
     "expectedSolveSeconds": 45,
@@ -46041,7 +46197,7 @@
       }
     ],
     "sbiDeconstruction": null,
-    "irtDifficultyB": 0.0,
+    "irtDifficultyB": 0,
     "irtDiscriminationA": 1.35,
     "irtGuessingC": 0.2,
     "expectedSolveSeconds": 40,
@@ -54878,7 +55034,9 @@
         "text": "(6) ... That America would once again have the highest proportion of college graduates in the world by 2020."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S1"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -55031,7 +55189,9 @@
         "text": "The hope is that this and further research can help clarify how and when the developmental trajectory is altered in children who develop autism and potentially, develop targeted interventions that could normalize their developmental processes."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S9"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -55184,7 +55344,9 @@
         "text": "The hope is that this and further research can help clarify how and when the developmental trajectory is altered in children who develop autism and potentially, develop targeted interventions that could normalize their developmental processes."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S8"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -55492,7 +55654,9 @@
         "text": "The hope is that this and further research can help clarify how and when the developmental trajectory is altered in children who develop autism and potentially, develop targeted interventions that could normalize their developmental processes."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S9"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -55558,10 +55722,10 @@
   {
     "id": "eae50be7-c8c8-4de3-a31a-1aa274d69f94",
     "ownerUserId": null,
-    "skillNodeId": "10000000-0000-4000-8000-000000000020",
+    "skillNodeId": "10000000-0000-4000-8000-000000000037",
     "subtest": "LBE",
     "track": "literacy",
-    "tier": "tier_3_hots_800",
+    "tier": "tier_2_standard",
     "sourceType": "curated_seed",
     "sourceDocumentId": null,
     "sourcePageId": null,
@@ -55645,7 +55809,9 @@
         "text": "The hope is that this and further research can help clarify how and when the developmental trajectory is altered in children who develop autism and potentially, develop targeted interventions that could normalize their developmental processes."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S14"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -55738,7 +55904,9 @@
         "text": "And can be linked to many native peoples in Central and South America as well.\""
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S1"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -55851,7 +56019,9 @@
         "text": "The number of teens and tweenagers (children between the ages of about 10 and 14) using these products doubled between 2011 and 2012"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S3"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -55964,7 +56134,9 @@
         "text": "The number of teens and tweenagers (children between the ages of about 10 and 14) using these products doubled between 2011 and 2012"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S6"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -56030,10 +56202,10 @@
   {
     "id": "c348c22e-b06a-4102-8afb-d430b98b8e24",
     "ownerUserId": null,
-    "skillNodeId": "10000000-0000-4000-8000-000000000020",
+    "skillNodeId": "10000000-0000-4000-8000-000000000037",
     "subtest": "LBE",
     "track": "literacy",
-    "tier": "tier_3_hots_800",
+    "tier": "tier_2_standard",
     "sourceType": "curated_seed",
     "sourceDocumentId": null,
     "sourcePageId": null,
@@ -56077,7 +56249,9 @@
         "text": "The number of teens and tweenagers (children between the ages of about 10 and 14) using these products doubled between 2011 and 2012"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S6"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -56346,7 +56520,9 @@
         "text": "All they have to do is to get around the way the Community gets around by walking and cycling, and they get enough physical activity,\" she says."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S1"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -56412,10 +56588,10 @@
   {
     "id": "fee65863-d041-4f8e-b470-f11ebd5bb5b8",
     "ownerUserId": null,
-    "skillNodeId": "10000000-0000-4000-8000-000000000020",
+    "skillNodeId": "10000000-0000-4000-8000-000000000037",
     "subtest": "LBE",
     "track": "literacy",
-    "tier": "tier_3_hots_800",
+    "tier": "tier_2_standard",
     "sourceType": "curated_seed",
     "sourceDocumentId": null,
     "sourcePageId": null,
@@ -56544,7 +56720,9 @@
         "text": "(Adapted from SFGATE)"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S11"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -57138,7 +57316,9 @@
         "text": "SOAL PENYELESAIAN"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S19"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -57204,10 +57384,10 @@
   {
     "id": "d78690f3-aba6-4224-acef-e65734098e27",
     "ownerUserId": null,
-    "skillNodeId": "10000000-0000-4000-8000-000000000020",
+    "skillNodeId": "10000000-0000-4000-8000-000000000037",
     "subtest": "LBE",
     "track": "literacy",
-    "tier": "tier_3_hots_800",
+    "tier": "tier_2_standard",
     "sourceType": "curated_seed",
     "sourceDocumentId": null,
     "sourcePageId": null,
@@ -57331,7 +57511,9 @@
         "text": "SOAL PENYELESAIAN"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S7"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -57524,7 +57706,9 @@
         "text": "SOAL PENYELESAIAN"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S14"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -57712,7 +57896,9 @@
         "text": "(D) True - sesuai dengan yg disampaikan teks tersebut\n(E) True - sesuai dengan pernyataan di line terakhir \"Estimates of listening efficiency show that the average skill is only about 25 percent of what it should be.\" Jawaban: B"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S20"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -58106,10 +58292,10 @@
   {
     "id": "3a5c8474-e42a-402c-97ff-ca49c45f220a",
     "ownerUserId": null,
-    "skillNodeId": "10000000-0000-4000-8000-000000000020",
+    "skillNodeId": "10000000-0000-4000-8000-000000000037",
     "subtest": "LBE",
     "track": "literacy",
-    "tier": "tier_3_hots_800",
+    "tier": "tier_2_standard",
     "sourceType": "curated_seed",
     "sourceDocumentId": null,
     "sourcePageId": null,
@@ -58352,10 +58538,10 @@
   {
     "id": "3b3bf6c9-d331-4ad5-9621-4e817731a75f",
     "ownerUserId": null,
-    "skillNodeId": "10000000-0000-4000-8000-000000000019",
+    "skillNodeId": "10000000-0000-4000-8000-000000000037",
     "subtest": "LBE",
     "track": "literacy",
-    "tier": "tier_1_core",
+    "tier": "tier_2_standard",
     "sourceType": "curated_seed",
     "sourceDocumentId": null,
     "sourcePageId": null,
@@ -58434,10 +58620,10 @@
   {
     "id": "328a204e-2375-4dcd-84ba-9a1d4a11d5dc",
     "ownerUserId": null,
-    "skillNodeId": "10000000-0000-4000-8000-000000000020",
+    "skillNodeId": "10000000-0000-4000-8000-000000000037",
     "subtest": "LBE",
     "track": "literacy",
-    "tier": "tier_3_hots_800",
+    "tier": "tier_2_standard",
     "sourceType": "curated_seed",
     "sourceDocumentId": null,
     "sourcePageId": null,
@@ -58695,7 +58881,9 @@
         "text": "SOAL PENYELESAIAN"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S11"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -58858,7 +59046,9 @@
         "text": "SOAL PENYELESAIAN"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S4"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -58924,10 +59114,10 @@
   {
     "id": "d4386807-4b62-415a-88ef-c7d57c06ec64",
     "ownerUserId": null,
-    "skillNodeId": "10000000-0000-4000-8000-000000000019",
+    "skillNodeId": "10000000-0000-4000-8000-000000000037",
     "subtest": "LBE",
     "track": "literacy",
-    "tier": "tier_1_core",
+    "tier": "tier_2_standard",
     "sourceType": "curated_seed",
     "sourceDocumentId": null,
     "sourcePageId": null,
@@ -59021,7 +59211,9 @@
         "text": "SOAL PENYELESAIAN"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S6"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -59087,10 +59279,10 @@
   {
     "id": "bd9d9fe8-12b6-44f9-a406-133b9d1baa1f",
     "ownerUserId": null,
-    "skillNodeId": "10000000-0000-4000-8000-000000000020",
+    "skillNodeId": "10000000-0000-4000-8000-000000000037",
     "subtest": "LBE",
     "track": "literacy",
-    "tier": "tier_3_hots_800",
+    "tier": "tier_2_standard",
     "sourceType": "curated_seed",
     "sourceDocumentId": null,
     "sourcePageId": null,
@@ -59184,7 +59376,9 @@
         "text": "SOAL PENYELESAIAN"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S8"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -59347,7 +59541,9 @@
         "text": "SOAL PENYELESAIAN"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S3"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -59663,7 +59859,9 @@
         "text": "SOAL PENYELESAIAN"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S13"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -59821,7 +60019,9 @@
         "text": "SOAL PENYELESAIAN"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S13"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -59979,7 +60179,9 @@
         "text": "SOAL PENYELESAIAN"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S12"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -60137,7 +60339,9 @@
         "text": "SOAL PENYELESAIAN"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S13"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -60280,7 +60484,9 @@
         "text": "SOAL PENYELESAIAN"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S10"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -60423,7 +60629,9 @@
         "text": "SOAL PENYELESAIAN"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S6"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -60489,10 +60697,10 @@
   {
     "id": "c445df22-09d7-49a8-81cf-a02da1b16c11",
     "ownerUserId": null,
-    "skillNodeId": "10000000-0000-4000-8000-000000000020",
+    "skillNodeId": "10000000-0000-4000-8000-000000000037",
     "subtest": "LBE",
     "track": "literacy",
-    "tier": "tier_3_hots_800",
+    "tier": "tier_2_standard",
     "sourceType": "curated_seed",
     "sourceDocumentId": null,
     "sourcePageId": null,
@@ -60852,7 +61060,9 @@
         "text": "SOAL PENYELESAIAN"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S3"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -61080,7 +61290,9 @@
         "text": "SOAL PENYELESAIAN"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S5"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -61308,7 +61520,9 @@
         "text": "SOAL PENYELESAIAN"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S1"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -61374,10 +61588,10 @@
   {
     "id": "c808ec3f-ee80-42b7-b5dc-28452696b90a",
     "ownerUserId": null,
-    "skillNodeId": "10000000-0000-4000-8000-000000000019",
+    "skillNodeId": "10000000-0000-4000-8000-000000000037",
     "subtest": "LBE",
     "track": "literacy",
-    "tier": "tier_1_core",
+    "tier": "tier_2_standard",
     "sourceType": "curated_seed",
     "sourceDocumentId": null,
     "sourcePageId": null,
@@ -61536,7 +61750,9 @@
         "text": "SOAL PENYELESAIAN"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S26"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -61764,7 +61980,9 @@
         "text": "SOAL PENYELESAIAN"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S27"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -61947,7 +62165,9 @@
         "text": "SOAL PENYELESAIAN"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S9"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -62130,7 +62350,9 @@
         "text": "SOAL PENYELESAIAN"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S16"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -62196,10 +62418,10 @@
   {
     "id": "26bdc76d-f8ea-4e57-9832-d0858829475f",
     "ownerUserId": null,
-    "skillNodeId": "10000000-0000-4000-8000-000000000019",
+    "skillNodeId": "10000000-0000-4000-8000-000000000037",
     "subtest": "LBE",
     "track": "literacy",
-    "tier": "tier_1_core",
+    "tier": "tier_2_standard",
     "sourceType": "curated_seed",
     "sourceDocumentId": null,
     "sourcePageId": null,
@@ -62313,7 +62535,9 @@
         "text": "SOAL PENYELESAIAN"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S9"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -62496,7 +62720,9 @@
         "text": "SOAL PENYELESAIAN"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S3"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -62679,7 +62905,9 @@
         "text": "SOAL PENYELESAIAN"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S15"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -62862,7 +63090,9 @@
         "text": "SOAL PENYELESAIAN"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S18"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -62990,7 +63220,9 @@
         "text": "SOAL PENYELESAIAN"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S2"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -63056,10 +63288,10 @@
   {
     "id": "1546d27b-3c7a-45b5-9437-577f40213e83",
     "ownerUserId": null,
-    "skillNodeId": "10000000-0000-4000-8000-000000000020",
+    "skillNodeId": "10000000-0000-4000-8000-000000000037",
     "subtest": "LBE",
     "track": "literacy",
-    "tier": "tier_3_hots_800",
+    "tier": "tier_2_standard",
     "sourceType": "curated_seed",
     "sourceDocumentId": null,
     "sourcePageId": null,
@@ -63118,7 +63350,9 @@
         "text": "SOAL PENYELESAIAN"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S7"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -63326,7 +63560,9 @@
         "text": "SOAL PENYELESAIAN"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S1"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -63392,10 +63628,10 @@
   {
     "id": "6691c3da-49d6-42ae-941e-050d9c20bb4c",
     "ownerUserId": null,
-    "skillNodeId": "10000000-0000-4000-8000-000000000019",
+    "skillNodeId": "10000000-0000-4000-8000-000000000037",
     "subtest": "LBE",
     "track": "literacy",
-    "tier": "tier_1_core",
+    "tier": "tier_2_standard",
     "sourceType": "curated_seed",
     "sourceDocumentId": null,
     "sourcePageId": null,
@@ -63534,7 +63770,9 @@
         "text": "SOAL PENYELESAIAN"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S6"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -63742,7 +63980,9 @@
         "text": "SOAL PENYELESAIAN"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S18"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -63950,7 +64190,9 @@
         "text": "SOAL PENYELESAIAN"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S6"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -64158,7 +64400,9 @@
         "text": "SOAL PENYELESAIAN"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S4"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -64291,7 +64535,9 @@
         "text": "SOAL PENYELESAIAN"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S4"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -64424,7 +64670,9 @@
         "text": "SOAL PENYELESAIAN"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S9"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -65022,10 +65270,10 @@
   {
     "id": "f69d5e06-78fc-4ad4-a84f-aa73e6da9702",
     "ownerUserId": null,
-    "skillNodeId": "10000000-0000-4000-8000-000000000020",
+    "skillNodeId": "10000000-0000-4000-8000-000000000037",
     "subtest": "LBE",
     "track": "literacy",
-    "tier": "tier_3_hots_800",
+    "tier": "tier_2_standard",
     "sourceType": "curated_seed",
     "sourceDocumentId": null,
     "sourcePageId": null,
@@ -65155,10 +65403,10 @@
   {
     "id": "80890ca5-674f-4c9a-a1cf-d904430cf726",
     "ownerUserId": null,
-    "skillNodeId": "10000000-0000-4000-8000-000000000020",
+    "skillNodeId": "10000000-0000-4000-8000-000000000037",
     "subtest": "LBE",
     "track": "literacy",
-    "tier": "tier_3_hots_800",
+    "tier": "tier_2_standard",
     "sourceType": "curated_seed",
     "sourceDocumentId": null,
     "sourcePageId": null,
@@ -65421,10 +65669,10 @@
   {
     "id": "da4bf51c-587c-4ace-aa86-1160378e5c63",
     "ownerUserId": null,
-    "skillNodeId": "10000000-0000-4000-8000-000000000020",
+    "skillNodeId": "10000000-0000-4000-8000-000000000037",
     "subtest": "LBE",
     "track": "literacy",
-    "tier": "tier_3_hots_800",
+    "tier": "tier_2_standard",
     "sourceType": "curated_seed",
     "sourceDocumentId": null,
     "sourcePageId": null,
@@ -65513,7 +65761,9 @@
         "text": "SOAL PENYELESAIAN"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S14"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -65579,10 +65829,10 @@
   {
     "id": "b1990d2b-227e-45bc-a77f-891e2d56239c",
     "ownerUserId": null,
-    "skillNodeId": "10000000-0000-4000-8000-000000000020",
+    "skillNodeId": "10000000-0000-4000-8000-000000000037",
     "subtest": "LBE",
     "track": "literacy",
-    "tier": "tier_3_hots_800",
+    "tier": "tier_2_standard",
     "sourceType": "curated_seed",
     "sourceDocumentId": null,
     "sourcePageId": null,
@@ -65829,7 +66079,9 @@
         "text": "SOAL PENYELESAIAN"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S1"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -65987,7 +66239,9 @@
         "text": "SOAL PENYELESAIAN"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S1"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -66145,7 +66399,9 @@
         "text": "SOAL PENYELESAIAN"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S8"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -66298,7 +66554,9 @@
         "text": "SOAL PENYELESAIAN"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S2"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -66451,7 +66709,9 @@
         "text": "SOAL PENYELESAIAN"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S3"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -66604,7 +66864,9 @@
         "text": "SOAL PENYELESAIAN"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S11"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -66670,10 +66932,10 @@
   {
     "id": "d36d5dcd-44cf-4c12-85b1-9c9f4373a081",
     "ownerUserId": null,
-    "skillNodeId": "10000000-0000-4000-8000-000000000020",
+    "skillNodeId": "10000000-0000-4000-8000-000000000037",
     "subtest": "LBE",
     "track": "literacy",
-    "tier": "tier_3_hots_800",
+    "tier": "tier_2_standard",
     "sourceType": "curated_seed",
     "sourceDocumentId": null,
     "sourcePageId": null,
@@ -66757,7 +67019,9 @@
         "text": "SOAL PENYELESAIAN"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S3"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -66905,7 +67169,9 @@
         "text": "(13) Mungkin, berbuat itu sangat mudah, tetapi mengembalikannya seperti semula sangat sulit. Diadaptasi dengan pengubahan seperlunya dari https://bulelengkab.go.id."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S9"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -67203,7 +67469,10 @@
         "text": "(13) Mungkin, berbuat itu sangat mudah, tetapi mengembalikannya seperti semula sangat sulit. Diadaptasi dengan pengubahan seperlunya dari https://bulelengkab.go.id."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S9",
+      "S10"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -67351,7 +67620,9 @@
         "text": "(13) Mungkin, berbuat itu sangat mudah, tetapi mengembalikannya seperti semula sangat sulit. Diadaptasi dengan pengubahan seperlunya dari https://bulelengkab.go.id."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S11"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -67392,18 +67663,18 @@
       }
     ],
     "correctAnswerKey": "C",
-    "officialSolutionMarkdown": "Jawaban yang tepat adalah **C** (kalimat (11)) sesuai kaidah dan bukti pada bacaan.",
+    "officialSolutionMarkdown": "Jawaban yang tepat adalah **C** (kalimat (11)) sesuai kaidah dan bukti pada bacaan. Jawaban yang tepat adalah **C** (\"kalimat (11)\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
     "solutionSteps": [
       {
         "stage": "deconstruct",
         "title": "Identifikasi Konsep Soal",
-        "instructionMarkdown": "Pilah kata kunci soal PBM lalu cari kalimat rujukan eksplisit pada teks.",
+        "instructionMarkdown": "Tangkap kata kunci utama di pertanyaan lalu cari langsung kalimat bukti yang paling relevan di bacaan.",
         "formulaLatex": null
       },
       {
         "stage": "solve",
         "title": "Verifikasi Jawaban Tepat",
-        "instructionMarkdown": "Jawaban yang tepat adalah **C** (kalimat (11)) sesuai kaidah dan bukti pada bacaan.",
+        "instructionMarkdown": "Jawaban yang tepat adalah **C** (kalimat (11)) sesuai kaidah dan bukti pada bacaan. Jawaban yang tepat adalah **C** (\"kalimat (11)\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
         "formulaLatex": null
       }
     ],
@@ -67740,7 +68011,9 @@
         "text": "(9) Kegagalan tersebut berdampak cukup besar bagi manusia, lingkungan, ekonomi, serta keberlanjutan operasi perusahaan pertambangan itu sendiri. Diadaptasi dengan perubahan seperlunya dari https://www.kompasiana.com."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S9"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -67863,7 +68136,9 @@
         "text": "(8) Apalagi data pangan menjadi perhatian dan kepedulian Presiden Jokowi. Diadaptasi dari https://nasional.tempo.co."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S4"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -68011,7 +68286,9 @@
         "text": "(13) Bahkan Bandara Halim Perdanakusuma ditutup sementara dan semua penerbangan dialihkan ke Bandara Soekarno-Hatta. Diadaptasi dari harian Kompas, Selasa, 7 Januari 2020."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S5"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -68350,18 +68627,18 @@
       }
     ],
     "correctAnswerKey": "A",
-    "officialSolutionMarkdown": "Jawaban yang tepat adalah **A** (tidak lepas) sesuai kaidah dan bukti pada bacaan.",
+    "officialSolutionMarkdown": "Jawaban yang tepat adalah **A** (tidak lepas) sesuai kaidah dan bukti pada bacaan. Jawaban yang tepat adalah **A** (\"tidak lepas\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
     "solutionSteps": [
       {
         "stage": "deconstruct",
         "title": "Identifikasi Konsep Soal",
-        "instructionMarkdown": "Pilah kata kunci soal PBM lalu cari kalimat rujukan eksplisit pada teks.",
+        "instructionMarkdown": "Tangkap kata kunci utama di pertanyaan lalu cari langsung kalimat bukti yang paling relevan di bacaan.",
         "formulaLatex": null
       },
       {
         "stage": "solve",
         "title": "Verifikasi Jawaban Tepat",
-        "instructionMarkdown": "Jawaban yang tepat adalah **A** (tidak lepas) sesuai kaidah dan bukti pada bacaan.",
+        "instructionMarkdown": "Jawaban yang tepat adalah **A** (tidak lepas) sesuai kaidah dan bukti pada bacaan. Jawaban yang tepat adalah **A** (\"tidak lepas\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
         "formulaLatex": null
       }
     ],
@@ -68427,7 +68704,10 @@
         "text": "(7) Hal ini terbukti daripada 4,9 kali peningkatan penelusuran \"cara menjadi pedagang e-money\". Diadaptasi dari harian Kompas, Selasa, 7 Januari 2020."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S1",
+      "S2"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -68545,7 +68825,9 @@
         "text": "(7) Hal ini terbukti daripada 4,9 kali peningkatan penelusuran \"cara menjadi pedagang e-money\". Diadaptasi dari harian Kompas, Selasa, 7 Januari 2020."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S1"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -68586,18 +68868,18 @@
       }
     ],
     "correctAnswerKey": "E",
-    "officialSolutionMarkdown": "Teks di atas termasuk teks eksposisi sehingga tujuan penulisannya adalah mengekspos.",
+    "officialSolutionMarkdown": "Teks di atas termasuk teks eksposisi sehingga tujuan penulisannya adalah mengekspos. Jawaban yang tepat adalah **E** (\"mengekspos bagaimana uang elektronik mendongkrak pertumbuhan transaksi nontunai\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
     "solutionSteps": [
       {
         "stage": "deconstruct",
         "title": "Identifikasi Konsep Soal",
-        "instructionMarkdown": "Pilah kata kunci soal PBM lalu cari kalimat rujukan eksplisit pada teks.",
+        "instructionMarkdown": "Tangkap kata kunci utama di pertanyaan lalu cari langsung kalimat bukti yang paling relevan di bacaan.",
         "formulaLatex": null
       },
       {
         "stage": "solve",
         "title": "Verifikasi Jawaban Tepat",
-        "instructionMarkdown": "Teks di atas termasuk teks eksposisi sehingga tujuan penulisannya adalah mengekspos.",
+        "instructionMarkdown": "Teks di atas termasuk teks eksposisi sehingga tujuan penulisannya adalah mengekspos. Jawaban yang tepat adalah **E** (\"mengekspos bagaimana uang elektronik mendongkrak pertumbuhan transaksi nontunai\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
         "formulaLatex": null
       }
     ],
@@ -68663,7 +68945,9 @@
         "text": "(7) Hal ini terbukti daripada 4,9 kali peningkatan penelusuran \"cara menjadi pedagang e-money\". Diadaptasi dari harian Kompas, Selasa, 7 Januari 2020."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S2"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -68704,18 +68988,18 @@
       }
     ],
     "correctAnswerKey": "A",
-    "officialSolutionMarkdown": "Pertanyaan dalam opsi (A) terjawab dengan pernyataan dalam kalimat (2).",
+    "officialSolutionMarkdown": "Pertanyaan dalam opsi (A) terjawab dengan pernyataan dalam kalimat (2). Jawaban yang tepat adalah **A** (\"Mengapa konsumen Indonesia semakin banyak menggunakan uang elektronik?\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
     "solutionSteps": [
       {
         "stage": "deconstruct",
         "title": "Identifikasi Konsep Soal",
-        "instructionMarkdown": "Pilah kata kunci soal PBM lalu cari kalimat rujukan eksplisit pada teks.",
+        "instructionMarkdown": "Tangkap kata kunci utama di pertanyaan lalu cari langsung kalimat bukti yang paling relevan di bacaan.",
         "formulaLatex": null
       },
       {
         "stage": "solve",
         "title": "Verifikasi Jawaban Tepat",
-        "instructionMarkdown": "Pertanyaan dalam opsi (A) terjawab dengan pernyataan dalam kalimat (2).",
+        "instructionMarkdown": "Pertanyaan dalam opsi (A) terjawab dengan pernyataan dalam kalimat (2). Jawaban yang tepat adalah **A** (\"Mengapa konsumen Indonesia semakin banyak menggunakan uang elektronik?\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
         "formulaLatex": null
       }
     ],
@@ -68781,7 +69065,9 @@
         "text": "(7) Hal ini terbukti daripada 4,9 kali peningkatan penelusuran \"cara menjadi pedagang e-money\". Diadaptasi dari harian Kompas, Selasa, 7 Januari 2020."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S1"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -68822,18 +69108,18 @@
       }
     ],
     "correctAnswerKey": "A",
-    "officialSolutionMarkdown": "Jawaban yang tepat adalah **A** (Kalimat (1).) sesuai kaidah dan bukti pada bacaan.",
+    "officialSolutionMarkdown": "Jawaban yang tepat adalah **A** (Kalimat (1).) sesuai kaidah dan bukti pada bacaan. Jawaban yang tepat adalah **A** (\"Kalimat (1).\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
     "solutionSteps": [
       {
         "stage": "deconstruct",
         "title": "Identifikasi Konsep Soal",
-        "instructionMarkdown": "Pilah kata kunci soal PBM lalu cari kalimat rujukan eksplisit pada teks.",
+        "instructionMarkdown": "Tangkap kata kunci utama di pertanyaan lalu cari langsung kalimat bukti yang paling relevan di bacaan.",
         "formulaLatex": null
       },
       {
         "stage": "solve",
         "title": "Verifikasi Jawaban Tepat",
-        "instructionMarkdown": "Jawaban yang tepat adalah **A** (Kalimat (1).) sesuai kaidah dan bukti pada bacaan.",
+        "instructionMarkdown": "Jawaban yang tepat adalah **A** (Kalimat (1).) sesuai kaidah dan bukti pada bacaan. Jawaban yang tepat adalah **A** (\"Kalimat (1).\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
         "formulaLatex": null
       }
     ],
@@ -68899,7 +69185,9 @@
         "text": "(7) Argumen"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S2"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -68940,18 +69228,18 @@
       }
     ],
     "correctAnswerKey": "A",
-    "officialSolutionMarkdown": "Kata subyek adalah bentuk tidak baku dari subjek.",
+    "officialSolutionMarkdown": "Kata subyek adalah bentuk tidak baku dari subjek. Jawaban yang tepat adalah **A** (\"subyek pada kalimat (2)\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
     "solutionSteps": [
       {
         "stage": "deconstruct",
         "title": "Identifikasi Konsep Soal",
-        "instructionMarkdown": "Pilah kata kunci soal PBM lalu cari kalimat rujukan eksplisit pada teks.",
+        "instructionMarkdown": "Tangkap kata kunci utama di pertanyaan lalu cari langsung kalimat bukti yang paling relevan di bacaan.",
         "formulaLatex": null
       },
       {
         "stage": "solve",
         "title": "Verifikasi Jawaban Tepat",
-        "instructionMarkdown": "Kata subyek adalah bentuk tidak baku dari subjek.",
+        "instructionMarkdown": "Kata subyek adalah bentuk tidak baku dari subjek. Jawaban yang tepat adalah **A** (\"subyek pada kalimat (2)\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
         "formulaLatex": null
       }
     ],
@@ -69017,7 +69305,10 @@
         "text": "(7) Argumen"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S3",
+      "S4"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -69255,7 +69546,10 @@
         "text": "(7) Argumen"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S7",
+      "S4"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -69373,7 +69667,9 @@
         "text": "(7) Argumen"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S6"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -69491,7 +69787,10 @@
         "text": "(7) Argumen"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S5",
+      "S6"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -69614,7 +69913,9 @@
         "text": "(8) \"Bukannya mematikan sel tubuh kelelawar layaknya yang terjadi pada manusia, virus korona jenis MERS memasuki long term relationship atau hubungan jangka panjang dengan sel tubuh kelelawar,\" tambah Misra. Diadaptasi dari https://www.kompas.com."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S6"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -69737,7 +70038,9 @@
         "text": "(8) \"Bukannya mematikan sel tubuh kelelawar layaknya yang terjadi pada manusia, virus korona jenis MERS memasuki long term relationship atau hubungan jangka panjang dengan sel tubuh kelelawar,\" tambah Misra. Diadaptasi dari https://www.kompas.com."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S5"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -69860,7 +70163,9 @@
         "text": "(8) \"Bukannya mematikan sel tubuh kelelawar layaknya yang terjadi pada manusia, virus korona jenis MERS memasuki long term relationship atau hubungan jangka panjang dengan sel tubuh kelelawar,\" tambah Misra. Diadaptasi dari https://www.kompas.com."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S5"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -69983,7 +70288,9 @@
         "text": "(8) \"Bukannya mematikan sel tubuh kelelawar layaknya yang terjadi pada manusia, virus korona jenis MERS memasuki long term relationship atau hubungan jangka panjang dengan sel tubuh kelelawar,\" tambah Misra. Diadaptasi dari https://www.kompas.com."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S5"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -70024,18 +70331,18 @@
       }
     ],
     "correctAnswerKey": "C",
-    "officialSolutionMarkdown": "Jawaban yang tepat adalah **C** (kalimat (5)) sesuai kaidah dan bukti pada bacaan.",
+    "officialSolutionMarkdown": "Jawaban yang tepat adalah **C** (kalimat (5)) sesuai kaidah dan bukti pada bacaan. Jawaban yang tepat adalah **C** (\"kalimat (5)\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
     "solutionSteps": [
       {
         "stage": "deconstruct",
         "title": "Identifikasi Konsep Soal",
-        "instructionMarkdown": "Pilah kata kunci soal PBM lalu cari kalimat rujukan eksplisit pada teks.",
+        "instructionMarkdown": "Tangkap kata kunci utama di pertanyaan lalu cari langsung kalimat bukti yang paling relevan di bacaan.",
         "formulaLatex": null
       },
       {
         "stage": "solve",
         "title": "Verifikasi Jawaban Tepat",
-        "instructionMarkdown": "Jawaban yang tepat adalah **C** (kalimat (5)) sesuai kaidah dan bukti pada bacaan.",
+        "instructionMarkdown": "Jawaban yang tepat adalah **C** (kalimat (5)) sesuai kaidah dan bukti pada bacaan. Jawaban yang tepat adalah **C** (\"kalimat (5)\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
         "formulaLatex": null
       }
     ],
@@ -70386,7 +70693,9 @@
         "text": "(10) [...], virus ini juga bisa menyebabkan infeksi pernapasan berat, seperti infeksi paru-paru (pneumonia). Diadaptasi dari https://www.alodokter.com."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S2"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -70509,7 +70818,9 @@
         "text": "(8) Data ini menjadikan Italia sebagai negara dengan tingkat kematian akibat virus korona tertinggi di dunia. (D) mendatangi (E) memerangi 14Perubahan oleh sistim membuat roda mesin itu memutar melampaui batas normal. Padahal, diharapkan pengembalian ke sistem awal untuk mendapatkan hasil putaran yang optimal. 15Hampir 2 jam lamanya, perputaran itu tidak menghasilkan energi seperti yang diharapkan. Karena perubahan itu, produksi melambat dan tidak memenuhi kuota pesanan. 16Sehingga, hasil produksi yang minim itu berdampak pada target mingguan yang waktu sebelumnya masih terpenuhi."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S7"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -70755,7 +71066,9 @@
         "text": "(8) Data ini menjadikan Italia sebagai negara dengan tingkat kematian akibat virus korona tertinggi di dunia. (D) mendatangi (E) memerangi 14Perubahan oleh sistim membuat roda mesin itu memutar melampaui batas normal. Padahal, diharapkan pengembalian ke sistem awal untuk mendapatkan hasil putaran yang optimal. 15Hampir 2 jam lamanya, perputaran itu tidak menghasilkan energi seperti yang diharapkan. Karena perubahan itu, produksi melambat dan tidak memenuhi kuota pesanan. 16Sehingga, hasil produksi yang minim itu berdampak pada target mingguan yang waktu sebelumnya masih terpenuhi."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S8"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -70868,7 +71181,10 @@
         "text": "(6) Banjir juga melumpuhkan Ibu Kota dan listrik padam di sejumlah wilayah."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S1",
+      "S2"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -70981,7 +71297,9 @@
         "text": "(6) Banjir juga melumpuhkan Ibu Kota dan listrik padam di sejumlah wilayah."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S3"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -71322,7 +71640,10 @@
         "text": "(6) Untuk mencapai kedalaman waduk 7-10 meter dikerahkan kapal keruk dan bor pengisap lumpur milik perusahaan Amerika Serikat."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S2",
+      "S1"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -71435,7 +71756,10 @@
         "text": "(6) Untuk mencapai kedalaman waduk 7-10 meter dikerahkan kapal keruk dan bor pengisap lumpur milik perusahaan Amerika Serikat."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S2",
+      "S3"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -71713,7 +72037,9 @@
         "text": "(11) Akan tetapi, penemuan yang sangat lama, seperti roda, dapat disebut teknologi. Diadaptasi dari http://aryanititin.blogspot.com/2013/04/perkembangan-dan-pemanfaatan-teknologi."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S5"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -71851,7 +72177,10 @@
         "text": "(11) Akan tetapi, penemuan yang sangat lama, seperti roda, dapat disebut teknologi. Diadaptasi dari http://aryanititin.blogspot.com/2013/04/perkembangan-dan-pemanfaatan-teknologi."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S6",
+      "S4"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -71989,7 +72318,9 @@
         "text": "(11) Akan tetapi, penemuan yang sangat lama, seperti roda, dapat disebut teknologi. Diadaptasi dari http://aryanititin.blogspot.com/2013/04/perkembangan-dan-pemanfaatan-teknologi."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S6"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -72127,7 +72458,10 @@
         "text": "(11) Akan tetapi, penemuan yang sangat lama, seperti roda, dapat disebut teknologi. Diadaptasi dari http://aryanititin.blogspot.com/2013/04/perkembangan-dan-pemanfaatan-teknologi."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S2",
+      "S4"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -72308,18 +72642,18 @@
       }
     ],
     "correctAnswerKey": "C",
-    "officialSolutionMarkdown": "Menurut KBBI V, kata santifik bermakna 'ilmiah'.",
+    "officialSolutionMarkdown": "Menurut KBBI V, kata santifik bermakna 'ilmiah'. Jawaban yang tepat adalah **C** (\"ilmiah\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
     "solutionSteps": [
       {
         "stage": "deconstruct",
         "title": "Identifikasi Konsep Soal",
-        "instructionMarkdown": "Pilah kata kunci soal PBM lalu cari kalimat rujukan eksplisit pada teks.",
+        "instructionMarkdown": "Tangkap kata kunci utama di pertanyaan lalu cari langsung kalimat bukti yang paling relevan di bacaan.",
         "formulaLatex": null
       },
       {
         "stage": "solve",
         "title": "Verifikasi Jawaban Tepat",
-        "instructionMarkdown": "Menurut KBBI V, kata santifik bermakna 'ilmiah'.",
+        "instructionMarkdown": "Menurut KBBI V, kata santifik bermakna 'ilmiah'. Jawaban yang tepat adalah **C** (\"ilmiah\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
         "formulaLatex": null
       }
     ],
@@ -72420,7 +72754,10 @@
         "text": "(14) Selain dioksin abu hasil pembakaran juga berisi berbagai logam berat yang terkandung di dalam plastik. Diadaptasi dari http://arimcsetyavengeance.blogspot.com/2012/11/contoh-kir-tentang-sampah-di-indonesia."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S3",
+      "S4"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -72614,18 +72951,18 @@
       }
     ],
     "correctAnswerKey": "A",
-    "officialSolutionMarkdown": "Daun jati merupakan pembungkus alami yang bisa terurai dengan mudah.",
+    "officialSolutionMarkdown": "Daun jati merupakan pembungkus alami yang bisa terurai dengan mudah. Jawaban yang tepat adalah **A** (\"daun jati\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
     "solutionSteps": [
       {
         "stage": "deconstruct",
         "title": "Identifikasi Konsep Soal",
-        "instructionMarkdown": "Pilah kata kunci soal PBM lalu cari kalimat rujukan eksplisit pada teks.",
+        "instructionMarkdown": "Tangkap kata kunci utama di pertanyaan lalu cari langsung kalimat bukti yang paling relevan di bacaan.",
         "formulaLatex": null
       },
       {
         "stage": "solve",
         "title": "Verifikasi Jawaban Tepat",
-        "instructionMarkdown": "Daun jati merupakan pembungkus alami yang bisa terurai dengan mudah.",
+        "instructionMarkdown": "Daun jati merupakan pembungkus alami yang bisa terurai dengan mudah. Jawaban yang tepat adalah **A** (\"daun jati\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
         "formulaLatex": null
       }
     ],
@@ -72881,7 +73218,9 @@
         "text": "(14) Selain dioksin abu hasil pembakaran juga berisi berbagai logam berat yang terkandung di dalam plastik. Diadaptasi dari http://arimcsetyavengeance.blogspot.com/2012/11/contoh-kir-tentang-sampah-di-indonesia."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S14"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -72922,18 +73261,18 @@
       }
     ],
     "correctAnswerKey": "E",
-    "officialSolutionMarkdown": "➢ Kesalahan kalimat (14): tidak ada tanda koma setelah kata dioksin.",
+    "officialSolutionMarkdown": "➢ Kesalahan kalimat (14): tidak ada tanda koma setelah kata dioksin. Jawaban yang tepat adalah **E** (\"(14)\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
     "solutionSteps": [
       {
         "stage": "deconstruct",
         "title": "Identifikasi Konsep Soal",
-        "instructionMarkdown": "Pilah kata kunci soal PBM lalu cari kalimat rujukan eksplisit pada teks.",
+        "instructionMarkdown": "Tangkap kata kunci utama di pertanyaan lalu cari langsung kalimat bukti yang paling relevan di bacaan.",
         "formulaLatex": null
       },
       {
         "stage": "solve",
         "title": "Verifikasi Jawaban Tepat",
-        "instructionMarkdown": "➢ Kesalahan kalimat (14): tidak ada tanda koma setelah kata dioksin.",
+        "instructionMarkdown": "➢ Kesalahan kalimat (14): tidak ada tanda koma setelah kata dioksin. Jawaban yang tepat adalah **E** (\"(14)\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
         "formulaLatex": null
       }
     ],
@@ -73039,7 +73378,9 @@
         "text": "(15) Dari hasil percobaan Milikan dan Thomson diperoleh muatan elektron -1 dan massa elektron 0, sehingga elektron dapat dilambangkan."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S5"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -73157,7 +73498,9 @@
         "text": "(7) Sementara mereka yang berusia 30 hingga 60 tahun tingkat fatalitasnya sebesar 1,4 persen, dan mereka yang di bawah 30 tahun hanya berkisar antara nol hingga 0,19 persen. Diadaptasi dengan pengubahan dari https://www.halodoc.com."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S2"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -73198,18 +73541,18 @@
       }
     ],
     "correctAnswerKey": "B",
-    "officialSolutionMarkdown": "Kata efektifitas adalah bentuk tidak baku dari efektivitas.",
+    "officialSolutionMarkdown": "Kata efektifitas adalah bentuk tidak baku dari efektivitas. Jawaban yang tepat adalah **B** (\"Membuat pada kalimat (2)\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
     "solutionSteps": [
       {
         "stage": "deconstruct",
         "title": "Identifikasi Konsep Soal",
-        "instructionMarkdown": "Pilah kata kunci soal PBM lalu cari kalimat rujukan eksplisit pada teks.",
+        "instructionMarkdown": "Tangkap kata kunci utama di pertanyaan lalu cari langsung kalimat bukti yang paling relevan di bacaan.",
         "formulaLatex": null
       },
       {
         "stage": "solve",
         "title": "Verifikasi Jawaban Tepat",
-        "instructionMarkdown": "Kata efektifitas adalah bentuk tidak baku dari efektivitas.",
+        "instructionMarkdown": "Kata efektifitas adalah bentuk tidak baku dari efektivitas. Jawaban yang tepat adalah **B** (\"Membuat pada kalimat (2)\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
         "formulaLatex": null
       }
     ],
@@ -73508,7 +73851,9 @@
         "text": "(6) Proses pembentukan antibodi inilah yang disebut imunisasi.(7) Saat orang yang sudah mendapatkan vaksin terpapar kuman-kuman penyebab penyakit yang sebenarnya di kemudian hari, tubuhnya akan membentuk antibodi dengan cepat untuk melawan kuman-kuman tersebut. Diadaptasi dengan pengubahan dari https://www.alodokter.com."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S3"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -73621,7 +73966,9 @@
         "text": "(6) Proses pembentukan antibodi inilah yang disebut imunisasi.(7) Saat orang yang sudah mendapatkan vaksin terpapar kuman-kuman penyebab penyakit yang sebenarnya di kemudian hari, tubuhnya akan membentuk antibodi dengan cepat untuk melawan kuman-kuman tersebut. Diadaptasi dengan pengubahan dari https://www.alodokter.com."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S6"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -73847,7 +74194,9 @@
         "text": "(6) Jokowi juga meminta bahwa penglacakan terhadap masyarakat terpapar korona dilakukan lebih agresif untuk menekan penyebaran virus. Diadaptasi dengan pengubahan dari https://www.halodoc.com."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S5"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -73960,7 +74309,9 @@
         "text": "(6) Jokowi juga meminta bahwa penglacakan terhadap masyarakat terpapar korona dilakukan lebih agresif untuk menekan penyebaran virus. Diadaptasi dengan pengubahan dari https://www.halodoc.com."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S4"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -74073,7 +74424,9 @@
         "text": "(6) Jokowi juga meminta bahwa penglacakan terhadap masyarakat terpapar korona dilakukan lebih agresif untuk menekan penyebaran virus. Diadaptasi dengan pengubahan dari https://www.halodoc.com."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S6"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -74234,18 +74587,18 @@
       }
     ],
     "correctAnswerKey": "C",
-    "officialSolutionMarkdown": "Makna indikasi yang paling tepat di antara opsi yang ada adalah tanda-tanda.",
+    "officialSolutionMarkdown": "Makna indikasi yang paling tepat di antara opsi yang ada adalah tanda-tanda. Jawaban yang tepat adalah **C** (\"Makassar dan Yogya\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
     "solutionSteps": [
       {
         "stage": "deconstruct",
         "title": "Identifikasi Konsep Soal",
-        "instructionMarkdown": "Pilah kata kunci soal PBM lalu cari kalimat rujukan eksplisit pada teks.",
+        "instructionMarkdown": "Tangkap kata kunci utama di pertanyaan lalu cari langsung kalimat bukti yang paling relevan di bacaan.",
         "formulaLatex": null
       },
       {
         "stage": "solve",
         "title": "Verifikasi Jawaban Tepat",
-        "instructionMarkdown": "Makna indikasi yang paling tepat di antara opsi yang ada adalah tanda-tanda.",
+        "instructionMarkdown": "Makna indikasi yang paling tepat di antara opsi yang ada adalah tanda-tanda. Jawaban yang tepat adalah **C** (\"Makassar dan Yogya\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
         "formulaLatex": null
       }
     ],
@@ -74311,7 +74664,9 @@
         "text": "(7) IG membedakan produk berdasarkan fitur lokal yang unik, sejarah atau cirikhas yang terkait dengan alam dan faktor manusia di daerah asalnya. Diadaptasi dengan pengubahan dari https://www.kompasiana.com."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S3"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -74352,18 +74707,18 @@
       }
     ],
     "correctAnswerKey": "A",
-    "officialSolutionMarkdown": "Jawaban yang tepat adalah **A** (pencaharian pada kalimat (3)) sesuai kaidah dan bukti pada bacaan.",
+    "officialSolutionMarkdown": "Jawaban yang tepat adalah **A** (pencaharian pada kalimat (3)) sesuai kaidah dan bukti pada bacaan. Jawaban yang tepat adalah **A** (\"pencaharian pada kalimat (3)\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
     "solutionSteps": [
       {
         "stage": "deconstruct",
         "title": "Identifikasi Konsep Soal",
-        "instructionMarkdown": "Pilah kata kunci soal PBM lalu cari kalimat rujukan eksplisit pada teks.",
+        "instructionMarkdown": "Tangkap kata kunci utama di pertanyaan lalu cari langsung kalimat bukti yang paling relevan di bacaan.",
         "formulaLatex": null
       },
       {
         "stage": "solve",
         "title": "Verifikasi Jawaban Tepat",
-        "instructionMarkdown": "Jawaban yang tepat adalah **A** (pencaharian pada kalimat (3)) sesuai kaidah dan bukti pada bacaan.",
+        "instructionMarkdown": "Jawaban yang tepat adalah **A** (pencaharian pada kalimat (3)) sesuai kaidah dan bukti pada bacaan. Jawaban yang tepat adalah **A** (\"pencaharian pada kalimat (3)\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
         "formulaLatex": null
       }
     ],
@@ -74564,7 +74919,9 @@
         "text": "(10) Tidak hanya itu, karena kemudahan teknologi, gaya hidup tidak sehat membuat tubuh rentan terserang berbagai gangguan kesehatan, seperti diabetes, penyakit jantung, dan kanker. Diadaptasi dengan pengubahan dari https://www.halodoc.com/kesehatan/hidup-sehat."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S4"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -74697,7 +75054,9 @@
         "text": "(10) Tidak hanya itu, karena kemudahan teknologi, gaya hidup tidak sehat membuat tubuh rentan terserang berbagai gangguan kesehatan, seperti diabetes, penyakit jantung, dan kanker. Diadaptasi dengan pengubahan dari https://www.halodoc.com/kesehatan/hidup-sehat."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S4"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -75588,7 +75947,9 @@
         "text": "(7) Tetapi, biasanya hal ini tidak menyebabkan kerusakan yang besar bagi lingkungan atau menewaskan korban jiwa karena gunung-gunung berapi yang paling aktif berada di tempat-tempat terpencil. Diadaptasi dengan pengubahan dari https://www.indonesia-investments.com."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S2"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -75706,7 +76067,10 @@
         "text": "(7) Tetapi, biasanya hal ini tidak menyebabkan kerusakan yang besar bagi lingkungan atau menewaskan korban jiwa karena gunung-gunung berapi yang paling aktif berada di tempat-tempat terpencil. Diadaptasi dengan pengubahan dari https://www.indonesia-investments.com."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S2",
+      "S4"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -75942,7 +76306,9 @@
         "text": "(7) Tetapi, biasanya hal ini tidak menyebabkan kerusakan yang besar bagi lingkungan atau menewaskan korban jiwa karena gunung-gunung berapi yang paling aktif berada di tempat-tempat terpencil. Diadaptasi dengan pengubahan dari https://www.indonesia-investments.com."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S5"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -76008,10 +76374,10 @@
   {
     "id": "9578d40e-5d05-4a17-bd54-327e9aaabf1b",
     "ownerUserId": null,
-    "skillNodeId": "10000000-0000-4000-8000-000000000023",
+    "skillNodeId": "10000000-0000-4000-8000-000000000038",
     "subtest": "PPU",
     "track": "literacy",
-    "tier": "tier_1_core",
+    "tier": "tier_0_foundation",
     "sourceType": "curated_seed",
     "sourceDocumentId": null,
     "sourcePageId": null,
@@ -76136,10 +76502,10 @@
   {
     "id": "f1a45d88-f1fb-4824-85cd-bcd5b23f197f",
     "ownerUserId": null,
-    "skillNodeId": "10000000-0000-4000-8000-000000000023",
+    "skillNodeId": "10000000-0000-4000-8000-000000000038",
     "subtest": "PPU",
     "track": "literacy",
-    "tier": "tier_1_core",
+    "tier": "tier_0_foundation",
     "sourceType": "curated_seed",
     "sourceDocumentId": null,
     "sourcePageId": null,
@@ -76241,18 +76607,18 @@
       }
     ],
     "correctAnswerKey": "D",
-    "officialSolutionMarkdown": "06 jawaban D Maksud dari pertanyaan di atas adalah mencari inti kalimat, yakni subjek dan predikat.",
+    "officialSolutionMarkdown": "06 jawaban D Maksud dari pertanyaan di atas adalah mencari inti kalimat, yakni subjek dan predikat. Jawaban yang tepat adalah **D** (\"Proses sortasi benih lele tidak bisa dilakukan sembarangan.\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
     "solutionSteps": [
       {
         "stage": "deconstruct",
         "title": "Identifikasi Konsep Soal",
-        "instructionMarkdown": "Pilah kata kunci soal PPU lalu cari kalimat rujukan eksplisit pada teks.",
+        "instructionMarkdown": "Tangkap kata kunci utama di pertanyaan lalu cari langsung kalimat bukti yang paling relevan di bacaan.",
         "formulaLatex": null
       },
       {
         "stage": "solve",
         "title": "Verifikasi Jawaban Tepat",
-        "instructionMarkdown": "06 jawaban D Maksud dari pertanyaan di atas adalah mencari inti kalimat, yakni subjek dan predikat.",
+        "instructionMarkdown": "06 jawaban D Maksud dari pertanyaan di atas adalah mencari inti kalimat, yakni subjek dan predikat. Jawaban yang tepat adalah **D** (\"Proses sortasi benih lele tidak bisa dilakukan sembarangan.\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
         "formulaLatex": null
       }
     ],
@@ -76328,7 +76694,9 @@
         "text": "(9) Jika proses sortasi belum usai, bisa dilanjutkan di pagi hari sebelum pukul 10.00, sebelum matahari terlalu terik. Diadaptasi dari https://www.pertanianku.com."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S8"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -76369,18 +76737,18 @@
       }
     ],
     "correctAnswerKey": "E",
-    "officialSolutionMarkdown": "Pada teks tertulis bahwa sortasi benih tidak dilakukan pada siang hari.",
+    "officialSolutionMarkdown": "Pada teks tertulis bahwa sortasi benih tidak dilakukan pada siang hari. Jawaban yang tepat adalah **E** (\"waktu siang hari. 07 jawaban E\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
     "solutionSteps": [
       {
         "stage": "deconstruct",
         "title": "Identifikasi Konsep Soal",
-        "instructionMarkdown": "Pilah kata kunci soal PPU lalu cari kalimat rujukan eksplisit pada teks.",
+        "instructionMarkdown": "Tangkap kata kunci utama di pertanyaan lalu cari langsung kalimat bukti yang paling relevan di bacaan.",
         "formulaLatex": null
       },
       {
         "stage": "solve",
         "title": "Verifikasi Jawaban Tepat",
-        "instructionMarkdown": "Pada teks tertulis bahwa sortasi benih tidak dilakukan pada siang hari.",
+        "instructionMarkdown": "Pada teks tertulis bahwa sortasi benih tidak dilakukan pada siang hari. Jawaban yang tepat adalah **E** (\"waktu siang hari. 07 jawaban E\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
         "formulaLatex": null
       }
     ],
@@ -76596,7 +76964,10 @@
         "text": "(11) Selain menjadi sumber pendapatan, kegiatan usaha tersebut turut menjaga populasi kepiting di alam. Diadaptasi dari https://www.pertanianku.com."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S1",
+      "S10"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -76872,7 +77243,9 @@
         "text": "(11) Selain menjadi sumber pendapatan, kegiatan usaha tersebut turut menjaga populasi kepiting di alam. Diadaptasi dari https://www.pertanianku.com."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S8"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -76913,18 +77286,18 @@
       }
     ],
     "correctAnswerKey": "E",
-    "officialSolutionMarkdown": "Jawaban yang tepat adalah **E** (kalimat (8)) sesuai kaidah dan bukti pada bacaan.",
+    "officialSolutionMarkdown": "Jawaban yang tepat adalah **E** (kalimat (8)) sesuai kaidah dan bukti pada bacaan. Jawaban yang tepat adalah **E** (\"kalimat (8)\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
     "solutionSteps": [
       {
         "stage": "deconstruct",
         "title": "Identifikasi Konsep Soal",
-        "instructionMarkdown": "Pilah kata kunci soal PPU lalu cari kalimat rujukan eksplisit pada teks.",
+        "instructionMarkdown": "Tangkap kata kunci utama di pertanyaan lalu cari langsung kalimat bukti yang paling relevan di bacaan.",
         "formulaLatex": null
       },
       {
         "stage": "solve",
         "title": "Verifikasi Jawaban Tepat",
-        "instructionMarkdown": "Jawaban yang tepat adalah **E** (kalimat (8)) sesuai kaidah dan bukti pada bacaan.",
+        "instructionMarkdown": "Jawaban yang tepat adalah **E** (kalimat (8)) sesuai kaidah dan bukti pada bacaan. Jawaban yang tepat adalah **E** (\"kalimat (8)\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
         "formulaLatex": null
       }
     ],
@@ -77010,7 +77383,9 @@
         "text": "(11) Selain menjadi sumber pendapatan, kegiatan usaha tersebut turut menjaga populasi kepiting di alam. Diadaptasi dari https://www.pertanianku.com."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S4"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -77148,7 +77523,9 @@
         "text": "(11) Rasa gelisah dirasakan karena kelelahan yang dialami saat harus menghadapi rasa cemas setiap harinya yang pada akhirnya dapat membuat Anda menjadi mudah marah."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S5"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -77286,7 +77663,9 @@
         "text": "(11) Rasa gelisah dirasakan karena kelelahan yang dialami saat harus menghadapi rasa cemas setiap harinya yang pada akhirnya dapat membuat Anda menjadi mudah marah."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S8"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -77327,18 +77706,18 @@
       }
     ],
     "correctAnswerKey": "B",
-    "officialSolutionMarkdown": "Terdapat di kalimat (8) Rasa cemas dapat memicu adrenalin dalam tubuh ... .",
+    "officialSolutionMarkdown": "Terdapat di kalimat (8) Rasa cemas dapat memicu adrenalin dalam tubuh ... . Jawaban yang tepat adalah **B** (\"rasa cemas\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
     "solutionSteps": [
       {
         "stage": "deconstruct",
         "title": "Identifikasi Konsep Soal",
-        "instructionMarkdown": "Pilah kata kunci soal PPU lalu cari kalimat rujukan eksplisit pada teks.",
+        "instructionMarkdown": "Tangkap kata kunci utama di pertanyaan lalu cari langsung kalimat bukti yang paling relevan di bacaan.",
         "formulaLatex": null
       },
       {
         "stage": "solve",
         "title": "Verifikasi Jawaban Tepat",
-        "instructionMarkdown": "Terdapat di kalimat (8) Rasa cemas dapat memicu adrenalin dalam tubuh ... .",
+        "instructionMarkdown": "Terdapat di kalimat (8) Rasa cemas dapat memicu adrenalin dalam tubuh ... . Jawaban yang tepat adalah **B** (\"rasa cemas\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
         "formulaLatex": null
       }
     ],
@@ -77424,7 +77803,9 @@
         "text": "(11) Rasa gelisah dirasakan karena kelelahan yang dialami saat harus menghadapi rasa cemas setiap harinya yang pada akhirnya dapat membuat Anda menjadi mudah marah."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S1"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -77606,18 +77987,18 @@
       }
     ],
     "correctAnswerKey": "D",
-    "officialSolutionMarkdown": "Kalimat (1) dan (2) dapat digabungkan menggunakan konjungsi korelasi bukan hanya...melainkan juga.",
+    "officialSolutionMarkdown": "Kalimat (1) dan (2) dapat digabungkan menggunakan konjungsi korelasi bukan hanya...melainkan juga. Jawaban yang tepat adalah **D** (\"melainkan juga\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
     "solutionSteps": [
       {
         "stage": "deconstruct",
         "title": "Identifikasi Konsep Soal",
-        "instructionMarkdown": "Pilah kata kunci soal PPU lalu cari kalimat rujukan eksplisit pada teks.",
+        "instructionMarkdown": "Tangkap kata kunci utama di pertanyaan lalu cari langsung kalimat bukti yang paling relevan di bacaan.",
         "formulaLatex": null
       },
       {
         "stage": "solve",
         "title": "Verifikasi Jawaban Tepat",
-        "instructionMarkdown": "Kalimat (1) dan (2) dapat digabungkan menggunakan konjungsi korelasi bukan hanya...melainkan juga.",
+        "instructionMarkdown": "Kalimat (1) dan (2) dapat digabungkan menggunakan konjungsi korelasi bukan hanya...melainkan juga. Jawaban yang tepat adalah **D** (\"melainkan juga\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
         "formulaLatex": null
       }
     ],
@@ -77843,7 +78224,9 @@
         "text": "(11) Maka itu mereka diperankan pria, tapi dirias dan dibiarkan berlenggok gemulai."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S10"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -78101,7 +78484,9 @@
         "text": "(7) Moratorium sawit adalah tonggak penting dalam mewujudkan perkebunan sawit yang produktif dan berkelanjutan, di samping dapat memastikan bahwa Indonesia siap mengambil keuntungan sebagai negara produsen sawit terbesar di dunia. Diadaptasi (dengan pengubahan) dari Kompas, 25 Agustus 2018."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S1"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -78260,18 +78645,18 @@
       }
     ],
     "correctAnswerKey": "A",
-    "officialSolutionMarkdown": "Dalam KBBI, kata moratorium bermakna 'penundaan; penangguhan'",
+    "officialSolutionMarkdown": "Dalam KBBI, kata moratorium bermakna 'penundaan; penangguhan'. Jawaban yang tepat adalah **A** (\"Penangguhan\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
     "solutionSteps": [
       {
         "stage": "deconstruct",
         "title": "Identifikasi Konsep Soal",
-        "instructionMarkdown": "Pilah kata kunci soal PPU lalu cari kalimat rujukan eksplisit pada teks.",
+        "instructionMarkdown": "Tangkap kata kunci utama di pertanyaan lalu cari langsung kalimat bukti yang paling relevan di bacaan.",
         "formulaLatex": null
       },
       {
         "stage": "solve",
         "title": "Verifikasi Jawaban Tepat",
-        "instructionMarkdown": "Dalam KBBI, kata moratorium bermakna 'penundaan; penangguhan'",
+        "instructionMarkdown": "Dalam KBBI, kata moratorium bermakna 'penundaan; penangguhan'. Jawaban yang tepat adalah **A** (\"Penangguhan\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
         "formulaLatex": null
       }
     ],
@@ -78337,7 +78722,9 @@
         "text": "(7) Moratorium sawit adalah tonggak penting dalam mewujudkan perkebunan sawit yang produktif dan berkelanjutan, di samping dapat memastikan bahwa Indonesia siap mengambil keuntungan sebagai negara produsen sawit terbesar di dunia. Diadaptasi (dengan pengubahan) dari Kompas, 25 Agustus 2018."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S7"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -78403,10 +78790,10 @@
   {
     "id": "53f3343f-3536-47a7-b980-eb3a035f6b34",
     "ownerUserId": null,
-    "skillNodeId": "10000000-0000-4000-8000-000000000023",
+    "skillNodeId": "10000000-0000-4000-8000-000000000038",
     "subtest": "PPU",
     "track": "literacy",
-    "tier": "tier_1_core",
+    "tier": "tier_0_foundation",
     "sourceType": "curated_seed",
     "sourceDocumentId": null,
     "sourcePageId": null,
@@ -78470,7 +78857,10 @@
         "text": "(10) Dia salah satu harapan wakil Indonesia di Tokyo 2020. Diadaptasi dari Kompas Kamis, 26 Desember 2019."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S1",
+      "S2"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -78603,7 +78993,9 @@
         "text": "(10) Dia salah satu harapan wakil Indonesia di Tokyo 2020. Diadaptasi dari Kompas Kamis, 26 Desember 2019."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S9"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -78669,10 +79061,10 @@
   {
     "id": "be04b695-9227-4145-a0aa-055bb6ac5a83",
     "ownerUserId": null,
-    "skillNodeId": "10000000-0000-4000-8000-000000000023",
+    "skillNodeId": "10000000-0000-4000-8000-000000000038",
     "subtest": "PPU",
     "track": "literacy",
-    "tier": "tier_1_core",
+    "tier": "tier_0_foundation",
     "sourceType": "curated_seed",
     "sourceDocumentId": null,
     "sourcePageId": null,
@@ -78736,7 +79128,9 @@
         "text": "(10) Dia salah satu harapan wakil Indonesia di Tokyo 2020. Diadaptasi dari Kompas Kamis, 26 Desember 2019."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S5"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -78992,7 +79386,10 @@
         "text": "(8) Nilai tambah yang dihasilkan ekonomi kreatif juga mengalami peningkatan setiap tahun. Diadaptasi dari https://www.kompasiana.com/ilhamaznan1429"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S4",
+      "S2"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -79033,18 +79430,18 @@
       }
     ],
     "correctAnswerKey": "B",
-    "officialSolutionMarkdown": "Kata sumberdaya pada kalimat (4) seharusnya ditulis terpisah.",
+    "officialSolutionMarkdown": "Kata sumberdaya pada kalimat (4) seharusnya ditulis terpisah. Jawaban yang tepat adalah **B** (\"Kalimat (2)\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
     "solutionSteps": [
       {
         "stage": "deconstruct",
         "title": "Identifikasi Konsep Soal",
-        "instructionMarkdown": "Pilah kata kunci soal PPU lalu cari kalimat rujukan eksplisit pada teks.",
+        "instructionMarkdown": "Tangkap kata kunci utama di pertanyaan lalu cari langsung kalimat bukti yang paling relevan di bacaan.",
         "formulaLatex": null
       },
       {
         "stage": "solve",
         "title": "Verifikasi Jawaban Tepat",
-        "instructionMarkdown": "Kata sumberdaya pada kalimat (4) seharusnya ditulis terpisah.",
+        "instructionMarkdown": "Kata sumberdaya pada kalimat (4) seharusnya ditulis terpisah. Jawaban yang tepat adalah **B** (\"Kalimat (2)\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
         "formulaLatex": null
       }
     ],
@@ -79115,7 +79512,10 @@
         "text": "(8) Nilai tambah yang dihasilkan ekonomi kreatif juga mengalami peningkatan setiap tahun. Diadaptasi dari https://www.kompasiana.com/ilhamaznan1429"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S2",
+      "S4"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -79238,7 +79638,9 @@
         "text": "(8) Nilai tambah yang dihasilkan ekonomi kreatif juga mengalami peningkatan setiap tahun. Diadaptasi dari https://www.kompasiana.com/ilhamaznan1429"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S3"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -79366,7 +79768,9 @@
         "text": "(9) Nilai-nilai agama sudah ada jauh sejak dulu, tidak pernah mengajarkan kekerasan apalagi terorisme seperti yang terjadi. Diadaptasi dari https://www.cnnindonesia.com/ekonomi."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S7"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -79760,7 +80164,9 @@
         "text": "(10) Biasanya musim hujan terjadi pada bagian bumi yang tengah mengalami posisi zenith peredaran semu matahari."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S5"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -79888,7 +80294,9 @@
         "text": "(9) Mitos banjir besar adalah kisah mitologi banjir besar yang dikirimkan oleh Tuhan untuk menghancurkan suatu peradaban sebagai pembalasan agung dan sering muncul dalam mitologi berbagai kebudayaan di dunia."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S7"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -79929,18 +80337,18 @@
       }
     ],
     "correctAnswerKey": "E",
-    "officialSolutionMarkdown": "Tanda koma sebelum kata dan pada kalimat\n(7) tidak diperlukan.",
+    "officialSolutionMarkdown": "Tanda koma sebelum kata dan pada kalimat\n(7) tidak diperlukan. Jawaban yang tepat adalah **E** (\"kalimat (7)\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
     "solutionSteps": [
       {
         "stage": "deconstruct",
         "title": "Identifikasi Konsep Soal",
-        "instructionMarkdown": "Pilah kata kunci soal PPU lalu cari kalimat rujukan eksplisit pada teks.",
+        "instructionMarkdown": "Tangkap kata kunci utama di pertanyaan lalu cari langsung kalimat bukti yang paling relevan di bacaan.",
         "formulaLatex": null
       },
       {
         "stage": "solve",
         "title": "Verifikasi Jawaban Tepat",
-        "instructionMarkdown": "Tanda koma sebelum kata dan pada kalimat\n(7) tidak diperlukan.",
+        "instructionMarkdown": "Tanda koma sebelum kata dan pada kalimat\n(7) tidak diperlukan. Jawaban yang tepat adalah **E** (\"kalimat (7)\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
         "formulaLatex": null
       }
     ],
@@ -80016,7 +80424,9 @@
         "text": "(9) Mitos banjir besar adalah kisah mitologi banjir besar yang dikirimkan oleh Tuhan untuk menghancurkan suatu peradaban sebagai pembalasan agung dan sering muncul dalam mitologi berbagai kebudayaan di dunia."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S5"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -80144,7 +80554,10 @@
         "text": "(9) Mitos banjir besar adalah kisah mitologi banjir besar yang dikirimkan oleh Tuhan untuk menghancurkan suatu peradaban sebagai pembalasan agung dan sering muncul dalam mitologi berbagai kebudayaan di dunia."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S5",
+      "S2"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -80318,18 +80731,18 @@
       }
     ],
     "correctAnswerKey": "B",
-    "officialSolutionMarkdown": "Ketiga paragraf membicarakan banjir, tetapi paragraf 3 tidak padu dengan paragraf 1 dan",
+    "officialSolutionMarkdown": "Ketiga paragraf membicarakan banjir, tetapi paragraf 3 tidak padu dengan paragraf 1 dan. Jawaban yang tepat adalah **B** (\"tidak padu dengan gagasan paragraf sebelumnya\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
     "solutionSteps": [
       {
         "stage": "deconstruct",
         "title": "Identifikasi Konsep Soal",
-        "instructionMarkdown": "Pilah kata kunci soal PPU lalu cari kalimat rujukan eksplisit pada teks.",
+        "instructionMarkdown": "Tangkap kata kunci utama di pertanyaan lalu cari langsung kalimat bukti yang paling relevan di bacaan.",
         "formulaLatex": null
       },
       {
         "stage": "solve",
         "title": "Verifikasi Jawaban Tepat",
-        "instructionMarkdown": "Ketiga paragraf membicarakan banjir, tetapi paragraf 3 tidak padu dengan paragraf 1 dan",
+        "instructionMarkdown": "Ketiga paragraf membicarakan banjir, tetapi paragraf 3 tidak padu dengan paragraf 1 dan. Jawaban yang tepat adalah **B** (\"tidak padu dengan gagasan paragraf sebelumnya\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
         "formulaLatex": null
       }
     ],
@@ -80343,10 +80756,10 @@
   {
     "id": "b401c5bd-da8f-4e87-813f-32f8f3ea7d8c",
     "ownerUserId": null,
-    "skillNodeId": "10000000-0000-4000-8000-000000000023",
+    "skillNodeId": "10000000-0000-4000-8000-000000000038",
     "subtest": "PPU",
     "track": "literacy",
-    "tier": "tier_1_core",
+    "tier": "tier_0_foundation",
     "sourceType": "curated_seed",
     "sourceDocumentId": null,
     "sourcePageId": null,
@@ -80453,18 +80866,18 @@
       }
     ],
     "correctAnswerKey": "B",
-    "officialSolutionMarkdown": "perdagangan yang lancar dekat perairan.",
+    "officialSolutionMarkdown": "perdagangan yang lancar dekat perairan. Jawaban yang tepat adalah **B** (\"Orang-orang menetap dan bekerja dekat air.\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
     "solutionSteps": [
       {
         "stage": "deconstruct",
         "title": "Identifikasi Konsep Soal",
-        "instructionMarkdown": "Pilah kata kunci soal PPU lalu cari kalimat rujukan eksplisit pada teks.",
+        "instructionMarkdown": "Tangkap kata kunci utama di pertanyaan lalu cari langsung kalimat bukti yang paling relevan di bacaan.",
         "formulaLatex": null
       },
       {
         "stage": "solve",
         "title": "Verifikasi Jawaban Tepat",
-        "instructionMarkdown": "perdagangan yang lancar dekat perairan.",
+        "instructionMarkdown": "perdagangan yang lancar dekat perairan. Jawaban yang tepat adalah **B** (\"Orang-orang menetap dan bekerja dekat air.\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
         "formulaLatex": null
       }
     ],
@@ -80678,7 +81091,9 @@
         "text": "(10) Gempa 3 magnitudo atau lebih sebagian besar hampir tidak terlihat dan besarnya 7 kali lebih berpotensi menyebabkan kerusakan serius di daerah yang luas, tergantung pada kedalaman gempa."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S2"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -80811,7 +81226,9 @@
         "text": "(10) Gempa 3 magnitudo atau lebih sebagian besar hampir tidak terlihat dan besarnya 7 kali lebih berpotensi menyebabkan kerusakan serius di daerah yang luas, tergantung pada kedalaman gempa."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S5"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -80852,18 +81269,18 @@
       }
     ],
     "correctAnswerKey": "B",
-    "officialSolutionMarkdown": "Kata frekwensi dalam kalimat (5) tidak baku. Kata yang baku adalah frekuensi.",
+    "officialSolutionMarkdown": "Kata frekwensi dalam kalimat (5) tidak baku. Kata yang baku adalah frekuensi. Jawaban yang tepat adalah **B** (\"kalimat (5)\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
     "solutionSteps": [
       {
         "stage": "deconstruct",
         "title": "Identifikasi Konsep Soal",
-        "instructionMarkdown": "Pilah kata kunci soal PPU lalu cari kalimat rujukan eksplisit pada teks.",
+        "instructionMarkdown": "Tangkap kata kunci utama di pertanyaan lalu cari langsung kalimat bukti yang paling relevan di bacaan.",
         "formulaLatex": null
       },
       {
         "stage": "solve",
         "title": "Verifikasi Jawaban Tepat",
-        "instructionMarkdown": "Kata frekwensi dalam kalimat (5) tidak baku. Kata yang baku adalah frekuensi.",
+        "instructionMarkdown": "Kata frekwensi dalam kalimat (5) tidak baku. Kata yang baku adalah frekuensi. Jawaban yang tepat adalah **B** (\"kalimat (5)\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
         "formulaLatex": null
       }
     ],
@@ -81012,10 +81429,10 @@
   {
     "id": "5af00897-50df-456c-b393-fff76ea41747",
     "ownerUserId": null,
-    "skillNodeId": "10000000-0000-4000-8000-000000000023",
+    "skillNodeId": "10000000-0000-4000-8000-000000000038",
     "subtest": "PPU",
     "track": "literacy",
-    "tier": "tier_1_core",
+    "tier": "tier_0_foundation",
     "sourceType": "curated_seed",
     "sourceDocumentId": null,
     "sourcePageId": null,
@@ -81079,7 +81496,9 @@
         "text": "(10) Gempa 3 magnitudo atau lebih sebagian besar hampir tidak terlihat dan besarnya 7 kali lebih berpotensi menyebabkan kerusakan serius di daerah yang luas, tergantung pada kedalaman gempa."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S8"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -81145,10 +81564,10 @@
   {
     "id": "cd7f3166-4218-4425-87cb-e0a7710c1d69",
     "ownerUserId": null,
-    "skillNodeId": "10000000-0000-4000-8000-000000000023",
+    "skillNodeId": "10000000-0000-4000-8000-000000000038",
     "subtest": "PPU",
     "track": "literacy",
-    "tier": "tier_1_core",
+    "tier": "tier_0_foundation",
     "sourceType": "curated_seed",
     "sourceDocumentId": null,
     "sourcePageId": null,
@@ -81207,7 +81626,10 @@
         "text": "(9) Masyarakat harus belajar kalau tidak membuang sampah sembarangan di tempat mana pun, baik itu di lingkungan Rumah, Kantor, Sekolah, bahkan di Sungai. Diadaptasi dengan pengubahan dari https://mutiaracha15.blogspot.com."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S6",
+      "S1"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -81335,7 +81757,10 @@
         "text": "(9) Masyarakat harus belajar kalau tidak membuang sampah sembarangan di tempat mana pun, baik itu di lingkungan Rumah, Kantor, Sekolah, bahkan di Sungai. Diadaptasi dengan pengubahan dari https://mutiaracha15.blogspot.com."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S3",
+      "S1"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -81463,7 +81888,9 @@
         "text": "(9) Masyarakat harus belajar kalau tidak membuang sampah sembarangan di tempat mana pun, baik itu di lingkungan Rumah, Kantor, Sekolah, bahkan di Sungai. Diadaptasi dengan pengubahan dari https://mutiaracha15.blogspot.com."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S7"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -81591,7 +82018,9 @@
         "text": "(9) Masyarakat harus belajar kalau tidak membuang sampah sembarangan di tempat mana pun, baik itu di lingkungan Rumah, Kantor, Sekolah, bahkan di Sungai. Diadaptasi dengan pengubahan dari https://mutiaracha15.blogspot.com."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S9"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -81632,18 +82061,18 @@
       }
     ],
     "correctAnswerKey": "E",
-    "officialSolutionMarkdown": "Kesalahan : Baik itu, ... bahkan... Perbaikannya adalah Baik, ... maupun ....",
+    "officialSolutionMarkdown": "Kesalahan : Baik itu, ... bahkan... Perbaikannya adalah Baik, ... maupun . Jawaban yang tepat adalah **E** (\"kalimat (9)\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
     "solutionSteps": [
       {
         "stage": "deconstruct",
         "title": "Identifikasi Konsep Soal",
-        "instructionMarkdown": "Pilah kata kunci soal PPU lalu cari kalimat rujukan eksplisit pada teks.",
+        "instructionMarkdown": "Tangkap kata kunci utama di pertanyaan lalu cari langsung kalimat bukti yang paling relevan di bacaan.",
         "formulaLatex": null
       },
       {
         "stage": "solve",
         "title": "Verifikasi Jawaban Tepat",
-        "instructionMarkdown": "Kesalahan : Baik itu, ... bahkan... Perbaikannya adalah Baik, ... maupun ....",
+        "instructionMarkdown": "Kesalahan : Baik itu, ... bahkan... Perbaikannya adalah Baik, ... maupun . Jawaban yang tepat adalah **E** (\"kalimat (9)\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
         "formulaLatex": null
       }
     ],
@@ -81699,7 +82128,9 @@
         "text": "(5) Apresiasi yang ditujukan kepada mereka juga dinilai masih rendah.(6) Padahal, betapa penting dan berharganya peran seorang guru atau pengajar dalam kehidupan sosial bermasyarakat. Diadaptasi dengan pengubahan dari http://www.prestasi-iief.org."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S1"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -81740,18 +82171,18 @@
       }
     ],
     "correctAnswerKey": "A",
-    "officialSolutionMarkdown": "Kata Merubah tidak baku. Perbaikannya adalah mengubah.",
+    "officialSolutionMarkdown": "Kata Merubah tidak baku. Perbaikannya adalah mengubah. Jawaban yang tepat adalah **A** (\"kalimat (1)\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
     "solutionSteps": [
       {
         "stage": "deconstruct",
         "title": "Identifikasi Konsep Soal",
-        "instructionMarkdown": "Pilah kata kunci soal PPU lalu cari kalimat rujukan eksplisit pada teks.",
+        "instructionMarkdown": "Tangkap kata kunci utama di pertanyaan lalu cari langsung kalimat bukti yang paling relevan di bacaan.",
         "formulaLatex": null
       },
       {
         "stage": "solve",
         "title": "Verifikasi Jawaban Tepat",
-        "instructionMarkdown": "Kata Merubah tidak baku. Perbaikannya adalah mengubah.",
+        "instructionMarkdown": "Kata Merubah tidak baku. Perbaikannya adalah mengubah. Jawaban yang tepat adalah **A** (\"kalimat (1)\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
         "formulaLatex": null
       }
     ],
@@ -81807,7 +82238,9 @@
         "text": "(5) Apresiasi yang ditujukan kepada mereka juga dinilai masih rendah.(6) Padahal, betapa penting dan berharganya peran seorang guru atau pengajar dalam kehidupan sosial bermasyarakat. Diadaptasi dengan pengubahan dari http://www.prestasi-iief.org."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S1"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -81848,18 +82281,18 @@
       }
     ],
     "correctAnswerKey": "A",
-    "officialSolutionMarkdown": "Kalimat (1) merupakan kalimat utama dalam",
+    "officialSolutionMarkdown": "Kalimat (1) merupakan kalimat utama dalam. Jawaban yang tepat adalah **A** (\"kalimat (1)\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
     "solutionSteps": [
       {
         "stage": "deconstruct",
         "title": "Identifikasi Konsep Soal",
-        "instructionMarkdown": "Pilah kata kunci soal PPU lalu cari kalimat rujukan eksplisit pada teks.",
+        "instructionMarkdown": "Tangkap kata kunci utama di pertanyaan lalu cari langsung kalimat bukti yang paling relevan di bacaan.",
         "formulaLatex": null
       },
       {
         "stage": "solve",
         "title": "Verifikasi Jawaban Tepat",
-        "instructionMarkdown": "Kalimat (1) merupakan kalimat utama dalam",
+        "instructionMarkdown": "Kalimat (1) merupakan kalimat utama dalam. Jawaban yang tepat adalah **A** (\"kalimat (1)\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
         "formulaLatex": null
       }
     ],
@@ -81915,7 +82348,9 @@
         "text": "(5) Apresiasi yang ditujukan kepada mereka juga dinilai masih rendah.(6) Padahal, betapa penting dan berharganya peran seorang guru atau pengajar dalam kehidupan sosial bermasyarakat. Diadaptasi dengan pengubahan dari http://www.prestasi-iief.org."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S1"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -82023,7 +82458,9 @@
         "text": "(5) Apresiasi yang ditujukan kepada mereka juga dinilai masih rendah.(6) Padahal, betapa penting dan berharganya peran seorang guru atau pengajar dalam kehidupan sosial bermasyarakat. Diadaptasi dengan pengubahan dari http://www.prestasi-iief.org."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S4"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -82064,18 +82501,18 @@
       }
     ],
     "correctAnswerKey": "D",
-    "officialSolutionMarkdown": "Kesalahan : banyak guru-guru Perbaikannya adalah banyak guru/guru-guru",
+    "officialSolutionMarkdown": "Kesalahan : banyak guru-guru Perbaikannya adalah banyak guru/guru-guru. Jawaban yang tepat adalah **D** (\"kalimat (4)\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
     "solutionSteps": [
       {
         "stage": "deconstruct",
         "title": "Identifikasi Konsep Soal",
-        "instructionMarkdown": "Pilah kata kunci soal PPU lalu cari kalimat rujukan eksplisit pada teks.",
+        "instructionMarkdown": "Tangkap kata kunci utama di pertanyaan lalu cari langsung kalimat bukti yang paling relevan di bacaan.",
         "formulaLatex": null
       },
       {
         "stage": "solve",
         "title": "Verifikasi Jawaban Tepat",
-        "instructionMarkdown": "Kesalahan : banyak guru-guru Perbaikannya adalah banyak guru/guru-guru",
+        "instructionMarkdown": "Kesalahan : banyak guru-guru Perbaikannya adalah banyak guru/guru-guru. Jawaban yang tepat adalah **D** (\"kalimat (4)\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
         "formulaLatex": null
       }
     ],
@@ -82146,18 +82583,18 @@
       }
     ],
     "correctAnswerKey": "C",
-    "officialSolutionMarkdown": "Secara keseluruhan, bacaan 3 menjelaskan aliran modal asing.",
+    "officialSolutionMarkdown": "Secara keseluruhan, bacaan 3 menjelaskan aliran modal asing. Jawaban yang tepat adalah **C** (\"aliran modal asing\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
     "solutionSteps": [
       {
         "stage": "deconstruct",
         "title": "Identifikasi Konsep Soal",
-        "instructionMarkdown": "Pilah kata kunci soal PPU lalu cari kalimat rujukan eksplisit pada teks.",
+        "instructionMarkdown": "Tangkap kata kunci utama di pertanyaan lalu cari langsung kalimat bukti yang paling relevan di bacaan.",
         "formulaLatex": null
       },
       {
         "stage": "solve",
         "title": "Verifikasi Jawaban Tepat",
-        "instructionMarkdown": "Secara keseluruhan, bacaan 3 menjelaskan aliran modal asing.",
+        "instructionMarkdown": "Secara keseluruhan, bacaan 3 menjelaskan aliran modal asing. Jawaban yang tepat adalah **C** (\"aliran modal asing\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
         "formulaLatex": null
       }
     ],
@@ -82228,18 +82665,18 @@
       }
     ],
     "correctAnswerKey": "A",
-    "officialSolutionMarkdown": "Dalam KBBI, kata depresiasi bermakna 'turunnya nialai' ; 'Penyusutan nilai.'",
+    "officialSolutionMarkdown": "Dalam KBBI, kata depresiasi bermakna 'turunnya nialai' ; 'Penyusutan nilai.'. Jawaban yang tepat adalah **A** (\"penyusutan nilai\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
     "solutionSteps": [
       {
         "stage": "deconstruct",
         "title": "Identifikasi Konsep Soal",
-        "instructionMarkdown": "Pilah kata kunci soal PPU lalu cari kalimat rujukan eksplisit pada teks.",
+        "instructionMarkdown": "Tangkap kata kunci utama di pertanyaan lalu cari langsung kalimat bukti yang paling relevan di bacaan.",
         "formulaLatex": null
       },
       {
         "stage": "solve",
         "title": "Verifikasi Jawaban Tepat",
-        "instructionMarkdown": "Dalam KBBI, kata depresiasi bermakna 'turunnya nialai' ; 'Penyusutan nilai.'",
+        "instructionMarkdown": "Dalam KBBI, kata depresiasi bermakna 'turunnya nialai' ; 'Penyusutan nilai.'. Jawaban yang tepat adalah **A** (\"penyusutan nilai\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
         "formulaLatex": null
       }
     ],
@@ -82550,18 +82987,18 @@
       }
     ],
     "correctAnswerKey": "C",
-    "officialSolutionMarkdown": "Pola dasar suku kata transportasi adalah trans-por-ta-si.",
+    "officialSolutionMarkdown": "Pola dasar suku kata transportasi adalah trans-por-ta-si. Jawaban yang tepat adalah **C** (\"disana pada kalimat (4)\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
     "solutionSteps": [
       {
         "stage": "deconstruct",
         "title": "Identifikasi Konsep Soal",
-        "instructionMarkdown": "Pilah kata kunci soal PPU lalu cari kalimat rujukan eksplisit pada teks.",
+        "instructionMarkdown": "Tangkap kata kunci utama di pertanyaan lalu cari langsung kalimat bukti yang paling relevan di bacaan.",
         "formulaLatex": null
       },
       {
         "stage": "solve",
         "title": "Verifikasi Jawaban Tepat",
-        "instructionMarkdown": "Pola dasar suku kata transportasi adalah trans-por-ta-si.",
+        "instructionMarkdown": "Pola dasar suku kata transportasi adalah trans-por-ta-si. Jawaban yang tepat adalah **C** (\"disana pada kalimat (4)\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
         "formulaLatex": null
       }
     ],
@@ -82668,18 +83105,18 @@
       }
     ],
     "correctAnswerKey": "A",
-    "officialSolutionMarkdown": "Kata kenderaan adalah bentuk tidak baku dari kendaraan.",
+    "officialSolutionMarkdown": "Kata kenderaan adalah bentuk tidak baku dari kendaraan. Jawaban yang tepat adalah **A** (\"trans-por-ta-si\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
     "solutionSteps": [
       {
         "stage": "deconstruct",
         "title": "Identifikasi Konsep Soal",
-        "instructionMarkdown": "Pilah kata kunci soal PPU lalu cari kalimat rujukan eksplisit pada teks.",
+        "instructionMarkdown": "Tangkap kata kunci utama di pertanyaan lalu cari langsung kalimat bukti yang paling relevan di bacaan.",
         "formulaLatex": null
       },
       {
         "stage": "solve",
         "title": "Verifikasi Jawaban Tepat",
-        "instructionMarkdown": "Kata kenderaan adalah bentuk tidak baku dari kendaraan.",
+        "instructionMarkdown": "Kata kenderaan adalah bentuk tidak baku dari kendaraan. Jawaban yang tepat adalah **A** (\"trans-por-ta-si\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
         "formulaLatex": null
       }
     ],
@@ -82993,7 +83430,9 @@
         "text": "(8) Makan pagi sering kali masih belum bisa dianggap sarapan karena sarapan harus memenuhi nilai giji yang dibutuhkan tubuh. Diadaptasi dengan pengubahan dari https://www.kompasiana.com."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S7"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -83294,18 +83733,18 @@
       }
     ],
     "correctAnswerKey": "B",
-    "officialSolutionMarkdown": "Kata kota Tangerang seharusnya ditulis Kota Tangerang.",
+    "officialSolutionMarkdown": "Kata kota Tangerang seharusnya ditulis Kota Tangerang. Jawaban yang tepat adalah **B** (\"menguasai\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
     "solutionSteps": [
       {
         "stage": "deconstruct",
         "title": "Identifikasi Konsep Soal",
-        "instructionMarkdown": "Pilah kata kunci soal PPU lalu cari kalimat rujukan eksplisit pada teks.",
+        "instructionMarkdown": "Tangkap kata kunci utama di pertanyaan lalu cari langsung kalimat bukti yang paling relevan di bacaan.",
         "formulaLatex": null
       },
       {
         "stage": "solve",
         "title": "Verifikasi Jawaban Tepat",
-        "instructionMarkdown": "Kata kota Tangerang seharusnya ditulis Kota Tangerang.",
+        "instructionMarkdown": "Kata kota Tangerang seharusnya ditulis Kota Tangerang. Jawaban yang tepat adalah **B** (\"menguasai\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
         "formulaLatex": null
       }
     ],
@@ -83319,10 +83758,10 @@
   {
     "id": "0c21438a-e35d-4913-870c-e3b66c538d19",
     "ownerUserId": null,
-    "skillNodeId": "10000000-0000-4000-8000-000000000023",
+    "skillNodeId": "10000000-0000-4000-8000-000000000038",
     "subtest": "PPU",
     "track": "literacy",
-    "tier": "tier_1_core",
+    "tier": "tier_0_foundation",
     "sourceType": "curated_seed",
     "sourceDocumentId": null,
     "sourcePageId": null,
@@ -83386,7 +83825,9 @@
         "text": "(10) Keturunan warga Tionghoa ini akhirnya membentuk komunitas yang tinggal di beberapa daerah di Tangerang, yaitu daerah Pasar lama, Pasar Baru, Teluk Naga, dan Kali Cisadane."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S2"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -83427,18 +83868,18 @@
       }
     ],
     "correctAnswerKey": "A",
-    "officialSolutionMarkdown": "Huruf miring digunakan menuliskan nama buku (kitab).",
+    "officialSolutionMarkdown": "Huruf miring digunakan menuliskan nama buku (kitab). Jawaban yang tepat adalah **A** (\"kota Tangerang pada kalimat (2)\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
     "solutionSteps": [
       {
         "stage": "deconstruct",
         "title": "Identifikasi Konsep Soal",
-        "instructionMarkdown": "Pilah kata kunci soal PPU lalu cari kalimat rujukan eksplisit pada teks.",
+        "instructionMarkdown": "Tangkap kata kunci utama di pertanyaan lalu cari langsung kalimat bukti yang paling relevan di bacaan.",
         "formulaLatex": null
       },
       {
         "stage": "solve",
         "title": "Verifikasi Jawaban Tepat",
-        "instructionMarkdown": "Huruf miring digunakan menuliskan nama buku (kitab).",
+        "instructionMarkdown": "Huruf miring digunakan menuliskan nama buku (kitab). Jawaban yang tepat adalah **A** (\"kota Tangerang pada kalimat (2)\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
         "formulaLatex": null
       }
     ],
@@ -83519,7 +83960,10 @@
         "text": "(10) Keturunan warga Tionghoa ini akhirnya membentuk komunitas yang tinggal di beberapa daerah di Tangerang, yaitu daerah Pasar lama, Pasar Baru, Teluk Naga, dan Kali Cisadane."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S5",
+      "S2"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -84011,7 +84455,9 @@
         "text": "(6) Oleh sebab itu, prinsip gizi seimbang sifatnya sangat penting untuk mencegah masalah kesehatan ini."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S4"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -84052,18 +84498,18 @@
       }
     ],
     "correctAnswerKey": "C",
-    "officialSolutionMarkdown": "Jawaban yang tepat adalah **C** (kalimat (4)) sesuai kaidah dan bukti pada bacaan.",
+    "officialSolutionMarkdown": "Jawaban yang tepat adalah **C** (kalimat (4)) sesuai kaidah dan bukti pada bacaan. Jawaban yang tepat adalah **C** (\"kalimat (4)\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
     "solutionSteps": [
       {
         "stage": "deconstruct",
         "title": "Identifikasi Konsep Soal",
-        "instructionMarkdown": "Pilah kata kunci soal PPU lalu cari kalimat rujukan eksplisit pada teks.",
+        "instructionMarkdown": "Tangkap kata kunci utama di pertanyaan lalu cari langsung kalimat bukti yang paling relevan di bacaan.",
         "formulaLatex": null
       },
       {
         "stage": "solve",
         "title": "Verifikasi Jawaban Tepat",
-        "instructionMarkdown": "Jawaban yang tepat adalah **C** (kalimat (4)) sesuai kaidah dan bukti pada bacaan.",
+        "instructionMarkdown": "Jawaban yang tepat adalah **C** (kalimat (4)) sesuai kaidah dan bukti pada bacaan. Jawaban yang tepat adalah **C** (\"kalimat (4)\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
         "formulaLatex": null
       }
     ],
@@ -84239,7 +84685,9 @@
         "text": "(6) Oleh sebab itu, prinsip gizi seimbang sifatnya sangat penting untuk mencegah masalah kesehatan ini."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S4"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -84352,7 +84800,9 @@
         "text": "(6) Oleh sebab itu, prinsip gizi seimbang sifatnya sangat penting untuk mencegah masalah kesehatan ini."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S4"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -84588,7 +85038,9 @@
         "text": "(7) Namun, tingkat pengangguran A.S. berhasil turun dari sebelumnya, 10,2 persen menjadi 8,4 persen. Diadaptasi dengan pengubahan dari https://market.bisnis.com."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S3"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -84824,7 +85276,9 @@
         "text": "(8) Keduanya memiliki arti yang hampir sama, yaitu bank bergabung dengan pihak lain selain bank mereka sendiri dan membayarkan sewa pada pihak tersebut. Diadaptasi dengan pengubahan dari https://maynimerry.blogspot.com."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S1"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -84942,7 +85396,9 @@
         "text": "(8) Keduanya memiliki arti yang hampir sama, yaitu bank bergabung dengan pihak lain selain bank mereka sendiri dan membayarkan sewa pada pihak tersebut. Diadaptasi dengan pengubahan dari https://maynimerry.blogspot.com."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S3"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -84983,18 +85439,18 @@
       }
     ],
     "correctAnswerKey": "A",
-    "officialSolutionMarkdown": "Jawaban yang tepat adalah **A** (kalimat (3)) sesuai kaidah dan bukti pada bacaan.",
+    "officialSolutionMarkdown": "Jawaban yang tepat adalah **A** (kalimat (3)) sesuai kaidah dan bukti pada bacaan. Jawaban yang tepat adalah **A** (\"kalimat (3)\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
     "solutionSteps": [
       {
         "stage": "deconstruct",
         "title": "Identifikasi Konsep Soal",
-        "instructionMarkdown": "Pilah kata kunci soal PPU lalu cari kalimat rujukan eksplisit pada teks.",
+        "instructionMarkdown": "Tangkap kata kunci utama di pertanyaan lalu cari langsung kalimat bukti yang paling relevan di bacaan.",
         "formulaLatex": null
       },
       {
         "stage": "solve",
         "title": "Verifikasi Jawaban Tepat",
-        "instructionMarkdown": "Jawaban yang tepat adalah **A** (kalimat (3)) sesuai kaidah dan bukti pada bacaan.",
+        "instructionMarkdown": "Jawaban yang tepat adalah **A** (kalimat (3)) sesuai kaidah dan bukti pada bacaan. Jawaban yang tepat adalah **A** (\"kalimat (3)\") karena paling pas menjawab maksud soal dan selaras langsung sama isi kalimat sumber di teks, sementara pilihan lain meleset dari konteks.",
         "formulaLatex": null
       }
     ],
@@ -85060,7 +85516,10 @@
         "text": "(8) Keduanya memiliki arti yang hampir sama, yaitu bank bergabung dengan pihak lain selain bank mereka sendiri dan membayarkan sewa pada pihak tersebut. Diadaptasi dengan pengubahan dari https://maynimerry.blogspot.com."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S2",
+      "S5"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -85183,18 +85642,18 @@
       }
     ],
     "correctAnswerKey": "E",
-    "officialSolutionMarkdown": "Sesuai analisis bacaan pada soal nomor 1, jawaban yang tepat adalah E.",
+    "officialSolutionMarkdown": "Sesuai analisis bacaan pada soal nomor 1, jawaban yang tepat adalah E. Hasil perhitungannya mengarah tepat ke opsi **E** (\"Gunung Agung menyimpan material yang dapat dipancarkan kapanpun.\"). Pastikan tanda plus-minus dan syarat langkah akhirnya dicek ulang biar nggak kepleset di angka jebakan.",
     "solutionSteps": [
       {
         "stage": "deconstruct",
         "title": "Identifikasi Konsep Soal",
-        "instructionMarkdown": "Pilah kata kunci soal PU lalu cari kalimat rujukan eksplisit pada teks.",
+        "instructionMarkdown": "Tulis info yang diketahui dan yang ditanyakan dulu, terus pilih konsep/rumus dasarnya sebelum menghitung.",
         "formulaLatex": null
       },
       {
         "stage": "solve",
         "title": "Verifikasi Jawaban Tepat",
-        "instructionMarkdown": "Sesuai analisis bacaan pada soal nomor 1, jawaban yang tepat adalah E.",
+        "instructionMarkdown": "Sesuai analisis bacaan pada soal nomor 1, jawaban yang tepat adalah E. Hasil perhitungannya mengarah tepat ke opsi **E** (\"Gunung Agung menyimpan material yang dapat dipancarkan kapanpun.\"). Pastikan tanda plus-minus dan syarat langkah akhirnya dicek ulang biar nggak kepleset di angka jebakan.",
         "formulaLatex": null
       }
     ],
@@ -85429,18 +85888,18 @@
       }
     ],
     "correctAnswerKey": "C",
-    "officialSolutionMarkdown": "Sesuai analisis bacaan pada soal nomor 7, jawaban yang tepat adalah C.",
+    "officialSolutionMarkdown": "Sesuai analisis bacaan pada soal nomor 7, jawaban yang tepat adalah C. Hasil perhitungannya mengarah tepat ke opsi **C** (\"Ibu Tarno tidak terinveksi Covid - 19 ( konsepnya jika A maka B, dan jika B maka C, disimpulkan A maka C, sehi\"). Pastikan tanda plus-minus dan syarat langkah akhirnya dicek ulang biar nggak kepleset di angka jebakan.",
     "solutionSteps": [
       {
         "stage": "deconstruct",
         "title": "Identifikasi Konsep Soal",
-        "instructionMarkdown": "Pilah kata kunci soal PU lalu cari kalimat rujukan eksplisit pada teks.",
+        "instructionMarkdown": "Tulis info yang diketahui dan yang ditanyakan dulu, terus pilih konsep/rumus dasarnya sebelum menghitung.",
         "formulaLatex": null
       },
       {
         "stage": "solve",
         "title": "Verifikasi Jawaban Tepat",
-        "instructionMarkdown": "Sesuai analisis bacaan pada soal nomor 7, jawaban yang tepat adalah C.",
+        "instructionMarkdown": "Sesuai analisis bacaan pada soal nomor 7, jawaban yang tepat adalah C. Hasil perhitungannya mengarah tepat ke opsi **C** (\"Ibu Tarno tidak terinveksi Covid - 19 ( konsepnya jika A maka B, dan jika B maka C, disimpulkan A maka C, sehi\"). Pastikan tanda plus-minus dan syarat langkah akhirnya dicek ulang biar nggak kepleset di angka jebakan.",
         "formulaLatex": null
       }
     ],
@@ -87725,7 +88184,9 @@
         "text": "Mendengar itu semua anak dan bu guru tertawa."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S3"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -87843,7 +88304,9 @@
         "text": "\"Yang kamu kuasai itu gaya batu, Nak!\""
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S2"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -87941,7 +88404,9 @@
         "text": "Akhirnya, hakim berkata, \"Pak, tolong jawab pertanyaan Jaksa!\" \"Oh, maaf!\"Saksi terkejut sambil berkata kepada hakim, \"Saya pikir dia tadi berbicara dengan Anda.\""
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S1"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -88498,7 +88963,9 @@
         "text": "Segmen pelajar menjadi sasaran baru modus peredaran narkoba karena mudah terjangkau dan pasar yang menggiurkan."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S2"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -88728,7 +89195,9 @@
         "text": "Disadur dari: http//anysws.blogspot.co.id/2015/02/makalahgizi-buruk.html, diunduh 20 juli 2017"
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S8"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -91548,7 +92017,9 @@
         "text": "Oleh karena itu, jika kita menginginkan kehidupan kita yang terbaik untuk masa depan adalah menggunakan waktu remaja kita dengan belajar dan melakukan kegiatan yang bermanfaat."
       }
     ],
-    "evidenceSentenceIds": [],
+    "evidenceSentenceIds": [
+      "S5"
+    ],
     "diagramAssetUrl": null,
     "diagramAltText": null,
     "options": [
@@ -97358,7 +97829,7 @@
       }
     ],
     "sbiDeconstruction": null,
-    "irtDifficultyB": 0.0,
+    "irtDifficultyB": 0,
     "irtDiscriminationA": 1.35,
     "irtGuessingC": 0.2,
     "expectedSolveSeconds": 45,
@@ -98506,7 +98977,7 @@
       }
     ],
     "sbiDeconstruction": null,
-    "irtDifficultyB": 0.0,
+    "irtDifficultyB": 0,
     "irtDiscriminationA": 1.35,
     "irtGuessingC": 0.2,
     "expectedSolveSeconds": 45,

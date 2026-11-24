@@ -1529,6 +1529,103 @@ export const MICRO_LESSONS_BY_NODE_ID: Record<string, MicroLessonContent> = {
       correctKey: "B",
     },
   },
+  [NODE_IDS.LBE_T2_SYN]: {
+    skillNodeId: NODE_IDS.LBE_T2_SYN,
+    estimatedMinutes: 4,
+    whyHeadline: "Trik Menjawab Soal Detail, Inferensi & Vocabulary Bahasa Inggris Tanpa Translate Semua Kata",
+    whyStory:
+      "Soal LBE UTBK sengaja memberi teks akademik panjang supaya waktumu habis kalau kamu baca dan terjemahkan kata demi kata. Kunci skor 750+ di LBE adalah memindai jangkar kalimatnya dulu (nama, angka, istilah unik), lalu mengunci apakah pertanyaan minta fakta eksplisit, pengecualian (EXCEPT/NOT), atau simpulan tipis yang pasti benar.",
+    analogy:
+      "Bayangkan mencari nama temanmu di daftar absensi berisi 100 baris. Kamu nggak membaca nama dari nomor 1 pelan-pelan, kan? Matamu langsung melompat ke huruf awalnya, baru baca satu baris itu dengan teliti!",
+    coreRuleLatex: null,
+    coreRuleNote:
+      "Aturan Emas LBE Tier 2: (1) Detail Scanning -> cocokkan sinonim/parafrasa kalimat target; (2) EXCEPT/NOT -> tandai 4 opsi yang ADA di teks, pilih 1 yang bertentangan/tidak disebut; (3) Vocabulary -> tutup kata sulitnya lalu tebak rasa kalimat positif/negatif dari konteks.",
+    workedExample: {
+      prompt:
+        "Teks: 'Unlike conventional plastic that persists for centuries, mycelium-based packaging decomposes within 45 days in backyard compost, though its production cost remains higher.' Soal: What can be inferred about mycelium packaging?",
+      steps: [
+        {
+          title: "Kunci jangkar dan pembandingnya",
+          detail: "Kalimat membandingkan kemasan konvensional vs mycelium dari sisi waktu urai (45 hari) dan biaya produksi (masih lebih mahal).",
+          formulaLatex: null,
+        },
+        {
+          title: "Tarik inferensi paling dekat (tanpa mengarang)",
+          detail: "Kesimpulan sahih: ramah lingkungan lebih cepat terurai dibanding plastik biasa, namun belum lebih murah diproduksi.",
+          formulaLatex: null,
+        },
+        {
+          title: "Eliminasi opsi terlalu ekstrem",
+          detail: "Hindari opsi berisi kata mutlak seperti 'always replaces plastic' atau 'impossible to manufacture'.",
+          formulaLatex: null,
+        },
+      ],
+      takeaway: "Inferensi bukan menebak masa depan; inferensi adalah fakta teks yang diucapkan ulang pakai kalimat lebih umum.",
+    },
+    commonTrap: {
+      trapTitle: "Tertipu opsi yang kata-katanya persis di teks tapi hubungannya dibalik",
+      wrongWay: "Menganggap jawaban pasti benar cuma karena semua kata bendanya persis muncul di paragraf 2.",
+      rightWay: "Cek kata penghubung (`though`, `however`, `unlike`, `not`) sebelum memilih opsi.",
+    },
+    warmupCheck: {
+      question:
+        "Dalam kalimat 'The researcher noted that the new battery rarely overheats, unlike earlier models', apa makna frasa 'rarely overheats' dalam konteks?",
+      options: [
+        { key: "A", text: "Selalu dingin pada suhu apa pun", feedback: "Terlalu ekstrem (`rarely` bukan `never`)." },
+        { key: "B", text: "Jarang mengalami panas berlebih dibanding model lama", feedback: "Tepat! Menjaga makna proporsional dari `rarely` tanpa melebih-lebihkan." },
+        { key: "C", text: "Tidak pernah bisa rusak karena panas", feedback: "Melebih-lebihkan klaim teks." },
+      ],
+      correctKey: "B",
+    },
+  },
+  [NODE_IDS.PPU_T0_KAL]: {
+    skillNodeId: NODE_IDS.PPU_T0_KAL,
+    estimatedMinutes: 3,
+    whyHeadline: "Cara Cepat Membedah Kalimat Panjang Jadi Inti S-P-O-K dalam 5 Detik",
+    whyStory:
+      "Soal PPU dan PBM UTBK suka menyembunyikan inti kalimat di balik anak kalimat, keterangan tempat, atau apositif yang panjangnya sampai 3 baris. Begitu kamu bisa mencoret bagian penjelas tambahan di kepalamu, Subjek (pelaku) dan Predikat (aktivitas/kondisi inti) langsung kelihatan terang benderang.",
+    analogy:
+      "Kalimat panjang itu kayak burger berlapis-lapis: roti, keju, selada, saus. Tapi 'inti kalimat' hanyalah daging utamanya (`Siapa` + `melakukan apa`). Selada dan saus itu cuma keterangan tambahan.",
+    coreRuleLatex: null,
+    coreRuleNote:
+      "Trik pangkas cepat: coret sementara kata yang diawali `yang...`, apositif di antara dua koma `..., ...,`, serta keterangan `di/pada/karena/ketika...` untuk menguji apakah kalimat masih punya Subjek + Predikat!",
+    workedExample: {
+      prompt:
+        "Tentukan inti kalimat berikut: 'Di tengah persaingan global, para peneliti muda yang berasal dari beberapa universitas daerah berhasil merancang baterai ramah lingkungan.'",
+      steps: [
+        {
+          title: "Buang keterangan awal & perluasan 'yang...'",
+          detail: "'Di tengah persaingan global,' adalah Keterangan. 'yang berasal dari beberapa universitas daerah' adalah perluasan Subjek.",
+          formulaLatex: null,
+        },
+        {
+          title: "Ambil Subjek inti + Predikat + Objek inti",
+          detail: "Yang tersisa rapi: 'Para peneliti muda berhasil merancang baterai.'",
+          formulaLatex: null,
+        },
+        {
+          title: "Cek maknanya tetap utuh",
+          detail: "Kalimat ringkas ini sudah lengkap punya siapa (Subjek) dan melakukan apa (Predikat).",
+          formulaLatex: null,
+        },
+      ],
+      takeaway: "Pangkas keterangan depan dan anak kalimat 'yang...', lalu baca sisa Subjek + Predikatnya.",
+    },
+    commonTrap: {
+      trapTitle: "Mengira kata pertama di kalimat panjang otomatis adalah Subjek",
+      wrongWay: "Menganggap 'Di tengah persaingan global' sebagai Subjek karena posisinya paling depan.",
+      rightWay: "Frasa berawalan preposisi (`di, pada, dalam, untuk, bagi`) hampir selalu Keterangan, bukan Subjek.",
+    },
+    warmupCheck: {
+      question: "Manakah inti dari kalimat 'Menurut laporan tahunan, tingkat literasi digital siswa SMA di kota kecil meningkat tajam selama dua tahun terakhir'?",
+      options: [
+        { key: "A", text: "Laporan tahunan mencatat kota kecil.", feedback: "'Menurut laporan tahunan' adalah keterangan sumber, bukan subjek kalimat utama." },
+        { key: "B", text: "Tingkat literasi digital siswa meningkat.", feedback: "Tepat sekali! Subjek intinya `tingkat literasi digital siswa` dan predikat intinya `meningkat`." },
+        { key: "C", text: "Siswa SMA berada di kota kecil.", feedback: "Itu mengubah predikat asli (`meningkat`) yang ada di kalimat." },
+      ],
+      correctKey: "B",
+    },
+  },
 };
 
 export function getMicroLessonForNode(skillNodeId: string): MicroLessonContent | null {

@@ -28,6 +28,18 @@ import type {
 } from "@/domain/types";
 import type { AppRepository, VaultSearchResultItem } from "@/infrastructure/db/repository-port";
 
+function formatPgDateIso(val: unknown): string | null {
+  if (!val) return null;
+  if (val instanceof Date) {
+    const y = val.getFullYear();
+    const m = String(val.getMonth() + 1).padStart(2, "0");
+    const d = String(val.getDate()).padStart(2, "0");
+    return `${y}-${m}-${d}`;
+  }
+  const match = String(val).trim().match(/^(\d{4}-\d{2}-\d{2})/);
+  return match ? match[1] : null;
+}
+
 function mapUserRow(row: Record<string, unknown>): UserEntity {
   return {
     id: String(row.id),
@@ -36,7 +48,7 @@ function mapUserRow(row: Record<string, unknown>): UserEntity {
     displayName: String(row.display_name),
     targetScore: Number(row.target_score),
     targetMajor: row.target_major ? String(row.target_major) : null,
-    examDate: row.exam_date ? new Date(String(row.exam_date)).toISOString().slice(0, 10) : null,
+    examDate: formatPgDateIso(row.exam_date),
     diagnosticCompleted: Boolean(row.diagnostic_completed),
     themePreference: String(row.theme_preference) as UserEntity["themePreference"],
     createdAt: new Date(String(row.created_at)).toISOString(),
@@ -298,7 +310,7 @@ export class PostgresRepository implements AppRepository {
         displayName: String(r.display_name),
         targetScore: Number(r.target_score),
         targetMajor: r.target_major ? String(r.target_major) : null,
-        examDate: r.exam_date ? new Date(String(r.exam_date)).toISOString().slice(0, 10) : null,
+        examDate: formatPgDateIso(r.exam_date),
         diagnosticCompleted: Boolean(r.diagnostic_completed),
         themePreference: String(r.theme_preference) as UserEntity["themePreference"],
         createdAt: new Date(String(r.u_created_at)).toISOString(),

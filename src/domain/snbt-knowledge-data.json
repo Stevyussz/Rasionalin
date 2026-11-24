@@ -3505,5 +3505,309 @@
       "kode huruf"
     ],
     "quickDrillTip": "Bandingkan kata paling pendek yang sama akar maknanya di dua kalimat untuk memisahkan imbuhan dari kata dasar."
+  },
+  {
+    "id": "kb-pk-rate-02",
+    "subtest": "PK",
+    "skillNodeId": "10000000-0000-4000-8000-000000000004",
+    "topicTitle": "Perbandingan Berbalik Nilai dengan Jeda Kerja (Proyek Terhenti)",
+    "priorityLevel": 9,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Perbandingan & Laju",
+    "sourceLabel": "Kurasi Silabus Top Score UTBK",
+    "whyBeforeHow": "Di soal proyek berhenti di tengah jalan, pekerjaan total ibarat tumpukan bata (Pekerja x Hari). Yang sudah dikerjakan harus dikurangi dulu dari total target sebelum menghitung pekerja tambahan!",
+    "keyFormulasLatex": [
+      "\\text{Sisa Kerja} = P_1 \\cdot H_{\\text{sisa}} = P_{\\text{baru}} \\cdot H_{\\text{sisa\\_efektif}}"
+    ],
+    "shortcutWithBoundary": {
+      "methodLabel": "Trik Pekerja Tambahan",
+      "shortcutMarkdown": "Pekerja tambahan $= \\dfrac{P_1 \\times H_{\\text{libur}}}{H_{\\text{sisa\\_efektif}}}$, dengan $H_{\\text{sisa\\_efektif}} = H_{\\text{total}} - H_{\\text{jalan}} - H_{\\text{libur}}$.",
+      "validityConditions": "Berlaku jika seluruh pekerja memiliki laju kerja identik dan target proyek selesai tepat waktu."
+    },
+    "utbkTraps": [
+      "Mengalikan pekerja dengan total hari awal padahal sebagian hari sudah dikerjakan.",
+      "Lupa mengurangkan tambahan pekerja dengan jumlah pekerja awal saat soal menanyakan 'berapa pekerja TAMBAHAN'."
+    ],
+    "keywords": [
+      "pekerja",
+      "berhenti",
+      "libur",
+      "proyek",
+      "berbalik nilai",
+      "tambahan pekerja"
+    ],
+    "quickDrillTip": "Langsung tulis: Sisa hari awal x Pekerja awal = Sisa hari baru x Pekerja total!"
+  },
+  {
+    "id": "kb-pk-rate-03",
+    "subtest": "PK",
+    "skillNodeId": "10000000-0000-4000-8000-000000000004",
+    "topicTitle": "Laju Kerja Gabungan (Keran/Pompa) & Susul-Menyusul",
+    "priorityLevel": 9,
+    "priorityBadge": "Sering Muncul",
+    "chapterGroup": "Perbandingan & Laju",
+    "sourceLabel": "Kurasi Silabus Top Score UTBK",
+    "whyBeforeHow": "Dua mesin tidak membuat waktu makin lama, melainkan kecepatannya yang dijumlahkan (`1/t1 + 1/t2`). Sedangkan pada dua kendaraan bergerak, lihat arahnya: searah -> kecepatan dikurangi, berlawanan -> kecepatan dijumlahkan.",
+    "keyFormulasLatex": [
+      "\\dfrac{1}{t_{\\text{gab}}} = \\dfrac{1}{t_1} + \\dfrac{1}{t_2}",
+      "t_{\\text{susul}} = \\dfrac{\\Delta s}{v_2 - v_1}"
+    ],
+    "shortcutWithBoundary": {
+      "methodLabel": "Waktu Gabung Dua Mesin",
+      "shortcutMarkdown": "$t_{\\text{gab}} = \\dfrac{t_1 \\cdot t_2}{t_1 + t_2}$ untuk 2 mesin bekerja bersamaan penuh.",
+      "validityConditions": "Jangan gunakan rumus kali-per-jumlah kalau salah satu mesin rusak di tengah jalan atau ada keran pembuang (tandanya minus)."
+    },
+    "utbkTraps": [
+      "Langsung merata-ratakan waktu `(t1 + t2) / 2` padahal dua mesin bekerja lebih cepat dari mesin tercepat.",
+      "Lupa menghitung selisih jarak awal sebelum kendaraan kedua berangkat di soal susul-menyusul."
+    ],
+    "keywords": [
+      "kecepatan",
+      "susul",
+      "berpapasan",
+      "keran",
+      "laju gabungan",
+      "waktu bersama"
+    ],
+    "quickDrillTip": "Selalu konversi waktu jadi kecepatan (pekerjaan per jam) sebelum menjumlahkan."
+  },
+  {
+    "id": "kb-pk-ineq-02",
+    "subtest": "PK",
+    "skillNodeId": "10000000-0000-4000-8000-000000000006",
+    "topicTitle": "Strategi Anti-Jebakan Soal Kecukupan Data (1) & (2) UTBK",
+    "priorityLevel": 10,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Analisis Kecukupan Data",
+    "sourceLabel": "Kurasi Silabus Top Score UTBK",
+    "whyBeforeHow": "Soal kecukupan data bukan minta kamu mencari nilai angkanya dengan panjang lebar, melainkan menguji apakah info tersebut menghasilkan SATU jawaban pasti (YA atau satu nilai unik)!",
+    "keyFormulasLatex": [
+      "\\text{Cukup jika jawaban TUNGGAL (tidak bercabang } + / - \\text{ atau dua nilai)}"
+    ],
+    "shortcutWithBoundary": {
+      "methodLabel": "Checklist BD-ACE Kecukupan",
+      "shortcutMarkdown": "Uji Pernyataan (1) sendirian dulu. Lalu LUPAKAN (1) saat menguji (2) sendirian. Baru gabungkan keduanya jika masing-masing belum cukup.",
+      "validityConditions": "Jaga jangan sampai info dari Pernyataan (1) diam-diam terbawa saat menguji Pernyataan (2) sendirian."
+    },
+    "utbkTraps": [
+      "Mengira $x^2 = 16$ cukup untuk menentukan nilai $x$ (padahal $x$ bisa $4$ atau $-4$, TIDAK cukup!).",
+      "Lupa mengecek syarat di kepala soal seperti '$x$ bilangan bulat positif' yang membuang akar negatif sehingga jadi cukup!"
+    ],
+    "keywords": [
+      "pernyataan 1",
+      "pernyataan 2",
+      "cukup",
+      "memutuskan",
+      "kecukupan data",
+      "kuantitas P dan Q"
+    ],
+    "quickDrillTip": "Uji pakai dua angka contoh (misal $x=1$ dan $x=-1$, atau pecahan $0{,}5$) untuk membongkar jawaban yang belum tunggal!"
+  },
+  {
+    "id": "kb-pk-ineq-03",
+    "subtest": "PK",
+    "skillNodeId": "10000000-0000-4000-8000-000000000006",
+    "topicTitle": "Pertidaksamaan Pecahan, Kuadrat & Nilai Mutlak (Garis Bilangan)",
+    "priorityLevel": 9,
+    "priorityBadge": "Sering Muncul",
+    "chapterGroup": "Aljabar Lanjut & Pertidaksamaan",
+    "sourceLabel": "Kurasi Silabus Top Score UTBK",
+    "whyBeforeHow": "Mengalikan silang pertidaksamaan dengan penyebut bervariabel ($x$) berbahaya karena kalau penyebutnya negatif, tanda $>$ wajib berbalik jadi $<$. Karena itu kita pindahkan semua ke ruas kiri agar ruas kanan $0$, lalu cek tanda tiap selang di garis bilangan.",
+    "keyFormulasLatex": [
+      "\\dfrac{f(x)}{g(x)} \\ge 0 \\iff f(x)\\cdot g(x) \\ge 0 \\text{ dengan syarat } g(x) \\ne 0"
+    ],
+    "shortcutWithBoundary": {
+      "methodLabel": "Trik Uji Selang Cepat",
+      "shortcutMarkdown": "Setelah ruas kanan nol dan semua faktor $(x - a)$ positif koefisien $x$-nya, selang paling kanan pasti bertanda `+`, lalu selang-seling kecuali akar pangkat genap (tetap).",
+      "validityConditions": "Wajib keluarkan pembuat nol penyebut (bulatan kosong) dan pastikan semua koefisien $x$ di faktor sudah positif sebelum pakai selang-seling."
+    },
+    "utbkTraps": [
+      "Mengalikan silang $\\dfrac{x+1}{x-2} > 1$ menjadi $x+1 > x-2$ (menghilangkan tanda minus penyebut!).",
+      "Mengarsir titik pembuat nol penyebut sebagai himpunan penyelesaian pada pertidaksamaan $\\le$ atau $\\ge$."
+    ],
+    "keywords": [
+      "pertidaksamaan",
+      "pecahan",
+      "garis bilangan",
+      "akar kuadrat",
+      "mutlak",
+      "P dan Q"
+    ],
+    "quickDrillTip": "Jangan pernah kali silang variabel pada pertidaksamaan; nol-kan ruas kanan lalu cek tanda!"
+  },
+  {
+    "id": "kb-ppu-kal-01",
+    "subtest": "PPU",
+    "skillNodeId": "10000000-0000-4000-8000-000000000038",
+    "topicTitle": "Bedah Kalimat Inti (S-P-O-K) & Klausa Perluasan",
+    "priorityLevel": 9,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Fondasi Kalimat PPU",
+    "sourceLabel": "Kurasi Silabus Top Score UTBK",
+    "whyBeforeHow": "Soal PPU sering bertanya 'gagasan inti kalimat panjang'. Caranya bukan meringkas suka-suka, tapi mengupas lapisan penjelasnya sampai tersisa Subjek inti dan Predikat inti.",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "Teknik Pangkas Preposisi & 'Yang'",
+      "shortcutMarkdown": "Tutup frasa preposisi di awal (`Dalam...`, `Menurut...`) dan anak kalimat penjelas `yang ...` / di antara tanda koma apositif; sisa terdekat adalah Subjek + Predikat inti.",
+      "validityConditions": "Pastikan predikat yang dipilih tetap berupa verba/adjektiva aktif kalimat utama, bukan predikat di dalam anak kalimat."
+    },
+    "utbkTraps": [
+      "Mengambil kalimat di dalam bagian `yang ...` sebagai predikat utama.",
+      "Menganggap keterangan tempat atau sumber di awal kalimat sebagai Subjek."
+    ],
+    "keywords": [
+      "inti kalimat",
+      "subjek",
+      "predikat",
+      "kalimat utama",
+      "apositif",
+      "PPU dasar"
+    ],
+    "quickDrillTip": "Tutup frasa `yang ...` dengan jarimu, baca sisanya!"
+  },
+  {
+    "id": "kb-ppu-kal-02",
+    "subtest": "PPU",
+    "skillNodeId": "10000000-0000-4000-8000-000000000038",
+    "topicTitle": "Makna Leksikal, Konotasi & Imbuhan Dasar (meN-, peN-, ber-)",
+    "priorityLevel": 9,
+    "priorityBadge": "Sering Muncul",
+    "chapterGroup": "Fondasi Semantik PPU",
+    "sourceLabel": "Kurasi Silabus Top Score UTBK",
+    "whyBeforeHow": "Satu kata yang sama bisa punya arti kamus (leksikal) yang berbeda saat masuk kalimat atau mendapat imbuhan `peN-` (pelaku/alat) vs `pe-an` (proses/tempat).",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "Uji Substitusi Konteks Kalimat",
+      "shortcutMarkdown": "Masukkan kandidat arti kata dari opsi A-E langsung menggantikan kata aslinya di kalimat bacaan; opsi terbaik menjaga alur makna kalimat paling mulus.",
+      "validityConditions": "Perhatikan apakah soal meminta makna DENOTATIF (lugas) atau KONOTATIF/KIASAN pada konteks paragraf."
+    },
+    "utbkTraps": [
+      "Memilih arti kamus paling umum padahal di kalimat bacaan kata itu dipakai dalam arti kiasan/istilah bidang tertentu.",
+      "Tertukar antara imbuhan penunjuk pelaku/profesi (`periset`, `pelajar`) dan proses (`pembelajaran`)."
+    ],
+    "keywords": [
+      "imbuhan",
+      "makna leksikal",
+      "makna kontekstual",
+      "sinonim",
+      "konotasi"
+    ],
+    "quickDrillTip": "Selalu tes tempelkan pilihan jawaban langsung ke dalam kalimat sumber!"
+  },
+  {
+    "id": "kb-ppu-kal-03",
+    "subtest": "PPU",
+    "skillNodeId": "10000000-0000-4000-8000-000000000038",
+    "topicTitle": "Kalimat Rumpang & Diksi Penengah Paragraf",
+    "priorityLevel": 8,
+    "priorityBadge": "Sering Muncul",
+    "chapterGroup": "Fondasi Kalimat PPU",
+    "sourceLabel": "Kurasi Silabus Top Score UTBK",
+    "whyBeforeHow": "Bagian kosong (rumpang) dalam paragraf harus mengisi jembatan logika antara kalimat sebelum dan kalimat sesudahnya, dengan jenis kata (nomina, verba, adjektiva) yang sejalan.",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "Cek Kelas Kata & Arah Logika",
+      "shortcutMarkdown": "Baca 1 kalimat sebelum + 1 kalimat sesudah titik-titik: apakah hubungannya sejalan (`dan`, `sehingga`) atau berlawanan (`namun`, `padahal`), lalu cocokan kelas kata (kata benda vs kerja vs sifat).",
+      "validityConditions": "Jika kata sebelum titik-titik adalah `yang` atau `sangat`, biasanya rumpang membutuhkan kata sifat; jika `akan/telah`, membutuhkan kata kerja."
+    },
+    "utbkTraps": [
+      "Memilih kata yang artinya mirip tapi kelas katanya salah (misal memasukkan kata benda di posisi predikat kata kerja).",
+      "Mengabaikan petunjuk pertentangan di kalimat sesudahnya."
+    ],
+    "keywords": [
+      "kalimat rumpang",
+      "kata yang tepat",
+      "melengkapi kalimat",
+      "diksi dasar",
+      "kelas kata"
+    ],
+    "quickDrillTip": "Lihat 2 kata sebelum titik-titik untuk mengunci kelas katanya (benda/kerja/sifat) dalam 2 detik!"
+  },
+  {
+    "id": "kb-lbe-t2-01",
+    "subtest": "LBE",
+    "skillNodeId": "10000000-0000-4000-8000-000000000037",
+    "topicTitle": "Scanning Detail Eksplisit & Soal Pengecualian (EXCEPT/NOT)",
+    "priorityLevel": 9,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Reading Detail & Synthesis",
+    "sourceLabel": "Kurasi Silabus Top Score UTBK",
+    "whyBeforeHow": "Soal detail LBE menguji ketelitian mencocokkan informasi dengan parafrasa Inggris, sedangkan soal EXCEPT/NOT menuntut kamu memverifikasi 4 opsi yang BENAR ada di teks agar bisa memilih 1 yang salah/absen.",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "Anchor-Word Scanning & 4-Check EXCEPT",
+      "shortcutMarkdown": "Untuk detail: ambil kata kunci unik (nama, angka, istilah) lalu cari parafrasa kalimat sekitarnya. Untuk EXCEPT/NOT: beri tanda centang pada 4 opsi yang cocok di teks, pilih yang tidak punya bukti.",
+      "validityConditions": "Waspadai kata pembalik skala seperti `only`, `always`, `never`, `less than`, `more than` saat membandingkan opsi dengan teks."
+    },
+    "utbkTraps": [
+      "Lupa kata `NOT` / `EXCEPT` di soal lalu langsung memilih opsi pertama yang sesuai isi teks.",
+      "Mengira opsi benar karena memakai kata-kata mirip padahal hubungannya terbalik (sebab-akibat tertukar)."
+    ],
+    "keywords": [
+      "according to the text",
+      "except",
+      "not stated",
+      "detail scanning",
+      "paraphrase"
+    ],
+    "quickDrillTip": "Garis bawahi kata EXCEPT/NOT dulu sebelum baca opsi A sampai E!"
+  },
+  {
+    "id": "kb-lbe-t2-02",
+    "subtest": "LBE",
+    "skillNodeId": "10000000-0000-4000-8000-000000000037",
+    "topicTitle": "Logical Inference vs Extrapolation di LBE",
+    "priorityLevel": 9,
+    "priorityBadge": "Wajib Prioritas",
+    "chapterGroup": "Reading Detail & Synthesis",
+    "sourceLabel": "Kurasi Silabus Top Score UTBK",
+    "whyBeforeHow": "Kata 'inferred / implied / suggested' di LBE bukan berarti boleh berimajinasi di luar teks. Inferensi UTBK selalu berupa konsekuensi logis terdekat dari 1 atau 2 kalimat bukti di bacaan.",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "Saringan Inferensi Anti-Ekstrapolasi",
+      "shortcutMarkdown": "Coret opsi yang membawa topik baru di luar teks atau menggeneralisasi ekstrem (`all`, `impossible`, `completely`), lalu pilih opsi yang tetap benar jika kalimat bukti benar.",
+      "validityConditions": "Berlaku untuk seluruh pertanyaan inference, implied claim, dan most likely assumption di single passage."
+    },
+    "utbkTraps": [
+      "Memilih opini dunia nyata yang terasa masuk akal secara umum, tetapi tidak pernah disentuh dalam teks.",
+      "Terjebak opsi yang memperluas cakupan 'some/many' di teks menjadi 'all/every'."
+    ],
+    "keywords": [
+      "inferred",
+      "implied",
+      "suggested",
+      "likely",
+      "inference LBE"
+    ],
+    "quickDrillTip": "Tanyakan: kalau kalimat bukti ini benar, apakah opsi pilihanku PASTI ikut masuk akal tanpa asumsi tambahan?"
+  },
+  {
+    "id": "kb-lbe-t2-03",
+    "subtest": "LBE",
+    "skillNodeId": "10000000-0000-4000-8000-000000000037",
+    "topicTitle": "Vocabulary in Context & Academic Transition Signals",
+    "priorityLevel": 9,
+    "priorityBadge": "Sering Muncul",
+    "chapterGroup": "Reading Detail & Synthesis",
+    "sourceLabel": "Kurasi Silabus Top Score UTBK",
+    "whyBeforeHow": "Kata Bahasa Inggris yang kelihatan asing hampir selalu punya petunjuk arah makna dari kata penghubungnya (`however`, `despite`, `similarly`, `for instance`) di kalimat yang sama.",
+    "keyFormulasLatex": [],
+    "shortcutWithBoundary": {
+      "methodLabel": "Cloze Substitution & Signal Flip",
+      "shortcutMarkdown": "Ganti kata target dengan `___`, cek arah sinyal transisi (lawan kata setelah `however/although`, sejalan setelah `and/moreover`), lalu tes substitusi opsi satu per satu.",
+      "validityConditions": "Sering ada kata biasa dengan makna akademik khusus (misal `address` = menangani, `account for` = menjelaskan/menyumbang proporsi)."
+    },
+    "utbkTraps": [
+      "Hanya memakai arti sehari-hari pertama dari kamus tanpa membaca konteks kalimat akademiknya.",
+      "Melewatkan sinyal kontras `yet / albeit / rather than` di awal klausa."
+    ],
+    "keywords": [
+      "closest in meaning",
+      "vocabulary in context",
+      "however",
+      "despite",
+      "transition"
+    ],
+    "quickDrillTip": "Gunakan sinyal transisi (`although`/`moreover`) buat menebak kata target positif atau negatif!"
   }
 ]

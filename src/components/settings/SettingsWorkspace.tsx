@@ -11,6 +11,7 @@ import {
   WarmPaperIcon,
 } from "@/components/icons/ArchitecturalIcons";
 import { AppShell } from "@/components/layout/AppShell";
+import { computeExamCountdown, DEFAULT_UTBK_EXAM_DATE } from "@/domain/exam-countdown";
 import type { AiRoutingLedgerEntry, ThemePreference } from "@/domain/types";
 
 interface HealthPayload {
@@ -91,7 +92,7 @@ export function SettingsWorkspace() {
   const [displayName, setDisplayName] = useState("Pejuang SNBT");
   const [targetScore, setTargetScore] = useState(800);
   const [targetMajor, setTargetMajor] = useState("");
-  const [examDate, setExamDate] = useState("2027-05-15");
+  const [examDate, setExamDate] = useState(DEFAULT_UTBK_EXAM_DATE);
   const [theme, setTheme] = useState<"daylight" | "warm">("daylight");
   const [saveMessage, setSaveMessage] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
@@ -222,6 +223,11 @@ export function SettingsWorkspace() {
         }),
       });
       if (!res.ok) throw new Error("Gagal menyimpan profil.");
+      window.dispatchEvent(
+        new CustomEvent("rasionalin:exam-date-changed", {
+          detail: { examDate: examDate || null },
+        }),
+      );
       setSaveMessage("Target UTBK dan profil berhasil disimpan.");
     } catch (err) {
       setSaveMessage(err instanceof Error ? err.message : "Gagal menyimpan.");
@@ -352,9 +358,14 @@ export function SettingsWorkspace() {
                 </div>
 
                 <div>
-                  <label htmlFor="cfg-date" className="text-xs font-extrabold block mb-1.5">
-                    Tanggal Ujian SNBT
-                  </label>
+                  <div className="flex items-center justify-between gap-2 mb-1.5">
+                    <label htmlFor="cfg-date" className="text-xs font-extrabold block">
+                      Tanggal Ujian SNBT
+                    </label>
+                    <span className="font-num text-[11px] font-extrabold text-[var(--accent-text-on-secondary)]">
+                      H-{computeExamCountdown(examDate).daysLeft}
+                    </span>
+                  </div>
                   <input
                     id="cfg-date"
                     type="date"
