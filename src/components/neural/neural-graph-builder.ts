@@ -415,6 +415,151 @@ export function buildNeuralCortexGraph(payload: NeuralCortexPayload): {
     });
   });
 
+  // 7. AI Neuralink Crown & Live 9Router Models
+  const aiNodes = payload.aiNodes ?? [];
+  const tierColorMap: Record<string, { color: string; glow: string; href: string }> = {
+    "TIER-3-REASON": { color: "#52F2B8", glow: "rgba(82, 242, 184, 0.9)", href: "/tutor" },
+    "TIER-4-CODE-MATH": { color: "#FFB84D", glow: "rgba(255, 184, 77, 0.9)", href: "/tutor" },
+    "TIER-2-VISION": { color: "#FF8E6E", glow: "rgba(255, 142, 110, 0.9)", href: "/vault" },
+    "TIER-1-FAST": { color: "#26D99A", glow: "rgba(38, 217, 154, 0.88)", href: "/tutor" },
+    "TIER-0-EMBED": { color: "#FFE29A", glow: "rgba(255, 226, 154, 0.88)", href: "/vault" },
+  };
+
+  const tierOffsetsBrain: Vec3[] = [
+    { x: -0.68, y: -0.64, z: 0.44 },
+    { x: -0.34, y: -0.7, z: -0.44 },
+    { x: 0.36, y: -0.68, z: -0.42 },
+    { x: 0.7, y: -0.62, z: 0.42 },
+    { x: 0, y: -0.74, z: -0.64 },
+  ];
+
+  const aiTierNodes = aiNodes.filter((n) => n.kind === "ai_tier");
+  const aiModelNodes = aiNodes.filter((n) => n.kind === "ai_model");
+  let tierIdx = 0;
+  let modelIdx = 0;
+
+  for (const ai of aiNodes) {
+    if (ai.kind === "ai_hub") {
+      registerNeuron({
+        id: ai.id,
+        kind: "ai_hub",
+        subtest: "AI",
+        track: "ai",
+        label: ai.code,
+        title: ai.title,
+        subtitle: ai.subtitle,
+        skillNodeId: null,
+        radius: 9.8,
+        color: "#E6FFF5",
+        glowColor: "rgba(82, 242, 184, 0.95)",
+        priorityLevel: 10,
+        masteryScore: 100,
+        masteryStatus: "active",
+        questionCount: ai.callCount,
+        knowledgeCount: payload.stats.liveAiModelsCount,
+        templateCount: payload.stats.aiCallsCount,
+        brainPos: { x: 0, y: -0.76, z: 0.38 },
+        annLandscapePos: { x: 0.28, y: -0.84, z: 0.22 },
+        annPortraitPos: { x: 0, y: -1.36, z: 0.24 },
+        wavePhase: 0.4,
+        waveFreq: 1.55,
+        activationLevel: ai.status === "online" ? 0.92 : 0.72,
+        lastFiredAt: 0,
+        href: "/tutor",
+      });
+    } else if (ai.kind === "ai_tier") {
+      const idx = tierIdx;
+      tierIdx += 1;
+      const totalTiers = Math.max(1, aiTierNodes.length);
+      const tSpan = (idx / Math.max(1, totalTiers - 1)) * 2 - 1;
+      const meta = tierColorMap[ai.tier] ?? {
+        color: "#52F2B8",
+        glow: "rgba(82, 242, 184, 0.85)",
+        href: "/tutor",
+      };
+      registerNeuron({
+        id: ai.id,
+        kind: "ai_tier",
+        subtest: "AI",
+        track: "ai",
+        label: ai.code,
+        title: ai.title,
+        subtitle: ai.subtitle,
+        skillNodeId: null,
+        radius: 6.4,
+        color: meta.color,
+        glowColor: meta.glow,
+        priorityLevel: 9,
+        masteryScore: 100,
+        masteryStatus: "active",
+        questionCount: ai.callCount,
+        knowledgeCount: 0,
+        templateCount: 0,
+        brainPos: tierOffsetsBrain[idx % tierOffsetsBrain.length],
+        annLandscapePos: {
+          x: -0.88 + (idx / Math.max(1, totalTiers - 1)) * 1.84,
+          y: -0.72 - Math.cos(tSpan * 1.4) * 0.14,
+          z: 0.26 + Math.sin(idx * 1.1) * 0.14,
+        },
+        annPortraitPos: {
+          x: tSpan * 0.74,
+          y: -1.04 - Math.cos(tSpan * 1.2) * 0.08,
+          z: 0.24,
+        },
+        wavePhase: idx * 0.85,
+        waveFreq: 1.42 + idx * 0.07,
+        activationLevel: ai.callCount > 0 ? 0.85 : 0.58,
+        lastFiredAt: 0,
+        href: meta.href,
+      });
+    } else {
+      const idx = modelIdx;
+      modelIdx += 1;
+      const totalM = Math.max(1, aiModelNodes.length);
+      const angle = (idx / totalM) * Math.PI * 2;
+      const mSpan = totalM === 1 ? 0 : (idx / (totalM - 1)) * 2 - 1;
+      registerNeuron({
+        id: ai.id,
+        kind: "ai_model",
+        subtest: "AI",
+        track: "ai",
+        label: ai.code,
+        title: ai.title,
+        subtitle: ai.subtitle,
+        skillNodeId: null,
+        radius: 3.4,
+        color: "#B8FBE2",
+        glowColor: "rgba(184, 251, 226, 0.85)",
+        priorityLevel: 8,
+        masteryScore: 100,
+        masteryStatus: "active",
+        questionCount: ai.callCount,
+        knowledgeCount: 0,
+        templateCount: 0,
+        brainPos: {
+          x: Math.cos(angle) * 0.54,
+          y: -0.84 + Math.sin(angle * 2) * 0.05,
+          z: 0.28 + Math.sin(angle) * 0.44,
+        },
+        annLandscapePos: {
+          x: mSpan * 1.02 + 0.18,
+          y: -0.92 - Math.cos(mSpan * 1.3) * 0.08,
+          z: -0.18 + Math.sin(angle) * 0.22,
+        },
+        annPortraitPos: {
+          x: mSpan * 0.78,
+          y: -1.2 - Math.cos(mSpan * 1.3) * 0.06,
+          z: 0.16,
+        },
+        wavePhase: angle,
+        waveFreq: 1.7 + (idx % 4) * 0.09,
+        activationLevel: ai.callCount > 0 ? 0.82 : 0.48,
+        lastFiredAt: 0,
+        href: "/settings",
+      });
+    }
+  }
+
   // =========================================================================
   // Synaptic Connections (Axons & Dendrites)
   // =========================================================================
@@ -425,6 +570,7 @@ export function buildNeuralCortexGraph(payload: NeuralCortexPayload): {
     from: string,
     to: string,
     kind: SynapseEdge["kind"],
+    label: string,
     strength: number,
     color: string,
   ) => {
@@ -432,7 +578,7 @@ export function buildNeuralCortexGraph(payload: NeuralCortexPayload): {
     const key = from < to ? `${from}->${to}` : `${to}->${from}`;
     if (edgeKeys.has(key)) return;
     edgeKeys.add(key);
-    edges.push({ id: key, from, to, kind, strength, color });
+    edges.push({ id: key, from, to, kind, label, strength, color });
   };
 
   // A. Skill prerequisite edges (myelinated tracts)
@@ -442,6 +588,7 @@ export function buildNeuralCortexGraph(payload: NeuralCortexPayload): {
       e.parentNodeId,
       e.childNodeId,
       "prereq",
+      "Jalur Prasyarat",
       0.85,
       parent?.color ?? "#26D99A",
     );
@@ -450,9 +597,9 @@ export function buildNeuralCortexGraph(payload: NeuralCortexPayload): {
   // B. Subtest Nucleus <-> Skill hubs & Skill hubs <-> Target IRT Output Core
   for (const sk of payload.skillNodes) {
     const palette = subtestColors(sk.subtest);
-    pushEdge(`nucleus:${sk.subtest}`, sk.id, "nucleus", 0.72, palette.color);
+    pushEdge(`nucleus:${sk.subtest}`, sk.id, "nucleus", "Cabang Subtes", 0.72, palette.color);
     if (sk.priorityLevel >= 8 || sk.masteryStatus !== "locked") {
-      pushEdge(sk.id, coreId, "commissure", 0.55, palette.color);
+      pushEdge(sk.id, coreId, "commissure", "Jalur Target IRT", 0.55, palette.color);
     }
   }
 
@@ -461,35 +608,93 @@ export function buildNeuralCortexGraph(payload: NeuralCortexPayload): {
   for (const kb of payload.knowledgeNodes) {
     const kbId = `kb:${kb.id}`;
     const palette = subtestColors(kb.subtest);
-    pushEdge(kb.skillNodeId, kbId, "dendrite", 0.36, palette.color);
+    pushEdge(kb.skillNodeId, kbId, "dendrite", "Sinapsis Materi", 0.36, palette.color);
     const arr = kbBySubtest.get(kb.subtest) ?? [];
     if (arr.length > 0) {
-      pushEdge(arr[arr.length - 1], kbId, "dendrite", 0.24, palette.color);
+      pushEdge(arr[arr.length - 1], kbId, "dendrite", "Asosiasi Bab", 0.24, palette.color);
     }
     arr.push(kbId);
     kbBySubtest.set(kb.subtest, arr);
   }
 
   for (const tpl of payload.templateNodes) {
-    pushEdge(tpl.skillNodeId, `tpl:${tpl.id}`, "nucleus", 0.58, "#F5BC4E");
-    pushEdge(`tpl:${tpl.id}`, coreId, "memory_bridge", 0.42, "#F5BC4E");
+    pushEdge(tpl.skillNodeId, `tpl:${tpl.id}`, "nucleus", "Generator WASM", 0.58, "#F5BC4E");
+    pushEdge(`tpl:${tpl.id}`, coreId, "memory_bridge", "Jalur Skor WASM", 0.42, "#F5BC4E");
   }
 
   // D. Memory Hippocampus ring + Corpus Callosum Quant <-> Literacy bridges
   for (let i = 0; i < memItems.length; i += 1) {
     const mem = memItems[i];
     const nextMem = memItems[(i + 1) % memItems.length];
-    pushEdge(mem.id, nextMem.id, "memory_bridge", 0.5, "#F5BC4E");
-    pushEdge(mem.id, coreId, "memory_bridge", 0.52, "#F5BC4E");
+    pushEdge(mem.id, nextMem.id, "memory_bridge", "Cincin Memori FSRS", 0.5, "#F5BC4E");
+    pushEdge(mem.id, coreId, "memory_bridge", "Jembatan Memori -> IRT", 0.52, "#F5BC4E");
     const targetSub = mem.subtest ?? SUBTEST_ORDER[i % SUBTEST_ORDER.length];
-    pushEdge(mem.id, `nucleus:${targetSub}`, "memory_bridge", 0.42, "#F5BC4E");
+    pushEdge(mem.id, `nucleus:${targetSub}`, "memory_bridge", "Ingatan ke Subtes", 0.42, "#F5BC4E");
   }
 
   // E. Cross-hemisphere Corpus Callosum fibers (Quant <-> Literacy synergy)
   const quantSkills = payload.skillNodes.filter((s) => s.track === "quantitative");
   const litSkills = payload.skillNodes.filter((s) => s.track === "literacy");
   for (let i = 0; i < Math.min(quantSkills.length, litSkills.length); i += 2) {
-    pushEdge(quantSkills[i].id, litSkills[i].id, "commissure", 0.34, "#D4FFF0");
+    pushEdge(quantSkills[i].id, litSkills[i].id, "commissure", "Corpus Callosum", 0.34, "#D4FFF0");
+  }
+
+  // F. AI Orchestration & 9Router Synaptic Pathways
+  const resolveModelTierId = (modelAlias: string): string => {
+    const lower = modelAlias.toLowerCase();
+    if (/coder|codestral|math|deepseek|qwen.*coder/.test(lower)) return "ai:tier:codeMath";
+    if (/vision|4o|gemini|vl/.test(lower)) return "ai:tier:vision";
+    if (/embed/.test(lower)) return "ai:tier:embed";
+    if (/flash|mini|groq|llama/.test(lower)) return "ai:tier:fast";
+    return "ai:tier:reason";
+  };
+
+  if (neuronMap.has("ai:hub")) {
+    pushEdge("ai:hub", coreId, "ai_route", "Orkestrasi Skor IRT", 0.68, "#E6FFF5");
+    for (const tierNode of aiTierNodes) {
+      const color = tierColorMap[tierNode.tier]?.color ?? "#52F2B8";
+      pushEdge("ai:hub", tierNode.id, "ai_route", "Routing 9Router", 0.78, color);
+    }
+    for (const mNode of aiModelNodes) {
+      const matchedTierId = resolveModelTierId(mNode.modelAlias);
+      pushEdge(mNode.id, matchedTierId, "ai_route", "Model Live 9Router", 0.62, "#B8FBE2");
+      pushEdge("ai:hub", mNode.id, "ai_route", "Klaster Model 9Router", 0.45, "#B8FBE2");
+    }
+
+    (["LBI", "LBE", "PBM", "PPU", "PU"] as const).forEach((sub) => {
+      pushEdge("ai:tier:reason", `nucleus:${sub}`, "ai_route", "Tutor Socratic AI", 0.6, "#52F2B8");
+    });
+
+    (["PK", "PM", "PU"] as const).forEach((sub) => {
+      pushEdge("ai:tier:codeMath", `nucleus:${sub}`, "ai_route", "Neuro-Simbolik WASM", 0.62, "#FFB84D");
+    });
+    payload.templateNodes.slice(0, 4).forEach((tpl) => {
+      pushEdge("ai:tier:codeMath", `tpl:${tpl.id}`, "ai_route", "Verifikasi WASM AI", 0.44, "#FFB84D");
+    });
+
+    (["PK", "PM", "PBM"] as const).forEach((sub) => {
+      pushEdge("ai:tier:vision", `nucleus:${sub}`, "ai_route", "Vision OCR & Multimodal", 0.56, "#FF8E6E");
+    });
+    memItems.slice(0, 2).forEach((mem) => {
+      pushEdge("ai:tier:vision", mem.id, "ai_route", "Ekstrak Gambar -> Vault", 0.42, "#FF8E6E");
+    });
+
+    (["PU", "PPU", "LBI"] as const).forEach((sub) => {
+      pushEdge("ai:tier:fast", `nucleus:${sub}`, "ai_route", "Diagnostik Cepat & FSRS", 0.52, "#26D99A");
+    });
+    memItems.slice(0, 3).forEach((mem) => {
+      pushEdge("ai:tier:fast", mem.id, "ai_route", "Klasifikasi Fraktur AI", 0.4, "#26D99A");
+    });
+
+    memItems.slice(0, 4).forEach((mem) => {
+      pushEdge("ai:tier:embed", mem.id, "ai_route", "Embedding RAG Semantik", 0.48, "#FFE29A");
+    });
+    payload.knowledgeNodes
+      .filter((k) => k.priorityLevel >= 9)
+      .slice(0, 3)
+      .forEach((kb) => {
+        pushEdge("ai:tier:embed", `kb:${kb.id}`, "ai_route", "Indeks Pustaka AI", 0.36, "#FFE29A");
+      });
   }
 
   return { neurons, edges };

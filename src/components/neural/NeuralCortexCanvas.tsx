@@ -11,6 +11,7 @@ import type { SnbtSubtest } from "@/domain/types";
 import { buildNeuralCortexGraph } from "./neural-graph-builder";
 import type {
   NeuralCortexPayload,
+  NeuralFilterKey,
   NeuralTopologyMode,
   NeuronNode,
   Vec3,
@@ -36,11 +37,22 @@ export interface NeuralCortexCanvasHandle {
 interface NeuralCortexCanvasProps {
   payload: NeuralCortexPayload;
   topologyMode: NeuralTopologyMode;
-  subtestFilter: SnbtSubtest | "ALL";
+  subtestFilter: NeuralFilterKey;
   selectedNeuronId: string | null;
   storyMode: boolean;
   signalRef: React.MutableRefObject<LiveBrainSignal>;
   onSelectNeuron: (neuron: NeuronNode | null, connectedCount: number) => void;
+}
+
+interface ProjectedEdgeHit {
+  edgeIdx: number;
+  ax: number;
+  ay: number;
+  mx: number;
+  my: number;
+  bx: number;
+  by: number;
+  alpha: number;
 }
 
 interface SynapticPulse {
@@ -88,6 +100,49 @@ function hexToRgb(hex: string): string {
   const b = parseInt(clean.slice(4, 6), 16);
   if (Number.isNaN(r) || Number.isNaN(g) || Number.isNaN(b)) return "38, 217, 154";
   return `${r}, ${g}, ${b}`;
+}
+
+function distToSegment(
+  px: number,
+  py: number,
+  x1: number,
+  y1: number,
+  x2: number,
+  y2: number,
+): number {
+  const dx = x2 - x1;
+  const dy = y2 - y1;
+  const lenSq = dx * dx + dy * dy;
+  if (lenSq <= 0.0001) return Math.hypot(px - x1, py - y1);
+  const t = clamp(((px - x1) * dx + (py - y1) * dy) / lenSq, 0, 1);
+  return Math.hypot(px - (x1 + t * dx), py - (y1 + t * dy));
+}
+
+function distToQuadBezier(
+  px: number,
+  py: number,
+  ax: number,
+  ay: number,
+  mx: number,
+  my: number,
+  bx: number,
+  by: number,
+): number {
+  const steps = 10;
+  let minD = Infinity;
+  let prevX = ax;
+  let prevY = ay;
+  for (let s = 1; s <= steps; s += 1) {
+    const t = s / steps;
+    const inv = 1 - t;
+    const cx = inv * inv * ax + 2 * inv * t * mx + t * t * bx;
+    const cy = inv * inv * ay + 2 * inv * t * my + t * t * by;
+    const d = distToSegment(px, py, prevX, prevY, cx, cy);
+    if (d < minD) minD = d;
+    prevX = cx;
+    prevY = cy;
+  }
+  return minD;
 }
 
 export const NeuralCortexCanvas = forwardRef<
@@ -139,12 +194,14 @@ export const NeuralCortexCanvas = forwardRef<
     morphT: topologyMode === "ann" ? 1 : 0,
     targetMorphT: topologyMode === "ann" ? 1 : 0,
     hoveredId: null as string | null,
+    hoveredEdgeIdx: null as number | null,
     dragging: false,
     dragMoved: 0,
     lastPointerX: 0,
     lastPointerY: 0,
     pulses: [] as SynapticPulse[],
     lastProjected: [] as ProjectedNeuron[],
+    lastEdges: [] as ProjectedEdgeHit[],
     reducedMotion: false,
     cascadeBoost: 0,
   });
@@ -171,6 +228,7 @@ export const NeuralCortexCanvas = forwardRef<
   useEffect(() => {
     if (storyMode) {
       animStateRef.current.hoveredId = null;
+      animStateRef.current.hoveredEdgeIdx = null;
     }
   }, [storyMode]);
 
@@ -428,14 +486,14 @@ export const NeuralCortexCanvas = forwardRef<
       const cosX = Math.cos(st.rotX);
       const sinX = Math.sin(st.rotX);
       const baseFocal = isPortrait
-        ? cssW * 1.06
-        : Math.min(cssW * 0.72, cssH * 1.12);
-      const focal = baseFocal * lerp(1, isPortrait ? 0.86 : 0.78, st.morphT) * st.zoom;
+        ? cssW * 1.02
+        : Math.min(cssW * 0.68, cssH * 0.96);
+      const focal = baseFocal * lerp(1, isPortrait ? 0.86 : 0.8, st.morphT) * st.zoom;
       const camDist = isPortrait ? 2.68 : 2.65;
       const centerX = cssW * 0.5;
       const centerY =
         cssH *
-        lerp(isStory ? 0.44 : isPortrait ? 0.48 : 0.49, isStory ? 0.46 : 0.515, st.morphT);
+        lerp(isStory ? 0.49 : isPortrait ? 0.5 : 0.535, isStory ? 0.48 : 0.525, st.morphT);
 
       const project = (p: Vec3) => {
         const x1 = p.x * cosY - p.z * sinY;
@@ -493,11 +551,16 @@ export const NeuralCortexCanvas = forwardRef<
         }
       }
 
-      if (isStory) {
-        st.hoveredId = null;
-      }
       const effSelectedId = isStory ? null : activeSelectedId;
-      const effHoveredId = isStory ? null : st.hoveredId;
+      const effHoveredId = st.hoveredId;
+      const effHoveredEdgeIdx = st.hoveredEdgeIdx;
+      const hoveredEdge =
+        effHoveredEdgeIdx !== null ? graph.edges[effHoveredEdgeIdx] ?? null : null;
+      const hoveredEdgeEndpoints = new Set<string>();
+      if (hoveredEdge) {
+        hoveredEdgeEndpoints.add(hoveredEdge.from);
+        hoveredEdgeEndpoints.add(hoveredEdge.to);
+      }
       const activeFocusId = effSelectedId ?? effHoveredId;
       const neighborSet = new Set<string>();
       if (activeFocusId) {
@@ -526,15 +589,21 @@ export const NeuralCortexCanvas = forwardRef<
         const p = project({ x: bx + waveX, y: by + waveY, z: bz + waveZ });
 
         const matchesSubtest =
-          activeSubtest === "ALL" ||
-          n.subtest === activeSubtest ||
-          n.subtest === "CORE" ||
-          n.kind === "memory";
-        const matchesFocus = !activeFocusId || neighborSet.has(n.id);
+          activeSubtest === "ALL"
+            ? true
+            : activeSubtest === "AI"
+              ? n.subtest === "AI" || n.subtest === "CORE" || n.kind === "nucleus"
+              : n.subtest === activeSubtest ||
+                n.subtest === "CORE" ||
+                n.kind === "memory" ||
+                n.kind === "ai_hub";
+        const matchesFocus = hoveredEdge
+          ? hoveredEdgeEndpoints.has(n.id)
+          : !activeFocusId || neighborSet.has(n.id);
 
         let visibleAlpha = clamp(0.88 - p.depth * 0.22, 0.18, 1);
         if (!matchesSubtest) visibleAlpha *= 0.14;
-        else if (activeFocusId && !matchesFocus) visibleAlpha *= 0.24;
+        else if ((hoveredEdge || activeFocusId) && !matchesFocus) visibleAlpha *= 0.24;
 
         const proj: ProjectedNeuron = {
           neuron: n,
@@ -544,7 +613,9 @@ export const NeuralCortexCanvas = forwardRef<
           depth: p.depth,
           scale: p.scale,
           visibleAlpha,
-          highlighted: Boolean(activeFocusId && neighborSet.has(n.id)),
+          highlighted: hoveredEdge
+            ? hoveredEdgeEndpoints.has(n.id)
+            : Boolean(activeFocusId && neighborSet.has(n.id)),
         };
         projectedList[i] = proj;
         projectedById.set(n.id, proj);
@@ -552,6 +623,7 @@ export const NeuralCortexCanvas = forwardRef<
       st.lastProjected = projectedList;
 
       const edgeMidCache = new Array<{ mx: number; my: number }>(graph.edges.length);
+      const nextEdgeHits: ProjectedEdgeHit[] = [];
 
       for (let i = 0; i < graph.edges.length; i += 1) {
         const edge = graph.edges[i];
@@ -563,7 +635,7 @@ export const NeuralCortexCanvas = forwardRef<
         const dy = b.sy - a.sy;
         const dist = Math.hypot(dx, dy) || 1;
         const bend =
-          (edge.kind === "commissure" ? 0.18 : 0.12) *
+          (edge.kind === "commissure" || edge.kind === "ai_route" ? 0.16 : 0.12) *
           dist *
           (i % 2 === 0 ? 1 : -1) *
           (1 + Math.sin(tSec * 1.4 + i * 0.4) * 0.15 * waveAmp);
@@ -574,28 +646,59 @@ export const NeuralCortexCanvas = forwardRef<
         edgeMidCache[i] = { mx, my };
 
         const subMatch =
-          activeSubtest === "ALL" ||
-          a.neuron.subtest === activeSubtest ||
-          b.neuron.subtest === activeSubtest;
-        const focusMatch =
-          !activeFocusId || a.neuron.id === activeFocusId || b.neuron.id === activeFocusId;
+          activeSubtest === "ALL"
+            ? true
+            : activeSubtest === "AI"
+              ? edge.kind === "ai_route" || a.neuron.subtest === "AI" || b.neuron.subtest === "AI"
+              : a.neuron.subtest === activeSubtest || b.neuron.subtest === activeSubtest;
+        const isEdgeHovered = effHoveredEdgeIdx === i;
+        const focusMatch = hoveredEdge
+          ? isEdgeHovered
+          : !activeFocusId || a.neuron.id === activeFocusId || b.neuron.id === activeFocusId;
 
-        let baseAlpha = edge.kind === "prereq" ? 0.34 : edge.kind === "nucleus" ? 0.24 : 0.12;
+        let baseAlpha =
+          edge.kind === "prereq"
+            ? 0.34
+            : edge.kind === "ai_route"
+              ? 0.3
+              : edge.kind === "nucleus"
+                ? 0.24
+                : 0.12;
         if (!subMatch) baseAlpha *= 0.12;
-        else if (activeFocusId && !focusMatch) baseAlpha *= 0.16;
+        else if ((hoveredEdge || activeFocusId) && !focusMatch) baseAlpha *= 0.16;
+        else if (isEdgeHovered) baseAlpha = 0.96;
         else if (activeFocusId && focusMatch) baseAlpha = Math.min(0.85, baseAlpha * 2.5);
 
         const depthFactor = clamp(1 - (a.depth + b.depth) * 0.2, 0.25, 1);
-        const alpha = baseAlpha * depthFactor;
+        const alpha = isEdgeHovered ? 0.96 : baseAlpha * depthFactor;
         if (alpha < 0.018) continue;
 
-        ctx.strokeStyle = `rgba(${hexToRgb(edge.color)}, ${alpha.toFixed(3)})`;
-        ctx.lineWidth = focusMatch && activeFocusId ? 1.7 : edge.kind === "prereq" ? 1.2 : 0.8;
+        nextEdgeHits.push({ edgeIdx: i, ax: a.sx, ay: a.sy, mx, my, bx: b.sx, by: b.sy, alpha });
+
+        const rgb = hexToRgb(edge.color);
+        if (isEdgeHovered) {
+          ctx.strokeStyle = `rgba(${rgb}, 0.28)`;
+          ctx.lineWidth = 5.5;
+          ctx.beginPath();
+          ctx.moveTo(a.sx, a.sy);
+          ctx.quadraticCurveTo(mx, my, b.sx, b.sy);
+          ctx.stroke();
+        }
+
+        ctx.strokeStyle = `rgba(${rgb}, ${alpha.toFixed(3)})`;
+        ctx.lineWidth = isEdgeHovered
+          ? 2.5
+          : focusMatch && activeFocusId
+            ? 1.7
+            : edge.kind === "prereq" || edge.kind === "ai_route"
+              ? 1.2
+              : 0.8;
         ctx.beginPath();
         ctx.moveTo(a.sx, a.sy);
         ctx.quadraticCurveTo(mx, my, b.sx, b.sy);
         ctx.stroke();
       }
+      st.lastEdges = nextEdgeHits;
 
       ctx.save();
       ctx.globalCompositeOperation = "lighter";
@@ -628,8 +731,9 @@ export const NeuralCortexCanvas = forwardRef<
 
         if (
           activeSubtest !== "ALL" &&
-          a.neuron.subtest !== activeSubtest &&
-          b.neuron.subtest !== activeSubtest
+          (activeSubtest === "AI"
+            ? edge.kind !== "ai_route" && a.neuron.subtest !== "AI" && b.neuron.subtest !== "AI"
+            : a.neuron.subtest !== activeSubtest && b.neuron.subtest !== activeSubtest)
         ) {
           continue;
         }
@@ -671,13 +775,13 @@ export const NeuralCortexCanvas = forwardRef<
         const n = pn.neuron;
         const r = Math.max(1.5, n.radius * pn.scale);
         const isSelected = n.id === effSelectedId;
-        const isHovered = n.id === effHoveredId;
+        const isHovered = n.id === effHoveredId || hoveredEdgeEndpoints.has(n.id);
         const rgb = hexToRgb(n.color);
 
         const timeSinceFire = now - n.lastFiredAt;
         if (n.lastFiredAt > 0 && timeSinceFire >= 0 && timeSinceFire < 850) {
           const prog = timeSinceFire / 850;
-          const ringR = r + prog * (n.kind === "nucleus" ? 28 : 16);
+          const ringR = r + prog * (n.kind === "nucleus" || n.kind === "ai_hub" ? 28 : 16);
           const ringAlpha = (1 - prog) * 0.72 * pn.visibleAlpha;
           ctx.strokeStyle = `rgba(${rgb}, ${ringAlpha.toFixed(3)})`;
           ctx.lineWidth = 1.6;
@@ -689,11 +793,13 @@ export const NeuralCortexCanvas = forwardRef<
         if (
           n.kind === "nucleus" ||
           n.kind === "output_core" ||
+          n.kind === "ai_hub" ||
+          n.kind === "ai_tier" ||
           isSelected ||
           isHovered ||
           n.activationLevel > 0.65
         ) {
-          const glowR = r * (isSelected || n.kind === "output_core" ? 4.2 : 2.8);
+          const glowR = r * (isSelected || n.kind === "output_core" || n.kind === "ai_hub" ? 4.2 : 2.8);
           const halo = ctx.createRadialGradient(pn.sx, pn.sy, r * 0.2, pn.sx, pn.sy, glowR);
           halo.addColorStop(0, `rgba(${rgb}, ${(0.55 * pn.visibleAlpha).toFixed(3)})`);
           halo.addColorStop(1, `rgba(${rgb}, 0)`);
@@ -708,16 +814,16 @@ export const NeuralCortexCanvas = forwardRef<
         ctx.arc(pn.sx, pn.sy, isSelected || isHovered ? r * 1.4 : r, 0, Math.PI * 2);
         ctx.fill();
 
-        if (n.kind === "nucleus" || n.kind === "output_core" || isSelected) {
+        if (n.kind === "nucleus" || n.kind === "output_core" || n.kind === "ai_hub" || n.kind === "ai_tier" || isSelected) {
           ctx.fillStyle = `rgba(255, 253, 245, ${(0.9 * pn.visibleAlpha).toFixed(3)})`;
           ctx.beginPath();
           ctx.arc(pn.sx, pn.sy, r * 0.42, 0, Math.PI * 2);
           ctx.fill();
         }
 
-        if (isSelected) {
-          ctx.strokeStyle = "#F5BC4E";
-          ctx.lineWidth = 2;
+        if (n.kind === "ai_hub" || isSelected || isHovered) {
+          ctx.strokeStyle = isSelected || n.kind === "ai_hub" ? "#52F2B8" : "#F5BC4E";
+          ctx.lineWidth = isSelected || n.kind === "ai_hub" ? 2 : 1.5;
           ctx.beginPath();
           ctx.arc(pn.sx, pn.sy, r * 1.9, 0, Math.PI * 2);
           ctx.stroke();
@@ -726,46 +832,23 @@ export const NeuralCortexCanvas = forwardRef<
 
       ctx.textBaseline = "middle";
       const placedBoxes: Array<{ x1: number; y1: number; x2: number; y2: number }> = [];
-      const labelPriorityOrder = [...sorted].sort((a, b) => {
-        const score = (pn: ProjectedNeuron) =>
-          pn.neuron.id === effSelectedId || pn.neuron.id === effHoveredId
-            ? 3
-            : pn.neuron.kind === "output_core"
-              ? 2
-              : pn.neuron.kind === "nucleus"
-                ? 1
-                : 0;
-        return score(b) - score(a) || a.depth - b.depth;
-      });
 
-      for (let i = 0; i < labelPriorityOrder.length; i += 1) {
-        const pn = labelPriorityOrder[i];
-        const n = pn.neuron;
-        const isSelected = n.id === effSelectedId;
-        const isHovered = n.id === effHoveredId;
-        const showLabel =
-          n.kind === "output_core" ||
-          (n.kind === "nucleus" && pn.visibleAlpha > 0.34) ||
-          isSelected ||
-          isHovered;
-        if (!showLabel) continue;
-
-        const text =
-          isSelected || isHovered
-            ? n.title.length > 32
-              ? `${n.title.slice(0, 30)}..`
-              : n.title
-            : n.label;
-        ctx.font =
-          n.kind === "output_core" || isSelected || isHovered
-            ? "700 12px 'Nunito Variable', sans-serif"
-            : "800 10.5px 'IBM Plex Mono', monospace";
+      const placeLabelBox = (
+        anchorX: number,
+        anchorY: number,
+        text: string,
+        font: string,
+        padX: number,
+        boxH: number,
+        borderColor: string,
+        forceShow: boolean,
+        fillColor = "rgba(6, 17, 12, 0.88)",
+      ) => {
+        ctx.font = font;
         const tw = ctx.measureText(text).width;
-        const padX = n.kind === "nucleus" ? 5.5 : 7;
         const boxW = tw + padX * 2;
-        const boxH = n.kind === "nucleus" ? 19 : 21;
-        const lx = clamp(pn.sx - boxW * 0.5, 8, cssW - boxW - 8);
-        let ly = clamp(pn.sy - n.radius * pn.scale - 21, 8, cssH - boxH - 8);
+        const lx = clamp(anchorX - boxW * 0.5, 8, cssW - boxW - 8);
+        let ly = clamp(anchorY, 8, cssH - boxH - 8);
 
         const overlaps = (yTry: number) =>
           placedBoxes.some(
@@ -783,17 +866,12 @@ export const NeuralCortexCanvas = forwardRef<
               break;
             }
           }
-          if (!resolved && !isSelected && !isHovered && n.kind !== "output_core") {
-            continue;
-          }
+          if (!resolved && !forceShow) return;
         }
         placedBoxes.push({ x1: lx, y1: ly, x2: lx + boxW, y2: ly + boxH });
 
-        ctx.fillStyle = "rgba(6, 17, 12, 0.84)";
-        ctx.strokeStyle =
-          isSelected || n.kind === "output_core"
-            ? "rgba(245, 188, 78, 0.78)"
-            : "rgba(38, 217, 154, 0.48)";
+        ctx.fillStyle = fillColor;
+        ctx.strokeStyle = borderColor;
         ctx.lineWidth = 1;
         ctx.beginPath();
         ctx.roundRect(lx, ly, boxW, boxH, 6);
@@ -802,6 +880,104 @@ export const NeuralCortexCanvas = forwardRef<
 
         ctx.fillStyle = "#F4EFE3";
         ctx.fillText(text, lx + padX, ly + boxH * 0.5 + 0.5);
+      };
+
+      const directNeighbors = new Set<string>();
+      if (effHoveredId) {
+        (adjacency.get(effHoveredId) ?? []).slice(0, 3).forEach((item) => {
+          directNeighbors.add(item.neighborId);
+        });
+      }
+
+      const labelPriorityOrder = [...sorted].sort((a, b) => {
+        const score = (pn: ProjectedNeuron) =>
+          pn.neuron.id === effSelectedId ||
+          pn.neuron.id === effHoveredId ||
+          hoveredEdgeEndpoints.has(pn.neuron.id)
+            ? 4
+            : directNeighbors.has(pn.neuron.id)
+              ? 3
+              : pn.neuron.kind === "output_core" || pn.neuron.kind === "ai_hub"
+                ? 2
+                : pn.neuron.kind === "nucleus" || pn.neuron.kind === "ai_tier"
+                  ? 1
+                  : 0;
+        return score(b) - score(a) || a.depth - b.depth;
+      });
+
+      for (let i = 0; i < labelPriorityOrder.length; i += 1) {
+        const pn = labelPriorityOrder[i];
+        const n = pn.neuron;
+        const isPrimaryFocus =
+          n.id === effSelectedId || n.id === effHoveredId || hoveredEdgeEndpoints.has(n.id);
+        const isNeighborHint = directNeighbors.has(n.id) && pn.visibleAlpha > 0.25;
+        const showLabel =
+          n.kind === "output_core" ||
+          n.kind === "ai_hub" ||
+          (n.kind === "ai_tier" && pn.visibleAlpha > 0.28) ||
+          (n.kind === "nucleus" && pn.visibleAlpha > 0.34) ||
+          isPrimaryFocus ||
+          isNeighborHint;
+        if (!showLabel) continue;
+
+        const text = isPrimaryFocus
+          ? n.title.length > 34
+            ? `${n.title.slice(0, 32)}..`
+            : n.title
+          : isNeighborHint
+            ? n.title.length > 22
+              ? `${n.title.slice(0, 20)}..`
+              : n.title
+            : n.label;
+        const useTitleFont =
+          n.kind === "output_core" || n.kind === "ai_hub" || isPrimaryFocus || isNeighborHint;
+        const font = useTitleFont
+          ? "700 12px 'Nunito Variable', sans-serif"
+          : "800 10.5px 'IBM Plex Mono', monospace";
+        const isCompactPill = (n.kind === "nucleus" || n.kind === "ai_tier") && !isPrimaryFocus;
+        const borderColor =
+          isPrimaryFocus || n.kind === "output_core"
+            ? "rgba(245, 188, 78, 0.85)"
+            : n.subtest === "AI"
+              ? "rgba(82, 242, 184, 0.65)"
+              : "rgba(38, 217, 154, 0.48)";
+
+        placeLabelBox(
+          pn.sx,
+          pn.sy - n.radius * pn.scale - 21,
+          text,
+          font,
+          isCompactPill ? 5.5 : 7,
+          isCompactPill ? 19 : 21,
+          borderColor,
+          isPrimaryFocus || n.kind === "output_core" || n.kind === "ai_hub",
+        );
+      }
+
+      if (hoveredEdge && effHoveredEdgeIdx !== null) {
+        const a = projectedById.get(hoveredEdge.from);
+        const b = projectedById.get(hoveredEdge.to);
+        const mid = edgeMidCache[effHoveredEdgeIdx];
+        if (a && b && mid) {
+          const cx = 0.25 * a.sx + 0.5 * mid.mx + 0.25 * b.sx;
+          const cy = 0.25 * a.sy + 0.5 * mid.my + 0.25 * b.sy;
+          const pathwayText = `${hoveredEdge.label} · ${a.neuron.label} -> ${b.neuron.label}`;
+          const edgeBorder =
+            hoveredEdge.kind === "ai_route"
+              ? "rgba(82, 242, 184, 0.9)"
+              : "rgba(245, 188, 78, 0.9)";
+          placeLabelBox(
+            cx,
+            cy - 14,
+            pathwayText,
+            "700 11.5px 'Nunito Variable', sans-serif",
+            8,
+            22,
+            edgeBorder,
+            true,
+            "rgba(4, 15, 10, 0.94)",
+          );
+        }
       }
 
       rafId = requestAnimationFrame(renderFrame);
@@ -823,11 +999,16 @@ export const NeuralCortexCanvas = forwardRef<
     const y = clientY - rect.top;
 
     let best: ProjectedNeuron | null = null;
-    let bestDist = 28;
+    let bestDist = 22;
     for (const pn of animStateRef.current.lastProjected) {
       if (pn.visibleAlpha < 0.2) continue;
       const d = Math.hypot(pn.sx - x, pn.sy - y);
-      const priorityBias = pn.neuron.kind === "nucleus" || pn.neuron.kind === "skill" ? 4 : 0;
+      const priorityBias =
+        pn.neuron.kind === "nucleus" || pn.neuron.kind === "ai_hub" || pn.neuron.kind === "ai_tier"
+          ? 4
+          : pn.neuron.kind === "skill"
+            ? 2
+            : 0;
       if (d - priorityBias < bestDist) {
         bestDist = d - priorityBias;
         best = pn;
@@ -836,11 +1017,40 @@ export const NeuralCortexCanvas = forwardRef<
     return best?.neuron ?? null;
   };
 
+  const findNearestEdge = (clientX: number, clientY: number): ProjectedEdgeHit | null => {
+    const canvas = canvasRef.current;
+    if (!canvas) return null;
+    const rect = canvas.getBoundingClientRect();
+    const x = clientX - rect.left;
+    const y = clientY - rect.top;
+
+    let best: ProjectedEdgeHit | null = null;
+    let bestDist = 11;
+    for (const edgeHit of animStateRef.current.lastEdges) {
+      if (edgeHit.alpha < 0.03) continue;
+      const d = distToQuadBezier(
+        x,
+        y,
+        edgeHit.ax,
+        edgeHit.ay,
+        edgeHit.mx,
+        edgeHit.my,
+        edgeHit.bx,
+        edgeHit.by,
+      );
+      if (d < bestDist) {
+        bestDist = d;
+        best = edgeHit;
+      }
+    }
+    return best;
+  };
+
   return (
     <div ref={containerRef} className="absolute inset-0 w-full h-full">
       <canvas
         ref={canvasRef}
-        aria-label="Visualisasi 3D interaktif jaringan neuron materi, soal, WASM, dan memori Rasionalin"
+        aria-label="Visualisasi 3D interaktif jaringan neuron materi, soal, AI 9Router, WASM, dan memori Rasionalin"
         className="block w-full h-full touch-none cursor-grab active:cursor-grabbing"
         onPointerDown={(e) => {
           const st = animStateRef.current;
@@ -865,7 +1075,22 @@ export const NeuralCortexCanvas = forwardRef<
             return;
           }
           const hit = findNearestNeuron(e.clientX, e.clientY);
-          st.hoveredId = hit?.id ?? null;
+          if (hit) {
+            st.hoveredId = hit.id;
+            st.hoveredEdgeIdx = null;
+            e.currentTarget.style.cursor = "pointer";
+            return;
+          }
+          const edgeHit = findNearestEdge(e.clientX, e.clientY);
+          if (edgeHit) {
+            st.hoveredId = null;
+            st.hoveredEdgeIdx = edgeHit.edgeIdx;
+            e.currentTarget.style.cursor = "pointer";
+            return;
+          }
+          st.hoveredId = null;
+          st.hoveredEdgeIdx = null;
+          e.currentTarget.style.cursor = "grab";
         }}
         onPointerUp={(e) => {
           const st = animStateRef.current;
@@ -874,10 +1099,26 @@ export const NeuralCortexCanvas = forwardRef<
             const hit = findNearestNeuron(e.clientX, e.clientY);
             if (hit) {
               spawnCascade(hit.id);
-              onSelectNeuron(hit, (adjacency.get(hit.id) ?? []).length);
-            } else {
-              onSelectNeuron(null, 0);
+              if (propsRef.current.storyMode) {
+                st.hoveredId = hit.id;
+                st.hoveredEdgeIdx = null;
+              } else {
+                onSelectNeuron(hit, (adjacency.get(hit.id) ?? []).length);
+              }
+              return;
             }
+            const edgeHit = findNearestEdge(e.clientX, e.clientY);
+            if (edgeHit) {
+              const edge = graph.edges[edgeHit.edgeIdx];
+              st.hoveredId = null;
+              st.hoveredEdgeIdx = edgeHit.edgeIdx;
+              if (edge) spawnCascade(edge.from);
+              if (!propsRef.current.storyMode) onSelectNeuron(null, 0);
+              return;
+            }
+            st.hoveredId = null;
+            st.hoveredEdgeIdx = null;
+            if (!propsRef.current.storyMode) onSelectNeuron(null, 0);
           }
         }}
         onPointerCancel={() => {
@@ -885,6 +1126,7 @@ export const NeuralCortexCanvas = forwardRef<
         }}
         onPointerLeave={() => {
           animStateRef.current.hoveredId = null;
+          animStateRef.current.hoveredEdgeIdx = null;
         }}
         onWheel={(e) => {
           const st = animStateRef.current;

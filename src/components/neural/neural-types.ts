@@ -8,13 +8,18 @@ import type {
 
 export type NeuralTopologyMode = "brain" | "ann";
 
+export type NeuralFilterKey = SnbtSubtest | "ALL" | "AI";
+
 export type NeuronKind =
   | "output_core"
   | "nucleus"
   | "skill"
   | "knowledge"
   | "template"
-  | "memory";
+  | "memory"
+  | "ai_hub"
+  | "ai_tier"
+  | "ai_model";
 
 export interface Vec3 {
   x: number;
@@ -61,6 +66,20 @@ export interface NeuralMemorySummary {
   pinned: boolean;
 }
 
+export interface NeuralAiEngineSummary {
+  id: string;
+  kind: "ai_hub" | "ai_tier" | "ai_model";
+  code: string;
+  title: string;
+  subtitle: string;
+  tier: string;
+  modelAlias: string;
+  status: "online" | "configured" | "fallback";
+  callCount: number;
+  avgLatencyMs: number | null;
+  linkedSubtests: SnbtSubtest[];
+}
+
 export interface NeuralCortexPayload {
   user: {
     displayName: string;
@@ -79,6 +98,10 @@ export interface NeuralCortexPayload {
     totalTemplates: number;
     totalMemories: number;
     totalVaultChunks: number;
+    totalAiNodes: number;
+    liveAiModelsCount: number;
+    aiCallsCount: number;
+    aiOnline: boolean;
     masteredNodes: number;
     inProgressNodes: number;
     dueFsrsCount: number;
@@ -93,13 +116,14 @@ export interface NeuralCortexPayload {
   knowledgeNodes: NeuralKnowledgeSummary[];
   templateNodes: NeuralTemplateSummary[];
   memoryNodes: NeuralMemorySummary[];
+  aiNodes: NeuralAiEngineSummary[];
 }
 
 export interface NeuronNode {
   id: string;
   kind: NeuronKind;
-  subtest: SnbtSubtest | "CORE";
-  track: PedagogyTrack | "core";
+  subtest: SnbtSubtest | "CORE" | "AI";
+  track: PedagogyTrack | "core" | "ai";
   label: string;
   title: string;
   subtitle: string;
@@ -127,7 +151,8 @@ export interface SynapseEdge {
   id: string;
   from: string;
   to: string;
-  kind: "prereq" | "nucleus" | "dendrite" | "commissure" | "memory_bridge";
+  kind: "prereq" | "nucleus" | "dendrite" | "commissure" | "memory_bridge" | "ai_route";
+  label: string;
   strength: number;
   color: string;
 }

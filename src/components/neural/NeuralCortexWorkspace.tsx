@@ -22,13 +22,15 @@ import {
 } from "./NeuralCortexCanvas";
 import type {
   NeuralCortexPayload,
+  NeuralFilterKey,
   NeuralTopologyMode,
   NeuronKind,
   NeuronNode,
 } from "./neural-types";
 
-const SUBTEST_FILTERS: Array<{ code: SnbtSubtest | "ALL"; label: string }> = [
+const SUBTEST_FILTERS: Array<{ code: NeuralFilterKey; label: string }> = [
   { code: "ALL", label: "Semua" },
+  { code: "AI", label: "AI 9Router" },
   { code: "PK", label: "PK" },
   { code: "PM", label: "PM" },
   { code: "PU", label: "PU" },
@@ -52,6 +54,12 @@ function kindFriendlyLabel(kind: NeuronKind): string {
       return "Generator Matematika WASM";
     case "memory":
       return "Memori Hippocampus & Vault";
+    case "ai_hub":
+      return "Orkestrator 9Router AI";
+    case "ai_tier":
+      return "Mesin Routing AI";
+    case "ai_model":
+      return "Model AI Aktif";
   }
 }
 
@@ -158,7 +166,7 @@ export function NeuralCortexWorkspace() {
   const [error, setError] = useState<string | null>(null);
 
   const [topologyMode, setTopologyMode] = useState<NeuralTopologyMode>("brain");
-  const [subtestFilter, setSubtestFilter] = useState<SnbtSubtest | "ALL">("ALL");
+  const [subtestFilter, setSubtestFilter] = useState<NeuralFilterKey>("ALL");
   const [selectedNeuron, setSelectedNeuron] = useState<{
     node: NeuronNode;
     connectedCount: number;
@@ -222,17 +230,20 @@ export function NeuralCortexWorkspace() {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [payload, storyMode, selectedNeuron]);
 
-  const handleSelectNeuron = useCallback((node: NeuronNode | null, connectedCount: number) => {
-    if (!node) {
-      setSelectedNeuron(null);
-      return;
-    }
-    setSelectedNeuron({ node, connectedCount });
-  }, []);
+  const handleSelectNeuron = useCallback(
+    (node: NeuronNode | null, connectedCount: number) => {
+      if (storyMode || !node) {
+        setSelectedNeuron(null);
+        return;
+      }
+      setSelectedNeuron({ node, connectedCount });
+    },
+    [storyMode],
+  );
 
   const handleSaveSnapshot = () => {
     if (!payload) return;
-    const statsLine = `${payload.stats.totalQuestions} Soal · ${payload.stats.totalKnowledge} Materi · ${payload.stats.totalNodes} Node · ${payload.stats.totalTemplates} WASM`;
+    const statsLine = `${payload.stats.totalQuestions} Soal · ${payload.stats.totalKnowledge} Materi · ${payload.stats.totalNodes} Node · ${payload.stats.totalTemplates} WASM · ${payload.stats.totalAiNodes} AI`;
     const dataUrl = canvasHandleRef.current?.exportStoryPng({
       displayName: payload.user.displayName,
       irt: payload.momentum.estimatedIrtComposite,
@@ -433,7 +444,9 @@ export function NeuralCortexWorkspace() {
                   const count =
                     item.code === "ALL"
                       ? payload.stats.totalQuestions
-                      : payload.stats.bySubtest[item.code] ?? 0;
+                      : item.code === "AI"
+                        ? payload.stats.totalAiNodes
+                        : payload.stats.bySubtest[item.code] ?? 0;
                   return (
                     <button
                       key={item.code}
@@ -558,6 +571,9 @@ export function NeuralCortexWorkspace() {
                 <span className="text-[#F07855] font-bold">
                   {payload.stats.totalTemplates} WASM
                 </span>
+                <span className="text-[#52F2B8] font-bold">
+                  {payload.stats.totalAiNodes} AI Engine
+                </span>
                 <span className="text-[#FFF1C9] font-bold">
                   {payload.stats.totalMemories + payload.stats.totalVaultChunks} Memori &amp; Vault
                 </span>
@@ -612,7 +628,8 @@ export function NeuralCortexWorkspace() {
               </div>
               <div className="font-mono-telemetry text-xs font-bold text-[#F5BC4E]">
                 {payload.stats.totalQuestions} Soal · {payload.stats.totalKnowledge} Materi ·{" "}
-                {payload.stats.totalNodes} Node · {payload.stats.totalTemplates} WASM
+                {payload.stats.totalNodes} Node · {payload.stats.totalTemplates} WASM ·{" "}
+                {payload.stats.totalAiNodes} AI
               </div>
             </div>
           </div>
