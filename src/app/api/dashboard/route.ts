@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { buildAdaptiveDailyPlan } from "@/domain/daily-plan";
 import { resolveActiveUser } from "@/infrastructure/auth/session";
 import { getRepository } from "@/infrastructure/db";
+import { getUserMemoryBundle } from "@/infrastructure/memory/user-memory-store";
 
 export async function GET() {
   try {
@@ -24,6 +25,8 @@ export async function GET() {
     const softPassedNodes = masteries.filter((m) => m.status === "soft_passed").length;
     const fractureNodes = masteries.filter((m) => m.status === "foundation_fracture").length;
 
+    const memoryBundle = getUserMemoryBundle(user.id, user.displayName);
+
     const dailyPlan = buildAdaptiveDailyPlan({
       user,
       momentum,
@@ -31,6 +34,8 @@ export async function GET() {
       masteries,
       dueFsrsCount: dueCards.length,
       recentAttempts: attempts,
+      weakSubtests: memoryBundle.persona.weakSubtests,
+      studyPace: memoryBundle.persona.studyPace,
     });
 
     return NextResponse.json({

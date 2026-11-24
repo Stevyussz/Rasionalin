@@ -4,6 +4,7 @@ import path from "node:path";
 import type { SnbtSubtest } from "@/domain/types";
 
 export type StartingLevel = "nol_total" | "dasar" | "menengah";
+export type StudyPace = "santuy_dalam" | "seimbang" | "kejar_cepat";
 export type ExplanationStyle =
   | "analogi_sehari_hari"
   | "step_by_step_pelan"
@@ -12,6 +13,7 @@ export type ExplanationStyle =
 export interface UserLearningPersona {
   nickname: string;
   startingLevel: StartingLevel;
+  studyPace?: StudyPace;
   explanationStyle: ExplanationStyle;
   targetGoal: string;
   weakSubtests: SnbtSubtest[];
@@ -49,6 +51,7 @@ function createDefaultBundle(userId: string, fallbackName = ""): UserMemoryBundl
     persona: {
       nickname: fallbackName,
       startingLevel: "nol_total",
+      studyPace: "seimbang",
       explanationStyle: "analogi_sehari_hari",
       targetGoal: "",
       weakSubtests: [],
@@ -87,7 +90,13 @@ export function getUserMemoryBundle(userId: string, fallbackName?: string): User
   const store = readStore();
   const existing = store.users[userId];
   if (existing && existing.persona && Array.isArray(existing.notes)) {
-    return existing;
+    return {
+      ...existing,
+      persona: {
+        ...existing.persona,
+        studyPace: existing.persona.studyPace ?? "seimbang",
+      },
+    };
   }
   const fresh = createDefaultBundle(userId, fallbackName);
   store.users[userId] = fresh;
@@ -111,6 +120,7 @@ export function updateUserPersona(
     persona: {
       ...current.persona,
       ...patch,
+      studyPace: patch.studyPace ?? current.persona.studyPace ?? "seimbang",
       weakSubtests: Array.isArray(patch.weakSubtests)
         ? patch.weakSubtests
         : current.persona.weakSubtests,
@@ -201,22 +211,34 @@ export function deleteUserMemoryNote(userId: string, noteId: string): UserMemory
 function levelLabel(level: StartingLevel): string {
   switch (level) {
     case "nol_total":
-      return "Pemula dari nol total (jelaskan konsep dasar paling awal, hindari jargon rumit)";
+      return "Pemula dari nol (jelasin pelan dari konsep paling dasar, jangan lempar istilah ribet tanpa arti)";
     case "dasar":
       return "Paham dasar, masih butuh penguatan konsep inti dan ketelitian";
     case "menengah":
-      return "Menengah, fokus pada kecepatan pola UTBK dan soal HOTS 800+";
+      return "Menengah, fokus ke pola cepat UTBK dan soal HOTS 800+";
+  }
+}
+
+function paceLabel(pace?: StudyPace): string {
+  switch (pace) {
+    case "santuy_dalam":
+      return "Santai Paham Dalam (sabar, banyak analogi sehari-hari, nggak usah buru-buru)";
+    case "kejar_cepat":
+      return "Kejar Cepat / Akselerasi (to the point ke pola paling sering keluar di UTBK, trik hemat waktu, dan latihan padat tanpa basa-basi panjang)";
+    case "seimbang":
+    default:
+      return "Seimbang (paham alasannya dulu baru lanjut pola latihan yang pas)";
   }
 }
 
 function styleLabel(style: ExplanationStyle): string {
   switch (style) {
     case "analogi_sehari_hari":
-      return "Gunakan analogi kehidupan sehari-hari yang konkret sebelum simbol/rumus";
+      return "Pakai perumpamaan kejadian sehari-hari yang dekat banget sebelum masuk simbol/rumus";
     case "step_by_step_pelan":
-      return "Uraikan langkah sangat pelan baris demi baris tanpa melompati operasi kecil";
+      return "Pecah langkah per baris dengan sabar tanpa loncat hitungan kecil";
     case "ringkas_langsung":
-      return "Padat, runtut, langsung pada inti logika dan trik anti-jebakan";
+      return "Singkat, jelas, langsung ke inti logika dan trik anti-kejebak";
   }
 }
 
@@ -241,9 +263,11 @@ export function buildStudentMemoryPromptBlock(
     `<student_persona_and_memory>`,
     `Nama panggilan: ${persona.nickname || "Teman Belajar"}`,
     `Level awal: ${levelLabel(persona.startingLevel)}`,
+    `Tempo belajar: ${paceLabel(persona.studyPace)}`,
     `Gaya penjelasan disukai: ${styleLabel(persona.explanationStyle)}`,
     `Target UTBK: ${persona.targetGoal || "Skor tinggi UTBK-SNBT"}`,
     `Subtes paling perlu dibantu: ${persona.weakSubtests.length > 0 ? persona.weakSubtests.join(", ") : "Semua subtes"}`,
+    `Gaya bahasa WAJIB: pakai bahasa Indonesia yang natural, santai, hangat, dan gampang banget dicerna kayak mentor atau kakak tingkat yang asik ngobrol ("kamu/aku"). HINDARI kalimat kaku/baku ala buku teks atau surat resmi (misalnya: "merupakan", "oleh karena itu", "dapat disimpulkan", "mengidentifikasi", "melakukan transformasi", "besaran", "sebagai berikut"). Kalau menyebut istilah UTBK, langsung jelasin artinya pakai kata sehari-hari.`,
   ];
 
   if (persona.personalContext.trim()) {

@@ -15,6 +15,7 @@ const SubtestEnum = z.enum(["PU", "PPU", "PBM", "PK", "LBI", "LBE", "PM"]);
 const PersonaSchema = z.object({
   nickname: z.string().min(1).max(60),
   startingLevel: z.enum(["nol_total", "dasar", "menengah"]),
+  studyPace: z.enum(["santuy_dalam", "seimbang", "kejar_cepat"]).optional(),
   explanationStyle: z.enum(["analogi_sehari_hari", "step_by_step_pelan", "ringkas_langsung"]),
   targetGoal: z.string().max(140),
   weakSubtests: z.array(SubtestEnum).max(7),

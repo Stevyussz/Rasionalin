@@ -11,6 +11,7 @@ const PROTECTED_PATHS = [
   "/simulation",
   "/settings",
   "/neural",
+  "/onboarding",
 ];
 
 function isProtectedPath(pathname: string): boolean {
@@ -47,5 +48,6 @@ export const config = {
     "/simulation/:path*",
     "/settings/:path*",
     "/neural/:path*",
+    "/onboarding/:path*",
   ],
 };

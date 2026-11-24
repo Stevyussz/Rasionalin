@@ -99,6 +99,7 @@ function unitBannerClasses(theme: UnitTheme): string {
 export function TopologyWorkspace() {
   const [data, setData] = useState<TopologyPayload | null>(null);
   const [dailyPlan, setDailyPlan] = useState<AdaptiveDailyPlan | null>(null);
+  const [diagnosticCompleted, setDiagnosticCompleted] = useState<boolean | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedSubtest, setSelectedSubtest] = useState<SnbtSubtest>("PK");
@@ -117,8 +118,14 @@ export function TopologyWorkspace() {
       const json = (await topRes.json()) as TopologyPayload;
       setData(json);
       if (dashRes.ok) {
-        const dashJson = (await dashRes.json()) as { dailyPlan?: AdaptiveDailyPlan };
+        const dashJson = (await dashRes.json()) as {
+          dailyPlan?: AdaptiveDailyPlan;
+          user?: { diagnosticCompleted?: boolean };
+        };
         if (dashJson.dailyPlan) setDailyPlan(dashJson.dailyPlan);
+        if (typeof dashJson.user?.diagnosticCompleted === "boolean") {
+          setDiagnosticCompleted(dashJson.user.diagnosticCompleted);
+        }
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Terjadi kesalahan jaringan.");
@@ -392,6 +399,30 @@ export function TopologyWorkspace() {
 
       {!loading && !error && data && (
         <div className="space-y-6">
+          {diagnosticCompleted === false && (
+            <section
+              aria-label="Kalibrasi profil belajar awal"
+              className="card-tactile p-4 sm:p-5 border-[var(--accent-primary)]/45 bg-[var(--accent-soft)]/45 flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+            >
+              <div className="space-y-0.5">
+                <div className="inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-[var(--accent-text-on-secondary)]">
+                  <BrainIcon size={15} />
+                  <span>Kenalan 3 Menit</span>
+                </div>
+                <h2 className="text-base font-bold">
+                  Kalibrasi dulu biar Tutor AI &amp; rencana harian pas sama kondisimu
+                </h2>
+                <p className="text-xs font-semibold text-[var(--ink-secondary)]">
+                  Pilih tempo santai atau kejar cepat + cek 7 subtes singkat biar materi langsung tepat sasaran.
+                </p>
+              </div>
+              <Link href="/onboarding" className="btn-primary px-4 min-h-[44px] text-xs sm:text-sm shrink-0">
+                <span>Mulai Kalibrasi 3 Menit</span>
+                <ArrowRightIcon size={15} />
+              </Link>
+            </section>
+          )}
+
           {/* Adaptive Daily Study Plan (Rencana Belajar Harian menuju UTBK) */}
           {dailyPlan && (
             <section

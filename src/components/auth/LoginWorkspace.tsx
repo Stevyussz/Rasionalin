@@ -56,7 +56,11 @@ function LoginFormContent() {
         throw new Error(json.error ?? "Gagal memproses autentikasi.");
       }
 
-      router.replace(nextPath.startsWith("/") ? nextPath : "/");
+      if (mode === "register") {
+        router.replace("/onboarding");
+      } else {
+        router.replace(nextPath.startsWith("/") ? nextPath : "/");
+      }
       router.refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Terjadi kesalahan. Periksa kembali data kamu.");
