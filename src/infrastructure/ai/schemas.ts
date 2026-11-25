@@ -168,3 +168,76 @@ export const TutorChatResponseSchema = z.object({
   suggested_followups: z.array(z.string().min(4).max(100)).min(1).max(3),
   grounded_in_vault: z.boolean(),
 });
+
+export const CustomModuleDrillSchema = z.object({
+  module_title: z.string().min(4).max(160),
+  subtest: z.enum(["PU", "PPU", "PBM", "PK", "LBI", "LBE", "PM"]),
+  estimated_minutes: z.number().int().min(3).max(45),
+  pedagogy_badges: z.array(z.string().min(3).max(80)).min(1).max(4),
+  pretest_hook: z.object({
+    prompt_markdown: z.string().min(8).max(500),
+    options: z
+      .array(
+        z.object({
+          key: z.enum(["A", "B", "C"]),
+          text: z.string().min(1).max(220),
+        }),
+      )
+      .length(3),
+    correct_key: z.enum(["A", "B", "C"]),
+    reveal_insight: z.string().min(8).max(420),
+  }),
+  why_before_how_markdown: z.string().min(15).max(1600),
+  everyday_analogy: z.string().min(10).max(600),
+  core_formulas_latex: z.array(z.string().min(1).max(260)).max(6),
+  worked_example: z.object({
+    prompt_markdown: z.string().min(10).max(900),
+    steps: z
+      .array(
+        z.object({
+          title: z.string().min(2).max(100),
+          explanation_markdown: z.string().min(6).max(600),
+          formula_latex: z.string().max(300).nullable(),
+        }),
+      )
+      .min(2)
+      .max(5),
+    final_takeaway: z.string().min(6).max(320),
+  }),
+  shortcut_with_boundary: z
+    .object({
+      method_label: z.string().min(2).max(120),
+      shortcut_markdown: z.string().min(8).max(600),
+      validity_conditions: z.string().min(5).max(320),
+    })
+    .nullable(),
+  utbk_traps: z.array(z.string().min(6).max(260)).min(2).max(5),
+  drill_questions: z
+    .array(
+      z.object({
+        strategy_tag: z.string().min(2).max(90),
+        difficulty_tier: z.enum([
+          "tier_0_foundation",
+          "tier_1_core",
+          "tier_2_standard",
+          "tier_3_hots_800",
+        ]),
+        passage_text: z.string().max(2400).nullable(),
+        stem_markdown: z.string().min(10).max(1400),
+        options: z
+          .array(
+            z.object({
+              key: z.enum(["A", "B", "C", "D", "E"]),
+              text_markdown: z.string().min(1).max(360),
+              distractor_rationale: z.string().min(4).max(280),
+            }),
+          )
+          .length(5),
+        correct_answer_key: z.enum(["A", "B", "C", "D", "E"]),
+        why_solution_markdown: z.string().min(15).max(1500),
+        self_explanation_prompt: z.string().min(8).max(280),
+      }),
+    )
+    .min(3)
+    .max(5),
+});

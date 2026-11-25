@@ -345,10 +345,10 @@ export function TopologyWorkspace() {
               <span>Langsung Latihan Soal</span>
             </Link>
             <Link
-              href="/tutor"
+              href={`/tutor?mode=studio&subtest=${selectedNode.subtest}&nodeId=${selectedNode.id}&topic=${encodeURIComponent(selectedNode.titleId)}`}
               className="block text-center text-xs font-extrabold text-[var(--olive-ink)] hover:underline pt-0.5"
             >
-              Masih bingung? Tanya AI dari nol →
+              Buat Modul & Grilling AI untuk bab ini →
             </Link>
           </div>
         </section>

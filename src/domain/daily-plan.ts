@@ -108,6 +108,17 @@ export function buildAdaptiveDailyPlan(params: {
   const didDrillToday = todayAttempts.length >= 3;
   const didRecallToday = params.dueFsrsCount === 0 && todayAttempts.length > 0;
 
+  // Expertise Reversal (Kalyuga & Sweller): avoid redundant worked lessons when mastery is already strong on fast-track,
+  // while protecting novices on foundation repair nodes before jumping straight into timed drills.
+  const lessonMastery = lessonNode ? (masteryMap.get(lessonNode.id)?.masteryScore ?? 0) : 0;
+  const drillMastery = drillNode ? (masteryMap.get(drillNode.id)?.masteryScore ?? 0) : 0;
+  const lessonHrefMode =
+    isFastTrack && lessonNode && !lessonNode.isFoundationRepair && lessonMastery >= 0.45
+      ? "practice"
+      : "lesson";
+  const drillHrefMode =
+    !isFastTrack && drillNode?.isFoundationRepair && drillMastery < 0.35 ? "lesson" : "practice";
+
   const missions: DailyMissionItem[] = [
     {
       id: "mission-recall",
@@ -128,13 +139,14 @@ export function buildAdaptiveDailyPlan(params: {
       order: 2,
       type: "micro_lesson",
       title: lessonNode
-        ? `${isFastTrack ? "Kejar Cepat" : "Pahami dari Nol"}: ${lessonNode.titleId}`
+        ? `${lessonHrefMode === "practice" ? "Kejar Cepat" : "Pahami dari Nol"}: ${lessonNode.titleId}`
         : "Pahami 1 Materi Fondasi Dasar",
-      subtitle: isFastTrack
-        ? "Tangkap inti pola cepat & syarat batasnya, lalu langsung hajar variasi soalnya."
-        : "Baca analogi Why Before How + 1 contoh terpandu dulu, baru mulai latihan soal.",
+      subtitle:
+        lessonHrefMode === "practice"
+          ? "Fondasimu sudah kuat, langsung tajamkan pola cepat & uji ketelitian lewat soal."
+          : "Baca analogi Why Before How + 1 contoh terpandu dulu, baru mulai latihan soal.",
       estimatedMinutes: isFastTrack ? 8 : 12,
-      href: lessonNode ? `/study?skillNodeId=${lessonNode.id}&mode=lesson` : "/study?mode=lesson",
+      href: lessonNode ? `/study?skillNodeId=${lessonNode.id}&mode=${lessonHrefMode}` : "/study?mode=lesson",
       completed: didLessonNodeToday,
       badgeLabel: lessonNode
         ? `Lv.${priorityOf(lessonNode.id)} · ${lessonNode.subtest}`
@@ -147,9 +159,9 @@ export function buildAdaptiveDailyPlan(params: {
       title: drillNode
         ? `Latihan Lintas Track: ${drillNode.titleId}`
         : "Selesaikan 3 Soal Latihan Fokus",
-      subtitle: "Seimbangkan skor kuantitatif dan literasi agar IRT komposit naik stabil menuju 800+.",
+      subtitle: "Campur latihan kuantitatif & literasi (interleaving) agar IRT komposit naik stabil menuju 800+.",
       estimatedMinutes: isFastTrack ? 12 : 15,
-      href: drillNode ? `/study?skillNodeId=${drillNode.id}&mode=lesson` : "/study",
+      href: drillNode ? `/study?skillNodeId=${drillNode.id}&mode=${drillHrefMode}` : "/study",
       completed: didDrillToday,
       badgeLabel: drillNode
         ? `Lv.${priorityOf(drillNode.id)} · ${drillNode.subtest}`

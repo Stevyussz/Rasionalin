@@ -3,6 +3,7 @@ import os from "node:os";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { SocraticTutorService } from "@/application/tutor-service";
+import { buildAdaptiveDailyPlan } from "@/domain/daily-plan";
 import { buildFadedSolutionView, validateEvidenceHighlight } from "@/domain/dual-track-pedagogy";
 import { MICRO_LESSONS_BY_NODE_ID } from "@/domain/micro-lessons";
 import { classifyRootCauseDeterministically } from "@/domain/root-cause-rules";
@@ -132,6 +133,56 @@ describe("Dual-Track Pedagogy, Hybrid RRF 1.35x Boost & Socratic Fallback", () =
       });
       expect(reply.whyFirstMarkdown.toLowerCase()).toContain("bahasa panda");
       expect(reply.citedChunks.length).toBeGreaterThan(0);
+    } finally {
+      await fs.rm(tmpFile, { force: true });
+    }
+  }, 15_000);
+
+  it("generates evidence-based custom module & interleaved grilling drills and routes kejar_cepat via expertise reversal", async () => {
+    const tmpFile = path.join(os.tmpdir(), `rasionalin-studio-${Date.now()}.json`);
+    const repo = new LocalJsonRepository(tmpFile);
+    const owner = await repo.ensureDefaultOwnerUser();
+
+    try {
+      const tutor = new SocraticTutorService(repo);
+      const bundle = await tutor.generateCustomModuleAndDrill({
+        userId: owner.id,
+        subtest: "PK",
+        topicPrompt: "Perbandingan senilai dan berbalik nilai",
+        targetLevel: "standard",
+        questionCount: 3,
+        practiceMode: "interleaved",
+      });
+
+      expect(bundle.moduleTitle.length).toBeGreaterThan(4);
+      expect(bundle.pretestHook.options).toHaveLength(3);
+      expect(bundle.workedExample.steps.length).toBeGreaterThanOrEqual(2);
+      expect(bundle.utbkTraps.length).toBeGreaterThanOrEqual(2);
+      expect(bundle.drillQuestions).toHaveLength(3);
+      for (const q of bundle.drillQuestions) {
+        expect(q.options).toHaveLength(5);
+        expect(q.selfExplanationPrompt.length).toBeGreaterThan(5);
+      }
+      expect(bundle.drillQuestions[0].strategyTag).not.toBe(
+        bundle.drillQuestions[1].strategyTag,
+      );
+      expect(JSON.stringify(bundle)).not.toContain("\u2014");
+
+      const [nodes, masteries, momentum] = await Promise.all([
+        repo.listSkillNodes(),
+        repo.listUserSkillMasteries(owner.id),
+        repo.getOrInitMomentum(owner.id),
+      ]);
+      const plan = buildAdaptiveDailyPlan({
+        user: owner,
+        momentum,
+        nodes,
+        masteries,
+        dueFsrsCount: 0,
+        recentAttempts: [],
+        studyPace: "kejar_cepat",
+      });
+      expect(plan.missions[2].href).toContain("mode=practice");
     } finally {
       await fs.rm(tmpFile, { force: true });
     }

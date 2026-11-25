@@ -18,6 +18,7 @@ export type AiTaskId =
   | "literacy_evidence_tagger"
   | "sbi_polya_deconstruct"
   | "diagnostic_gap_synthesizer"
+  | "custom_module_drill_gen"
   | "rag_text_embed";
 
 export type TierName =
@@ -140,6 +141,14 @@ export const ROUTING_MATRIX: Record<AiTaskId, TaskRoutingPolicy> = {
     temperature: 0.25,
     maxTokens: 1100,
     timeoutMs: 16000,
+  },
+  custom_module_drill_gen: {
+    tier: "TIER-3-REASON",
+    primaryAliasKey: "reason",
+    fallbackChain: ["fast"],
+    temperature: 0.35,
+    maxTokens: 3400,
+    timeoutMs: 32000,
   },
   rag_text_embed: {
     tier: "TIER-0-EMBED",

@@ -1,5 +1,6 @@
 "use client";
 
+import { useSearchParams } from "next/navigation";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   AtTagIcon,
@@ -17,6 +18,7 @@ import {
 } from "@/components/icons/ArchitecturalIcons";
 import { AppShell } from "@/components/layout/AppShell";
 import { MathText } from "@/components/math/MathText";
+import { CustomModuleStudio } from "@/components/tutor/CustomModuleStudio";
 import { TutorMemoryDrawer } from "@/components/tutor/TutorMemoryDrawer";
 import type { SnbtSubtest } from "@/domain/types";
 import type {
@@ -126,12 +128,27 @@ function readAsText(file: File): Promise<string> {
 }
 
 export function TutorChatWorkspace() {
+  const searchParams = useSearchParams();
+  const initialMode = searchParams.get("mode");
+  const initialSubtestParam = (searchParams.get("subtest") ?? "") as "" | SnbtSubtest;
+  const initialNodeIdParam = searchParams.get("nodeId") ?? "";
+  const initialTopicParam = searchParams.get("topic") ?? "";
+
+  const [activeTab, setActiveTab] = useState<"chat" | "studio">(
+    initialMode === "studio" ? "studio" : "chat",
+  );
   const [subtest, setSubtest] = useState<"" | SnbtSubtest>("");
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<ChatMessageItem[]>([]);
   const [sending, setSending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [routerStatus, setRouterStatus] = useState<{ reachable: boolean; modelsCount: number } | null>(null);
+
+  useEffect(() => {
+    if (initialMode === "studio") {
+      setActiveTab("studio");
+    }
+  }, [initialMode]);
 
   // Drag-drop & attachments
   const [attachments, setAttachments] = useState<PendingAttachment[]>([]);
@@ -500,8 +517,8 @@ export function TutorChatWorkspace() {
           </div>
         )}
 
-        {/* Ultra-Clean Slim Top Bar (No Bloat, No Pill Soup) */}
-        <header className="h-13 shrink-0 px-4 sm:px-6 border-b border-[var(--border-structural)] bg-[var(--surface-elevated)] flex items-center justify-between gap-3">
+        {/* Ultra-Clean Slim Top Bar with Chat vs Studio Switcher */}
+        <header className="min-h-13 shrink-0 px-3 sm:px-6 py-2 border-b border-[var(--border-structural)] bg-[var(--surface-elevated)] flex flex-wrap items-center justify-between gap-2.5">
           <div className="flex items-center gap-2.5 min-w-0">
             <h1 className="text-base font-bold truncate">Tanya AI</h1>
             {routerStatus && (
@@ -523,21 +540,56 @@ export function TutorChatWorkspace() {
                 </span>
               </span>
             )}
+
+            <div
+              role="tablist"
+              aria-label="Mode ruang Tutor AI"
+              className="inline-flex items-center rounded-xl border border-[var(--border-structural)] bg-[var(--surface-secondary)] p-0.5 ml-1"
+            >
+              <button
+                type="button"
+                role="tab"
+                aria-selected={activeTab === "chat"}
+                onClick={() => setActiveTab("chat")}
+                className={`px-2.5 py-1 rounded-lg text-xs font-extrabold transition-colors cursor-pointer ${
+                  activeTab === "chat"
+                    ? "bg-[var(--surface-elevated)] text-[var(--accent-text-on-secondary)]"
+                    : "text-[var(--ink-secondary)] hover:text-[var(--ink-primary)]"
+                }`}
+              >
+                Chat Tutor
+              </button>
+              <button
+                type="button"
+                role="tab"
+                aria-selected={activeTab === "studio"}
+                onClick={() => setActiveTab("studio")}
+                className={`px-2.5 py-1 rounded-lg text-xs font-extrabold transition-colors cursor-pointer whitespace-nowrap ${
+                  activeTab === "studio"
+                    ? "bg-[var(--surface-elevated)] text-[var(--accent-text-on-secondary)]"
+                    : "text-[var(--ink-secondary)] hover:text-[var(--ink-primary)]"
+                }`}
+              >
+                Studio Modul & Grilling
+              </button>
+            </div>
           </div>
 
-          <div className="flex items-center gap-3 shrink-0">
-            <select
-              aria-label="Filter subtes"
-              value={subtest}
-              onChange={(e) => setSubtest(e.target.value as "" | SnbtSubtest)}
-              className="bg-transparent text-xs font-extrabold text-[var(--ink-secondary)] hover:text-[var(--ink-primary)] border-b border-[var(--border-structural)] py-1 pr-1 focus:outline-none focus:border-[var(--accent-primary)] cursor-pointer"
-            >
-              {SUBTESTS.map((s) => (
-                <option key={s.value || "all"} value={s.value}>
-                  {s.label}
-                </option>
-              ))}
-            </select>
+          <div className="flex items-center gap-2.5 shrink-0">
+            {activeTab === "chat" && (
+              <select
+                aria-label="Filter subtes"
+                value={subtest}
+                onChange={(e) => setSubtest(e.target.value as "" | SnbtSubtest)}
+                className="bg-transparent text-xs font-extrabold text-[var(--ink-secondary)] hover:text-[var(--ink-primary)] border-b border-[var(--border-structural)] py-1 pr-1 focus:outline-none focus:border-[var(--accent-primary)] cursor-pointer"
+              >
+                {SUBTESTS.map((s) => (
+                  <option key={s.value || "all"} value={s.value}>
+                    {s.label}
+                  </option>
+                ))}
+              </select>
+            )}
 
             <button
               type="button"
@@ -545,13 +597,14 @@ export function TutorChatWorkspace() {
               className="inline-flex items-center gap-1.5 text-xs font-extrabold text-[var(--ink-primary)] hover:text-[var(--accent-text-on-secondary)] px-2 py-1.5 rounded-lg hover:bg-[var(--surface-secondary)] cursor-pointer transition-colors"
             >
               <MemoryIcon size={16} className="text-[var(--accent-primary)]" />
-              <span>Memori & Catatan</span>
+              <span className="hidden sm:inline">Memori & Catatan</span>
+              <span className="sm:hidden">Memori</span>
               <span className="font-num text-[11px] text-[var(--ink-muted)]">
                 ({activeMemoryCount})
               </span>
             </button>
 
-            {messages.length > 0 && (
+            {activeTab === "chat" && messages.length > 0 && (
               <button
                 type="button"
                 onClick={() => {
@@ -568,7 +621,22 @@ export function TutorChatWorkspace() {
           </div>
         </header>
 
-        {/* Full-Height Open Chat Canvas */}
+        {activeTab === "studio" ? (
+          <div className="flex-1 overflow-y-auto px-4 sm:px-6 py-6">
+            <div className="max-w-[860px] mx-auto">
+              <CustomModuleStudio
+                skillNodes={tagCatalog.skillNodes}
+                personaNickname={persona.nickname}
+                initialSubtest={initialSubtestParam}
+                initialNodeId={initialNodeIdParam}
+                initialTopic={initialTopicParam}
+                onSavedMemoryNote={(nextNotes) => setMemoryNotes(nextNotes)}
+              />
+            </div>
+          </div>
+        ) : (
+          <>
+            {/* Full-Height Open Chat Canvas */}
         <div className="flex-1 overflow-y-auto px-4 sm:px-8 py-6">
           <div className="max-w-[820px] mx-auto min-h-full flex flex-col">
             {messages.length === 0 ? (
@@ -1023,6 +1091,8 @@ export function TutorChatWorkspace() {
             </form>
           </div>
         </div>
+          </>
+        )}
 
         {/* Slide-Over AI Persona, Memory & Learning Notes Drawer */}
         <TutorMemoryDrawer

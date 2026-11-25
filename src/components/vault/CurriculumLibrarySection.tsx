@@ -227,6 +227,12 @@ export function CurriculumLibrarySection() {
                       {isOpen ? "Tutup" : "Lihat Rumus"}
                     </button>
                     <Link
+                      href={`/tutor?mode=studio&subtest=${entry.subtest}&nodeId=${entry.skillNodeId}&topic=${encodeURIComponent(entry.topicTitle)}`}
+                      className="btn-secondary text-xs px-3 py-1.5"
+                    >
+                      Grilling AI
+                    </Link>
+                    <Link
                       href={`/study?skillNodeId=${entry.skillNodeId}&mode=lesson`}
                       className="btn-primary text-xs px-3 py-1.5 inline-flex items-center gap-1"
                     >
