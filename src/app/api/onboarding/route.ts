@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import type { SnbtSubtest } from "@/domain/types";
 import { resolveActiveUser, UnauthorizedError } from "@/infrastructure/auth/session";
 import { getRepository } from "@/infrastructure/db";
-import { getUserMemoryBundle } from "@/infrastructure/memory/user-memory-store";
+import { getUserMemoryBundleAsync } from "@/infrastructure/memory/user-memory-store";
 
 const DIAGNOSTIC_SUBTEST_ORDER: SnbtSubtest[] = ["PK", "PU", "PM", "LBI", "LBE", "PBM", "PPU"];
 
@@ -11,13 +11,13 @@ export async function GET() {
     const repo = getRepository();
     const user = await resolveActiveUser(repo);
 
-    const [nodes, questions] = await Promise.all([
+    const [nodes, questions, memoryBundle] = await Promise.all([
       repo.listSkillNodes(),
       repo.listQuestions({ userId: user.id, qcStatus: "approved" }),
+      getUserMemoryBundleAsync(user.id, user.displayName),
     ]);
 
     const nodeMap = new Map(nodes.map((n) => [n.id, n]));
-    const memoryBundle = getUserMemoryBundle(user.id, user.displayName);
 
     const diagnosticQuestions = DIAGNOSTIC_SUBTEST_ORDER.map((subtest) => {
       const pool = questions.filter((q) => q.subtest === subtest && q.options.length >= 4);

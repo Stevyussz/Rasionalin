@@ -3,30 +3,30 @@ import { buildAdaptiveDailyPlan } from "@/domain/daily-plan";
 import { buildWeeklyStudyRoadmap } from "@/domain/weekly-roadmap";
 import { resolveActiveUser } from "@/infrastructure/auth/session";
 import { getRepository } from "@/infrastructure/db";
-import { getUserMemoryBundle } from "@/infrastructure/memory/user-memory-store";
+import { getUserMemoryBundleAsync } from "@/infrastructure/memory/user-memory-store";
 
 export async function GET() {
   try {
     const repo = getRepository();
     const user = await resolveActiveUser(repo);
 
-    const [momentum, nodes, masteries, dueCards, fractures, attempts, vaultDocs] = await Promise.all([
-      repo.getOrInitMomentum(user.id),
-      repo.listSkillNodes(),
-      repo.listUserSkillMasteries(user.id),
-      repo.listDueFsrsCards(user.id, new Date().toISOString()),
-      repo.listMistakeFractures(user.id),
-      repo.listUserAttempts(user.id, { limit: 30 }),
-      repo.listVaultDocuments(user.id),
-    ]);
+    const [momentum, nodes, masteries, dueCards, fractures, attempts, vaultDocs, memoryBundle] =
+      await Promise.all([
+        repo.getOrInitMomentum(user.id),
+        repo.listSkillNodes(),
+        repo.listUserSkillMasteries(user.id),
+        repo.listDueFsrsCards(user.id, new Date().toISOString()),
+        repo.listMistakeFractures(user.id),
+        repo.listUserAttempts(user.id, { limit: 30 }),
+        repo.listVaultDocuments(user.id),
+        getUserMemoryBundleAsync(user.id, user.displayName),
+      ]);
 
     const activeFractures = fractures.filter((f) => f.status !== "healed");
     const healedFractures = fractures.filter((f) => f.status === "healed");
     const masteredNodes = masteries.filter((m) => m.status === "mastered").length;
     const softPassedNodes = masteries.filter((m) => m.status === "soft_passed").length;
     const fractureNodes = masteries.filter((m) => m.status === "foundation_fracture").length;
-
-    const memoryBundle = getUserMemoryBundle(user.id, user.displayName);
 
     const dailyPlan = buildAdaptiveDailyPlan({
       user,

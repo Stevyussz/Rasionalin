@@ -4,6 +4,8 @@ import { VaultService } from "@/application/vault-service";
 import { resolveActiveUser } from "@/infrastructure/auth/session";
 import { getRepository } from "@/infrastructure/db";
 
+export const maxDuration = 60;
+
 const ExtractBatchSchema = z.object({
   pageNumbers: z.array(z.number().int().min(1)).min(1).max(3),
 });

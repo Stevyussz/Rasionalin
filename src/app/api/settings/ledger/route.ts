@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { checkNineRouterHealth } from "@/infrastructure/ai/nine-router-client";
-import { getEffectiveAiConfig } from "@/infrastructure/ai/runtime-config";
+import { getEffectiveAiConfigAsync } from "@/infrastructure/ai/runtime-config";
 import { resolveActiveUser } from "@/infrastructure/auth/session";
 import { getServerEnv } from "@/infrastructure/config/env";
 import { getRepository, getStorageModeLabel } from "@/infrastructure/db";
@@ -11,7 +11,7 @@ export async function GET() {
     const repo = getRepository();
     const user = await resolveActiveUser(repo);
     const env = getServerEnv();
-    const aiCfg = getEffectiveAiConfig();
+    const aiCfg = await getEffectiveAiConfigAsync();
     const storage = getObjectStorage();
 
     const [ledger, routerHealth] = await Promise.all([

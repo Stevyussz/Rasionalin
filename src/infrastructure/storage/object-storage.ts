@@ -1,4 +1,5 @@
 import fs from "node:fs/promises";
+import os from "node:os";
 import path from "node:path";
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import sharp from "sharp";
@@ -38,7 +39,10 @@ class LocalFsStorageAdapter implements ObjectStoragePort {
   private readonly baseDir: string;
 
   constructor() {
-    this.baseDir = path.join(process.cwd(), ".data", "vault-files");
+    this.baseDir =
+      process.env.VERCEL === "1" || process.env.NODE_ENV === "production"
+        ? path.join(os.tmpdir(), "rasionalin-vault-files")
+        : path.join(process.cwd(), ".data", "vault-files");
   }
 
   private resolveSafePath(key: string): string {

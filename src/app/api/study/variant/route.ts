@@ -5,6 +5,8 @@ import { SocraticTutorService } from "@/application/tutor-service";
 import { resolveActiveUser } from "@/infrastructure/auth/session";
 import { getRepository } from "@/infrastructure/db";
 
+export const maxDuration = 60;
+
 const VariantRequestSchema = z.object({
   questionId: z.string().uuid(),
 });

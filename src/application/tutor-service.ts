@@ -29,8 +29,8 @@ import {
 } from "@/infrastructure/ai/schemas";
 import type { AppRepository, VaultSearchResultItem } from "@/infrastructure/db/repository-port";
 import {
-  buildStudentMemoryPromptBlock,
-  getUserMemoryBundle,
+  buildStudentMemoryPromptBlockAsync,
+  getUserMemoryBundleAsync,
 } from "@/infrastructure/memory/user-memory-store";
 import { validateMarkdownWithKatex } from "@/infrastructure/sandbox/outer-verifier";
 
@@ -241,7 +241,7 @@ export class SocraticTutorService {
       )
       .join("\n\n");
 
-    const studentMemory = buildStudentMemoryPromptBlock(params.userId, question.subtest);
+    const studentMemory = await buildStudentMemoryPromptBlockAsync(params.userId, question.subtest);
     const kbMatches = searchSnbtKnowledgeBase({
       queryText,
       subtest: question.subtest,
@@ -395,7 +395,7 @@ export class SocraticTutorService {
       : null;
     const correctOpt = question.options.find((o) => o.key === question.correctAnswerKey);
 
-    const studentMemory = buildStudentMemoryPromptBlock(params.userId, question.subtest);
+    const studentMemory = await buildStudentMemoryPromptBlockAsync(params.userId, question.subtest);
     const kbMatches = searchSnbtKnowledgeBase({
       queryText: `${question.stemMarkdown} ${skillNode?.titleId ?? ""}`,
       subtest: question.subtest,
@@ -549,7 +549,7 @@ export class SocraticTutorService {
     const contextTags = params.contextTags ?? [];
 
     // Resolve explicit @tag context items selected by the user
-    const memoryBundle = getUserMemoryBundle(params.userId, params.userDisplayName);
+    const memoryBundle = await getUserMemoryBundleAsync(params.userId, params.userDisplayName);
     const resolvedTags: Array<{ type: string; label: string; detail: string }> = [];
     let resolvedSubtest: SnbtSubtest | null = params.subtest ?? question?.subtest ?? null;
 
@@ -613,7 +613,7 @@ export class SocraticTutorService {
       }
     }
 
-    const studentMemory = buildStudentMemoryPromptBlock(
+    const studentMemory = await buildStudentMemoryPromptBlockAsync(
       params.userId,
       resolvedSubtest,
       params.userDisplayName,
@@ -1000,7 +1000,7 @@ export class SocraticTutorService {
           ? "tier_2_standard"
           : "tier_3_hots_800";
 
-    const studentMemory = buildStudentMemoryPromptBlock(
+    const studentMemory = await buildStudentMemoryPromptBlockAsync(
       params.userId,
       resolvedSubtest,
       params.userDisplayName,

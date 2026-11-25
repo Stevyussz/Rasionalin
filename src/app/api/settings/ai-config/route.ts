@@ -5,9 +5,9 @@ import {
   clearDiscoveredModelsCache,
 } from "@/infrastructure/ai/nine-router-client";
 import {
-  getEffectiveAiConfig,
-  resetRuntimeAiOverride,
-  saveRuntimeAiOverride,
+  getEffectiveAiConfigAsync,
+  resetRuntimeAiOverrideAsync,
+  saveRuntimeAiOverrideAsync,
 } from "@/infrastructure/ai/runtime-config";
 
 const SaveAiConfigSchema = z.object({
@@ -19,7 +19,7 @@ const SaveAiConfigSchema = z.object({
 });
 
 export async function GET() {
-  const cfg = getEffectiveAiConfig();
+  const cfg = await getEffectiveAiConfigAsync();
   const health = await checkNineRouterHealth();
 
   return NextResponse.json({
@@ -39,13 +39,13 @@ export async function POST(req: NextRequest) {
     const body = SaveAiConfigSchema.parse(await req.json());
 
     if (body.action === "reset") {
-      resetRuntimeAiOverride();
+      await resetRuntimeAiOverrideAsync();
       clearDiscoveredModelsCache();
     } else if (body.action === "save") {
       if (!body.baseUrl) {
         return NextResponse.json({ error: "Base URL wajib diisi." }, { status: 400 });
       }
-      saveRuntimeAiOverride({
+      await saveRuntimeAiOverrideAsync({
         baseUrl: body.baseUrl,
         apiKey: body.apiKey,
         defaultModel: body.defaultModel,
@@ -56,7 +56,7 @@ export async function POST(req: NextRequest) {
       clearDiscoveredModelsCache();
     }
 
-    const cfg = getEffectiveAiConfig();
+    const cfg = await getEffectiveAiConfigAsync();
     const health = await checkNineRouterHealth();
 
     return NextResponse.json({

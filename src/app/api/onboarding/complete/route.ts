@@ -5,10 +5,10 @@ import type { SnbtSubtest, UserSkillMastery } from "@/domain/types";
 import { resolveActiveUser, UnauthorizedError } from "@/infrastructure/auth/session";
 import { getRepository } from "@/infrastructure/db";
 import {
-  addUserMemoryNote,
-  getUserMemoryBundle,
-  updateUserMemoryNote,
-  updateUserPersona,
+  addUserMemoryNoteAsync,
+  getUserMemoryBundleAsync,
+  updateUserMemoryNoteAsync,
+  updateUserPersonaAsync,
 } from "@/infrastructure/memory/user-memory-store";
 
 const SubtestEnum = z.enum(["PU", "PPU", "PBM", "PK", "LBI", "LBE", "PM"]);
@@ -46,6 +46,8 @@ function clampIrt(score: number): number {
   return Math.max(340, Math.min(680, Math.round(score)));
 }
 
+export const maxDuration = 60;
+
 export async function POST(req: NextRequest) {
   try {
     const body = CompleteOnboardingSchema.parse(await req.json());
@@ -61,7 +63,7 @@ export async function POST(req: NextRequest) {
       });
 
       if (body.nickname || body.studyPace || body.startingLevel || body.explanationStyle) {
-        updateUserPersona(
+        await updateUserPersonaAsync(
           user.id,
           {
             nickname: body.nickname ?? user.displayName,
@@ -261,7 +263,7 @@ export async function POST(req: NextRequest) {
       ? `${targetMajor} · Target ${targetScore}+`
       : `Target IRT ${targetScore}+`;
 
-    updateUserPersona(
+    await updateUserPersonaAsync(
       user.id,
       {
         nickname,
@@ -291,16 +293,16 @@ export async function POST(req: NextRequest) {
       .filter(Boolean)
       .join(" ");
 
-    const bundle = getUserMemoryBundle(user.id, user.displayName);
+    const bundle = await getUserMemoryBundleAsync(user.id, user.displayName);
     const existingDiagNote = bundle.notes.find((n) => n.title === "Profil Diagnostik Awal");
     if (existingDiagNote) {
-      updateUserMemoryNote(user.id, existingDiagNote.id, {
+      await updateUserMemoryNoteAsync(user.id, existingDiagNote.id, {
         content: diagContent,
         subtest: detectedWeakList[0] ?? null,
         pinnedForAi: true,
       });
     } else {
-      addUserMemoryNote(
+      await addUserMemoryNoteAsync(
         user.id,
         {
           kind: "memory",

@@ -4,6 +4,8 @@ import { SocraticTutorService } from "@/application/tutor-service";
 import { resolveActiveUser } from "@/infrastructure/auth/session";
 import { getRepository } from "@/infrastructure/db";
 
+export const maxDuration = 60;
+
 const ImageAttachmentSchema = z.object({
   kind: z.literal("image"),
   name: z.string().min(1).max(160),

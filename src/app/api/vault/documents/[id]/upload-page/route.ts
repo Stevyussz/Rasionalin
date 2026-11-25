@@ -4,6 +4,8 @@ import { resolveActiveUser } from "@/infrastructure/auth/session";
 import { getRepository } from "@/infrastructure/db";
 import type { SupportedMimeType } from "@/infrastructure/storage/object-storage";
 
+export const maxDuration = 60;
+
 export async function POST(
   req: NextRequest,
   context: { params: Promise<{ id: string }> },

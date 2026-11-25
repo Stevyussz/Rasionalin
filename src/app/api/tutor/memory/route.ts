@@ -3,11 +3,11 @@ import { z } from "zod";
 import { resolveActiveUser } from "@/infrastructure/auth/session";
 import { getRepository } from "@/infrastructure/db";
 import {
-  addUserMemoryNote,
-  deleteUserMemoryNote,
-  getUserMemoryBundle,
-  updateUserMemoryNote,
-  updateUserPersona,
+  addUserMemoryNoteAsync,
+  deleteUserMemoryNoteAsync,
+  getUserMemoryBundleAsync,
+  updateUserMemoryNoteAsync,
+  updateUserPersonaAsync,
 } from "@/infrastructure/memory/user-memory-store";
 
 const SubtestEnum = z.enum(["PU", "PPU", "PBM", "PK", "LBI", "LBE", "PM"]);
@@ -43,7 +43,7 @@ export async function GET(req: NextRequest) {
   try {
     const repo = getRepository();
     const user = await resolveActiveUser(repo);
-    const bundle = getUserMemoryBundle(user.id, user.displayName);
+    const bundle = await getUserMemoryBundleAsync(user.id, user.displayName);
     const includeContext = req.nextUrl.searchParams.get("includeContext") === "1";
 
     if (!includeContext) {
@@ -91,7 +91,7 @@ export async function PUT(req: NextRequest) {
     const body = PersonaSchema.parse(await req.json());
     const repo = getRepository();
     const user = await resolveActiveUser(repo);
-    const bundle = updateUserPersona(user.id, body, user.displayName);
+    const bundle = await updateUserPersonaAsync(user.id, body, user.displayName);
     return NextResponse.json(bundle);
   } catch (err) {
     return NextResponse.json(
@@ -106,7 +106,7 @@ export async function POST(req: NextRequest) {
     const body = CreateNoteSchema.parse(await req.json());
     const repo = getRepository();
     const user = await resolveActiveUser(repo);
-    const result = addUserMemoryNote(user.id, body, user.displayName);
+    const result = await addUserMemoryNoteAsync(user.id, body, user.displayName);
     return NextResponse.json(result, { status: 201 });
   } catch (err) {
     return NextResponse.json(
@@ -122,7 +122,7 @@ export async function PATCH(req: NextRequest) {
     const repo = getRepository();
     const user = await resolveActiveUser(repo);
     const { id, ...patch } = body;
-    const bundle = updateUserMemoryNote(user.id, id, patch);
+    const bundle = await updateUserMemoryNoteAsync(user.id, id, patch);
     return NextResponse.json(bundle);
   } catch (err) {
     return NextResponse.json(
@@ -140,7 +140,7 @@ export async function DELETE(req: NextRequest) {
     }
     const repo = getRepository();
     const user = await resolveActiveUser(repo);
-    const bundle = deleteUserMemoryNote(user.id, id);
+    const bundle = await deleteUserMemoryNoteAsync(user.id, id);
     return NextResponse.json(bundle);
   } catch (err) {
     return NextResponse.json(

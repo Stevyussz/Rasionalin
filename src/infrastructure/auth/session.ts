@@ -54,7 +54,9 @@ export async function createSessionCookieForUser(
   });
 
   const cookieStore = await cookies();
-  const isHttps = (process.env.NEXT_PUBLIC_APP_URL ?? "").startsWith("https://");
+  const isHttps =
+    process.env.VERCEL === "1" ||
+    (process.env.NEXT_PUBLIC_APP_URL ?? "").startsWith("https://");
   cookieStore.set(SESSION_COOKIE_NAME, rawToken, {
     httpOnly: true,
     sameSite: "lax",

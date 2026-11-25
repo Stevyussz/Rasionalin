@@ -1,7 +1,10 @@
 import crypto from "node:crypto";
 import fs from "node:fs";
+import os from "node:os";
 import path from "node:path";
 import type { SnbtSubtest } from "@/domain/types";
+import { getServerEnv } from "@/infrastructure/config/env";
+import { getPgPool } from "@/infrastructure/db/postgres/client";
 
 export type StartingLevel = "nol_total" | "dasar" | "menengah";
 export type StudyPace = "santuy_dalam" | "seimbang" | "kejar_cepat";
@@ -42,7 +45,67 @@ interface MemoryStoreFile {
   users: Record<string, UserMemoryBundle>;
 }
 
-const MEMORY_PATH = path.join(process.cwd(), ".data", "user-memory.json");
+function resolveMemoryFilePath(): string {
+  if (process.env.VERCEL === "1" || process.env.NODE_ENV === "production") {
+    return path.join(os.tmpdir(), "rasionalin-data", "user-memory.json");
+  }
+  return path.join(process.cwd(), ".data", "user-memory.json");
+}
+
+const MEMORY_CACHE_TTL_MS = 15_000;
+
+declare global {
+  var __rasionalinMemoryCache: Map<string, { value: UserMemoryBundle; expiresAt: number }> | undefined;
+  var __rasionalinMemoryTableReady: Promise<void> | undefined;
+}
+
+function getBundleCache(): Map<string, { value: UserMemoryBundle; expiresAt: number }> {
+  if (!globalThis.__rasionalinMemoryCache) {
+    globalThis.__rasionalinMemoryCache = new Map();
+  }
+  return globalThis.__rasionalinMemoryCache;
+}
+
+function cacheBundle(bundle: UserMemoryBundle): void {
+  getBundleCache().set(bundle.userId, {
+    value: bundle,
+    expiresAt: Date.now() + MEMORY_CACHE_TTL_MS,
+  });
+}
+
+function getCachedBundle(userId: string): UserMemoryBundle | null {
+  const entry = getBundleCache().get(userId);
+  if (!entry) return null;
+  if (Date.now() > entry.expiresAt) return null;
+  return entry.value;
+}
+
+function usePostgresMemory(): boolean {
+  if (process.env.VITEST === "true") return false;
+  return Boolean(getServerEnv().databaseUrl);
+}
+
+async function ensureMemoryTable(): Promise<void> {
+  if (!usePostgresMemory()) return;
+  if (!globalThis.__rasionalinMemoryTableReady) {
+    const pool = getPgPool();
+    globalThis.__rasionalinMemoryTableReady = pool
+      .query(
+        `CREATE TABLE IF NOT EXISTS user_memory_bundles (
+          user_id UUID PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
+          persona JSONB NOT NULL DEFAULT '{}'::jsonb,
+          notes JSONB NOT NULL DEFAULT '[]'::jsonb,
+          updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+        )`,
+      )
+      .then(() => undefined)
+      .catch((err) => {
+        globalThis.__rasionalinMemoryTableReady = undefined;
+        throw err;
+      });
+  }
+  await globalThis.__rasionalinMemoryTableReady;
+}
 
 function createDefaultBundle(userId: string, fallbackName = ""): UserMemoryBundle {
   const now = new Date().toISOString();
@@ -62,12 +125,46 @@ function createDefaultBundle(userId: string, fallbackName = ""): UserMemoryBundl
   };
 }
 
+function normalizeBundle(
+  userId: string,
+  rawPersona: Partial<UserLearningPersona> | null | undefined,
+  rawNotes: UserMemoryNote[] | null | undefined,
+  updatedAt: string | Date | undefined,
+  fallbackName = "",
+): UserMemoryBundle {
+  const def = createDefaultBundle(userId, fallbackName);
+  return {
+    userId,
+    persona: {
+      nickname:
+        typeof rawPersona?.nickname === "string" && rawPersona.nickname.trim()
+          ? rawPersona.nickname
+          : def.persona.nickname,
+      startingLevel: rawPersona?.startingLevel ?? def.persona.startingLevel,
+      studyPace: rawPersona?.studyPace ?? def.persona.studyPace,
+      explanationStyle: rawPersona?.explanationStyle ?? def.persona.explanationStyle,
+      targetGoal: typeof rawPersona?.targetGoal === "string" ? rawPersona.targetGoal : "",
+      weakSubtests: Array.isArray(rawPersona?.weakSubtests) ? rawPersona.weakSubtests : [],
+      personalContext:
+        typeof rawPersona?.personalContext === "string" ? rawPersona.personalContext : "",
+    },
+    notes: Array.isArray(rawNotes) ? rawNotes : [],
+    updatedAt:
+      updatedAt instanceof Date
+        ? updatedAt.toISOString()
+        : typeof updatedAt === "string"
+          ? updatedAt
+          : def.updatedAt,
+  };
+}
+
 function readStore(): MemoryStoreFile {
+  const memPath = resolveMemoryFilePath();
   try {
-    if (!fs.existsSync(MEMORY_PATH)) {
+    if (!fs.existsSync(memPath)) {
       return { users: {} };
     }
-    const raw = fs.readFileSync(MEMORY_PATH, "utf-8");
+    const raw = fs.readFileSync(memPath, "utf-8");
     const parsed = JSON.parse(raw) as Partial<MemoryStoreFile>;
     if (!parsed || typeof parsed.users !== "object" || parsed.users === null) {
       return { users: {} };
@@ -79,33 +176,103 @@ function readStore(): MemoryStoreFile {
 }
 
 function writeStore(store: MemoryStoreFile): void {
-  const dir = path.dirname(MEMORY_PATH);
-  fs.mkdirSync(dir, { recursive: true });
-  const tmpPath = `${MEMORY_PATH}.${process.pid}.${Math.random().toString(36).slice(2)}.tmp`;
-  fs.writeFileSync(tmpPath, JSON.stringify(store, null, 2), "utf-8");
-  fs.renameSync(tmpPath, MEMORY_PATH);
+  const memPath = resolveMemoryFilePath();
+  try {
+    const dir = path.dirname(memPath);
+    fs.mkdirSync(dir, { recursive: true });
+    const tmpPath = `${memPath}.${process.pid}.${Math.random().toString(36).slice(2)}.tmp`;
+    fs.writeFileSync(tmpPath, JSON.stringify(store, null, 2), "utf-8");
+    fs.renameSync(tmpPath, memPath);
+  } catch {
+    // Never crash on read-only serverless environments
+  }
 }
 
 export function getUserMemoryBundle(userId: string, fallbackName?: string): UserMemoryBundle {
+  const cached = getCachedBundle(userId);
+  if (cached) return cached;
+
   const store = readStore();
   const existing = store.users[userId];
   if (existing && existing.persona && Array.isArray(existing.notes)) {
-    return {
-      ...existing,
-      persona: {
-        ...existing.persona,
-        studyPace: existing.persona.studyPace ?? "seimbang",
-      },
-    };
+    const normalized = normalizeBundle(
+      userId,
+      existing.persona,
+      existing.notes,
+      existing.updatedAt,
+      fallbackName,
+    );
+    cacheBundle(normalized);
+    return normalized;
   }
+
   const fresh = createDefaultBundle(userId, fallbackName);
   store.users[userId] = fresh;
-  try {
-    writeStore(store);
-  } catch {
-    // Return in-memory default if disk is temporarily read-only
-  }
+  writeStore(store);
+  cacheBundle(fresh);
   return fresh;
+}
+
+export async function getUserMemoryBundleAsync(
+  userId: string,
+  fallbackName?: string,
+): Promise<UserMemoryBundle> {
+  const cached = getCachedBundle(userId);
+  if (cached) return cached;
+
+  if (usePostgresMemory()) {
+    await ensureMemoryTable();
+    const pool = getPgPool();
+    const res = await pool.query<{
+      persona: Partial<UserLearningPersona>;
+      notes: UserMemoryNote[];
+      updated_at: Date | string;
+    }>(`SELECT persona, notes, updated_at FROM user_memory_bundles WHERE user_id = $1`, [userId]);
+
+    if (res.rows[0]) {
+      const normalized = normalizeBundle(
+        userId,
+        res.rows[0].persona,
+        res.rows[0].notes,
+        res.rows[0].updated_at,
+        fallbackName,
+      );
+      cacheBundle(normalized);
+      return normalized;
+    }
+
+    const fresh = createDefaultBundle(userId, fallbackName);
+    cacheBundle(fresh);
+    return fresh;
+  }
+
+  return getUserMemoryBundle(userId, fallbackName);
+}
+
+async function persistBundleAsync(bundle: UserMemoryBundle): Promise<void> {
+  cacheBundle(bundle);
+  const store = readStore();
+  store.users[bundle.userId] = bundle;
+  writeStore(store);
+
+  if (usePostgresMemory()) {
+    await ensureMemoryTable();
+    const pool = getPgPool();
+    await pool.query(
+      `INSERT INTO user_memory_bundles (user_id, persona, notes, updated_at)
+       VALUES ($1, $2::jsonb, $3::jsonb, $4::timestamptz)
+       ON CONFLICT (user_id) DO UPDATE SET
+         persona = EXCLUDED.persona,
+         notes = EXCLUDED.notes,
+         updated_at = EXCLUDED.updated_at`,
+      [
+        bundle.userId,
+        JSON.stringify(bundle.persona),
+        JSON.stringify(bundle.notes),
+        bundle.updatedAt,
+      ],
+    );
+  }
 }
 
 export function updateUserPersona(
@@ -114,7 +281,8 @@ export function updateUserPersona(
   fallbackName?: string,
 ): UserMemoryBundle {
   const store = readStore();
-  const current = store.users[userId] ?? createDefaultBundle(userId, fallbackName);
+  const current =
+    getCachedBundle(userId) ?? store.users[userId] ?? createDefaultBundle(userId, fallbackName);
   const next: UserMemoryBundle = {
     ...current,
     persona: {
@@ -129,6 +297,29 @@ export function updateUserPersona(
   };
   store.users[userId] = next;
   writeStore(store);
+  cacheBundle(next);
+  return next;
+}
+
+export async function updateUserPersonaAsync(
+  userId: string,
+  patch: Partial<UserLearningPersona>,
+  fallbackName?: string,
+): Promise<UserMemoryBundle> {
+  const current = await getUserMemoryBundleAsync(userId, fallbackName);
+  const next: UserMemoryBundle = {
+    ...current,
+    persona: {
+      ...current.persona,
+      ...patch,
+      studyPace: patch.studyPace ?? current.persona.studyPace ?? "seimbang",
+      weakSubtests: Array.isArray(patch.weakSubtests)
+        ? patch.weakSubtests
+        : current.persona.weakSubtests,
+    },
+    updatedAt: new Date().toISOString(),
+  };
+  await persistBundleAsync(next);
   return next;
 }
 
@@ -144,7 +335,8 @@ export function addUserMemoryNote(
   fallbackName?: string,
 ): { bundle: UserMemoryBundle; created: UserMemoryNote } {
   const store = readStore();
-  const current = store.users[userId] ?? createDefaultBundle(userId, fallbackName);
+  const current =
+    getCachedBundle(userId) ?? store.users[userId] ?? createDefaultBundle(userId, fallbackName);
   const now = new Date().toISOString();
   const created: UserMemoryNote = {
     id: crypto.randomUUID(),
@@ -163,6 +355,39 @@ export function addUserMemoryNote(
   };
   store.users[userId] = next;
   writeStore(store);
+  cacheBundle(next);
+  return { bundle: next, created };
+}
+
+export async function addUserMemoryNoteAsync(
+  userId: string,
+  input: {
+    kind: "memory" | "note";
+    title: string;
+    content: string;
+    subtest?: SnbtSubtest | null;
+    pinnedForAi?: boolean;
+  },
+  fallbackName?: string,
+): Promise<{ bundle: UserMemoryBundle; created: UserMemoryNote }> {
+  const current = await getUserMemoryBundleAsync(userId, fallbackName);
+  const now = new Date().toISOString();
+  const created: UserMemoryNote = {
+    id: crypto.randomUUID(),
+    kind: input.kind,
+    title: input.title.trim().slice(0, 120),
+    content: input.content.trim().slice(0, 2000),
+    subtest: input.subtest ?? null,
+    pinnedForAi: input.pinnedForAi ?? true,
+    createdAt: now,
+    updatedAt: now,
+  };
+  const next: UserMemoryBundle = {
+    ...current,
+    notes: [created, ...current.notes].slice(0, 100),
+    updatedAt: now,
+  };
+  await persistBundleAsync(next);
   return { bundle: next, created };
 }
 
@@ -172,7 +397,7 @@ export function updateUserMemoryNote(
   patch: Partial<Pick<UserMemoryNote, "title" | "content" | "subtest" | "pinnedForAi" | "kind">>,
 ): UserMemoryBundle {
   const store = readStore();
-  const current = store.users[userId] ?? createDefaultBundle(userId);
+  const current = getCachedBundle(userId) ?? store.users[userId] ?? createDefaultBundle(userId);
   const now = new Date().toISOString();
   const nextNotes = current.notes.map((n) =>
     n.id === noteId
@@ -192,12 +417,40 @@ export function updateUserMemoryNote(
   };
   store.users[userId] = next;
   writeStore(store);
+  cacheBundle(next);
+  return next;
+}
+
+export async function updateUserMemoryNoteAsync(
+  userId: string,
+  noteId: string,
+  patch: Partial<Pick<UserMemoryNote, "title" | "content" | "subtest" | "pinnedForAi" | "kind">>,
+): Promise<UserMemoryBundle> {
+  const current = await getUserMemoryBundleAsync(userId);
+  const now = new Date().toISOString();
+  const nextNotes = current.notes.map((n) =>
+    n.id === noteId
+      ? {
+          ...n,
+          ...patch,
+          title: patch.title !== undefined ? patch.title.trim().slice(0, 120) : n.title,
+          content: patch.content !== undefined ? patch.content.trim().slice(0, 2000) : n.content,
+          updatedAt: now,
+        }
+      : n,
+  );
+  const next: UserMemoryBundle = {
+    ...current,
+    notes: nextNotes,
+    updatedAt: now,
+  };
+  await persistBundleAsync(next);
   return next;
 }
 
 export function deleteUserMemoryNote(userId: string, noteId: string): UserMemoryBundle {
   const store = readStore();
-  const current = store.users[userId] ?? createDefaultBundle(userId);
+  const current = getCachedBundle(userId) ?? store.users[userId] ?? createDefaultBundle(userId);
   const next: UserMemoryBundle = {
     ...current,
     notes: current.notes.filter((n) => n.id !== noteId),
@@ -205,6 +458,21 @@ export function deleteUserMemoryNote(userId: string, noteId: string): UserMemory
   };
   store.users[userId] = next;
   writeStore(store);
+  cacheBundle(next);
+  return next;
+}
+
+export async function deleteUserMemoryNoteAsync(
+  userId: string,
+  noteId: string,
+): Promise<UserMemoryBundle> {
+  const current = await getUserMemoryBundleAsync(userId);
+  const next: UserMemoryBundle = {
+    ...current,
+    notes: current.notes.filter((n) => n.id !== noteId),
+    updatedAt: new Date().toISOString(),
+  };
+  await persistBundleAsync(next);
   return next;
 }
 
@@ -242,12 +510,11 @@ function styleLabel(style: ExplanationStyle): string {
   }
 }
 
-export function buildStudentMemoryPromptBlock(
-  userId: string,
+function formatStudentMemoryPromptBlock(
+  bundle: UserMemoryBundle,
   activeSubtest?: SnbtSubtest | null,
   fallbackName?: string,
 ): { text: string; hasMemory: boolean; nickname: string } {
-  const bundle = getUserMemoryBundle(userId, fallbackName);
   const { persona, notes } = bundle;
 
   const pinned = notes
@@ -290,4 +557,22 @@ export function buildStudentMemoryPromptBlock(
     hasMemory: Boolean(persona.personalContext.trim() || pinned.length > 0),
     nickname: persona.nickname || fallbackName || "Pejuang SNBT",
   };
+}
+
+export function buildStudentMemoryPromptBlock(
+  userId: string,
+  activeSubtest?: SnbtSubtest | null,
+  fallbackName?: string,
+): { text: string; hasMemory: boolean; nickname: string } {
+  const bundle = getUserMemoryBundle(userId, fallbackName);
+  return formatStudentMemoryPromptBlock(bundle, activeSubtest, fallbackName);
+}
+
+export async function buildStudentMemoryPromptBlockAsync(
+  userId: string,
+  activeSubtest?: SnbtSubtest | null,
+  fallbackName?: string,
+): Promise<{ text: string; hasMemory: boolean; nickname: string }> {
+  const bundle = await getUserMemoryBundleAsync(userId, fallbackName);
+  return formatStudentMemoryPromptBlock(bundle, activeSubtest, fallbackName);
 }

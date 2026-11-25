@@ -1,7 +1,7 @@
 import crypto from "node:crypto";
 import { z } from "zod";
 import type { AiRoutingLedgerEntry } from "@/domain/types";
-import { getEffectiveAiConfig } from "@/infrastructure/ai/runtime-config";
+import { getEffectiveAiConfigAsync } from "@/infrastructure/ai/runtime-config";
 import type { AppRepository } from "@/infrastructure/db/repository-port";
 
 export type AiTaskId =
@@ -368,7 +368,7 @@ function rankRouterModels(ids: string[]): string[] {
 }
 
 async function discoverLiveRouterModels(): Promise<string[]> {
-  const cfg = getEffectiveAiConfig();
+  const cfg = await getEffectiveAiConfigAsync();
   if (
     discoveredModelsCache &&
     discoveredModelsCache.baseUrl === cfg.baseUrl &&
@@ -399,7 +399,7 @@ async function discoverLiveRouterModels(): Promise<string[]> {
 }
 
 export async function checkNineRouterHealth(): Promise<HealthCheckResult> {
-  const cfg = getEffectiveAiConfig();
+  const cfg = await getEffectiveAiConfigAsync();
   if (
     healthCache &&
     healthCache.baseUrl === cfg.baseUrl &&
@@ -457,8 +457,8 @@ export async function checkNineRouterHealth(): Promise<HealthCheckResult> {
 export class NineRouterClient {
   constructor(private readonly repo: AppRepository) {}
 
-  private buildHeaders(correlationId: string, taskId: AiTaskId, userId: string | null): Record<string, string> {
-    const cfg = getEffectiveAiConfig();
+  private async buildHeaders(correlationId: string, taskId: AiTaskId, userId: string | null): Promise<Record<string, string>> {
+    const cfg = await getEffectiveAiConfigAsync();
     const userHash = userId
       ? crypto.createHash("sha256").update(userId).digest("hex").slice(0, 12)
       : "anonymous";
@@ -491,7 +491,7 @@ export class NineRouterClient {
     jsonSchema: Record<string, unknown>;
     messages: ChatMessage[];
   }): Promise<StructuredAiResult<T>> {
-    const cfg = getEffectiveAiConfig();
+    const cfg = await getEffectiveAiConfigAsync();
     const policy = ROUTING_MATRIX[params.taskId];
     const primaryAlias = cfg.models[policy.primaryAliasKey];
     const fallbackAliases = cfg.isCustomConfigured
@@ -541,7 +541,7 @@ export class NineRouterClient {
 
           const res = await fetch(`${cfg.baseUrl}/chat/completions`, {
             method: "POST",
-            headers: this.buildHeaders(correlationId, params.taskId, params.userId),
+            headers: await this.buildHeaders(correlationId, params.taskId, params.userId),
             body: JSON.stringify({
               model: alias,
               stream: false,
@@ -716,12 +716,12 @@ export class NineRouterClient {
     zodIssues: string,
     schema: z.ZodType<T>,
   ): Promise<T | null> {
-    const cfg = getEffectiveAiConfig();
+    const cfg = await getEffectiveAiConfigAsync();
     const start = Date.now();
     try {
       const res = await fetch(`${cfg.baseUrl}/chat/completions`, {
         method: "POST",
-        headers: this.buildHeaders(correlationId, taskId, userId),
+        headers: await this.buildHeaders(correlationId, taskId, userId),
         body: JSON.stringify({
           model: cfg.models.fast,
           stream: false,
@@ -769,7 +769,7 @@ export class NineRouterClient {
   }
 
   async embedText(userId: string | null, text: string): Promise<number[] | null> {
-    const cfg = getEffectiveAiConfig();
+    const cfg = await getEffectiveAiConfigAsync();
     const policy = ROUTING_MATRIX.rag_text_embed;
     const alias = cfg.models.embed;
     if (!alias || /^(none|disabled|off)$/i.test(alias)) {
@@ -785,7 +785,7 @@ export class NineRouterClient {
     try {
       const res = await fetch(`${cfg.baseUrl}/embeddings`, {
         method: "POST",
-        headers: this.buildHeaders(correlationId, "rag_text_embed", userId),
+        headers: await this.buildHeaders(correlationId, "rag_text_embed", userId),
         body: JSON.stringify({
           model: alias,
           input: text.slice(0, 6000),

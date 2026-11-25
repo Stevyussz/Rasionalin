@@ -19,6 +19,12 @@ import {
 } from "@/domain/sbi-enrichment";
 import { SEED_QUESTIONS, SEED_SKILL_NODES } from "@/domain/seed-data";
 import { LocalJsonRepository } from "@/infrastructure/db/memory/local-repository";
+import {
+  addUserMemoryNoteAsync,
+  buildStudentMemoryPromptBlockAsync,
+  deleteUserMemoryNoteAsync,
+  updateUserPersonaAsync,
+} from "@/infrastructure/memory/user-memory-store";
 
 describe("Paket Math Rescue (SBI Enrichment, Math Gym v2 & PM-T0-UNIT Variant)", () => {
   it("enriches 100% of quantitative SEED_QUESTIONS with non-null sbiDeconstruction and leaves literacy null", () => {
@@ -149,4 +155,48 @@ describe("Paket Math Rescue (SBI Enrichment, Math Gym v2 & PM-T0-UNIT Variant)",
       await fs.rm(tmpFile, { force: true });
     }
   }, 30000);
+
+  it("persists onboarding persona and memory notes via async store safely under VERCEL=1", async () => {
+    const prevVercel = process.env.VERCEL;
+    process.env.VERCEL = "1";
+    const testUserId = `00000000-0000-4000-8000-${Date.now().toString().slice(-12).padStart(12, "0")}`;
+
+    try {
+      await updateUserPersonaAsync(
+        testUserId,
+        {
+          nickname: "Tester Vercel",
+          startingLevel: "nol_total",
+          studyPace: "seimbang",
+          weakSubtests: ["PK", "PM"],
+        },
+        "Tester Vercel",
+      );
+      const added = await addUserMemoryNoteAsync(
+        testUserId,
+        {
+          kind: "memory",
+          title: "Catatan Coba",
+          content: "Sering lupa ubah menit ke jam.",
+          subtest: "PM",
+          pinnedForAi: true,
+        },
+        "Tester Vercel",
+      );
+      expect(added.bundle.notes).toHaveLength(1);
+
+      const promptBlock = await buildStudentMemoryPromptBlockAsync(testUserId, "PM", "Tester Vercel");
+      expect(promptBlock.nickname).toBe("Tester Vercel");
+      expect(promptBlock.text).toContain("Sering lupa ubah menit ke jam.");
+
+      const afterDelete = await deleteUserMemoryNoteAsync(testUserId, added.created.id);
+      expect(afterDelete.notes).toHaveLength(0);
+    } finally {
+      if (prevVercel === undefined) {
+        delete process.env.VERCEL;
+      } else {
+        process.env.VERCEL = prevVercel;
+      }
+    }
+  });
 });

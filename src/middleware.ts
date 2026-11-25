@@ -4,6 +4,7 @@ const SESSION_COOKIE_NAME = "kejarsnbt_session";
 
 const PROTECTED_PATHS = [
   "/",
+  "/math-gym",
   "/tutor",
   "/study",
   "/vault",
@@ -41,6 +42,7 @@ export const config = {
   matcher: [
     "/",
     "/login",
+    "/math-gym/:path*",
     "/tutor/:path*",
     "/study/:path*",
     "/vault/:path*",
