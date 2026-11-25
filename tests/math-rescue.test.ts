@@ -19,6 +19,7 @@ import {
 } from "@/domain/sbi-enrichment";
 import { SEED_QUESTIONS, SEED_SKILL_NODES } from "@/domain/seed-data";
 import { LocalJsonRepository } from "@/infrastructure/db/memory/local-repository";
+import { normalizeServerlessDatabaseUrl } from "@/infrastructure/db/postgres/env-loader";
 import {
   addUserMemoryNoteAsync,
   buildStudentMemoryPromptBlockAsync,
@@ -198,5 +199,18 @@ describe("Paket Math Rescue (SBI Enrichment, Math Gym v2 & PM-T0-UNIT Variant)",
         process.env.VERCEL = prevVercel;
       }
     }
+  });
+
+  it("upgrades Supabase session pooler port 5432 to Transaction Mode port 6543 unless disabled for DDL", () => {
+    const sessionUrl =
+      "postgresql://postgres.proj:pass@aws-1-ap-south-1.pooler.supabase.com:5432/postgres";
+    const upgraded = normalizeServerlessDatabaseUrl(sessionUrl, true);
+    expect(upgraded).toContain(":6543/");
+
+    const ddlPreserved = normalizeServerlessDatabaseUrl(sessionUrl, false);
+    expect(ddlPreserved).toContain(":5432/");
+
+    const localUrl = "postgresql://postgres:pass@localhost:5432/postgres";
+    expect(normalizeServerlessDatabaseUrl(localUrl, true)).toBe(localUrl);
   });
 });

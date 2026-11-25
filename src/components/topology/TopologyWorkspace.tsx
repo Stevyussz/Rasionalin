@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
   ArrowRightIcon,
@@ -101,10 +102,12 @@ function unitBannerClasses(theme: UnitTheme): string {
 }
 
 export function TopologyWorkspace() {
+  const router = useRouter();
   const [data, setData] = useState<TopologyPayload | null>(null);
   const [dailyPlan, setDailyPlan] = useState<AdaptiveDailyPlan | null>(null);
   const [weeklyRoadmap, setWeeklyRoadmap] = useState<WeeklyStudyRoadmap | null>(null);
   const [diagnosticCompleted, setDiagnosticCompleted] = useState<boolean | null>(null);
+  const [displayName, setDisplayName] = useState<string | null>(null);
   const [examDate, setExamDate] = useState<string | null>(null);
   const [targetScore, setTargetScore] = useState<number>(800);
   const [loading, setLoading] = useState(true);
@@ -117,41 +120,41 @@ export function TopologyWorkspace() {
     setLoading(true);
     setError(null);
     try {
-      const [topRes, dashRes] = await Promise.all([
-        fetch("/api/topology"),
-        fetch("/api/dashboard"),
-      ]);
+      const topRes = await fetch("/api/topology?includeDashboard=1");
+      if (topRes.status === 401) {
+        router.replace("/login");
+        return;
+      }
       if (!topRes.ok) throw new Error("Gagal memuat jalur belajar.");
-      const json = (await topRes.json()) as TopologyPayload;
-      setData(json);
-      if (dashRes.ok) {
-        const dashJson = (await dashRes.json()) as {
-          dailyPlan?: AdaptiveDailyPlan;
-          weeklyRoadmap?: WeeklyStudyRoadmap;
-          user?: {
-            diagnosticCompleted?: boolean;
-            examDate?: string | null;
-            targetScore?: number;
-          };
+      const json = (await topRes.json()) as TopologyPayload & {
+        dailyPlan?: AdaptiveDailyPlan;
+        weeklyRoadmap?: WeeklyStudyRoadmap;
+        user?: {
+          displayName?: string;
+          diagnosticCompleted?: boolean;
+          examDate?: string | null;
+          targetScore?: number;
         };
-        if (dashJson.dailyPlan) setDailyPlan(dashJson.dailyPlan);
-        if (dashJson.weeklyRoadmap) setWeeklyRoadmap(dashJson.weeklyRoadmap);
-        if (typeof dashJson.user?.diagnosticCompleted === "boolean") {
-          setDiagnosticCompleted(dashJson.user.diagnosticCompleted);
-        }
-        if (dashJson.user && "examDate" in dashJson.user) {
-          setExamDate(dashJson.user.examDate ?? null);
-        }
-        if (typeof dashJson.user?.targetScore === "number") {
-          setTargetScore(dashJson.user.targetScore);
-        }
+      };
+      setData(json);
+      if (json.dailyPlan) setDailyPlan(json.dailyPlan);
+      if (json.weeklyRoadmap) setWeeklyRoadmap(json.weeklyRoadmap);
+      if (json.user?.displayName) setDisplayName(json.user.displayName);
+      if (typeof json.user?.diagnosticCompleted === "boolean") {
+        setDiagnosticCompleted(json.user.diagnosticCompleted);
+      }
+      if (json.user && "examDate" in json.user) {
+        setExamDate(json.user.examDate ?? null);
+      }
+      if (typeof json.user?.targetScore === "number") {
+        setTargetScore(json.user.targetScore);
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Terjadi kesalahan jaringan.");
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [router]);
 
   useEffect(() => {
     void loadTopology();
@@ -387,7 +390,12 @@ export function TopologyWorkspace() {
   ) : null;
 
   return (
-    <AppShell momentum={data?.momentum} rightRail={rightRailContent}>
+    <AppShell
+      momentum={data?.momentum}
+      initialUser={data ? { displayName, examDate } : null}
+      skipAutoAuthFetch
+      rightRail={rightRailContent}
+    >
       {loading && (
         <div className="space-y-5" aria-busy="true" aria-label="Memuat jalur belajar">
           <div className="h-12 rounded-xl bg-[var(--surface-secondary)]" />

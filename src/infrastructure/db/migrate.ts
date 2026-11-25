@@ -15,7 +15,7 @@ async function main() {
   const schemaPath = path.join(process.cwd(), "docs", "phase-a", "02-schema.sql");
   const ddl = await fs.readFile(schemaPath, "utf8");
 
-  const pool = new Pool(buildPgPoolConfig(conn, 2));
+  const pool = new Pool(buildPgPoolConfig(conn, 2, { preferTransactionPooler: false }));
   const client = await pool.connect();
   try {
     const check = await client.query<{ exists: string | null }>(

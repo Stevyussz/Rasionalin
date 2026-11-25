@@ -40,13 +40,42 @@ export function isRemotePostgresUrl(connectionString: string): boolean {
   }
 }
 
-export function buildPgPoolConfig(connectionString: string, max = 5): PoolConfig {
-  const remote = isRemotePostgresUrl(connectionString);
-  return {
+export function normalizeServerlessDatabaseUrl(
+  connectionString: string,
+  preferTransactionPooler = true,
+): string {
+  if (!preferTransactionPooler) return connectionString;
+  try {
+    const parsed = new URL(connectionString);
+    const host = parsed.hostname.toLowerCase();
+    if (host.endsWith(".pooler.supabase.com") && (parsed.port === "" || parsed.port === "5432")) {
+      parsed.port = "6543";
+      return parsed.toString();
+    }
+    return connectionString;
+  } catch {
+    return connectionString;
+  }
+}
+
+export function buildPgPoolConfig(
+  connectionString: string,
+  max?: number,
+  opts?: { preferTransactionPooler?: boolean },
+): PoolConfig {
+  const effectiveUrl = normalizeServerlessDatabaseUrl(
     connectionString,
-    max,
-    idleTimeoutMillis: 20_000,
-    connectionTimeoutMillis: 10_000,
+    opts?.preferTransactionPooler ?? true,
+  );
+  const remote = isRemotePostgresUrl(effectiveUrl);
+  const isServerless = process.env.VERCEL === "1";
+  const resolvedMax = max ?? (isServerless ? 3 : 5);
+  return {
+    connectionString: effectiveUrl,
+    max: resolvedMax,
+    idleTimeoutMillis: isServerless ? 5_000 : 10_000,
+    connectionTimeoutMillis: 15_000,
+    allowExitOnIdle: true,
     ...(remote ? { ssl: { rejectUnauthorized: false } } : {}),
   };
 }

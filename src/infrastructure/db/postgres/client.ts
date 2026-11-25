@@ -13,7 +13,10 @@ export function getPgPool(): Pool {
   }
 
   if (!globalThis.__kejarsnbtPgPool) {
-    globalThis.__kejarsnbtPgPool = new Pool(buildPgPoolConfig(databaseUrl, 10));
+    const poolMax = process.env.VERCEL === "1" ? 3 : 5;
+    const pool = new Pool(buildPgPoolConfig(databaseUrl, poolMax, { preferTransactionPooler: true }));
+    pool.on("error", () => {});
+    globalThis.__kejarsnbtPgPool = pool;
   }
 
   return globalThis.__kejarsnbtPgPool;

@@ -29,6 +29,8 @@ import type { UserMomentumState } from "@/domain/types";
 interface AppShellProps {
   children: React.ReactNode;
   momentum?: UserMomentumState | null;
+  initialUser?: { displayName?: string | null; examDate?: string | null } | null;
+  skipAutoAuthFetch?: boolean;
   rightRail?: React.ReactNode;
   fullBleed?: boolean;
 }
@@ -52,13 +54,20 @@ const MOBILE_TABS = [
   { href: "/simulation", label: "Tryout", icon: SimulationIcon },
 ];
 
-export function AppShell({ children, momentum: momentumProp, rightRail, fullBleed = false }: AppShellProps) {
+export function AppShell({
+  children,
+  momentum: momentumProp,
+  initialUser,
+  skipAutoAuthFetch = false,
+  rightRail,
+  fullBleed = false,
+}: AppShellProps) {
   const pathname = usePathname();
   const router = useRouter();
   const [theme, setTheme] = useState<"daylight" | "warm">("daylight");
   const [momentum, setMomentum] = useState<UserMomentumState | null>(momentumProp ?? null);
-  const [displayName, setDisplayName] = useState<string | null>(null);
-  const [examDate, setExamDate] = useState<string | null>(null);
+  const [displayName, setDisplayName] = useState<string | null>(initialUser?.displayName ?? null);
+  const [examDate, setExamDate] = useState<string | null>(initialUser?.examDate ?? null);
   const [loggingOut, setLoggingOut] = useState(false);
 
   useEffect(() => {
@@ -71,6 +80,13 @@ export function AppShell({ children, momentum: momentumProp, rightRail, fullBlee
   }, [momentumProp]);
 
   useEffect(() => {
+    if (!initialUser) return;
+    if (initialUser.displayName) setDisplayName(initialUser.displayName);
+    if ("examDate" in initialUser) setExamDate(initialUser.examDate ?? null);
+  }, [initialUser]);
+
+  useEffect(() => {
+    if (skipAutoAuthFetch) return;
     let active = true;
     fetch("/api/auth/me")
       .then((res) => {
@@ -90,7 +106,7 @@ export function AppShell({ children, momentum: momentumProp, rightRail, fullBlee
     return () => {
       active = false;
     };
-  }, [momentumProp, router]);
+  }, [skipAutoAuthFetch, router]);
 
   useEffect(() => {
     const onExamDateChanged = (evt: Event) => {
