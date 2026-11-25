@@ -1474,4 +1474,81 @@ export const SEED_TEMPLATES: QuestionTemplateEntity[] = [
     createdByModel: "curated-verified-template",
     createdAt: "2026-03-01T00:00:00.000Z",
   },
+  {
+    id: "30000000-0000-4000-8000-000000000025",
+    skillNodeId: NODE_IDS.PM_T0_UNIT,
+    subtest: "PM",
+    tier: "tier_0_foundation",
+    sandboxRuntime: "quickjs_wasm",
+    sourceQuestionId: null,
+    templateTitle: "PM Translasi Soal Cerita Kecepatan & Konversi Satuan Menit",
+    stemTemplateLatex: "Jarak kota A ke kota B adalah ${{dist}}$ km. Sebuah kendaraan melaju dengan kecepatan tetap ${{speed}}$ km/jam dan berhenti beristirahat selama ${{rest}}$ menit di tengah perjalanan. Total waktu perjalanan dari kota A ke kota B dalam satuan menit adalah $\\dots$",
+    sbiSchemaType: "rate_unit_conversion",
+    polyaVariablesSchema: [
+      { symbol: "s", role: "known", labelId: "Jarak tempuh (km)" },
+      { symbol: "v", role: "rate", labelId: "Kecepatan (km/jam)" },
+      { symbol: "t_{rest}", role: "known", labelId: "Lama istirahat (menit)" },
+    ],
+    solutionStepTemplates: [
+      {
+        stage: "deconstruct",
+        instructionTemplate: "Hitung dulu waktu berkendara dalam satuan jam memakai rumus t = s / v.",
+        formulaTemplateLatex: "t_{\\text{jalan}} = \\dfrac{{{dist}}}{{{speed}}} = {{travelHours}}\\text{ jam}",
+      },
+      {
+        stage: "setup",
+        instructionTemplate: "Ubah satuan jam menjadi menit karena soal meminta hasil akhir dalam menit (kali 60).",
+        formulaTemplateLatex: "{{travelHours}} \\times 60 = {{travelMin}}\\text{ menit}",
+      },
+      {
+        stage: "solve",
+        instructionTemplate: "Tambahkan waktu istirahat di tengah perjalanan ke waktu berkendara.",
+        formulaTemplateLatex: "{{travelMin}} + {{rest}} = {{ans}}\\text{ menit}",
+      },
+    ],
+    generatorCode: `function generate(seed) {
+  var r = rng(seed);
+  var speed = r.pick([40, 50, 60]);
+  var travelHours = r.pick([2, 3, 4]);
+  var rest = r.pick([15, 20, 25, 30]);
+  var dist = speed * travelHours;
+  var travelMin = travelHours * 60;
+  var totalMin = travelMin + rest;
+
+  var ans = new Fraction(totalMin);
+  var trapMixedUnits = new Fraction(travelHours + rest);
+  var trapSubRest = new Fraction(travelMin - rest);
+  var trapForgotRest = new Fraction(travelMin);
+  var trapDoubleRest = new Fraction(travelMin + 2 * rest);
+
+  return {
+    params: {
+      dist: String(dist),
+      speed: String(speed),
+      rest: String(rest),
+      travelHours: String(travelHours),
+      travelMin: String(travelMin),
+      ans: String(totalMin)
+    },
+    correct: { canonical: ans.toFraction(false), display_latex: ans.toFraction(false) },
+    distractors: [
+      { canonical: trapMixedUnits.toFraction(false), display_latex: trapMixedUnits.toFraction(false), trap_type: "unit_mismatch", rationale: "Langsung menjumlahkan jam dengan menit tanpa mengonversi jam ke menit terlebih dahulu (dikali 60)." },
+      { canonical: trapSubRest.toFraction(false), display_latex: trapSubRest.toFraction(false), trap_type: "sign_error", rationale: "Mengurangi waktu tempuh dengan lama istirahat alih-alih menambahkannya." },
+      { canonical: trapForgotRest.toFraction(false), display_latex: trapForgotRest.toFraction(false), trap_type: "arithmetic_slip", rationale: "Lupa menambahkan waktu istirahat di tengah perjalanan." },
+      { canonical: trapDoubleRest.toFraction(false), display_latex: trapDoubleRest.toFraction(false), trap_type: "arithmetic_slip", rationale: "Menghitung waktu istirahat dua kali." }
+    ],
+    feasibility_assertions: [
+      trapMixedUnits.valueOf() < trapSubRest.valueOf(),
+      trapSubRest.valueOf() < trapForgotRest.valueOf(),
+      trapForgotRest.valueOf() < ans.valueOf(),
+      ans.valueOf() < trapDoubleRest.valueOf()
+    ]
+  };
+}`,
+    parameterBoundsJson: {"speed":[40,60],"travelHours":[2,4],"rest":[15,30]},
+    codeSha256: "970ded852a084ab7adbac9b53826c8106a749c3dd6c77a0bc2d0230fd490b331",
+    isActive: true,
+    createdByModel: "curated-verified-template",
+    createdAt: "2026-03-01T00:00:00.000Z",
+  },
 ];

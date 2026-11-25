@@ -8,6 +8,7 @@ import type {
 
 // Deterministic UUID constants (RFC 4122 compliant for PostgreSQL uuid columns)
 import { NODE_IDS } from "./node-ids";
+import { deriveSbiDeconstructionForQuestion } from "./sbi-enrichment";
 export { NODE_IDS };
 
 export const SEED_SKILL_NODES: SkillNode[] = [
@@ -1655,13 +1656,20 @@ export const CURATED_CORE_QUESTIONS: QuestionEntity[] = [
   },
 ];
 
-export const INGESTED_SNBT_QUESTIONS: QuestionEntity[] =
-  rawIngestedSnbtBank as QuestionEntity[];
+export const INGESTED_SNBT_QUESTIONS: QuestionEntity[] = (
+  rawIngestedSnbtBank as QuestionEntity[]
+).map((q) => ({
+  ...q,
+  sbiDeconstruction: deriveSbiDeconstructionForQuestion(q),
+}));
 
 export const SEED_QUESTIONS: QuestionEntity[] = [
   ...CURATED_CORE_QUESTIONS,
   ...INGESTED_SNBT_QUESTIONS,
-];
+].map((q) => ({
+  ...q,
+  sbiDeconstruction: q.sbiDeconstruction ?? deriveSbiDeconstructionForQuestion(q),
+}));
 
 export { SEED_TEMPLATES } from "./seed-templates";
 

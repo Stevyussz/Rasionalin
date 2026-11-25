@@ -7,6 +7,7 @@ import {
   ArrowRightIcon,
   BookOpenIcon,
   BrainIcon,
+  CalculatorIcon,
   CheckIcon,
   CloseIcon,
   FlagIcon,
@@ -18,6 +19,7 @@ import {
   ShieldIcon,
   TimerIcon,
   TutorChatIcon,
+  VariantSwapIcon,
 } from "@/components/icons/ArchitecturalIcons";
 import { MathText } from "@/components/math/MathText";
 import { MicroLessonView } from "@/components/study/MicroLessonView";
@@ -26,6 +28,7 @@ import { SocraticDrawer, type SocraticHintRecord } from "@/components/study/Socr
 import { StudyNotesDrawer } from "@/components/study/StudyNotesDrawer";
 import { getMicroLessonForNode, type MicroLessonContent } from "@/domain/micro-lessons";
 import { getRootCauseLabelId, getTrapLabelId } from "@/domain/root-cause-rules";
+import { buildSbiSchemaChoices, getSbiGuideForQuestion } from "@/domain/sbi-enrichment";
 import type {
   MistakeFractureEntity,
   PassageSentence,
@@ -122,17 +125,6 @@ const HINT_SEQUENCE: SocraticHintLevel[] = [
   "L4_first_principles_analogy",
 ];
 
-const SBI_SCHEMAS = [
-  { id: "inverse_proportion_work", label: "Perbandingan Berbalik Nilai" },
-  { id: "linear_profit_breakeven", label: "Margin Linear & Titik Impas" },
-  { id: "linear_single_variable", label: "Persamaan Linear Satu Variabel" },
-  { id: "perpendicular_line", label: "Persamaan Garis Tegak Lurus" },
-  { id: "vieta_symmetric_identity", label: "Identitas Simetris Vieta" },
-  { id: "syllogism_modus_tollens", label: "Silogisme & Modus Tollens" },
-  { id: "rate_unit_conversion", label: "Konversi Satuan & Debit" },
-  { id: "chained_discount_multiplier", label: "Diskon / Persentase Bertingkat" },
-];
-
 const SESSION_GOAL = 5;
 
 function fadingStageFriendly(stage: string): string {
@@ -191,7 +183,14 @@ export function FocusTunnelWorkspace() {
   // Quantitative Bedah Soal Cerita (Polya / SBI)
   const [sbiOpen, setSbiOpen] = useState(false);
   const [selectedSbiSchema, setSelectedSbiSchema] = useState<string | null>(null);
+  const [sbiChecked, setSbiChecked] = useState(false);
+  const [sbiFormulaRevealed, setSbiFormulaRevealed] = useState(false);
   const [polyaVars, setPolyaVars] = useState<Record<string, string>>({});
+
+  // Isomorphic Variant Practice ("Uji Soal Serupa Beda Angka/Cerita")
+  const [generatingVariant, setGeneratingVariant] = useState(false);
+  const [variantNotice, setVariantNotice] = useState<string | null>(null);
+  const [variantError, setVariantError] = useState<string | null>(null);
 
   // Literacy Evidence-First Highlighting Gate
   const [highlightedIds, setHighlightedIds] = useState<string[]>([]);
@@ -217,6 +216,7 @@ export function FocusTunnelWorkspace() {
       skillNodeId?: string | null;
       fractureId?: string | null;
       questionId?: string | null;
+      keepVariantNotice?: boolean;
     }) => {
       setLoading(true);
       setError(null);
@@ -231,7 +231,13 @@ export function FocusTunnelWorkspace() {
       setHighlightedIds([]);
       setEvidenceFeedback(null);
       setSelectedSbiSchema(null);
+      setSbiChecked(false);
+      setSbiFormulaRevealed(false);
       setPolyaVars({});
+      setVariantError(null);
+      if (!overrideParams?.keepVariantNotice) {
+        setVariantNotice(null);
+      }
       setUsedScratchpad(false);
 
       const qs = new URLSearchParams();
@@ -471,8 +477,42 @@ export function FocusTunnelWorkspace() {
       setRecapOpen(true);
       return;
     }
-    void loadQuestion({ fractureId: null, questionId: null });
+    void loadQuestion({ fractureId: null, questionId: null, keepVariantNotice: false });
   }, [sessionHistory.length, recapOpen, loadQuestion]);
+
+  const handleTrySimilarVariant = useCallback(async () => {
+    if (!item || generatingVariant) return;
+    setGeneratingVariant(true);
+    setVariantError(null);
+    try {
+      const res = await fetch("/api/study/variant", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ questionId: item.question.id }),
+      });
+      const json = (await res.json()) as {
+        ok?: boolean;
+        questionId?: string;
+        badgeLabel?: string;
+        error?: string;
+      };
+      if (!res.ok || !json.questionId) {
+        throw new Error(json.error ?? "Belum bisa membuat variasi soal serupa.");
+      }
+      setVariantNotice(json.badgeLabel ?? "Variasi Soal Serupa");
+      setShowFullSolution(false);
+      await loadQuestion({
+        questionId: json.questionId,
+        skillNodeId: item.skillNode.id,
+        fractureId: null,
+        keepVariantNotice: true,
+      });
+    } catch (err) {
+      setVariantError(err instanceof Error ? err.message : "Gagal memuat variasi soal.");
+    } finally {
+      setGeneratingVariant(false);
+    }
+  }, [generatingVariant, item, loadQuestion]);
 
   // Browser tab close/refresh guard while actively practicing
   useEffect(() => {
@@ -970,6 +1010,18 @@ export function FocusTunnelWorkspace() {
                 )}
               </div>
 
+              {variantNotice && (
+                <div className="p-3 rounded-xl bg-[var(--accent-tint)] border border-[var(--accent-tint-border)] flex flex-wrap items-center justify-between gap-2 text-xs font-bold text-[var(--accent-text-on-secondary)]">
+                  <span className="inline-flex items-center gap-1.5">
+                    <VariantSwapIcon size={15} />
+                    <span>
+                      {variantNotice} · Coba buktikan kamu paham polanya meski angka/cerita sudah
+                      diubah!
+                    </span>
+                  </span>
+                </div>
+              )}
+
               {/* Prompt Card */}
               <div className="card-tactile p-5 sm:p-6 space-y-4">
                 <div className="text-base sm:text-[17px] leading-relaxed font-bold">
@@ -989,15 +1041,44 @@ export function FocusTunnelWorkspace() {
                 {item.question.track === "quantitative" &&
                   (item.question.sbiDeconstruction || item.question.solutionStepsPreview.length > 0) &&
                   !submission && (
-                    <div className="pt-3 border-t border-[var(--border-structural)] flex flex-wrap items-center gap-4 text-xs font-extrabold">
-                      {item.question.sbiDeconstruction && (
-                        <button
-                          type="button"
-                          onClick={() => setSbiOpen((v) => !v)}
-                          className="text-[var(--olive-ink)] hover:underline cursor-pointer"
-                        >
-                          {sbiOpen ? "Tutup Bedah Soal Cerita" : "Bantu Bedah Soal Cerita"}
-                        </button>
+                    <div className="pt-3 border-t border-[var(--border-structural)] space-y-2.5 text-xs font-extrabold">
+                      <div className="flex flex-wrap items-center justify-between gap-2">
+                        <div className="flex flex-wrap items-center gap-3">
+                          {item.question.sbiDeconstruction && (
+                            <button
+                              type="button"
+                              onClick={() => setSbiOpen((v) => !v)}
+                              className={`cursor-pointer inline-flex items-center gap-1.5 transition-colors ${
+                                item.mastery.masteryScore < 0.35
+                                  ? "px-3 py-1.5 rounded-lg bg-[var(--ochre-tint)] text-[var(--ochre-ink)] border border-[var(--ochre-border)] hover:opacity-90"
+                                  : "text-[var(--olive-ink)] hover:underline"
+                              }`}
+                            >
+                              <HintIcon size={14} />
+                              <span>
+                                {sbiOpen
+                                  ? "Tutup Bedah Soal & Rumus"
+                                  : "Bedah Soal Cerita & Pilih Rumus"}
+                              </span>
+                            </button>
+                          )}
+
+                          <Link
+                            href="/math-gym"
+                            className="inline-flex items-center gap-1 text-[var(--ink-secondary)] hover:text-[var(--accent-text-on-secondary)] hover:underline font-bold"
+                          >
+                            <CalculatorIcon size={14} />
+                            <span>Pemanasan Hitung Dasar (3 Menit)</span>
+                          </Link>
+                        </div>
+                      </div>
+
+                      {!sbiOpen && item.question.sbiDeconstruction && item.mastery.masteryScore < 0.35 && (
+                        <p className="text-[11px] font-semibold text-[var(--ink-secondary)]">
+                          Bingung mulai dari mana atau bingung pakai rumus apa? Klik{" "}
+                          <strong>Bedah Soal Cerita &amp; Pilih Rumus</strong> di atas untuk menerjemahkan
+                          kalimat soal pelan-pelan.
+                        </p>
                       )}
 
                       {item.question.solutionStepsPreview.length > 0 && (
@@ -1027,51 +1108,174 @@ export function FocusTunnelWorkspace() {
                     </div>
                   )}
 
-                {sbiOpen && item.question.sbiDeconstruction && (
-                  <div className="pt-3 border-t border-[var(--border-structural)] space-y-3">
-                    <div>
-                      <label htmlFor="sbi-schema-select" className="text-xs font-extrabold block mb-1.5">
-                        1. Pola Hubungan Soal Ini:
-                      </label>
-                      <select
-                        id="sbi-schema-select"
-                        value={selectedSbiSchema ?? ""}
-                        onChange={(e) => {
-                          markFirstInteraction();
-                          setSelectedSbiSchema(e.target.value || null);
-                        }}
-                        className="input-tactile text-xs min-h-[42px]"
-                      >
-                        <option value="">Pilih pola yang cocok...</option>
-                        {SBI_SCHEMAS.map((sc) => (
-                          <option key={sc.id} value={sc.id}>
-                            {sc.label}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
+                {sbiOpen &&
+                  item.question.sbiDeconstruction &&
+                  !submission &&
+                  (() => {
+                    const sbi = item.question.sbiDeconstruction;
+                    const guide = getSbiGuideForQuestion(
+                      item.question.skillNodeId,
+                      sbi.schemaType,
+                    );
+                    const schemaChoices = buildSbiSchemaChoices(
+                      sbi,
+                      item.question.subtest as SnbtSubtest,
+                      item.question.id,
+                    );
+                    const isSchemaMatch =
+                      Boolean(selectedSbiSchema) && selectedSbiSchema === sbi.schemaType;
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                      {item.question.sbiDeconstruction.knownVariables.map((v) => (
-                        <div key={v.symbol}>
-                          <label className="text-xs font-bold text-[var(--ink-secondary)] block mb-1">
-                            {v.symbol} ({v.label})
-                          </label>
-                          <input
-                            type="text"
-                            value={polyaVars[v.symbol] ?? ""}
-                            onChange={(e) => {
-                              markFirstInteraction();
-                              setPolyaVars((prev) => ({ ...prev, [v.symbol]: e.target.value }));
-                            }}
-                            placeholder="Catat angkanya..."
-                            className="input-tactile text-xs min-h-[40px]"
-                          />
+                    return (
+                      <div className="pt-3 border-t border-[var(--border-structural)] space-y-4">
+                        {/* Step 1: Kamus Terjemah Cerita -> Matematika */}
+                        <div className="p-3.5 rounded-xl bg-[var(--surface-canvas)] border border-[var(--border-structural)] space-y-2">
+                          <div className="text-xs font-extrabold text-[var(--olive-ink)]">
+                            1. Kamus Terjemah Cerita ke Matematika
+                          </div>
+                          <p className="text-xs font-semibold text-[var(--ink-secondary)] leading-relaxed">
+                            <MathText text={guide.whenToUse} />
+                          </p>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+                            {guide.wordClues.map((clue, cIdx) => (
+                              <div
+                                key={cIdx}
+                                className="p-2 rounded-lg bg-[var(--surface-elevated)] border border-[var(--border-structural)] text-[11px]"
+                              >
+                                <div className="font-extrabold text-[var(--ochre-ink)]">
+                                  &quot;{clue.phrase}&quot;
+                                </div>
+                                <div className="font-semibold text-[var(--ink-primary)] mt-0.5">
+                                  <MathText text={clue.mathMeaning} />
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                          <p className="text-[11px] font-bold text-[var(--accent-text-on-secondary)] pt-0.5">
+                            Langkah pertama aman: {guide.firstStepChecklist}
+                          </p>
                         </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
+
+                        {/* Step 2: Pilih Pola & Cek Rumus Dasar */}
+                        <div className="space-y-2">
+                          <label
+                            htmlFor="sbi-schema-select"
+                            className="text-xs font-extrabold block"
+                          >
+                            2. Pilih Pola Rumus yang Cocok untuk Soal Ini:
+                          </label>
+                          <div className="flex flex-wrap items-center gap-2">
+                            <select
+                              id="sbi-schema-select"
+                              value={selectedSbiSchema ?? ""}
+                              onChange={(e) => {
+                                markFirstInteraction();
+                                setSelectedSbiSchema(e.target.value || null);
+                                setSbiChecked(false);
+                              }}
+                              className="input-tactile text-xs min-h-[42px] flex-1 min-w-[220px]"
+                            >
+                              <option value="">Pilih pola rumus yang cocok...</option>
+                              {schemaChoices.map((sc) => (
+                                <option key={sc.id} value={sc.id}>
+                                  {sc.label}
+                                </option>
+                              ))}
+                            </select>
+                            <button
+                              type="button"
+                              disabled={!selectedSbiSchema}
+                              onClick={() => setSbiChecked(true)}
+                              className="btn-secondary text-xs min-h-[42px] px-3"
+                            >
+                              Cek Pola
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => setSbiFormulaRevealed((v) => !v)}
+                              className="btn-secondary text-xs min-h-[42px] px-3"
+                            >
+                              {sbiFormulaRevealed ? "Tutup Rumus" : "Intip Rumus Dasar"}
+                            </button>
+                          </div>
+
+                          {sbiChecked && selectedSbiSchema && (
+                            <div
+                              className={`p-2.5 rounded-lg text-xs font-bold border ${
+                                isSchemaMatch
+                                  ? "bg-[var(--accent-tint)] border-[var(--accent-tint-border)] text-[var(--accent-text-on-secondary)]"
+                                  : "bg-[var(--coral-tint)] border-[var(--coral-border)] text-[var(--coral-ink)]"
+                              }`}
+                            >
+                              {isSchemaMatch
+                                ? `Tepat! Soal ini memakai pola "${sbi.schemaLabelId}". Lanjutkan memetakan angkanya di bawah.`
+                                : "Pola itu belum paling pas dengan kata kunci soal. Cek ulang Kamus Terjemah di langkah 1 atau intip rumus dasarnya."}
+                            </div>
+                          )}
+
+                          {sbiFormulaRevealed && sbi.baseRelationLatex && (
+                            <div className="p-3 rounded-xl bg-[var(--ochre-tint)] border border-[var(--ochre-border)] space-y-1">
+                              <div className="text-[11px] font-extrabold text-[var(--ochre-ink)]">
+                                Rumus Dasar ({sbi.schemaLabelId})
+                              </div>
+                              <div className="overflow-x-auto">
+                                <MathText text={`$$${sbi.baseRelationLatex}$$`} />
+                              </div>
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Step 3: Peta Diketahui -> Ditanya */}
+                        <div className="space-y-2.5">
+                          <div className="flex flex-wrap items-center justify-between gap-2">
+                            <span className="text-xs font-extrabold">
+                              3. Catat Diketahui &amp; Target Soal:
+                            </span>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                markFirstInteraction();
+                                const filled: Record<string, string> = {};
+                                sbi.knownVariables.forEach((v) => {
+                                  filled[v.symbol] = v.valueText;
+                                });
+                                setPolyaVars(filled);
+                              }}
+                              className="text-[11px] font-extrabold text-[var(--accent-text-on-secondary)] hover:underline cursor-pointer"
+                            >
+                              Bantu isi dari teks soal
+                            </button>
+                          </div>
+
+                          <div className="p-2.5 rounded-lg bg-[var(--olive-tint)] border border-[var(--olive-border)] text-xs font-bold text-[var(--olive-ink)]">
+                            Yang Ditanyakan: <MathText text={sbi.targetUnknown} />
+                          </div>
+
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                            {sbi.knownVariables.map((v) => (
+                              <div key={v.symbol}>
+                                <label className="text-xs font-bold text-[var(--ink-secondary)] block mb-1">
+                                  <MathText text={`$${v.symbol}$`} /> ({v.label})
+                                </label>
+                                <input
+                                  type="text"
+                                  value={polyaVars[v.symbol] ?? ""}
+                                  onChange={(e) => {
+                                    markFirstInteraction();
+                                    setPolyaVars((prev) => ({
+                                      ...prev,
+                                      [v.symbol]: e.target.value,
+                                    }));
+                                  }}
+                                  placeholder={`Contoh: ${v.valueText}`}
+                                  className="input-tactile text-xs min-h-[40px]"
+                                />
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })()}
               </div>
 
               {/* Panoramic Horizontal Desktop Option Selector A-E (No Vertical Scroll Needed!) */}
@@ -1217,32 +1421,52 @@ export function FocusTunnelWorkspace() {
                             </div>
                           )}
 
-                          <div className="pt-2 border-t border-black/10 flex flex-wrap items-center gap-4 text-xs font-extrabold">
-                            <button
-                              type="button"
-                              onClick={() => {
-                                setNotesDrawerOpen(false);
-                                setShowFullSolution(false);
-                                setSocraticInitialTab("chat");
-                                setDrawerOpen(true);
-                              }}
-                              className="inline-flex items-center gap-1.5 text-[var(--olive-ink)] hover:underline cursor-pointer"
-                            >
-                              <TutorChatIcon size={15} />
-                              <span>Tanya AI tentang soal ini</span>
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => {
-                                setDrawerOpen(false);
-                                setShowFullSolution(false);
-                                setNotesDrawerOpen(true);
-                              }}
-                              className="inline-flex items-center gap-1.5 text-[var(--accent-text-on-secondary)] hover:underline cursor-pointer"
-                            >
-                              <MemoryIcon size={15} />
-                              <span>Tambah catatan soal ini</span>
-                            </button>
+                          <div className="pt-2 border-t border-black/10 space-y-2">
+                            <div className="flex flex-wrap items-center gap-4 text-xs font-extrabold">
+                              <button
+                                type="button"
+                                disabled={generatingVariant}
+                                onClick={() => void handleTrySimilarVariant()}
+                                className="inline-flex items-center gap-1.5 text-[var(--ochre-ink)] hover:underline cursor-pointer disabled:opacity-60"
+                              >
+                                <VariantSwapIcon size={15} />
+                                <span>
+                                  {generatingVariant
+                                    ? "Menyiapkan variasi..."
+                                    : "Uji Variasi Soal Serupa (Beda Angka/Cerita)"}
+                                </span>
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setNotesDrawerOpen(false);
+                                  setShowFullSolution(false);
+                                  setSocraticInitialTab("chat");
+                                  setDrawerOpen(true);
+                                }}
+                                className="inline-flex items-center gap-1.5 text-[var(--olive-ink)] hover:underline cursor-pointer"
+                              >
+                                <TutorChatIcon size={15} />
+                                <span>Tanya AI tentang soal ini</span>
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setDrawerOpen(false);
+                                  setShowFullSolution(false);
+                                  setNotesDrawerOpen(true);
+                                }}
+                                className="inline-flex items-center gap-1.5 text-[var(--accent-text-on-secondary)] hover:underline cursor-pointer"
+                              >
+                                <MemoryIcon size={15} />
+                                <span>Tambah catatan soal ini</span>
+                              </button>
+                            </div>
+                            {variantError && (
+                              <p className="text-xs font-bold text-[var(--coral-ink)]">
+                                {variantError}
+                              </p>
+                            )}
                           </div>
                         </div>
                       );
@@ -1499,7 +1723,7 @@ export function FocusTunnelWorkspace() {
               )}
             </div>
 
-            <div className="p-4 border-t border-[var(--border-structural)] bg-[var(--surface-secondary)] flex items-center justify-between gap-2">
+            <div className="p-4 border-t border-[var(--border-structural)] bg-[var(--surface-secondary)] flex flex-wrap items-center justify-between gap-2">
               <button
                 type="button"
                 onClick={() => setShowFullSolution(false)}
@@ -1509,11 +1733,20 @@ export function FocusTunnelWorkspace() {
               </button>
               <button
                 type="button"
+                disabled={generatingVariant}
+                onClick={() => void handleTrySimilarVariant()}
+                className="btn-olive text-xs flex-1 min-w-[155px]"
+              >
+                <VariantSwapIcon size={15} />
+                <span>{generatingVariant ? "Menyiapkan..." : "Uji Soal Serupa"}</span>
+              </button>
+              <button
+                type="button"
                 onClick={() => {
                   setShowFullSolution(false);
                   handleContinueNext();
                 }}
-                className="btn-primary flex-1 text-xs"
+                className="btn-primary flex-1 text-xs min-w-[140px]"
               >
                 <span>Soal Berikutnya</span>
                 <ArrowRightIcon size={15} />

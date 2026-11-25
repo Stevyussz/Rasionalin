@@ -5,6 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import {
   BrainIcon,
+  CalculatorIcon,
   CompassIcon,
   FlameIcon,
   FractureIcon,
@@ -34,6 +35,7 @@ interface AppShellProps {
 
 const DESKTOP_NAV = [
   { href: "/", label: "Belajar", icon: CompassIcon },
+  { href: "/math-gym", label: "Gym Hitung", icon: CalculatorIcon },
   { href: "/tutor", label: "Tanya AI", icon: TutorChatIcon },
   { href: "/graveyard", label: "Pemulihan", icon: FractureIcon },
   { href: "/vault", label: "Catatan", icon: VaultIcon },

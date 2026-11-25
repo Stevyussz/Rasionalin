@@ -13,6 +13,7 @@ import {
 import { computeCompositeIrtScore, updateIrtSubtestScore } from "@/domain/irt-calibrator";
 import { evaluateMasteryTransition, updateMomentumState } from "@/domain/mastery-engine";
 import { classifyRootCauseDeterministically } from "@/domain/root-cause-rules";
+import { deriveSbiDeconstructionForQuestion } from "@/domain/sbi-enrichment";
 import type {
   DistractorTrapType,
   MistakeFractureEntity,
@@ -349,6 +350,9 @@ export class StudyService {
     return {
       question: {
         ...publicQuestion,
+        sbiDeconstruction:
+          publicQuestion.sbiDeconstruction ??
+          deriveSbiDeconstructionForQuestion(selectedQuestion),
         solutionStepsPreview:
           selectedQuestion.track === "quantitative"
             ? buildFadedSolutionView(solutionSteps, mastery.currentFadingStage)

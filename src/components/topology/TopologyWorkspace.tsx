@@ -6,6 +6,7 @@ import {
   ArrowRightIcon,
   BookOpenIcon,
   BrainIcon,
+  CalculatorIcon,
   CheckIcon,
   FlameIcon,
   FractureIcon,
@@ -523,15 +524,24 @@ export function TopologyWorkspace() {
 
               <div className="pt-3 border-t border-[var(--border-structural)] flex flex-wrap items-center justify-between gap-2">
                 <span className="text-xs font-bold text-[var(--ink-secondary)]">
-                  Ingin latih pilihan rumus cepat &amp; beda pola soal?
+                  Lemah hitung dasar atau ingin latih pilihan rumus cepat?
                 </span>
-                <Link
-                  href="/study?mode=interleaved"
-                  className="btn-olive text-xs px-3.5 py-2 shrink-0"
-                >
-                  <PlayIcon size={13} />
-                  <span>Interleaved Sprint (5 Soal Campur)</span>
-                </Link>
+                <div className="flex flex-wrap items-center gap-2">
+                  <Link
+                    href="/math-gym"
+                    className="btn-secondary text-xs px-3.5 py-2 shrink-0"
+                  >
+                    <CalculatorIcon size={14} />
+                    <span>Gym Hitung 3 Menit</span>
+                  </Link>
+                  <Link
+                    href="/study?mode=interleaved"
+                    className="btn-olive text-xs px-3.5 py-2 shrink-0"
+                  >
+                    <PlayIcon size={13} />
+                    <span>Interleaved Sprint (5 Soal Campur)</span>
+                  </Link>
+                </div>
               </div>
             </section>
           )}

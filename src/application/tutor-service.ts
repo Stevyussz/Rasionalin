@@ -1,5 +1,6 @@
 import crypto from "node:crypto";
 import { MICRO_LESSONS_BY_NODE_ID } from "@/domain/micro-lessons";
+import { deriveSbiDeconstructionForQuestion } from "@/domain/sbi-enrichment";
 import {
   formatKnowledgeBasePromptBlock,
   searchSnbtKnowledgeBase,
@@ -21,6 +22,7 @@ import {
 } from "@/infrastructure/ai/nine-router-client";
 import {
   CustomModuleDrillSchema,
+  IsomorphicTwinQuestionSchema,
   SocraticHintResponseSchema,
   TutorChatResponseSchema,
   WhyBeforeHowExplainSchema,
@@ -1521,5 +1523,119 @@ export class SocraticTutorService {
       latencyMs: Date.now() - start,
       memoryApplied: studentMemory.hasMemory,
     };
+  }
+
+  async generateIsomorphicTwinQuestion(params: {
+    userId: string;
+    sourceQuestion: QuestionEntity;
+    skillNode: SkillNode;
+  }): Promise<QuestionEntity | null> {
+    try {
+      const client = new NineRouterClient(this.repo);
+      const res = await client.invokeStructuredJson({
+        taskId: "custom_module_drill_gen",
+        userId: params.userId,
+        schema: IsomorphicTwinQuestionSchema,
+        schemaName: "isomorphic_twin_question",
+        jsonSchema: { type: "object" },
+        messages: [
+          {
+            role: "system",
+            content:
+              "Kamu adalah pembuat soal SNBT UTBK berbahasa Indonesia santai, jelas, dan anti kaku. Buat SATU soal kembar isomorfik dengan ANGKA DAN KONTEKS CERITA BARU yang tetap menguji konsep dan rumus yang PERSIS SAMA seperti soal referensi. Pastikan ada tepat 5 opsi A-E yang unik, hanya 1 jawaban benar, semua langkah hitung matematis akurat 100%, serta tanpa tanda em-dash.",
+          },
+          {
+            role: "user",
+            content: `Subtes: ${params.sourceQuestion.subtest}\nTopik: ${params.skillNode.titleId}\nTingkat: ${params.sourceQuestion.tier}\n\nSoal Referensi:\n${params.sourceQuestion.stemMarkdown}\n\nPembahasan Referensi:\n${params.sourceQuestion.officialSolutionMarkdown}\n\nBuatlah soal kembar baru (angka dan skenario berbeda) lengkap dengan 5 pilihan A-E, distractor rationale, solution_steps, dan sbi_deconstruction.`,
+          },
+        ],
+      });
+
+      if (!res.ok || !res.data) return null;
+      const payload = res.data;
+
+      const keys = ["A", "B", "C", "D", "E"] as const;
+      const optionByKey = new Map(payload.options.map((o) => [o.key, o]));
+      if (keys.some((k) => !optionByKey.has(k))) return null;
+
+      const uniqueTexts = new Set(
+        payload.options.map((o) => o.text_markdown.replace(/\s+/g, "").toLowerCase()),
+      );
+      if (uniqueTexts.size < 5) return null;
+
+      const questionId = crypto.randomUUID();
+      const nowIso = new Date().toISOString();
+      const solutionSteps = payload.solution_steps.map((st) => ({
+        stage: st.stage,
+        title: cleanTextNoEmDash(st.title),
+        instructionMarkdown: cleanTextNoEmDash(st.instruction_markdown),
+        formulaLatex: st.formula_latex ?? null,
+      }));
+
+      const rawSbi = payload.sbi_deconstruction
+        ? {
+            schemaType: payload.sbi_deconstruction.schema_type,
+            schemaLabelId: cleanTextNoEmDash(payload.sbi_deconstruction.schema_label_id),
+            knownVariables: payload.sbi_deconstruction.known_variables.map((v) => ({
+              symbol: v.symbol,
+              label: cleanTextNoEmDash(v.label),
+              valueText: cleanTextNoEmDash(v.value_text),
+            })),
+            targetUnknown: cleanTextNoEmDash(payload.sbi_deconstruction.target_unknown),
+            baseRelationLatex: payload.sbi_deconstruction.base_relation_latex,
+          }
+        : null;
+
+      const twinQuestion: QuestionEntity = {
+        id: questionId,
+        ownerUserId: params.userId,
+        skillNodeId: params.sourceQuestion.skillNodeId,
+        subtest: params.sourceQuestion.subtest,
+        track: params.sourceQuestion.track,
+        tier: params.sourceQuestion.tier,
+        sourceType: "neuro_symbolic_isomorphic",
+        sourceDocumentId: null,
+        sourcePageId: null,
+        parentQuestionId: params.sourceQuestion.id,
+        templateId: null,
+        verificationRunId: null,
+        format: "mcq_single",
+        qcStatus: "approved",
+        stemMarkdown: cleanTextNoEmDash(payload.stem_markdown),
+        stemLatex: null,
+        passageText: params.sourceQuestion.passageText,
+        passageSentences: params.sourceQuestion.passageSentences,
+        evidenceSentenceIds: params.sourceQuestion.evidenceSentenceIds,
+        diagramAssetUrl: null,
+        diagramAltText: null,
+        options: keys.map((k) => {
+          const opt = optionByKey.get(k)!;
+          return {
+            key: k,
+            textMarkdown: cleanTextNoEmDash(opt.text_markdown),
+            latex: null,
+            trapType: k === payload.correct_answer_key ? "none" : opt.trap_type,
+            distractorRationale: cleanTextNoEmDash(opt.distractor_rationale),
+          };
+        }),
+        correctAnswerKey: payload.correct_answer_key,
+        officialSolutionMarkdown: cleanTextNoEmDash(payload.official_solution_markdown),
+        solutionSteps,
+        sbiDeconstruction: null,
+        irtDifficultyB: params.sourceQuestion.irtDifficultyB,
+        irtDiscriminationA: params.sourceQuestion.irtDiscriminationA,
+        irtGuessingC: params.sourceQuestion.irtGuessingC,
+        expectedSolveSeconds: params.sourceQuestion.expectedSolveSeconds,
+        createdAt: nowIso,
+      };
+
+      twinQuestion.sbiDeconstruction =
+        rawSbi ?? deriveSbiDeconstructionForQuestion(twinQuestion);
+
+      await this.repo.saveQuestion(twinQuestion);
+      return twinQuestion;
+    } catch {
+      return null;
+    }
   }
 }

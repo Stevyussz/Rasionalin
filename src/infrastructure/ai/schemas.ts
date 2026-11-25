@@ -241,3 +241,41 @@ export const CustomModuleDrillSchema = z.object({
     .min(3)
     .max(5),
 });
+
+export const IsomorphicTwinQuestionSchema = z.object({
+  stem_markdown: z.string().min(15).max(1600),
+  options: z
+    .array(
+      z.object({
+        key: z.enum(["A", "B", "C", "D", "E"]),
+        text_markdown: z.string().min(1).max(400),
+        trap_type: z.enum([
+          "none",
+          "overgeneralization",
+          "scope_shift",
+          "unsupported_inference",
+          "causal_reversal",
+          "arithmetic_slip",
+          "sign_error",
+          "unit_mismatch",
+          "formula_misapplication",
+        ]),
+        distractor_rationale: z.string().min(4).max(340),
+      }),
+    )
+    .length(5),
+  correct_answer_key: z.enum(["A", "B", "C", "D", "E"]),
+  official_solution_markdown: z.string().min(15).max(1800),
+  solution_steps: z
+    .array(
+      z.object({
+        stage: z.enum(["deconstruct", "setup", "solve", "verify"]),
+        title: z.string().min(3).max(120),
+        instruction_markdown: z.string().min(8).max(600),
+        formula_latex: z.string().max(320).nullable(),
+      }),
+    )
+    .min(2)
+    .max(4),
+  sbi_deconstruction: SbiPolyaDeconstructSchema.nullable(),
+});

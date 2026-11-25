@@ -4,10 +4,12 @@ import {
   ArrowCounterClockwise,
   ArrowLeft,
   ArrowRight,
+  ArrowsClockwise,
   At,
   BookmarkSimple,
   BookOpenText,
   Brain,
+  Calculator,
   ChatCircleDots,
   Check,
   CheckCircle,
@@ -226,4 +228,12 @@ export function GridNumbersIcon(props: AppIconProps) {
 
 export function TextSizeIcon(props: AppIconProps) {
   return <TextAa {...withDefault({ weight: "bold", ...props })} />;
+}
+
+export function CalculatorIcon(props: AppIconProps) {
+  return <Calculator {...withDefault(props)} />;
+}
+
+export function VariantSwapIcon(props: AppIconProps) {
+  return <ArrowsClockwise {...withDefault({ weight: "bold", ...props })} />;
 }
