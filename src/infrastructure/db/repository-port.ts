@@ -86,6 +86,7 @@ export interface AppRepository {
   listVerificationRuns(limit?: number): Promise<MathVerificationRunEntity[]>;
 
   // FSRS Cards
+  listUserConceptFsrsCards(userId: string): Promise<FsrsCardEntity[]>;
   listDueFsrsCards(userId: string, nowIso: string): Promise<FsrsCardEntity[]>;
   findFsrsCard(params: {
     userId: string;
@@ -104,7 +105,10 @@ export interface AppRepository {
   getFractureById(fractureId: string): Promise<MistakeFractureEntity | null>;
   upsertMistakeFracture(fracture: MistakeFractureEntity): Promise<void>;
   recordAttempt(attempt: QuestionAttemptEntity): Promise<void>;
-  listUserAttempts(userId: string, filter?: { skillNodeId?: string; limit?: number }): Promise<QuestionAttemptEntity[]>;
+  listUserAttempts(
+    userId: string,
+    filter?: { skillNodeId?: string; simulationBlockId?: string; limit?: number },
+  ): Promise<QuestionAttemptEntity[]>;
 
   // Brain Vault & Hybrid RAG
   listVaultDocuments(userId: string): Promise<BrainVaultDocument[]>;

@@ -466,12 +466,16 @@ export class SimulationService {
       triageAction: params.triageAction,
     });
 
-    const attemptsByBlock = await this.resolveAttemptsForSession(params.userId, found.session, [
-      block,
-    ]);
-    const blockAttempts = attemptsByBlock.get(block.id);
-    if (blockAttempts) {
-      const counts = this.summarizeBlockCounts(blockAttempts);
+    const blockRawAttempts = await this.repo.listUserAttempts(params.userId, {
+      simulationBlockId: block.id,
+      limit: Math.max(60, block.questionCount * 3),
+    });
+    const dedupMap = new Map<string, QuestionAttemptEntity>();
+    for (const a of blockRawAttempts) {
+      if (!dedupMap.has(a.questionId)) dedupMap.set(a.questionId, a);
+    }
+    if (dedupMap.size > 0) {
+      const counts = this.summarizeBlockCounts(dedupMap);
       block.correctCount = counts.correctCount;
       block.skippedSmartCount = counts.skippedSmartCount;
     } else {

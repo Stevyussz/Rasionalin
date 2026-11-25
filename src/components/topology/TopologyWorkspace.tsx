@@ -15,8 +15,10 @@ import {
   TargetIcon,
 } from "@/components/icons/ArchitecturalIcons";
 import { ExamCountdownCard } from "@/components/countdown/ExamCountdownCard";
+import { WeeklyRoadmapSection } from "@/components/countdown/WeeklyRoadmapSection";
 import { AppShell } from "@/components/layout/AppShell";
 import type { AdaptiveDailyPlan } from "@/domain/daily-plan";
+import type { WeeklyStudyRoadmap } from "@/domain/weekly-roadmap";
 import type {
   SkillNode,
   SkillPrerequisiteEdge,
@@ -100,6 +102,7 @@ function unitBannerClasses(theme: UnitTheme): string {
 export function TopologyWorkspace() {
   const [data, setData] = useState<TopologyPayload | null>(null);
   const [dailyPlan, setDailyPlan] = useState<AdaptiveDailyPlan | null>(null);
+  const [weeklyRoadmap, setWeeklyRoadmap] = useState<WeeklyStudyRoadmap | null>(null);
   const [diagnosticCompleted, setDiagnosticCompleted] = useState<boolean | null>(null);
   const [examDate, setExamDate] = useState<string | null>(null);
   const [targetScore, setTargetScore] = useState<number>(800);
@@ -123,6 +126,7 @@ export function TopologyWorkspace() {
       if (dashRes.ok) {
         const dashJson = (await dashRes.json()) as {
           dailyPlan?: AdaptiveDailyPlan;
+          weeklyRoadmap?: WeeklyStudyRoadmap;
           user?: {
             diagnosticCompleted?: boolean;
             examDate?: string | null;
@@ -130,6 +134,7 @@ export function TopologyWorkspace() {
           };
         };
         if (dashJson.dailyPlan) setDailyPlan(dashJson.dailyPlan);
+        if (dashJson.weeklyRoadmap) setWeeklyRoadmap(dashJson.weeklyRoadmap);
         if (typeof dashJson.user?.diagnosticCompleted === "boolean") {
           setDiagnosticCompleted(dashJson.user.diagnosticCompleted);
         }
@@ -448,6 +453,9 @@ export function TopologyWorkspace() {
             }}
           />
 
+          {/* Weekly Study Roadmap (H-XXX -> H-0) */}
+          {weeklyRoadmap && <WeeklyRoadmapSection roadmap={weeklyRoadmap} />}
+
           {/* Adaptive Daily Study Plan (Rencana Belajar Harian menuju UTBK) */}
           {dailyPlan && (
             <section
@@ -511,6 +519,19 @@ export function TopologyWorkspace() {
                     />
                   </Link>
                 ))}
+              </div>
+
+              <div className="pt-3 border-t border-[var(--border-structural)] flex flex-wrap items-center justify-between gap-2">
+                <span className="text-xs font-bold text-[var(--ink-secondary)]">
+                  Ingin latih pilihan rumus cepat &amp; beda pola soal?
+                </span>
+                <Link
+                  href="/study?mode=interleaved"
+                  className="btn-olive text-xs px-3.5 py-2 shrink-0"
+                >
+                  <PlayIcon size={13} />
+                  <span>Interleaved Sprint (5 Soal Campur)</span>
+                </Link>
               </div>
             </section>
           )}

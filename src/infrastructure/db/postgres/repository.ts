@@ -167,6 +167,13 @@ function mapTemplateRow(row: Record<string, unknown>): QuestionTemplateEntity {
 }
 
 export class PostgresRepository implements AppRepository {
+  private skillNodesCache: { data: SkillNode[]; expiresAt: number } | null = null;
+  private skillEdgesCache: { data: SkillPrerequisiteEdge[]; expiresAt: number } | null = null;
+  private readonly sessionCache = new Map<
+    string,
+    { value: { session: UserSessionEntity; user: UserEntity }; expiresAt: number }
+  >();
+
   constructor(private readonly pool: Pool) {}
 
   async ensureDefaultOwnerUser(): Promise<UserEntity> {
@@ -254,6 +261,11 @@ export class PostgresRepository implements AppRepository {
         next.themePreference,
       ],
     );
+    for (const [k, entry] of this.sessionCache.entries()) {
+      if (entry.value.user.id === userId) {
+        this.sessionCache.delete(k);
+      }
+    }
     return mapUserRow(res.rows[0]);
   }
 
@@ -282,6 +294,19 @@ export class PostgresRepository implements AppRepository {
   }
 
   async findSessionByTokenHash(tokenHash: string): Promise<{ session: UserSessionEntity; user: UserEntity } | null> {
+    const nowMs = Date.now();
+    const cached = this.sessionCache.get(tokenHash);
+    if (
+      cached &&
+      cached.expiresAt > nowMs &&
+      new Date(cached.value.session.expiresAt).getTime() > nowMs
+    ) {
+      return {
+        session: { ...cached.value.session },
+        user: { ...cached.value.user },
+      };
+    }
+
     const res = await this.pool.query(
       `SELECT s.*, u.id AS u_id, u.email, u.password_hash, u.display_name, u.target_score,
               u.target_major, u.exam_date, u.diagnostic_completed, u.theme_preference,
@@ -293,7 +318,7 @@ export class PostgresRepository implements AppRepository {
     );
     if (res.rows.length === 0) return null;
     const r = res.rows[0];
-    return {
+    const value = {
       session: {
         id: String(r.id),
         userId: String(r.user_id),
@@ -317,9 +342,19 @@ export class PostgresRepository implements AppRepository {
         updatedAt: new Date(String(r.u_updated_at)).toISOString(),
       },
     };
+    if (this.sessionCache.size >= 200) {
+      const oldestKey = this.sessionCache.keys().next().value;
+      if (oldestKey) this.sessionCache.delete(oldestKey);
+    }
+    this.sessionCache.set(tokenHash, { value, expiresAt: nowMs + 20_000 });
+    return {
+      session: { ...value.session },
+      user: { ...value.user },
+    };
   }
 
   async deleteSessionByTokenHash(tokenHash: string): Promise<void> {
+    this.sessionCache.delete(tokenHash);
     await this.pool.query(`DELETE FROM user_sessions WHERE token_hash = $1`, [tokenHash]);
   }
 
@@ -374,23 +409,35 @@ export class PostgresRepository implements AppRepository {
   }
 
   async listSkillNodes(): Promise<SkillNode[]> {
+    const nowMs = Date.now();
+    if (this.skillNodesCache && this.skillNodesCache.expiresAt > nowMs) {
+      return [...this.skillNodesCache.data];
+    }
     const res = await this.pool.query(`SELECT * FROM skill_nodes ORDER BY display_order ASC`);
-    return res.rows.map(mapSkillNodeRow);
+    const data = res.rows.map(mapSkillNodeRow);
+    this.skillNodesCache = { data, expiresAt: nowMs + 60_000 };
+    return [...data];
   }
 
   async listSkillEdges(): Promise<SkillPrerequisiteEdge[]> {
+    const nowMs = Date.now();
+    if (this.skillEdgesCache && this.skillEdgesCache.expiresAt > nowMs) {
+      return [...this.skillEdgesCache.data];
+    }
     const res = await this.pool.query(`SELECT * FROM skill_prerequisite_edges`);
-    return res.rows.map((r) => ({
+    const data = res.rows.map((r) => ({
       parentNodeId: String(r.parent_node_id),
       childNodeId: String(r.child_node_id),
       edgeType: String(r.edge_type) as SkillPrerequisiteEdge["edgeType"],
       weight: Number(r.weight),
     }));
+    this.skillEdgesCache = { data, expiresAt: nowMs + 60_000 };
+    return [...data];
   }
 
   async getSkillNodeById(nodeId: string): Promise<SkillNode | null> {
-    const res = await this.pool.query(`SELECT * FROM skill_nodes WHERE id = $1`, [nodeId]);
-    return res.rows[0] ? mapSkillNodeRow(res.rows[0]) : null;
+    const nodes = await this.listSkillNodes();
+    return nodes.find((n) => n.id === nodeId) ?? null;
   }
 
   async listUserSkillMasteries(userId: string): Promise<UserSkillMastery[]> {
@@ -705,6 +752,14 @@ export class PostgresRepository implements AppRepository {
     };
   }
 
+  async listUserConceptFsrsCards(userId: string): Promise<FsrsCardEntity[]> {
+    const res = await this.pool.query(
+      `SELECT * FROM fsrs_cards WHERE user_id = $1 AND card_scope = 'skill_concept'`,
+      [userId],
+    );
+    return res.rows.map((r) => this.mapFsrsRow(r));
+  }
+
   async listDueFsrsCards(userId: string, nowIso: string): Promise<FsrsCardEntity[]> {
     const res = await this.pool.query(
       `SELECT * FROM fsrs_cards WHERE user_id = $1 AND due <= $2 ORDER BY due ASC`,
@@ -913,13 +968,17 @@ export class PostgresRepository implements AppRepository {
 
   async listUserAttempts(
     userId: string,
-    filter?: { skillNodeId?: string; limit?: number },
+    filter?: { skillNodeId?: string; simulationBlockId?: string; limit?: number },
   ): Promise<QuestionAttemptEntity[]> {
     const clauses = [`user_id = $1`];
     const values: unknown[] = [userId];
     if (filter?.skillNodeId) {
       values.push(filter.skillNodeId);
       clauses.push(`skill_node_id = $${values.length}`);
+    }
+    if (filter?.simulationBlockId) {
+      values.push(filter.simulationBlockId);
+      clauses.push(`simulation_block_id = $${values.length}`);
     }
     const limitSql = filter?.limit ? `LIMIT ${Number(filter.limit)}` : "";
     const res = await this.pool.query(

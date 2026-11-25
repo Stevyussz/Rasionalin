@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { buildAdaptiveDailyPlan } from "@/domain/daily-plan";
+import { buildWeeklyStudyRoadmap } from "@/domain/weekly-roadmap";
 import { resolveActiveUser } from "@/infrastructure/auth/session";
 import { getRepository } from "@/infrastructure/db";
 import { getUserMemoryBundle } from "@/infrastructure/memory/user-memory-store";
@@ -38,6 +39,15 @@ export async function GET() {
       studyPace: memoryBundle.persona.studyPace,
     });
 
+    const weeklyRoadmap = buildWeeklyStudyRoadmap({
+      examDate: user.examDate,
+      targetScore: user.targetScore,
+      nodes,
+      masteries,
+      weakSubtests: memoryBundle.persona.weakSubtests,
+      studyPace: memoryBundle.persona.studyPace,
+    });
+
     return NextResponse.json({
       user: {
         id: user.id,
@@ -49,6 +59,7 @@ export async function GET() {
       },
       momentum,
       dailyPlan,
+      weeklyRoadmap,
       summary: {
         dueFsrsCount: dueCards.length,
         activeFractureCount: activeFractures.length,

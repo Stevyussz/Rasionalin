@@ -13,7 +13,7 @@ export function getPgPool(): Pool {
   }
 
   if (!globalThis.__kejarsnbtPgPool) {
-    globalThis.__kejarsnbtPgPool = new Pool(buildPgPoolConfig(databaseUrl, 5));
+    globalThis.__kejarsnbtPgPool = new Pool(buildPgPoolConfig(databaseUrl, 10));
   }
 
   return globalThis.__kejarsnbtPgPool;

@@ -154,7 +154,8 @@ export function FocusTunnelWorkspace() {
   const skillNodeIdParam = searchParams.get("skillNodeId");
   const fractureIdParam = searchParams.get("fractureId");
   const questionIdParam = searchParams.get("questionId");
-  const modeParam = searchParams.get("mode"); // "lesson" | "practice" | null
+  const modeParam = searchParams.get("mode"); // "lesson" | "practice" | "interleaved" | null
+  const isInterleavedSprint = modeParam === "interleaved";
 
   const [item, setItem] = useState<StudyItemPayload | null>(null);
   const [loading, setLoading] = useState(true);
@@ -165,6 +166,8 @@ export function FocusTunnelWorkspace() {
   const [phase, setPhase] = useState<"lesson" | "practice">("practice");
   const [activeLesson, setActiveLesson] = useState<MicroLessonContent | null>(null);
   const lessonCheckedRef = useRef<boolean>(false);
+  const recentNodeIdsRef = useRef<string[]>([]);
+  const recentQuestionIdsRef = useRef<string[]>([]);
 
   const [selectedKey, setSelectedKey] = useState<"A" | "B" | "C" | "D" | "E" | null>(null);
   const [flagged, setFlagged] = useState(false);
@@ -238,20 +241,34 @@ export function FocusTunnelWorkspace() {
         overrideParams?.fractureId !== undefined ? overrideParams.fractureId : fractureIdParam;
       const qId =
         overrideParams?.questionId !== undefined ? overrideParams.questionId : questionIdParam;
-      if (sId) qs.set("skillNodeId", sId);
-      if (fId) qs.set("fractureId", fId);
-      if (qId) qs.set("questionId", qId);
+      if (isInterleavedSprint && !sId && !fId && !qId) {
+        qs.set("mode", "interleaved");
+        const exNodes = recentNodeIdsRef.current.slice(-2);
+        const exQuestions = recentQuestionIdsRef.current.slice(-15);
+        if (exNodes.length > 0) qs.set("excludeNodeIds", exNodes.join(","));
+        if (exQuestions.length > 0) qs.set("excludeQuestionIds", exQuestions.join(","));
+      } else {
+        if (sId) qs.set("skillNodeId", sId);
+        if (fId) qs.set("fractureId", fId);
+        if (qId) qs.set("questionId", qId);
+      }
 
       try {
         const res = await fetch(`/api/study/next?${qs.toString()}`);
         if (!res.ok) throw new Error("Gagal memuat soal berikutnya.");
         const payload = (await res.json()) as StudyItemPayload;
+        recentNodeIdsRef.current = [...recentNodeIdsRef.current, payload.skillNode.id].slice(-2);
+        recentQuestionIdsRef.current = [
+          ...recentQuestionIdsRef.current,
+          payload.question.id,
+        ].slice(-15);
         setItem(payload);
         const nodeLesson = getMicroLessonForNode(payload.skillNode.id);
         setActiveLesson(nodeLesson);
         if (!lessonCheckedRef.current) {
           lessonCheckedRef.current = true;
           const shouldShowLesson =
+            !isInterleavedSprint &&
             Boolean(nodeLesson) &&
             !fractureIdParam &&
             !questionIdParam &&
@@ -275,7 +292,7 @@ export function FocusTunnelWorkspace() {
         setLoading(false);
       }
     },
-    [skillNodeIdParam, fractureIdParam, questionIdParam],
+    [skillNodeIdParam, fractureIdParam, questionIdParam, isInterleavedSprint, modeParam],
   );
 
   useEffect(() => {
@@ -597,7 +614,13 @@ export function FocusTunnelWorkspace() {
             </div>
             <div className="flex items-center justify-between text-xs font-bold text-[var(--ink-secondary)]">
               <span className="truncate">
-                {item ? `${item.question.subtest} · ${item.skillNode.titleId}` : "Memuat soal..."}
+                {!item
+                  ? "Memuat soal..."
+                  : isInterleavedSprint && !submission
+                    ? "Interleaved Sprint · Strategi disembunyikan (tebak bab & pola dulu)"
+                    : isInterleavedSprint
+                      ? `Interleaved · ${item.question.subtest} · ${item.skillNode.titleId}`
+                      : `${item.question.subtest} · ${item.skillNode.titleId}`}
               </span>
               <span className="font-num shrink-0 ml-2">
                 {sessionHistory.length}/{SESSION_GOAL}
@@ -923,7 +946,11 @@ export function FocusTunnelWorkspace() {
               {/* Clean Typographic Status Line (Zero Pill Soup) */}
               <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-extrabold">
                 <div className="flex flex-wrap items-center gap-3">
-                  <span className="text-[var(--ink-secondary)]">{item.skillNode.titleId}</span>
+                  <span className="text-[var(--ink-secondary)]">
+                    {isInterleavedSprint && !submission
+                      ? "Mode Campur Lintas Bab (Interleaved)"
+                      : item.skillNode.titleId}
+                  </span>
                   {item.mastery.recoveryShieldActive && (
                     <span className="inline-flex items-center gap-1 text-[var(--accent-text-on-secondary)]">
                       <ShieldIcon size={16} />

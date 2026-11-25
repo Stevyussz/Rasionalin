@@ -517,6 +517,11 @@ export class LocalJsonRepository implements AppRepository {
       .slice(0, limit);
   }
 
+  async listUserConceptFsrsCards(userId: string): Promise<FsrsCardEntity[]> {
+    const s = await this.load();
+    return s.fsrsCards.filter((c) => c.userId === userId && c.cardScope === "skill_concept");
+  }
+
   async listDueFsrsCards(userId: string, nowIso: string): Promise<FsrsCardEntity[]> {
     const s = await this.load();
     return s.fsrsCards
@@ -591,11 +596,16 @@ export class LocalJsonRepository implements AppRepository {
 
   async listUserAttempts(
     userId: string,
-    filter?: { skillNodeId?: string; limit?: number },
+    filter?: { skillNodeId?: string; simulationBlockId?: string; limit?: number },
   ): Promise<QuestionAttemptEntity[]> {
     const s = await this.load();
     const filtered = s.attempts
-      .filter((a) => a.userId === userId && (!filter?.skillNodeId || a.skillNodeId === filter.skillNodeId))
+      .filter(
+        (a) =>
+          a.userId === userId &&
+          (!filter?.skillNodeId || a.skillNodeId === filter.skillNodeId) &&
+          (!filter?.simulationBlockId || a.simulationBlockId === filter.simulationBlockId),
+      )
       .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
     return filter?.limit ? filtered.slice(0, filter.limit) : filtered;
   }

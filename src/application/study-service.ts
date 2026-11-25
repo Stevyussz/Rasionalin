@@ -25,8 +25,6 @@ import type {
   UserMomentumState,
   UserSkillMastery,
 } from "@/domain/types";
-import { NineRouterClient } from "@/infrastructure/ai/nine-router-client";
-import { RootCauseClassificationSchema } from "@/infrastructure/ai/schemas";
 import type { AppRepository } from "@/infrastructure/db/repository-port";
 import { NeuroSymbolicService } from "./neuro-symbolic-service";
 
@@ -110,14 +108,16 @@ export class StudyService {
     questionId?: string | null;
     skillNodeId?: string | null;
     fractureId?: string | null;
+    interleaved?: boolean;
+    excludeSkillNodeIds?: string[];
+    excludeQuestionIds?: string[];
   }): Promise<StudySessionItemPayload> {
-    const [nodes, edges, masteries, momentum, allApproved, recentAttempts] = await Promise.all([
+    const [nodes, edges, masteries, momentum, recentAttempts] = await Promise.all([
       this.repo.listSkillNodes(),
       this.repo.listSkillEdges(),
       this.repo.listUserSkillMasteries(params.userId),
       this.repo.getOrInitMomentum(params.userId),
-      this.repo.listQuestions({ userId: params.userId, qcStatus: "approved" }),
-      this.repo.listUserAttempts(params.userId, { limit: 200 }),
+      this.repo.listUserAttempts(params.userId, { limit: 120 }),
     ]);
 
     const seenCount = new Map<string, number>();
@@ -131,14 +131,36 @@ export class StudyService {
 
     const nodeMap = new Map(nodes.map((n) => [n.id, n]));
     const masteryMap = new Map(masteries.map((m) => [m.skillNodeId, m]));
+    const excludedNodes = new Set(params.excludeSkillNodeIds ?? []);
+    const excludedQuestions = new Set(params.excludeQuestionIds ?? []);
+
+    const pickFromNode = async (
+      nodeId: string,
+      extraExcludeQuestionId?: string | null,
+    ): Promise<QuestionEntity | null> => {
+      const nodeQuestions = await this.repo.listQuestions({
+        userId: params.userId,
+        skillNodeId: nodeId,
+        qcStatus: "approved",
+      });
+      if (nodeQuestions.length === 0) return null;
+      const filtered = nodeQuestions.filter(
+        (q) => !excludedQuestions.has(q.id) && q.id !== extraExcludeQuestionId,
+      );
+      const pool = filtered.length > 0 ? filtered : nodeQuestions;
+      return this.pickFreshQuestion(pool, seenCount, lastSeenRank);
+    };
 
     let selectedQuestion: QuestionEntity | null = null;
     let fractureContext: MistakeFractureEntity | null = null;
     let selectionReason = "Latihan adaptif terarah sesuai posisi Skill Tree aktif.";
 
     if (params.questionId) {
-      selectedQuestion = allApproved.find((q) => q.id === params.questionId) ?? null;
-      selectionReason = "Soal spesifik dipilih langsung.";
+      const specific = await this.repo.getQuestionById(params.questionId);
+      if (specific && specific.qcStatus === "approved") {
+        selectedQuestion = specific;
+        selectionReason = "Soal spesifik dipilih langsung.";
+      }
     }
 
     // 1. Explicit Mistake Fracture revival (generates fresh QuickJS-WASM isomorphic variant for Quant!)
@@ -164,23 +186,55 @@ export class StudyService {
           }
         }
         if (!selectedQuestion) {
-          const fracturePool = allApproved.filter(
-            (q) => q.skillNodeId === fracture.skillNodeId && q.id !== fracture.originQuestionId,
-          );
           selectedQuestion =
-            this.pickFreshQuestion(fracturePool, seenCount, lastSeenRank) ??
-            allApproved.find((q) => q.id === fracture.originQuestionId) ??
-            null;
+            (await pickFromNode(fracture.skillNodeId, fracture.originQuestionId)) ??
+            (await this.repo.getQuestionById(fracture.originQuestionId));
           selectionReason = "Pemulihan Fraktur FSRS dari arsip node terkait.";
         }
       }
     }
 
-    // 2. Explicit Skill Node target
+    // 2. Interleaved Sprint (Rohrer d=0.83): deliberately rotates bab & track to train strategy discrimination
+    if (!selectedQuestion && params.interleaved) {
+      const unlockedIds = new Set(
+        masteries.filter((m) => m.status !== "locked").map((m) => m.skillNodeId),
+      );
+      const eligibleNodes =
+        unlockedIds.size >= 3 ? nodes.filter((n) => unlockedIds.has(n.id)) : nodes;
+      const nonExcluded = eligibleNodes.filter((n) => !excludedNodes.has(n.id));
+      const candidateNodes = nonExcluded.length > 0 ? nonExcluded : eligibleNodes;
+
+      const lastExcludedId = params.excludeSkillNodeIds?.[params.excludeSkillNodeIds.length - 1];
+      const lastTrack = lastExcludedId ? nodeMap.get(lastExcludedId)?.track ?? null : null;
+
+      const sortedInterleave = [...candidateNodes].sort((a, b) => {
+        const ma = masteryMap.get(a.id);
+        const mb = masteryMap.get(b.id);
+        const scoreFor = (node: SkillNode, m?: UserSkillMastery) =>
+          (lastTrack && node.track !== lastTrack ? 120 : 0) +
+          (m?.status === "foundation_fracture" ? 90 : 0) +
+          (m?.status === "in_progress" ? 45 : 0) +
+          Math.round((1 - (m?.masteryScore ?? 0)) * 50) +
+          ((seenCount.get(node.id) ?? 0) === 0 ? 15 : 0);
+        return scoreFor(b, mb) - scoreFor(a, ma);
+      });
+
+      for (const candidateNode of sortedInterleave) {
+        const candidate = await pickFromNode(candidateNode.id);
+        if (candidate) {
+          selectedQuestion = candidate;
+          selectionReason =
+            "Interleaved Sprint (Rohrer d=0.83): melatih diskriminasi strategi lintas bab.";
+          break;
+        }
+      }
+    }
+
+    // 3. Explicit Skill Node target
     if (!selectedQuestion && params.skillNodeId) {
-      const candidates = allApproved.filter((q) => q.skillNodeId === params.skillNodeId);
-      if (candidates.length > 0) {
-        selectedQuestion = this.pickFreshQuestion(candidates, seenCount, lastSeenRank);
+      const candidate = await pickFromNode(params.skillNodeId);
+      if (candidate) {
+        selectedQuestion = candidate;
         selectionReason = `Fokus node ${nodeMap.get(params.skillNodeId)?.code ?? "terpilih"}.`;
       } else {
         const ns = new NeuroSymbolicService(this.repo);
@@ -195,20 +249,19 @@ export class StudyService {
       }
     }
 
-    // 3. Due FSRS queue (prioritizing active fractures & spaced concepts)
+    // 4. Due FSRS queue (prioritizing active fractures & spaced concepts)
     if (!selectedQuestion) {
       const dueCards = await this.repo.listDueFsrsCards(params.userId, new Date().toISOString());
       if (dueCards.length > 0) {
         const topCard = dueCards[0];
-        if (topCard.questionId) {
-          selectedQuestion = allApproved.find((q) => q.id === topCard.questionId) ?? null;
+        if (topCard.questionId && !excludedQuestions.has(topCard.questionId)) {
+          const cardQ = await this.repo.getQuestionById(topCard.questionId);
+          if (cardQ && cardQ.qcStatus === "approved") {
+            selectedQuestion = cardQ;
+          }
         }
         if (!selectedQuestion) {
-          selectedQuestion = this.pickFreshQuestion(
-            allApproved.filter((q) => q.skillNodeId === topCard.skillNodeId),
-            seenCount,
-            lastSeenRank,
-          );
+          selectedQuestion = await pickFromNode(topCard.skillNodeId);
         }
         if (selectedQuestion) {
           selectionReason = "Jadwal ulang FSRS aktif sebelum kurva lupa menurun.";
@@ -216,7 +269,7 @@ export class StudyService {
       }
     }
 
-    // 4. Adaptive Soft-Gate Interleaving or Foundation Fracture Priority
+    // 5. Adaptive Soft-Gate Interleaving or Foundation Fracture Priority
     if (!selectedQuestion) {
       const prioritizedMasteries = [...masteries]
         .filter((m) => m.status !== "locked")
@@ -233,11 +286,7 @@ export class StudyService {
         });
 
       for (const m of prioritizedMasteries) {
-        const candidate = this.pickFreshQuestion(
-          allApproved.filter((q) => q.skillNodeId === m.skillNodeId),
-          seenCount,
-          lastSeenRank,
-        );
+        const candidate = await pickFromNode(m.skillNodeId);
         if (candidate) {
           selectedQuestion = candidate;
           selectionReason =
@@ -252,7 +301,13 @@ export class StudyService {
     }
 
     if (!selectedQuestion) {
-      selectedQuestion = this.pickFreshQuestion(allApproved, seenCount, lastSeenRank) ?? allApproved[0];
+      for (const fallbackNode of nodes) {
+        const candidate = await pickFromNode(fallbackNode.id);
+        if (candidate) {
+          selectedQuestion = candidate;
+          break;
+        }
+      }
     }
 
     if (!selectedQuestion) {
@@ -374,43 +429,6 @@ export class StudyService {
       rootCause = heuristic.primaryRootCause;
       rootCauseConfidence = heuristic.confidence;
       rootCauseSummary = heuristic.diagnosticSummary;
-
-      // Keep timed simulation/diagnostic submissions instant via deterministic classification
-      // so a slow or hanging external AI gateway never stalls the student's live CBT clock.
-      if (input.attemptMode !== "simulation" && input.attemptMode !== "diagnostic") {
-        const routerClient = new NineRouterClient(this.repo);
-        const aiRc = await routerClient.invokeStructuredJson({
-          taskId: "root_cause_classify",
-          userId: input.userId,
-          schema: RootCauseClassificationSchema,
-          schemaName: "root_cause_classify",
-          jsonSchema: { type: "object" },
-          messages: [
-            {
-              role: "system",
-              content:
-                "Klasifikasikan akar penyebab kesalahan siswa SNBT ke salah satu dari: foundational_gap, formula_amnesia, translation_error, careless_time_panic.",
-            },
-            {
-              role: "user",
-              content: JSON.stringify({
-                subtest: question.subtest,
-                tier: question.tier,
-                time_to_solve_ms: input.timeToSolveMs,
-                expected_solve_seconds: question.expectedSolveSeconds,
-                hints_used: hintsUsedCount,
-                evidence_match_passed: evidenceMatchPassed,
-                chosen_trap: distractorTrap,
-              }),
-            },
-          ],
-        });
-        if (aiRc.ok && aiRc.data) {
-          rootCause = aiRc.data.primary_root_cause;
-          rootCauseConfidence = aiRc.data.confidence;
-          rootCauseSummary = aiRc.data.diagnostic_summary_id;
-        }
-      }
     }
 
     // Update FSRS concept card
@@ -437,7 +455,6 @@ export class StudyService {
       expectedSolveSeconds: question.expectedSolveSeconds,
     });
     const scheduledConcept = scheduleFsrsReview(conceptCard, rating, now);
-    await this.repo.upsertFsrsCard(scheduledConcept.nextCard);
 
     // Update Mastery DAG & Momentum
     const recentOutcomes = priorAttempts.slice(0, 10).map((a) => a.isCorrect).reverse();
@@ -455,18 +472,24 @@ export class StudyService {
       edges,
       masteryMap,
     );
-    await this.repo.upsertUserSkillMastery(masteryEval.nextMastery);
+
+    const parallelWrites: Array<Promise<void>> = [
+      this.repo.upsertFsrsCard(scheduledConcept.nextCard),
+      this.repo.upsertUserSkillMastery(masteryEval.nextMastery),
+    ];
 
     const unlockedNodeCodes: string[] = [];
     for (const childId of masteryEval.unlockedChildIds) {
       const childMastery = masteryMap.get(childId);
       const childNode = await this.repo.getSkillNodeById(childId);
       if (childMastery && childMastery.status === "locked") {
-        await this.repo.upsertUserSkillMastery({
-          ...childMastery,
-          status: "in_progress",
-          updatedAt: nowIso,
-        });
+        parallelWrites.push(
+          this.repo.upsertUserSkillMastery({
+            ...childMastery,
+            status: "in_progress",
+            updatedAt: nowIso,
+          }),
+        );
         if (childNode) unlockedNodeCodes.push(childNode.code);
       }
     }
@@ -479,13 +502,15 @@ export class StudyService {
       for (const re of remedialEdges) {
         const target = masteryMap.get(re.childNodeId);
         if (target) {
-          await this.repo.upsertUserSkillMastery({
-            ...target,
-            status: "foundation_fracture",
-            interleavePriority: 95,
-            recoveryShieldActive: true,
-            updatedAt: nowIso,
-          });
+          parallelWrites.push(
+            this.repo.upsertUserSkillMastery({
+              ...target,
+              status: "foundation_fracture",
+              interleavePriority: 95,
+              recoveryShieldActive: true,
+              updatedAt: nowIso,
+            }),
+          );
         }
       }
     }
@@ -518,7 +543,8 @@ export class StudyService {
       subtestIrtScores: updatedSubtestScores,
       estimatedIrtComposite: computeCompositeIrtScore(updatedSubtestScores),
     };
-    await this.repo.saveMomentum(finalMomentum);
+    parallelWrites.push(this.repo.saveMomentum(finalMomentum));
+    await Promise.all(parallelWrites);
 
     // Handle Mistake Fracture lifecycle (create on error, advance healing on revival)
     let resultingFracture: MistakeFractureEntity | null = null;

@@ -9,12 +9,25 @@ export async function GET(req: NextRequest) {
     const user = await resolveActiveUser(repo);
     const { searchParams } = req.nextUrl;
 
+    const interleaved = searchParams.get("mode") === "interleaved";
+    const excludeSkillNodeIds = (searchParams.get("excludeNodeIds") ?? "")
+      .split(",")
+      .map((s) => s.trim())
+      .filter(Boolean);
+    const excludeQuestionIds = (searchParams.get("excludeQuestionIds") ?? "")
+      .split(",")
+      .map((s) => s.trim())
+      .filter(Boolean);
+
     const study = new StudyService(repo);
     const payload = await study.selectNextStudyItem({
       userId: user.id,
       questionId: searchParams.get("questionId"),
       skillNodeId: searchParams.get("skillNodeId"),
       fractureId: searchParams.get("fractureId"),
+      interleaved,
+      excludeSkillNodeIds,
+      excludeQuestionIds,
     });
 
     return NextResponse.json(payload);
