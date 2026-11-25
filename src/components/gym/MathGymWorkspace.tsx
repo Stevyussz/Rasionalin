@@ -5,6 +5,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
   ArrowLeftIcon,
   ArrowRightIcon,
+  BookOpenIcon,
   CalculatorIcon,
   CheckIcon,
   CloseIcon,
@@ -17,9 +18,13 @@ import {
 import { MathText } from "@/components/math/MathText";
 import {
   generateMathGymSession,
+  generateSingleMathGymQuestion,
+  getCategoryMeta,
+  MATH_GYM_BELTS,
   MATH_GYM_CATEGORIES,
   type MathGymCategory,
   type MathGymCoreCategory,
+  type MathGymDifficulty,
   type MathGymQuestion,
 } from "@/domain/math-gym-engine";
 
@@ -33,6 +38,17 @@ type StoredGymStats = Partial<Record<MathGymCategory, CategoryLocalStat>>;
 
 const STATS_STORAGE_KEY = "rasionalin_math_gym_stats_v1";
 const SPRINT_COUNT = 10;
+const MAX_REMEDIAL_RETRIES = 3;
+
+const DIFFICULTY_META: Array<{
+  id: MathGymDifficulty;
+  label: string;
+  desc: string;
+}> = [
+  { id: "dasar", label: "Level 1 · Dasar (Nol)", desc: "Angka kecil, konsep 1 langkah" },
+  { id: "standar", label: "Level 2 · Standar SNBT", desc: "Campur & soal cerita rutin" },
+  { id: "tantangan", label: "Level 3 · Tantangan", desc: "2 langkah & jebakan ekstra" },
+];
 
 interface AnsweredRecord {
   questionId: string;
@@ -40,11 +56,14 @@ interface AnsweredRecord {
   categoryLabel: string;
   isCorrect: boolean;
   elapsedSec: number;
+  isRemedialRetry?: boolean;
 }
 
 export function MathGymWorkspace() {
   const [view, setView] = useState<"lobby" | "sprint" | "summary">("lobby");
+  const [selectedDifficulty, setSelectedDifficulty] = useState<MathGymDifficulty>("dasar");
   const [activeCategory, setActiveCategory] = useState<MathGymCategory>("mixed");
+  const [activeDifficulty, setActiveDifficulty] = useState<MathGymDifficulty>("dasar");
   const [questions, setQuestions] = useState<MathGymQuestion[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedKey, setSelectedKey] = useState<"A" | "B" | "C" | "D" | null>(null);
@@ -52,6 +71,8 @@ export function MathGymWorkspace() {
   const [streak, setStreak] = useState(0);
   const [bestStreak, setBestStreak] = useState(0);
   const [history, setHistory] = useState<AnsweredRecord[]>([]);
+  const [remedialEnqueuedCount, setRemedialEnqueuedCount] = useState(0);
+  const [justEnqueuedRemedial, setJustEnqueuedRemedial] = useState(false);
   const [sprintElapsedSec, setSprintElapsedSec] = useState(0);
   const [stats, setStats] = useState<StoredGymStats>({});
 
@@ -92,22 +113,28 @@ export function MathGymWorkspace() {
     [],
   );
 
-  const startSprint = useCallback((category: MathGymCategory) => {
-    const generated = generateMathGymSession(category, SPRINT_COUNT, Date.now());
-    setActiveCategory(category);
-    setQuestions(generated);
-    setCurrentIndex(0);
-    setSelectedKey(null);
-    setHintOpen(false);
-    setStreak(0);
-    setBestStreak(0);
-    setHistory([]);
-    setSprintElapsedSec(0);
-    const now = Date.now();
-    sprintStartRef.current = now;
-    questionStartRef.current = now;
-    setView("sprint");
-  }, []);
+  const startSprint = useCallback(
+    (category: MathGymCategory, difficulty: MathGymDifficulty = selectedDifficulty) => {
+      const generated = generateMathGymSession(category, SPRINT_COUNT, Date.now(), difficulty);
+      setActiveCategory(category);
+      setActiveDifficulty(difficulty);
+      setQuestions(generated);
+      setCurrentIndex(0);
+      setSelectedKey(null);
+      setHintOpen(false);
+      setStreak(0);
+      setBestStreak(0);
+      setHistory([]);
+      setRemedialEnqueuedCount(0);
+      setJustEnqueuedRemedial(false);
+      setSprintElapsedSec(0);
+      const now = Date.now();
+      sprintStartRef.current = now;
+      questionStartRef.current = now;
+      setView("sprint");
+    },
+    [selectedDifficulty],
+  );
 
   useEffect(() => {
     if (view !== "sprint") return;
@@ -135,10 +162,12 @@ export function MathGymWorkspace() {
           categoryLabel: currentQuestion.categoryLabel,
           isCorrect,
           elapsedSec: qSec,
+          isRemedialRetry: currentQuestion.isRemedialRetry,
         },
       ]);
 
       if (isCorrect) {
+        setJustEnqueuedRemedial(false);
         setStreak((s) => {
           const next = s + 1;
           setBestStreak((b) => Math.max(b, next));
@@ -146,9 +175,23 @@ export function MathGymWorkspace() {
         });
       } else {
         setStreak(0);
+        if (!currentQuestion.isRemedialRetry && remedialEnqueuedCount < MAX_REMEDIAL_RETRIES) {
+          const retryQ = generateSingleMathGymQuestion(
+            currentQuestion.category,
+            activeDifficulty,
+            (Date.now() + (questions.length + 1) * 97) >>> 0,
+            "remedial",
+          );
+          retryQ.isRemedialRetry = true;
+          setQuestions((prev) => [...prev, retryQ]);
+          setRemedialEnqueuedCount((c) => c + 1);
+          setJustEnqueuedRemedial(true);
+        } else {
+          setJustEnqueuedRemedial(false);
+        }
       }
     },
-    [currentQuestion, selectedKey],
+    [activeDifficulty, currentQuestion, questions.length, remedialEnqueuedCount, selectedKey],
   );
 
   const handleNext = useCallback(() => {
@@ -156,6 +199,7 @@ export function MathGymWorkspace() {
       setCurrentIndex((i) => i + 1);
       setSelectedKey(null);
       setHintOpen(false);
+      setJustEnqueuedRemedial(false);
       questionStartRef.current = Date.now();
       return;
     }
@@ -189,20 +233,25 @@ export function MathGymWorkspace() {
 
   if (view === "lobby") {
     const mixedStat = stats.mixed;
+    const masteredCategoriesCount = MATH_GYM_CATEGORIES.filter(
+      (c) => (stats[c.id]?.bestAccuracyPct ?? 0) >= 80,
+    ).length;
+
     return (
       <div className="space-y-6">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
             <div className="inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider text-[var(--accent-text-on-secondary)]">
               <CalculatorIcon size={17} />
-              <span>Math Rescue · Pemanasan 3 Menit</span>
+              <span>Math Rescue · Kurikulum 3 Sabuk</span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-bold mt-1">
-              Gym Refleks Hitung &amp; Terjemah Soal
+              Gym Refleks Hitung &amp; Otak Soal Cerita
             </h1>
             <p className="text-sm font-semibold text-[var(--ink-secondary)] max-w-2xl mt-1 leading-relaxed">
-              Supaya memori kerjamu tidak habis di hitung dasar, dan kamu langsung kebayang kalimat
-              cerita itu berubah jadi rumus apa. Tiap salah, langkah hitung dari nol langsung muncul.
+              Disusun bertahap dari nol sampai lancar pilih rumus soal cerita SNBT. Kalau ada yang
+              salah, sistem langsung tampilkan langkah hitung dari nol dan memberi 1 soal angka baru
+              di akhir sesi.
             </p>
           </div>
           <Link href="/" className="btn-secondary text-xs">
@@ -211,11 +260,50 @@ export function MathGymWorkspace() {
           </Link>
         </div>
 
+        {/* Belt Progress & Difficulty Selector */}
+        <section className="card-tactile p-4 sm:p-5 space-y-4">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <h2 className="text-sm font-extrabold text-[var(--ink-primary)]">
+                Pilih Level Latihan (Rekomendasi mulai dari Level 1 Dasar)
+              </h2>
+              <p className="text-xs font-semibold text-[var(--ink-secondary)]">
+                Progres Tuntas (≥80%):{" "}
+                <span className="font-num font-bold text-[var(--accent-text-on-secondary)]">
+                  {masteredCategoriesCount}/{MATH_GYM_CATEGORIES.length}
+                </span>{" "}
+                kategori selesai
+              </p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+            {DIFFICULTY_META.map((lvl) => {
+              const active = selectedDifficulty === lvl.id;
+              return (
+                <button
+                  key={lvl.id}
+                  type="button"
+                  onClick={() => setSelectedDifficulty(lvl.id)}
+                  className={`p-3 rounded-xl border-2 text-left transition-all cursor-pointer ${
+                    active
+                      ? "bg-[var(--accent-tint)] border-[var(--accent-primary)] text-[var(--accent-text-on-secondary)]"
+                      : "bg-[var(--surface-canvas)] border-[var(--border-structural)] text-[var(--ink-primary)] hover:bg-[var(--surface-secondary)]"
+                  }`}
+                >
+                  <div className="text-xs font-extrabold">{lvl.label}</div>
+                  <div className="text-[11px] font-semibold opacity-85 mt-0.5">{lvl.desc}</div>
+                </button>
+              );
+            })}
+          </div>
+        </section>
+
         {/* Hero Mixed Sprint Card */}
         <section className="card-tactile p-5 sm:p-6 bg-[var(--accent-tint)] border-[var(--accent-tint-border)] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="space-y-1.5">
             <div className="flex flex-wrap items-center gap-2 text-xs font-extrabold text-[var(--accent-text-on-secondary)]">
-              <span>REKOMENDASI PEMANASAN HARIAN</span>
+              <span>PEMANASAN LINTAS 3 SABUK</span>
               {mixedStat && (
                 <span className="font-num px-2 py-0.5 rounded-md bg-[var(--surface-elevated)] border border-[var(--accent-tint-border)]">
                   Rekor: {mixedStat.bestAccuracyPct}% ({mixedStat.sessions}x sesi)
@@ -223,16 +311,17 @@ export function MathGymWorkspace() {
               )}
             </div>
             <h2 className="text-xl font-bold text-[var(--ink-primary)]">
-              Pemanasan Campur: 10 Soal Kilat (Nol Rumus Ribet)
+              Pemanasan Campur Lengkap (10 Soal · ±3 Menit)
             </h2>
             <p className="text-xs sm:text-sm font-semibold text-[var(--ink-secondary)]">
-              Isinya gabungan tanda minus, pecahan, persen/diskon, pindah ruas aljabar, pangkat/akar,
-              dan terjemah kalimat soal cerita.
+              Menggabungkan hitung minus, pecahan, aljabar, geometri, statistika, terjemah cerita,
+              dan pemilih rumus pada level{" "}
+              <strong>{DIFFICULTY_META.find((d) => d.id === selectedDifficulty)?.label}</strong>.
             </p>
           </div>
           <button
             type="button"
-            onClick={() => startSprint("mixed")}
+            onClick={() => startSprint("mixed", selectedDifficulty)}
             className="btn-primary px-5 min-h-[48px] shrink-0"
           >
             <PlayIcon size={17} />
@@ -240,58 +329,104 @@ export function MathGymWorkspace() {
           </button>
         </section>
 
-        {/* Focused 6 Category Cards */}
-        <section className="space-y-3">
-          <div>
-            <h2 className="text-lg font-bold">Atau Pilih Latihan Khusus Titik Lemahmu</h2>
-            <p className="text-xs font-semibold text-[var(--ink-secondary)]">
-              Klik salah satu kartu di bawah untuk langsung berlatih 10 soal terarah.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {MATH_GYM_CATEGORIES.map((cat) => {
-              const st = stats[cat.id];
-              return (
-                <div
-                  key={cat.id}
-                  className="card-tactile p-4 sm:p-5 flex flex-col justify-between gap-4"
-                >
-                  <div className="space-y-2">
-                    <div className="flex items-start justify-between gap-2">
-                      <h3 className="font-display font-bold text-base leading-snug">
-                        {cat.label}
-                      </h3>
-                      {st && (
-                        <span className="text-[11px] font-num font-bold text-[var(--accent-text-on-secondary)] bg-[var(--accent-tint)] px-2 py-0.5 rounded-md shrink-0">
-                          Terbaik {st.bestAccuracyPct}%
-                        </span>
-                      )}
-                    </div>
-                    <p className="text-xs font-semibold text-[var(--ink-secondary)] leading-relaxed">
-                      {cat.subtitle}
-                    </p>
-                    <div className="p-2.5 rounded-xl bg-[var(--surface-canvas)] border border-[var(--border-structural)] text-xs font-bold text-[var(--ink-primary)]">
-                      Contoh: <MathText text={cat.examplePreview} />
-                    </div>
-                    <p className="text-[11px] font-semibold text-[var(--ochre-ink)]">
-                      Tips: <MathText text={cat.studyTip} />
-                    </p>
-                  </div>
-
-                  <button
-                    type="button"
-                    onClick={() => startSprint(cat.id)}
-                    className="btn-secondary w-full text-xs min-h-[42px]"
-                  >
-                    <PlayIcon size={14} />
-                    <span>Latih 10 Soal Ini</span>
-                  </button>
+        {/* 3-Belt Structured Curriculum */}
+        <div className="space-y-8">
+          {MATH_GYM_BELTS.map((belt) => {
+            const beltCats = MATH_GYM_CATEGORIES.filter((c) => c.belt === belt.beltNumber);
+            return (
+              <section key={belt.id} className="space-y-3">
+                <div className="border-b border-[var(--border-structural)] pb-2">
+                  <h2 className="text-lg font-bold text-[var(--ink-primary)]">{belt.title}</h2>
+                  <p className="text-xs font-semibold text-[var(--ink-secondary)]">
+                    {belt.subtitle}
+                  </p>
                 </div>
-              );
-            })}
-          </div>
-        </section>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {beltCats.map((cat) => {
+                    const st = stats[cat.id];
+                    const isDone = (st?.bestAccuracyPct ?? 0) >= 80;
+                    return (
+                      <div
+                        key={cat.id}
+                        className="card-tactile p-4 sm:p-5 flex flex-col justify-between gap-4"
+                      >
+                        <div className="space-y-2.5">
+                          <div className="flex items-start justify-between gap-2">
+                            <h3 className="font-display font-bold text-base leading-snug">
+                              {cat.label}
+                            </h3>
+                            {st && (
+                              <span
+                                className={`text-[11px] font-num font-bold px-2 py-0.5 rounded-md shrink-0 inline-flex items-center gap-1 ${
+                                  isDone
+                                    ? "text-[var(--accent-text-on-secondary)] bg-[var(--accent-tint)]"
+                                    : "text-[var(--ochre-ink)] bg-[var(--ochre-tint)]"
+                                }`}
+                              >
+                                {isDone && <CheckIcon size={12} />}
+                                <span>Terbaik {st.bestAccuracyPct}%</span>
+                              </span>
+                            )}
+                          </div>
+
+                          <p className="text-xs font-semibold text-[var(--ink-secondary)] leading-relaxed">
+                            {cat.subtitle}
+                          </p>
+
+                          <div className="p-2.5 rounded-xl bg-[var(--surface-canvas)] border border-[var(--border-structural)] text-xs font-bold text-[var(--ink-primary)]">
+                            Contoh: <MathText text={cat.examplePreview} />
+                          </div>
+
+                          <details className="rounded-xl border border-[var(--border-structural)] bg-[var(--surface-canvas)] px-3 py-2 text-xs">
+                            <summary className="cursor-pointer font-extrabold text-[var(--olive-ink)] inline-flex items-center gap-1.5">
+                              <BookOpenIcon size={14} />
+                              <span>Ringkasan 15 Detik (Baca Sebelum Mulai)</span>
+                            </summary>
+                            <div className="mt-2 pt-2 border-t border-[var(--border-structural)] space-y-2">
+                              {cat.cheatSheetRules.map((item, rIdx) => (
+                                <div key={rIdx} className="space-y-0.5">
+                                  <div className="font-bold text-[var(--ink-primary)]">
+                                    • <MathText text={item.rule} />
+                                  </div>
+                                  <div className="text-[11px] font-semibold text-[var(--ink-secondary)] pl-2.5">
+                                    <MathText text={item.example} />
+                                  </div>
+                                </div>
+                              ))}
+                              <p className="text-[11px] font-bold text-[var(--ochre-ink)] pt-1">
+                                Tips cepat: <MathText text={cat.studyTip} />
+                              </p>
+                            </div>
+                          </details>
+                        </div>
+
+                        <div className="flex flex-wrap items-center gap-2">
+                          <button
+                            type="button"
+                            onClick={() => startSprint(cat.id, selectedDifficulty)}
+                            className="btn-primary flex-1 text-xs min-h-[42px]"
+                          >
+                            <PlayIcon size={14} />
+                            <span>Latih 10 Soal</span>
+                          </button>
+                          <Link
+                            href={`/study?skillNodeId=${cat.linkedSkillNodeId}&mode=lesson`}
+                            className="btn-secondary text-xs min-h-[42px] px-3 shrink-0"
+                            title={cat.linkedSkillLabel}
+                          >
+                            <span>Ke Bab SNBT</span>
+                            <ArrowRightIcon size={13} />
+                          </Link>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </section>
+            );
+          })}
+        </div>
       </div>
     );
   }
@@ -326,7 +461,9 @@ export function MathGymWorkspace() {
               />
             </div>
             <div className="flex items-center justify-between text-[11px] font-extrabold text-[var(--ink-secondary)]">
-              <span className="truncate">{currentQuestion.categoryLabel}</span>
+              <span className="truncate">
+                {currentQuestion.categoryLabel} · {activeDifficulty.toUpperCase()}
+              </span>
               <span className="font-num shrink-0 ml-2">
                 {currentIndex + 1}/{questions.length}
               </span>
@@ -345,9 +482,17 @@ export function MathGymWorkspace() {
           </div>
         </div>
 
+        {/* Remedial Retry Notice */}
+        {currentQuestion.isRemedialRetry && (
+          <div className="p-3 rounded-xl bg-[var(--ochre-tint)] border border-[var(--ochre-border)] text-xs font-extrabold text-[var(--ochre-ink)]">
+            Ronde Pemulihan · Soal Serupa Angka Baru (tadi masih selip, yuk buktikan sekarang sudah
+            paham!)
+          </div>
+        )}
+
         {/* Question Card */}
         <section className="card-tactile p-5 sm:p-7 space-y-5">
-          <div className="flex items-center justify-between gap-2">
+          <div className="flex flex-wrap items-center justify-between gap-2">
             <span className="text-[11px] font-extrabold uppercase tracking-wider text-[var(--olive-ink)] bg-[var(--olive-tint)] px-2.5 py-1 rounded-md">
               {currentQuestion.categoryLabel}
             </span>
@@ -363,7 +508,7 @@ export function MathGymWorkspace() {
             )}
           </div>
 
-          <div className="text-lg sm:text-xl font-bold leading-relaxed text-[var(--ink-primary)]">
+          <div className="text-base sm:text-xl font-bold leading-relaxed text-[var(--ink-primary)] break-words">
             <MathText text={currentQuestion.promptMarkdown} />
           </div>
 
@@ -400,7 +545,7 @@ export function MathGymWorkspace() {
                   type="button"
                   disabled={selectedKey !== null}
                   onClick={() => handleChooseOption(opt.key)}
-                  className={`min-h-[58px] p-4 rounded-xl border-2 border-b-4 text-left flex items-center gap-3 transition-all ${
+                  className={`min-h-[58px] p-3.5 sm:p-4 rounded-xl border-2 border-b-4 text-left flex items-center gap-3 transition-all min-w-0 ${
                     selectedKey === null ? "cursor-pointer" : "cursor-default"
                   } ${tileClass}`}
                 >
@@ -415,7 +560,7 @@ export function MathGymWorkspace() {
                   >
                     {idx + 1}
                   </span>
-                  <div className="text-sm sm:text-base font-bold text-[var(--ink-primary)] leading-snug">
+                  <div className="text-sm font-bold text-[var(--ink-primary)] leading-snug break-words min-w-0">
                     <MathText text={opt.labelLatexOrText} />
                   </div>
                 </button>
@@ -440,7 +585,7 @@ export function MathGymWorkspace() {
                 >
                   {chosenOpt.isCorrect ? <CheckIcon size={16} /> : <CloseIcon size={15} />}
                 </span>
-                <div className="space-y-1">
+                <div className="space-y-1 min-w-0">
                   <div
                     className={`text-sm font-extrabold ${
                       chosenOpt.isCorrect
@@ -457,6 +602,12 @@ export function MathGymWorkspace() {
                       <MathText text={chosenOpt.trapFeedback} />
                     </p>
                   )}
+                  {justEnqueuedRemedial && (
+                    <p className="text-xs font-extrabold text-[var(--ochre-ink)]">
+                      Tenang, 1 soal serupa dengan angka baru sudah dimasukkan ke akhir sesi ini
+                      biar kamu langsung lancar!
+                    </p>
+                  )}
                 </div>
               </div>
 
@@ -466,7 +617,7 @@ export function MathGymWorkspace() {
                 </div>
                 <ol className="space-y-1 text-xs sm:text-sm font-semibold text-[var(--ink-primary)]">
                   {currentQuestion.stepByStep.map((step, sIdx) => (
-                    <li key={sIdx} className="leading-relaxed">
+                    <li key={sIdx} className="leading-relaxed break-words">
                       <span className="font-num font-extrabold mr-1.5">{sIdx + 1}.</span>
                       <MathText text={step} />
                     </li>
@@ -477,7 +628,9 @@ export function MathGymWorkspace() {
               <div className="pt-2 flex justify-end">
                 <button type="button" onClick={handleNext} className="btn-primary text-xs min-h-[42px]">
                   <span>
-                    {currentIndex + 1 < questions.length ? "Soal Berikutnya [Enter]" : "Lihat Rapor Refleks"}
+                    {currentIndex + 1 < questions.length
+                      ? "Soal Berikutnya [Enter]"
+                      : "Lihat Rapor Refleks"}
                   </span>
                   <ArrowRightIcon size={15} />
                 </button>
@@ -515,21 +668,31 @@ export function MathGymWorkspace() {
     id,
     ...data,
     accPct: Math.round((data.correct / data.total) * 100),
+    meta: getCategoryMeta(id),
   }));
   const weakestCat = [...catBreakdown].sort((a, b) => a.accPct - b.accPct)[0] ?? null;
+  const bridgeMeta =
+    weakestCat?.meta ??
+    (activeCategory === "mixed" ? getCategoryMeta("word_translate") : getCategoryMeta(activeCategory));
+  const nextDifficulty: MathGymDifficulty | null =
+    activeDifficulty === "dasar"
+      ? "standar"
+      : activeDifficulty === "standar"
+        ? "tantangan"
+        : null;
 
   return (
     <div className="max-w-2xl mx-auto space-y-6">
       <section className="card-tactile p-6 sm:p-8 space-y-5">
         <div className="space-y-1">
           <span className="text-xs font-extrabold uppercase tracking-wider text-[var(--accent-text-on-secondary)]">
-            Sesi Gym Hitung Selesai
+            Sesi Gym Hitung Selesai · Level {activeDifficulty.toUpperCase()}
           </span>
           <h1 className="text-2xl sm:text-3xl font-bold">Rapor Refleks Hitungmu</h1>
           <p className="text-sm font-semibold text-[var(--ink-secondary)]">
             {accuracyPct >= 80
-              ? "Fondasi hitungmu mulai refleks! Sekarang otakmu jauh lebih lega saat masuk soal cerita SNBT."
-              : "Bagus sudah latihan dari nol! Ulangi bagian yang masih merah sekali lagi agar makin otomatis."}
+              ? "Mantap! Fondasimu di level ini sudah kokoh. Siap naik level atau langsung praktik di soal SNBT!"
+              : "Bagus sudah melatih titik lemahmu dari nol. Coba ulangi bagian yang masih di bawah 80% sekali lagi."}
           </p>
         </div>
 
@@ -560,12 +723,20 @@ export function MathGymWorkspace() {
         {catBreakdown.length > 0 && (
           <div className="space-y-2 pt-2 border-t border-[var(--border-structural)]">
             <h2 className="text-xs font-extrabold uppercase tracking-wider text-[var(--ink-secondary)]">
-              Rincian Per Jenis Hitungan
+              Rincian Per Kategori &amp; Jembatan Kurikulum SNBT
             </h2>
             <div className="divide-y divide-[var(--border-structural)]">
               {catBreakdown.map((c) => (
-                <div key={c.id} className="py-2 flex items-center justify-between gap-2 text-xs">
-                  <span className="font-bold text-[var(--ink-primary)]">{c.label}</span>
+                <div key={c.id} className="py-2.5 flex flex-wrap items-center justify-between gap-2 text-xs">
+                  <div>
+                    <div className="font-bold text-[var(--ink-primary)]">{c.label}</div>
+                    <Link
+                      href={`/study?skillNodeId=${c.meta.linkedSkillNodeId}&mode=lesson`}
+                      className="text-[11px] font-bold text-[var(--accent-text-on-secondary)] hover:underline"
+                    >
+                      Buka materi SNBT: {c.meta.linkedSkillLabel}
+                    </Link>
+                  </div>
                   <span
                     className={`font-num font-extrabold ${
                       c.accPct >= 80
@@ -582,26 +753,39 @@ export function MathGymWorkspace() {
         )}
 
         <div className="flex flex-col sm:flex-row flex-wrap gap-2.5 pt-2">
-          {weakestCat && weakestCat.accPct < 100 && (
+          {weakestCat && weakestCat.accPct < 80 && (
             <button
               type="button"
-              onClick={() => startSprint(weakestCat.id)}
+              onClick={() => startSprint(weakestCat.id, "dasar")}
               className="btn-olive flex-1 text-xs min-h-[44px]"
             >
               <ResetIcon size={15} />
-              <span>Latih Khusus: {weakestCat.label}</span>
+              <span>Ulangi Khusus: {weakestCat.label} (Dasar)</span>
+            </button>
+          )}
+          {accuracyPct >= 80 && nextDifficulty && (
+            <button
+              type="button"
+              onClick={() => startSprint(activeCategory, nextDifficulty)}
+              className="btn-olive flex-1 text-xs min-h-[44px]"
+            >
+              <PlayIcon size={14} />
+              <span>Naik ke Level {nextDifficulty.toUpperCase()}</span>
             </button>
           )}
           <button
             type="button"
-            onClick={() => startSprint(activeCategory)}
+            onClick={() => startSprint(activeCategory, activeDifficulty)}
             className="btn-secondary flex-1 text-xs min-h-[44px]"
           >
             <ResetIcon size={15} />
             <span>Ulangi Sesi Ini</span>
           </button>
-          <Link href="/study" className="btn-primary flex-1 text-xs min-h-[44px]">
-            <span>Lanjut ke Latihan SNBT</span>
+          <Link
+            href={`/study?skillNodeId=${bridgeMeta.linkedSkillNodeId}&mode=lesson`}
+            className="btn-primary flex-1 text-xs min-h-[44px]"
+          >
+            <span>Lanjut Materi SNBT Terkait</span>
             <ArrowRightIcon size={15} />
           </Link>
         </div>

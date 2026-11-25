@@ -125,6 +125,22 @@ export function WeeklyRoadmapSection({ roadmap }: WeeklyRoadmapSectionProps) {
               {wk.focusHeadline}
             </p>
 
+            {wk.phase === "foundation" && (
+              <div className="p-2.5 rounded-xl bg-[var(--accent-tint)] border border-[var(--accent-tint-border)] flex flex-wrap items-center justify-between gap-2 text-xs">
+                <span className="font-bold text-[var(--accent-text-on-secondary)]">
+                  Pemanasan Fondasi (3 Menit): Latih refleks hitung dasar &amp; terjemah soal cerita
+                  dulu sebelum masuk bab PK/PM.
+                </span>
+                <Link
+                  href="/math-gym"
+                  className="font-extrabold text-[var(--accent-text-on-secondary)] hover:underline inline-flex items-center gap-1 shrink-0"
+                >
+                  <span>Buka Gym Hitung</span>
+                  <ArrowRightIcon size={12} />
+                </Link>
+              </div>
+            )}
+
             {wk.nodes.length > 0 && (
               <div className="flex flex-wrap gap-1.5">
                 {wk.nodes.map((node) => (

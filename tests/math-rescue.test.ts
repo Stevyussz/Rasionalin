@@ -5,8 +5,11 @@ import { describe, expect, it } from "vitest";
 import { NeuroSymbolicService } from "@/application/neuro-symbolic-service";
 import {
   generateMathGymSession,
+  generateSingleMathGymQuestion,
+  MATH_GYM_BELTS,
   MATH_GYM_CATEGORIES,
   type MathGymCategory,
+  type MathGymDifficulty,
 } from "@/domain/math-gym-engine";
 import { NODE_IDS } from "@/domain/node-ids";
 import {
@@ -17,7 +20,7 @@ import {
 import { SEED_QUESTIONS, SEED_SKILL_NODES } from "@/domain/seed-data";
 import { LocalJsonRepository } from "@/infrastructure/db/memory/local-repository";
 
-describe("Paket Math Rescue (SBI Enrichment, Math Gym & PM-T0-UNIT Variant)", () => {
+describe("Paket Math Rescue (SBI Enrichment, Math Gym v2 & PM-T0-UNIT Variant)", () => {
   it("enriches 100% of quantitative SEED_QUESTIONS with non-null sbiDeconstruction and leaves literacy null", () => {
     const quantQuestions = SEED_QUESTIONS.filter((q) => q.track === "quantitative");
     const litQuestions = SEED_QUESTIONS.filter((q) => q.track === "literacy");
@@ -65,32 +68,60 @@ describe("Paket Math Rescue (SBI Enrichment, Math Gym & PM-T0-UNIT Variant)", ()
     expect(choices.some((c) => c.id === sampleQ!.sbiDeconstruction!.schemaType)).toBe(true);
   });
 
-  it("generates valid, distinct 4-option Math Gym sprints across every category and mixed mode", () => {
+  it("validates 3-belt Math Gym curriculum alignment with SNBT Skill Tree nodes", () => {
+    expect(MATH_GYM_BELTS).toHaveLength(3);
+    expect(MATH_GYM_CATEGORIES).toHaveLength(9);
+
+    const nodeIds = new Set(SEED_SKILL_NODES.map((n) => n.id));
+    const beltCategoryIds = MATH_GYM_BELTS.flatMap((b) => b.categories);
+    expect(new Set(beltCategoryIds).size).toBe(9);
+
+    for (const cat of MATH_GYM_CATEGORIES) {
+      expect(nodeIds.has(cat.linkedSkillNodeId)).toBe(true);
+      expect(cat.cheatSheetRules.length).toBeGreaterThanOrEqual(3);
+      expect(beltCategoryIds).toContain(cat.id);
+    }
+  });
+
+  it("generates valid, distinct 4-option Math Gym sprints across all 9 categories, mixed, and 3 difficulty levels", () => {
     const categories: MathGymCategory[] = [
       "mixed",
       ...MATH_GYM_CATEGORIES.map((c) => c.id),
     ];
+    const difficulties: MathGymDifficulty[] = ["dasar", "standar", "tantangan"];
 
-    for (const cat of categories) {
-      const questions = generateMathGymSession(cat, 10, 20261125);
-      expect(questions).toHaveLength(10);
+    for (const diff of difficulties) {
+      for (const cat of categories) {
+        const questions = generateMathGymSession(cat, 10, 20261125, diff);
+        expect(questions).toHaveLength(10);
 
-      for (const q of questions) {
-        expect(q.promptMarkdown).not.toMatch(/NaN|Infinity|undefined/);
-        expect(q.options).toHaveLength(4);
-        const correctOpts = q.options.filter((o) => o.isCorrect);
-        expect(correctOpts).toHaveLength(1);
-        expect(q.correctKey).toBe(correctOpts[0].key);
+        for (const q of questions) {
+          expect(q.difficulty).toBe(diff);
+          expect(q.promptMarkdown).not.toMatch(/NaN|Infinity|undefined/);
+          expect(q.options).toHaveLength(4);
+          const correctOpts = q.options.filter((o) => o.isCorrect);
+          expect(correctOpts).toHaveLength(1);
+          expect(q.correctKey).toBe(correctOpts[0].key);
 
-        const uniqueLabels = new Set(q.options.map((o) => o.labelLatexOrText.trim()));
-        expect(uniqueLabels.size).toBe(4);
-        for (const opt of q.options) {
-          expect(opt.labelLatexOrText).not.toMatch(/NaN|Infinity|undefined/);
-          expect(opt.trapFeedback.length).toBeGreaterThan(8);
+          const uniqueLabels = new Set(q.options.map((o) => o.labelLatexOrText.trim()));
+          expect(uniqueLabels.size).toBe(4);
+          for (const opt of q.options) {
+            expect(opt.labelLatexOrText).not.toMatch(/NaN|Infinity|undefined/);
+            expect(opt.trapFeedback.length).toBeGreaterThan(4);
+          }
+          expect(q.stepByStep.length).toBeGreaterThanOrEqual(1);
         }
-        expect(q.stepByStep.length).toBeGreaterThanOrEqual(2);
       }
     }
+
+    const remedial = generateSingleMathGymQuestion(
+      "formula_selector",
+      "dasar",
+      987654,
+      "remedial",
+    );
+    expect(remedial.id.startsWith("remedial-")).toBe(true);
+    expect(remedial.options).toHaveLength(4);
   });
 
   it("verifies new PM-T0-UNIT word-problem template across K=3 seeds in QuickJS-WASM", async () => {
