@@ -38,6 +38,7 @@ import type {
 import type { AppRepository, VaultSearchResultItem } from "@/infrastructure/db/repository-port";
 
 export const DEFAULT_OWNER_USER_ID = "00000000-0000-4000-8000-000000000001";
+const SEED_TEMPLATE_ID_SET = new Set(SEED_TEMPLATES.map((t) => t.id));
 
 interface LocalStoreState {
   users: UserEntity[];
@@ -213,7 +214,14 @@ export class LocalJsonRepository implements AppRepository {
 
   private async persist(): Promise<void> {
     if (!this.state) return;
-    const snapshot = JSON.stringify(this.state, null, 2);
+    const compactState: LocalStoreState = {
+      ...this.state,
+      skillNodes: [],
+      skillEdges: [],
+      questions: this.state.questions.filter((q) => q.sourceType !== "curated_seed"),
+      templates: this.state.templates.filter((t) => !SEED_TEMPLATE_ID_SET.has(t.id)),
+    };
+    const snapshot = JSON.stringify(compactState);
     this.writeChain = this.writeChain
       .catch(() => {
         // Recover from any previous transient filesystem error so writes never stay poisoned

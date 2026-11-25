@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { SocraticTutorService } from "@/application/tutor-service";
 import { buildAdaptiveDailyPlan } from "@/domain/daily-plan";
 import { buildFadedSolutionView, validateEvidenceHighlight } from "@/domain/dual-track-pedagogy";
@@ -49,6 +49,7 @@ describe("Dual-Track Pedagogy, Hybrid RRF 1.35x Boost & Socratic Fallback", () =
     const tmpFile = path.join(os.tmpdir(), `kejarsnbt-tutor-${Date.now()}.json`);
     const repo = new LocalJsonRepository(tmpFile);
     const owner = await repo.ensureDefaultOwnerUser();
+    const fetchSpy = vi.spyOn(globalThis, "fetch").mockRejectedValue(new Error("Offline unit test"));
 
     try {
       const rateQ = SEED_QUESTIONS.find((q) => q.id === "20000000-0000-4000-8000-000000000004")!;
@@ -76,6 +77,7 @@ describe("Dual-Track Pedagogy, Hybrid RRF 1.35x Boost & Socratic Fallback", () =
       });
       expect(rc.primaryRootCause).toBe("careless_time_panic");
     } finally {
+      fetchSpy.mockRestore();
       await fs.rm(tmpFile, { force: true });
     }
   }, 15_000);
@@ -124,6 +126,7 @@ describe("Dual-Track Pedagogy, Hybrid RRF 1.35x Boost & Socratic Fallback", () =
     const tmpFile = path.join(os.tmpdir(), `rasionalin-kb-tutor-${Date.now()}.json`);
     const repo = new LocalJsonRepository(tmpFile);
     const owner = await repo.ensureDefaultOwnerUser();
+    const fetchSpy = vi.spyOn(globalThis, "fetch").mockRejectedValue(new Error("Offline unit test"));
     try {
       const tutor = new SocraticTutorService(repo);
       const reply = await tutor.askInteractiveTutor({
@@ -134,6 +137,7 @@ describe("Dual-Track Pedagogy, Hybrid RRF 1.35x Boost & Socratic Fallback", () =
       expect(reply.whyFirstMarkdown.toLowerCase()).toContain("bahasa panda");
       expect(reply.citedChunks.length).toBeGreaterThan(0);
     } finally {
+      fetchSpy.mockRestore();
       await fs.rm(tmpFile, { force: true });
     }
   }, 15_000);
@@ -142,6 +146,7 @@ describe("Dual-Track Pedagogy, Hybrid RRF 1.35x Boost & Socratic Fallback", () =
     const tmpFile = path.join(os.tmpdir(), `rasionalin-studio-${Date.now()}.json`);
     const repo = new LocalJsonRepository(tmpFile);
     const owner = await repo.ensureDefaultOwnerUser();
+    const fetchSpy = vi.spyOn(globalThis, "fetch").mockRejectedValue(new Error("Offline unit test"));
 
     try {
       const tutor = new SocraticTutorService(repo);
@@ -184,6 +189,7 @@ describe("Dual-Track Pedagogy, Hybrid RRF 1.35x Boost & Socratic Fallback", () =
       });
       expect(plan.missions[2].href).toContain("mode=practice");
     } finally {
+      fetchSpy.mockRestore();
       await fs.rm(tmpFile, { force: true });
     }
   }, 15_000);

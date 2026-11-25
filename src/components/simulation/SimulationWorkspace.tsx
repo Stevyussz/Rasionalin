@@ -1,10 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
-  ArrowRightIcon,
-  CheckIcon,
   PlayIcon,
   SimulationIcon,
   TargetIcon,
@@ -16,6 +13,7 @@ import {
   SimulationFocusTunnel,
   type ActiveSimPayload,
 } from "@/components/simulation/SimulationFocusTunnel";
+import { SimulationReviewPanel } from "@/components/simulation/SimulationReviewPanel";
 import type {
   SimulationMode,
   SimulationSessionEntity,
@@ -77,12 +75,6 @@ function modeFriendlyLabel(mode: SimulationMode): string {
     case "subtest_drill":
       return "Drill 1 Subtes Fokus";
   }
-}
-
-function formatDuration(seconds: number): string {
-  const mins = Math.floor(seconds / 60);
-  const secs = seconds % 60;
-  return mins > 0 ? `${mins}m ${secs}d` : `${secs}d`;
 }
 
 export function SimulationWorkspace() {
@@ -162,9 +154,14 @@ export function SimulationWorkspace() {
       <SimulationFocusTunnel
         sim={sim}
         activeBlock={activeBlock}
-        onSessionUpdated={(session, blocks) => {
-          setSim((prev) => (prev ? { ...prev, session, blocks } : prev));
+        onSessionUpdated={(session, blocks, review) => {
+          setSim((prev) =>
+            prev ? { ...prev, session, blocks, review: review ?? prev.review ?? null } : prev,
+          );
           if (session.status === "completed") {
+            if (!review) {
+              void resumeSimulation(session.id);
+            }
             void loadHistory();
           }
         }}
@@ -177,6 +174,20 @@ export function SimulationWorkspace() {
   }
 
   const inProgressSession = history.find((h) => h.status === "in_progress") ?? null;
+  const completedHistory = [...history]
+    .filter((h) => h.status === "completed" && h.estimatedIrtScore !== null)
+    .reverse();
+  const latestCompleted = completedHistory[completedHistory.length - 1] ?? null;
+  const firstCompleted = completedHistory[0] ?? null;
+  const bestIrt = completedHistory.reduce(
+    (max, h) => Math.max(max, Math.round(h.estimatedIrtScore ?? 0)),
+    0,
+  );
+  const deltaIrt =
+    completedHistory.length >= 2 && latestCompleted && firstCompleted
+      ? Math.round(latestCompleted.estimatedIrtScore ?? 0) -
+        Math.round(firstCompleted.estimatedIrtScore ?? 0)
+      : null;
 
   return (
     <AppShell>
@@ -391,6 +402,130 @@ export function SimulationWorkspace() {
               })()}
             </div>
 
+            {completedHistory.length > 0 && latestCompleted && (
+              <section
+                className="card-tactile p-5 sm:p-6 space-y-4"
+                aria-label="Tren progres skor IRT tryout"
+              >
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <div>
+                    <div className="text-xs font-extrabold uppercase tracking-wider text-[var(--olive-ink)]">
+                      Tren Progres Skor IRT
+                    </div>
+                    <h2 className="font-bold text-base sm:text-lg">
+                      Rekam Jejak Kalibrasi ({completedHistory.length} Tryout Selesai)
+                    </h2>
+                  </div>
+                  <div className="flex flex-wrap items-center gap-4 text-xs font-num font-bold">
+                    <div>
+                      <span className="text-[var(--ink-muted)] mr-1">Terakhir:</span>
+                      <span className="text-[var(--accent-text-on-secondary)]">
+                        {Math.round(latestCompleted.estimatedIrtScore ?? 400)}
+                      </span>
+                    </div>
+                    <div>
+                      <span className="text-[var(--ink-muted)] mr-1">Tertinggi:</span>
+                      <span className="text-[var(--ink-primary)]">{bestIrt}</span>
+                    </div>
+                    {deltaIrt !== null && (
+                      <div
+                        className={
+                          deltaIrt >= 0
+                            ? "text-[var(--accent-text-on-secondary)]"
+                            : "text-[var(--coral-ink)]"
+                        }
+                      >
+                        Tren: {deltaIrt >= 0 ? `+${deltaIrt}` : deltaIrt} poin
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {completedHistory.length >= 2 ? (
+                  <div className="w-full overflow-x-auto">
+                    <svg
+                      viewBox="0 0 640 120"
+                      className="w-full min-w-[320px] h-28"
+                      role="img"
+                      aria-label="Grafik tren skor IRT tryout"
+                    >
+                      {/* Target 800 line */}
+                      <line
+                        x1="28"
+                        y1="26"
+                        x2="612"
+                        y2="26"
+                        stroke="var(--ochre-border)"
+                        strokeDasharray="4 4"
+                        strokeWidth="1.5"
+                      />
+                      <text
+                        x="610"
+                        y="20"
+                        textAnchor="end"
+                        fill="var(--ochre-ink)"
+                        fontSize="10"
+                        fontWeight="700"
+                      >
+                        Target 800
+                      </text>
+                      {(() => {
+                        const pts = completedHistory.slice(-10);
+                        const coords = pts.map((h, i) => {
+                          const x =
+                            pts.length === 1
+                              ? 320
+                              : 36 + (i * (568)) / Math.max(1, pts.length - 1);
+                          const score = Math.max(250, Math.min(950, h.estimatedIrtScore ?? 400));
+                          const y = 104 - ((score - 250) / 700) * 86;
+                          return { x, y, score: Math.round(score) };
+                        });
+                        const poly = coords.map((c) => `${c.x},${c.y}`).join(" ");
+                        return (
+                          <>
+                            <polyline
+                              fill="none"
+                              stroke="var(--accent-primary)"
+                              strokeWidth="3"
+                              strokeLinejoin="round"
+                              strokeLinecap="round"
+                              points={poly}
+                            />
+                            {coords.map((c, idx) => (
+                              <g key={idx}>
+                                <circle
+                                  cx={c.x}
+                                  cy={c.y}
+                                  r="5"
+                                  fill="var(--surface-elevated)"
+                                  stroke="var(--accent-primary)"
+                                  strokeWidth="2.5"
+                                />
+                                <text
+                                  x={c.x}
+                                  y={Math.max(12, c.y - 9)}
+                                  textAnchor="middle"
+                                  fill="var(--ink-primary)"
+                                  fontSize="10"
+                                  fontWeight="800"
+                                >
+                                  {c.score}
+                                </text>
+                              </g>
+                            ))}
+                          </>
+                        );
+                      })()}
+                    </svg>
+                  </div>
+                ) : (
+                  <p className="text-xs font-semibold text-[var(--ink-secondary)]">
+                    Selesaikan minimal 1 tryout lagi untuk melihat grafik kenaikan skor IRT-mu secara visual.
+                  </p>
+                )}
+              </section>
+            )}
+
             {history.length > 0 && (
               <section className="card-tactile p-5 space-y-3">
                 <h2 className="font-bold text-base">Riwayat Tryout Terakhir</h2>
@@ -417,15 +552,25 @@ export function SimulationWorkspace() {
                         <span>
                           Akurasi {h.accuracyRate !== null ? `${Math.round(h.accuracyRate * 100)}%` : "-"}
                         </span>
-                        {h.status === "in_progress" && (
+                        {h.status === "in_progress" ? (
                           <button
                             type="button"
+                            disabled={resumingId !== null}
                             onClick={() => void resumeSimulation(h.id)}
                             className="text-[var(--accent-text-on-secondary)] hover:underline cursor-pointer"
                           >
-                            Lanjut →
+                            {resumingId === h.id ? "Memuat..." : "Lanjut →"}
                           </button>
-                        )}
+                        ) : h.status === "completed" ? (
+                          <button
+                            type="button"
+                            disabled={resumingId !== null}
+                            onClick={() => void resumeSimulation(h.id)}
+                            className="text-[var(--olive-ink)] hover:underline cursor-pointer"
+                          >
+                            {resumingId === h.id ? "Membuka..." : "Lihat Pembahasan →"}
+                          </button>
+                        ) : null}
                       </div>
                     </div>
                   ))}
@@ -435,97 +580,18 @@ export function SimulationWorkspace() {
           </>
         )}
 
-        {/* Detailed Post-Tryout Score & Per-Subtest Breakdown Report */}
+        {/* Detailed Post-Tryout Score, Per-Subtest Breakdown & Question-by-Question Review */}
         {sim && sim.session.status === "completed" && (
-          <section className="card-tactile p-6 sm:p-8 space-y-6">
-            <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[var(--border-structural)] pb-4">
-              <div>
-                <div className="inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-[var(--accent-text-on-secondary)]">
-                  <CheckIcon size={16} />
-                  <span>Tryout Selesai · {modeFriendlyLabel(sim.session.sessionMode)}</span>
-                </div>
-                <h2 className="text-2xl font-bold mt-1">Ringkasan Hasil & Analisis Per Subtes</h2>
-              </div>
-              <div className="flex flex-wrap gap-2">
-                <button type="button" onClick={() => setSim(null)} className="btn-secondary text-xs">
-                  Pilih Mode Lain
-                </button>
-                <Link href="/graveyard" className="btn-primary text-xs">
-                  <span>Pulihkan Soal Salah</span>
-                  <ArrowRightIcon size={15} />
-                </Link>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-2 sm:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-[var(--border-structural)]">
-              <div className="py-3 sm:px-5 first:pl-0">
-                <span className="text-xs font-extrabold text-[var(--ink-secondary)]">Estimasi Skor IRT</span>
-                <div className="text-3xl font-num font-bold text-[var(--accent-text-on-secondary)] mt-1">
-                  {Math.round(sim.session.estimatedIrtScore ?? 400)}
-                </div>
-              </div>
-              <div className="py-3 sm:px-5">
-                <span className="text-xs font-extrabold text-[var(--ink-secondary)]">Akurasi Total</span>
-                <div className="text-3xl font-num font-bold text-[var(--olive-ink)] mt-1">
-                  {Math.round((sim.session.accuracyRate ?? 0) * 100)}%
-                </div>
-              </div>
-              <div className="py-3 sm:px-5">
-                <span className="text-xs font-extrabold text-[var(--ink-secondary)]">Efisiensi Triase</span>
-                <div className="text-3xl font-num font-bold text-[var(--ochre-ink)] mt-1">
-                  {Math.round((sim.session.triageEfficiencyScore ?? 0) * 100)}%
-                </div>
-              </div>
-              <div className="py-3 sm:px-5">
-                <span className="text-xs font-extrabold text-[var(--ink-secondary)]">Durasi Total</span>
-                <div className="text-3xl font-num font-bold text-[var(--ink-primary)] mt-1">
-                  {formatDuration(sim.session.totalDurationSeconds)}
-                </div>
-              </div>
-            </div>
-
-            {/* Per-Subtest Breakdown */}
-            <div className="space-y-3 pt-2 border-t border-[var(--border-structural)]">
-              <h3 className="text-xs font-extrabold uppercase tracking-wider text-[var(--ink-muted)]">
-                Rincian Performa Per Subtes
-              </h3>
-              <div className="divide-y divide-[var(--border-structural)]">
-                {sim.blocks.map((b) => {
-                  const pct =
-                    b.questionCount > 0 ? Math.round((b.correctCount / b.questionCount) * 100) : 0;
-                  return (
-                    <div
-                      key={b.id}
-                      className="py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3"
-                    >
-                      <div className="min-w-0 flex-1 space-y-1.5">
-                        <div className="flex items-center justify-between gap-2 text-sm">
-                          <span className="font-extrabold">
-                            {b.subtest} ·{" "}
-                            {SUBTEST_OPTIONS.find((s) => s.code === b.subtest)?.name.split(" · ")[1] ??
-                              b.subtest}
-                          </span>
-                          <span className="font-num text-xs font-bold text-[var(--ink-secondary)]">
-                            {b.correctCount}/{b.questionCount} benar ({pct}%)
-                            {b.skippedSmartCount > 0 ? ` · ${b.skippedSmartCount} dilewati` : ""}
-                          </span>
-                        </div>
-                        <div className="w-full h-2 rounded-full bg-[var(--surface-secondary)] overflow-hidden">
-                          <div
-                            className="h-full rounded-full bg-[var(--accent-primary)] transition-all"
-                            style={{ width: `${Math.max(4, pct)}%` }}
-                          />
-                        </div>
-                      </div>
-                      <div className="sm:w-28 sm:text-right font-num text-sm font-bold text-[var(--accent-text-on-secondary)] shrink-0">
-                        IRT {b.subtestIrtScore ? Math.round(b.subtestIrtScore) : "-"}
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          </section>
+          <SimulationReviewPanel
+            session={sim.session}
+            blocks={sim.blocks}
+            review={sim.review ?? null}
+            modeLabel={modeFriendlyLabel(sim.session.sessionMode)}
+            onBackToLobby={() => {
+              setSim(null);
+              void loadHistory();
+            }}
+          />
         )}
       </div>
     </AppShell>

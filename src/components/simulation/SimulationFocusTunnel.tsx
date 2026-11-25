@@ -17,6 +17,10 @@ import {
 import { MathText } from "@/components/math/MathText";
 import { ScratchpadOverlay } from "@/components/study/ScratchpadOverlay";
 import type {
+  ActiveBlockAnswerMap,
+  SimulationReviewPayload,
+} from "@/application/simulation-service";
+import type {
   QuestionOption,
   SimulationSessionEntity,
   SimulationSubtestBlockEntity,
@@ -37,6 +41,8 @@ export interface ActiveSimPayload {
   session: SimulationSessionEntity;
   blocks: SimulationSubtestBlockEntity[];
   questionsById: Record<string, SimQuestionPublic>;
+  review?: SimulationReviewPayload | null;
+  activeBlockAnswers?: ActiveBlockAnswerMap;
 }
 
 interface SimulationFocusTunnelProps {
@@ -45,6 +51,7 @@ interface SimulationFocusTunnelProps {
   onSessionUpdated: (
     session: SimulationSessionEntity,
     blocks: SimulationSubtestBlockEntity[],
+    review?: SimulationReviewPayload | null,
   ) => void;
   onExitConfirmed: () => void;
 }
@@ -88,16 +95,29 @@ export function SimulationFocusTunnel({
   const questionStartRef = useRef<number>(Date.now());
   const autoLockedBlockRef = useRef<string | null>(null);
 
-  // Reset question cursor & local block maps when moving to a new block
+  // Reset or hydrate question cursor & local block maps when entering/resuming a block
   useEffect(() => {
-    setQIndex(0);
+    const initialSubmitted: Record<
+      string,
+      { status: "answered" | "skipped"; key: "A" | "B" | "C" | "D" | "E" | null }
+    > = {};
+    if (sim.activeBlockAnswers) {
+      for (const qId of activeBlock.questionIds) {
+        const saved = sim.activeBlockAnswers[qId];
+        if (saved) initialSubmitted[qId] = saved;
+      }
+    }
+    const firstPending = activeBlock.questionIds.findIndex(
+      (qId) => initialSubmitted[qId]?.status !== "answered",
+    );
+    setQIndex(firstPending >= 0 ? firstPending : 0);
     setDraftChoices({});
-    setSubmittedState({});
+    setSubmittedState(initialSubmitted);
     setFlaggedMap({});
     setLockConfirmOpen(false);
     setError(null);
     questionStartRef.current = Date.now();
-  }, [activeBlock.id]);
+  }, [activeBlock.id, activeBlock.questionIds, sim.activeBlockAnswers]);
 
   // Browser tab/refresh safety guard while exam is running
   useEffect(() => {
@@ -127,8 +147,9 @@ export function SimulationFocusTunnel({
       const updated = (await res.json()) as {
         session: SimulationSessionEntity;
         blocks: SimulationSubtestBlockEntity[];
+        review?: SimulationReviewPayload | null;
       };
-      onSessionUpdated(updated.session, updated.blocks);
+      onSessionUpdated(updated.session, updated.blocks, updated.review ?? null);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Gagal mengunci blok subtes.");
     } finally {

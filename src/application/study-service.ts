@@ -45,6 +45,8 @@ export interface SubmitAttemptInput {
   userId: string;
   questionId: string;
   attemptMode: QuestionAttemptEntity["attemptMode"];
+  simulationSessionId?: string | null;
+  simulationBlockId?: string | null;
   fractureId?: string | null;
   selectedAnswerKey: "A" | "B" | "C" | "D" | "E" | null;
   timeToSolveMs: number;
@@ -373,38 +375,41 @@ export class StudyService {
       rootCauseConfidence = heuristic.confidence;
       rootCauseSummary = heuristic.diagnosticSummary;
 
-      // Try 9router classification if available, never blocking on connection error
-      const routerClient = new NineRouterClient(this.repo);
-      const aiRc = await routerClient.invokeStructuredJson({
-        taskId: "root_cause_classify",
-        userId: input.userId,
-        schema: RootCauseClassificationSchema,
-        schemaName: "root_cause_classify",
-        jsonSchema: { type: "object" },
-        messages: [
-          {
-            role: "system",
-            content:
-              "Klasifikasikan akar penyebab kesalahan siswa SNBT ke salah satu dari: foundational_gap, formula_amnesia, translation_error, careless_time_panic.",
-          },
-          {
-            role: "user",
-            content: JSON.stringify({
-              subtest: question.subtest,
-              tier: question.tier,
-              time_to_solve_ms: input.timeToSolveMs,
-              expected_solve_seconds: question.expectedSolveSeconds,
-              hints_used: hintsUsedCount,
-              evidence_match_passed: evidenceMatchPassed,
-              chosen_trap: distractorTrap,
-            }),
-          },
-        ],
-      });
-      if (aiRc.ok && aiRc.data) {
-        rootCause = aiRc.data.primary_root_cause;
-        rootCauseConfidence = aiRc.data.confidence;
-        rootCauseSummary = aiRc.data.diagnostic_summary_id;
+      // Keep timed simulation/diagnostic submissions instant via deterministic classification
+      // so a slow or hanging external AI gateway never stalls the student's live CBT clock.
+      if (input.attemptMode !== "simulation" && input.attemptMode !== "diagnostic") {
+        const routerClient = new NineRouterClient(this.repo);
+        const aiRc = await routerClient.invokeStructuredJson({
+          taskId: "root_cause_classify",
+          userId: input.userId,
+          schema: RootCauseClassificationSchema,
+          schemaName: "root_cause_classify",
+          jsonSchema: { type: "object" },
+          messages: [
+            {
+              role: "system",
+              content:
+                "Klasifikasikan akar penyebab kesalahan siswa SNBT ke salah satu dari: foundational_gap, formula_amnesia, translation_error, careless_time_panic.",
+            },
+            {
+              role: "user",
+              content: JSON.stringify({
+                subtest: question.subtest,
+                tier: question.tier,
+                time_to_solve_ms: input.timeToSolveMs,
+                expected_solve_seconds: question.expectedSolveSeconds,
+                hints_used: hintsUsedCount,
+                evidence_match_passed: evidenceMatchPassed,
+                chosen_trap: distractorTrap,
+              }),
+            },
+          ],
+        });
+        if (aiRc.ok && aiRc.data) {
+          rootCause = aiRc.data.primary_root_cause;
+          rootCauseConfidence = aiRc.data.confidence;
+          rootCauseSummary = aiRc.data.diagnostic_summary_id;
+        }
       }
     }
 
@@ -592,8 +597,8 @@ export class StudyService {
       userId: input.userId,
       questionId: question.id,
       skillNodeId: node.id,
-      simulationSessionId: null,
-      simulationBlockId: null,
+      simulationSessionId: input.simulationSessionId ?? null,
+      simulationBlockId: input.simulationBlockId ?? null,
       fractureId: resultingFracture?.id ?? input.fractureId ?? null,
       fsrsCardId: revivalCardId ?? scheduledConcept.nextCard.id,
       attemptMode: input.attemptMode,
