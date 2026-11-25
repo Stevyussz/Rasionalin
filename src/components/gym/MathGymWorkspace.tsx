@@ -13,9 +13,11 @@ import {
   HintIcon,
   PlayIcon,
   ResetIcon,
+  ScratchpadIcon,
   TimerIcon,
 } from "@/components/icons/ArchitecturalIcons";
 import { MathText } from "@/components/math/MathText";
+import { ScratchpadOverlay } from "@/components/study/ScratchpadOverlay";
 import {
   generateMathGymSession,
   generateSingleMathGymQuestion,
@@ -73,6 +75,7 @@ export function MathGymWorkspace() {
   const [history, setHistory] = useState<AnsweredRecord[]>([]);
   const [remedialEnqueuedCount, setRemedialEnqueuedCount] = useState(0);
   const [justEnqueuedRemedial, setJustEnqueuedRemedial] = useState(false);
+  const [scratchpadOpen, setScratchpadOpen] = useState(false);
   const [sprintElapsedSec, setSprintElapsedSec] = useState(0);
   const [stats, setStats] = useState<StoredGymStats>({});
 
@@ -127,6 +130,7 @@ export function MathGymWorkspace() {
       setHistory([]);
       setRemedialEnqueuedCount(0);
       setJustEnqueuedRemedial(false);
+      setScratchpadOpen(false);
       setSprintElapsedSec(0);
       const now = Date.now();
       sprintStartRef.current = now;
@@ -209,6 +213,7 @@ export function MathGymWorkspace() {
     const accPct = total > 0 ? Math.round((correctCount / total) * 100) : 0;
     persistCategoryResult(activeCategory, accPct);
     setSprintElapsedSec(Math.max(1, Math.floor((Date.now() - sprintStartRef.current) / 1000)));
+    setScratchpadOpen(false);
     setView("summary");
   }, [activeCategory, currentIndex, history, persistCategoryResult, questions.length]);
 
@@ -217,6 +222,16 @@ export function MathGymWorkspace() {
     function onKeyDown(e: KeyboardEvent) {
       const target = e.target as HTMLElement | null;
       if (target && (target.tagName === "INPUT" || target.tagName === "TEXTAREA")) return;
+
+      if (e.key === "Escape" && scratchpadOpen) {
+        setScratchpadOpen(false);
+        return;
+      }
+      if (e.key.toLowerCase() === "s") {
+        e.preventDefault();
+        setScratchpadOpen((v) => !v);
+        return;
+      }
 
       if (["1", "2", "3", "4"].includes(e.key) && selectedKey === null) {
         const idx = Number(e.key) - 1;
@@ -229,7 +244,7 @@ export function MathGymWorkspace() {
     }
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [currentQuestion, handleChooseOption, handleNext, selectedKey, view]);
+  }, [currentQuestion, handleChooseOption, handleNext, scratchpadOpen, selectedKey, view]);
 
   if (view === "lobby") {
     const mixedStat = stats.mixed;
@@ -470,7 +485,21 @@ export function MathGymWorkspace() {
             </div>
           </div>
 
-          <div className="flex items-center gap-3 text-xs font-num font-bold shrink-0">
+          <div className="flex items-center gap-2 sm:gap-3 text-xs font-num font-bold shrink-0">
+            <button
+              type="button"
+              onClick={() => setScratchpadOpen((v) => !v)}
+              aria-pressed={scratchpadOpen}
+              title="Kertas coretan [S]"
+              className={`min-h-[34px] px-2.5 rounded-lg font-sans font-extrabold inline-flex items-center gap-1 cursor-pointer transition-colors ${
+                scratchpadOpen
+                  ? "bg-[var(--accent-tint)] text-[var(--accent-text-on-secondary)]"
+                  : "text-[var(--ink-secondary)] hover:bg-[var(--surface-secondary)] hover:text-[var(--ink-primary)]"
+              }`}
+            >
+              <ScratchpadIcon size={16} />
+              <span>Coretan</span>
+            </button>
             <span className="inline-flex items-center gap-1 text-[var(--ochre-ink)]">
               <FlameIcon size={16} />
               {streak}
@@ -638,6 +667,12 @@ export function MathGymWorkspace() {
             </div>
           )}
         </section>
+
+        <ScratchpadOverlay
+          open={scratchpadOpen}
+          onClose={() => setScratchpadOpen(false)}
+          onUsed={() => {}}
+        />
       </div>
     );
   }

@@ -25,7 +25,7 @@ function phaseTone(phase: RoadmapPhaseKey): string {
 export function WeeklyRoadmapSection({ roadmap }: WeeklyRoadmapSectionProps) {
   const [showAllWeeks, setShowAllWeeks] = useState(false);
 
-  const visibleWeeks = showAllWeeks ? roadmap.weeks : roadmap.weeks.slice(0, 2);
+  const visibleWeeks = showAllWeeks ? roadmap.weeks : roadmap.weeks.slice(0, 1);
 
   return (
     <section
@@ -52,14 +52,14 @@ export function WeeklyRoadmapSection({ roadmap }: WeeklyRoadmapSectionProps) {
           </p>
         </div>
 
-        {roadmap.weeks.length > 2 && (
+        {roadmap.weeks.length > 1 && (
           <button
             type="button"
             onClick={() => setShowAllWeeks((v) => !v)}
             className="btn-secondary text-xs px-3 py-1.5 shrink-0"
           >
             {showAllWeeks
-              ? "Tampilkan 2 Pekan Terdekat"
+              ? "Tampilkan Pekan Ini Saja"
               : `Lihat Semua Pekan (${roadmap.weeks.length})`}
           </button>
         )}
@@ -126,19 +126,13 @@ export function WeeklyRoadmapSection({ roadmap }: WeeklyRoadmapSectionProps) {
             </p>
 
             {wk.phase === "foundation" && (
-              <div className="p-2.5 rounded-xl bg-[var(--accent-tint)] border border-[var(--accent-tint-border)] flex flex-wrap items-center justify-between gap-2 text-xs">
-                <span className="font-bold text-[var(--accent-text-on-secondary)]">
-                  Pemanasan Fondasi (3 Menit): Latih refleks hitung dasar &amp; terjemah soal cerita
-                  dulu sebelum masuk bab PK/PM.
-                </span>
-                <Link
-                  href="/math-gym"
-                  className="font-extrabold text-[var(--accent-text-on-secondary)] hover:underline inline-flex items-center gap-1 shrink-0"
-                >
-                  <span>Buka Gym Hitung</span>
-                  <ArrowRightIcon size={12} />
-                </Link>
-              </div>
+              <p className="text-xs font-semibold text-[var(--accent-text-on-secondary)]">
+                Pemanasan disarankan: 3 menit di{" "}
+                <Link href="/math-gym" className="font-extrabold underline">
+                  Buka Gym Hitung
+                </Link>{" "}
+                sebelum masuk bab PK/PM.
+              </p>
             )}
 
             {wk.nodes.length > 0 && (

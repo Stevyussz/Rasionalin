@@ -1421,13 +1421,17 @@ export function FocusTunnelWorkspace() {
                             </div>
                           )}
 
-                          <div className="pt-2 border-t border-black/10 space-y-2">
-                            <div className="flex flex-wrap items-center gap-4 text-xs font-extrabold">
+                          <div className="pt-2.5 border-t border-black/10 space-y-2.5">
+                            <div className="flex flex-wrap items-center gap-3 text-xs font-extrabold">
                               <button
                                 type="button"
                                 disabled={generatingVariant}
                                 onClick={() => void handleTrySimilarVariant()}
-                                className="inline-flex items-center gap-1.5 text-[var(--ochre-ink)] hover:underline cursor-pointer disabled:opacity-60"
+                                className={`min-h-[38px] px-3 py-1.5 rounded-xl border-2 border-b-4 inline-flex items-center gap-1.5 cursor-pointer transition-all disabled:opacity-60 ${
+                                  !submission.isCorrect
+                                    ? "bg-[var(--olive-fill)] text-white border-[var(--olive-fill)] border-b-[var(--olive-bevel)] hover:bg-[var(--olive-hover)]"
+                                    : "bg-[var(--ochre-tint)] text-[var(--ochre-ink)] border-[var(--ochre-border)] border-b-[var(--ochre-fill)] hover:opacity-90"
+                                }`}
                               >
                                 <VariantSwapIcon size={15} />
                                 <span>

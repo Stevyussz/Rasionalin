@@ -239,7 +239,7 @@ export function AppShell({ children, momentum: momentumProp, rightRail, fullBlee
           <RasionalinLogo size={32} compact />
         </Link>
 
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-1">
           <PwaInstallButton compact />
           {momentum && (
             <div className="flex items-center gap-1.5 text-xs font-num font-bold shrink-0">
@@ -273,9 +273,21 @@ export function AppShell({ children, momentum: momentumProp, rightRail, fullBlee
           )}
 
           <Link
+            href="/math-gym"
+            aria-label="Buka Gym Hitung 3 Menit"
+            className={`inline-flex items-center justify-center min-w-[36px] min-h-[36px] rounded-lg ${
+              pathname === "/math-gym"
+                ? "text-[var(--accent-primary)] bg-[var(--accent-tint)]"
+                : "text-[var(--olive-ink)] hover:bg-[var(--accent-tint)]"
+            }`}
+          >
+            <CalculatorIcon size={20} />
+          </Link>
+
+          <Link
             href="/neural"
             aria-label="Buka Neural Cortex 3D"
-            className={`inline-flex items-center justify-center min-w-[38px] min-h-[38px] rounded-lg ${
+            className={`inline-flex items-center justify-center min-w-[36px] min-h-[36px] rounded-lg ${
               pathname === "/neural"
                 ? "text-[var(--accent-primary)] bg-[var(--accent-tint)]"
                 : "text-[var(--accent-primary)] hover:bg-[var(--accent-tint)]"
@@ -288,7 +300,7 @@ export function AppShell({ children, momentum: momentumProp, rightRail, fullBlee
             type="button"
             onClick={toggleTheme}
             aria-label={theme === "daylight" ? "Aktifkan Warm Paper" : "Aktifkan Daylight"}
-            className="inline-flex items-center justify-center min-w-[38px] min-h-[38px] rounded-lg text-[var(--ochre-ink)] hover:bg-[var(--surface-secondary)] cursor-pointer"
+            className="inline-flex items-center justify-center min-w-[36px] min-h-[36px] rounded-lg text-[var(--ochre-ink)] hover:bg-[var(--surface-secondary)] cursor-pointer"
           >
             {theme === "daylight" ? <WarmPaperIcon size={20} /> : <SunIcon size={20} />}
           </button>
@@ -296,7 +308,7 @@ export function AppShell({ children, momentum: momentumProp, rightRail, fullBlee
           <Link
             href="/settings"
             aria-label="Buka Profil & Pengaturan"
-            className={`inline-flex items-center justify-center min-w-[38px] min-h-[38px] rounded-lg ${
+            className={`inline-flex items-center justify-center min-w-[36px] min-h-[36px] rounded-lg ${
               pathname === "/settings"
                 ? "text-[var(--accent-primary)] bg-[var(--accent-tint)]"
                 : "text-[var(--ink-secondary)] hover:bg-[var(--surface-secondary)]"
