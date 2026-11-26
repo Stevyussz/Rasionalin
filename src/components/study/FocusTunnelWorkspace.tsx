@@ -17,6 +17,8 @@ import {
   MemoryIcon,
   ScratchpadIcon,
   ShieldIcon,
+  SoundOffIcon,
+  SoundOnIcon,
   TimerIcon,
   TutorChatIcon,
   VariantSwapIcon,
@@ -29,6 +31,14 @@ import { StudyNotesDrawer } from "@/components/study/StudyNotesDrawer";
 import { getMicroLessonForNode, type MicroLessonContent } from "@/domain/micro-lessons";
 import { getRootCauseLabelId, getTrapLabelId } from "@/domain/root-cause-rules";
 import { buildSbiSchemaChoices, getSbiGuideForQuestion } from "@/domain/sbi-enrichment";
+import {
+  isSoundEnabled,
+  playCelebrationFanfare,
+  playCorrectSound,
+  playTapSound,
+  playWrongSound,
+  setSoundEnabled,
+} from "@/infrastructure/audio/sound-effects";
 import type {
   MistakeFractureEntity,
   PassageSentence,
@@ -169,6 +179,19 @@ export function FocusTunnelWorkspace() {
   const [socraticInitialTab, setSocraticInitialTab] = useState<"chat" | "hints">("chat");
   const [notesDrawerOpen, setNotesDrawerOpen] = useState(false);
   const [shortcutModalOpen, setShortcutModalOpen] = useState(false);
+  const [soundOn, setSoundOn] = useState(true);
+
+  useEffect(() => {
+    setSoundOn(isSoundEnabled());
+    const onSoundChanged = (evt: Event) => {
+      const custom = evt as CustomEvent<{ enabled?: boolean }>;
+      if (typeof custom.detail?.enabled === "boolean") {
+        setSoundOn(custom.detail.enabled);
+      }
+    };
+    window.addEventListener("rasionalin:sound-changed", onSoundChanged);
+    return () => window.removeEventListener("rasionalin:sound-changed", onSoundChanged);
+  }, []);
 
   // AI "Why Before How" Explanation after submit
   const [showFullSolution, setShowFullSolution] = useState(false);
@@ -443,6 +466,15 @@ export function FocusTunnelWorkspace() {
         const result = (await res.json()) as SubmitResponse;
         setSubmission(result);
         setEvidenceUnlocked(true);
+        if (!smartSkip) {
+          if (result.unlockedNodeCodes.length > 0) {
+            playCelebrationFanfare();
+          } else if (result.isCorrect) {
+            playCorrectSound();
+          } else {
+            playWrongSound();
+          }
+        }
         setSessionHistory((prev) => [
           ...prev,
           {
@@ -474,6 +506,7 @@ export function FocusTunnelWorkspace() {
 
   const handleContinueNext = useCallback(() => {
     if (sessionHistory.length > 0 && sessionHistory.length % SESSION_GOAL === 0 && !recapOpen) {
+      playCelebrationFanfare();
       setRecapOpen(true);
       return;
     }
@@ -696,6 +729,21 @@ export function FocusTunnelWorkspace() {
           >
             <FlagIcon size={18} />
             <span className="hidden lg:inline">Tandai</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              const next = !soundOn;
+              setSoundEnabled(next);
+              setSoundOn(next);
+              if (next) playTapSound();
+            }}
+            aria-label={soundOn ? "Matikan efek suara" : "Aktifkan efek suara"}
+            title={soundOn ? "Efek suara aktif" : "Efek suara bisu"}
+            className="min-h-[38px] px-2 rounded-lg text-[var(--ink-secondary)] hover:bg-[var(--surface-secondary)] hover:text-[var(--ink-primary)] inline-flex items-center justify-center cursor-pointer transition-colors"
+          >
+            {soundOn ? <SoundOnIcon size={18} /> : <SoundOffIcon size={18} className="text-[var(--ink-muted)]" />}
           </button>
 
           <button
@@ -1339,6 +1387,7 @@ export function FocusTunnelWorkspace() {
                             disabled={!evidenceUnlocked || Boolean(submission)}
                             onClick={() => {
                               markFirstInteraction();
+                              playTapSound();
                               setSelectedKey(opt.key);
                             }}
                             className={`w-full h-full text-left p-3.5 rounded-xl border-2 border-b-4 min-h-[60px] transition-all flex items-start gap-2.5 cursor-pointer active:translate-y-[1px] disabled:opacity-65 disabled:cursor-not-allowed ${cardStyle}`}

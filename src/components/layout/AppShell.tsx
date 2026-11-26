@@ -13,6 +13,8 @@ import {
   PlayIcon,
   ShieldIcon,
   SimulationIcon,
+  SoundOffIcon,
+  SoundOnIcon,
   SunIcon,
   TargetIcon,
   TimerIcon,
@@ -25,6 +27,7 @@ import { RasionalinLogo } from "@/components/brand/RasionalinLogo";
 import { PwaInstallButton } from "@/components/pwa/PwaInstallController";
 import { computeExamCountdown } from "@/domain/exam-countdown";
 import type { UserMomentumState } from "@/domain/types";
+import { isSoundEnabled, playTapSound, setSoundEnabled } from "@/infrastructure/audio/sound-effects";
 
 interface AppShellProps {
   children: React.ReactNode;
@@ -69,11 +72,28 @@ export function AppShell({
   const [displayName, setDisplayName] = useState<string | null>(initialUser?.displayName ?? null);
   const [examDate, setExamDate] = useState<string | null>(initialUser?.examDate ?? null);
   const [loggingOut, setLoggingOut] = useState(false);
+  const [soundOn, setSoundOn] = useState(true);
 
   useEffect(() => {
     const attr = document.documentElement.getAttribute("data-theme");
     setTheme(attr === "warm" ? "warm" : "daylight");
+    setSoundOn(isSoundEnabled());
+    const onSoundChanged = (evt: Event) => {
+      const custom = evt as CustomEvent<{ enabled?: boolean }>;
+      if (typeof custom.detail?.enabled === "boolean") {
+        setSoundOn(custom.detail.enabled);
+      }
+    };
+    window.addEventListener("rasionalin:sound-changed", onSoundChanged);
+    return () => window.removeEventListener("rasionalin:sound-changed", onSoundChanged);
   }, []);
+
+  function toggleSound() {
+    const next = !soundOn;
+    setSoundEnabled(next);
+    setSoundOn(next);
+    if (next) playTapSound();
+  }
 
   useEffect(() => {
     if (momentumProp) setMomentum(momentumProp);
@@ -149,21 +169,21 @@ export function AppShell({
 
   return (
     <div className="min-h-screen bg-[var(--surface-canvas)] text-[var(--ink-primary)] flex flex-col lg:flex-row">
-      {/* Desktop Left Navigation Rail (Clean Flat Hierarchy, Consistent Phosphor Duotone Icons) */}
+      {/* Desktop Left Navigation Rail (Clean Flat Hierarchy, Scrollable on <=768px Laptops!) */}
       <aside
         aria-label="Navigasi utama desktop"
-        className="hidden lg:flex lg:flex-col lg:w-[238px] lg:shrink-0 lg:sticky lg:top-0 lg:h-screen bg-[var(--surface-elevated)] border-r border-[var(--border-structural)] px-4 py-5 justify-between z-30"
+        className="hidden lg:flex lg:flex-col lg:w-[238px] lg:shrink-0 lg:sticky lg:top-0 lg:h-screen lg:overflow-y-auto bg-[var(--surface-elevated)] border-r border-[var(--border-structural)] px-3.5 py-4 gap-4 z-30"
       >
-        <div className="space-y-6">
+        <div className="space-y-4 shrink-0">
           <Link
             href="/"
-            className="flex items-center px-1 py-1"
+            className="flex items-center px-1 py-0.5"
             aria-label="Beranda Rasionalin"
           >
-            <RasionalinLogo size={38} subtitle="Target 800+ UTBK" />
+            <RasionalinLogo size={36} subtitle="Target 800+ UTBK" />
           </Link>
 
-          <nav aria-label="Menu utama" className="space-y-1">
+          <nav aria-label="Menu utama" className="space-y-0.5">
             {DESKTOP_NAV.map((item) => {
               const active = pathname === item.href;
               const Icon = item.icon;
@@ -172,15 +192,15 @@ export function AppShell({
                   key={item.href}
                   href={item.href}
                   aria-current={active ? "page" : undefined}
-                  className={`flex items-center gap-3 px-3 min-h-[46px] rounded-xl text-[15px] font-extrabold transition-colors ${
+                  className={`flex items-center gap-2.5 px-3 min-h-[40px] rounded-xl text-[14px] font-extrabold transition-colors ${
                     active
                       ? "bg-[var(--accent-tint)] text-[var(--accent-text-on-secondary)]"
                       : "text-[var(--ink-secondary)] hover:bg-[var(--surface-secondary)] hover:text-[var(--ink-primary)]"
                   }`}
                 >
                   <Icon
-                    size={22}
-                    weight={active ? "duotone" : "duotone"}
+                    size={20}
+                    weight="duotone"
                     className={active ? "text-[var(--accent-primary)]" : "text-[var(--ink-secondary)]"}
                   />
                   <span>{item.label}</span>
@@ -189,15 +209,15 @@ export function AppShell({
             })}
           </nav>
 
-          <Link href="/study" className="btn-primary w-full text-sm">
-            <PlayIcon size={16} />
+          <Link href="/study" className="btn-primary w-full text-sm min-h-[42px]">
+            <PlayIcon size={15} />
             <span>Mulai Latihan</span>
           </Link>
         </div>
 
-        <div className="space-y-1 pt-4 border-t border-[var(--border-structural)]">
+        <div className="mt-auto space-y-0.5 pt-3 border-t border-[var(--border-structural)] shrink-0">
           {displayName && (
-            <div className="px-2 py-1.5 space-y-1 text-xs">
+            <div className="px-2 py-1 space-y-0.5 text-xs">
               <div className="flex items-center justify-between gap-2">
                 <span className="font-extrabold truncate text-[var(--ink-primary)]">{displayName}</span>
                 {momentum && (
@@ -221,18 +241,32 @@ export function AppShell({
 
           <button
             type="button"
+            onClick={toggleSound}
+            aria-label={soundOn ? "Matikan efek suara" : "Aktifkan efek suara"}
+            className="w-full flex items-center gap-2.5 px-2.5 min-h-[38px] rounded-xl text-xs font-extrabold text-[var(--ink-secondary)] hover:bg-[var(--surface-secondary)] hover:text-[var(--ink-primary)] cursor-pointer transition-colors"
+          >
+            {soundOn ? (
+              <SoundOnIcon size={18} className="text-[var(--accent-primary)]" />
+            ) : (
+              <SoundOffIcon size={18} className="text-[var(--ink-muted)]" />
+            )}
+            <span>{soundOn ? "Efek Suara: Aktif" : "Efek Suara: Bisu"}</span>
+          </button>
+
+          <button
+            type="button"
             onClick={toggleTheme}
             aria-label={
               theme === "daylight"
                 ? "Ubah ke tampilan Warm Paper ramah mata"
                 : "Ubah ke tampilan Daylight"
             }
-            className="w-full flex items-center gap-2.5 px-2.5 min-h-[42px] rounded-xl text-xs font-extrabold text-[var(--ink-secondary)] hover:bg-[var(--surface-secondary)] hover:text-[var(--ink-primary)] cursor-pointer transition-colors"
+            className="w-full flex items-center gap-2.5 px-2.5 min-h-[38px] rounded-xl text-xs font-extrabold text-[var(--ink-secondary)] hover:bg-[var(--surface-secondary)] hover:text-[var(--ink-primary)] cursor-pointer transition-colors"
           >
             {theme === "daylight" ? (
-              <WarmPaperIcon size={19} className="text-[var(--ochre-ink)]" />
+              <WarmPaperIcon size={18} className="text-[var(--ochre-ink)]" />
             ) : (
-              <SunIcon size={19} className="text-[var(--ochre-ink)]" />
+              <SunIcon size={18} className="text-[var(--ochre-ink)]" />
             )}
             <span>{theme === "daylight" ? "Mode Warm Paper" : "Mode Daylight"}</span>
           </button>
@@ -241,7 +275,7 @@ export function AppShell({
             type="button"
             onClick={handleLogout}
             disabled={loggingOut}
-            className="w-full flex items-center gap-2.5 px-2.5 min-h-[42px] rounded-xl text-xs font-extrabold text-[var(--ink-secondary)] hover:bg-[var(--coral-tint)] hover:text-[var(--coral-ink)] cursor-pointer transition-colors"
+            className="w-full flex items-center gap-2.5 px-2.5 min-h-[38px] rounded-xl text-xs font-extrabold text-[var(--ink-secondary)] hover:bg-[var(--coral-tint)] hover:text-[var(--coral-ink)] cursor-pointer transition-colors"
           >
             <LogoutIcon size={19} />
             <span>{loggingOut ? "Keluar..." : "Keluar Akun"}</span>
@@ -314,11 +348,20 @@ export function AppShell({
 
           <button
             type="button"
+            onClick={toggleSound}
+            aria-label={soundOn ? "Matikan efek suara" : "Aktifkan efek suara"}
+            className="inline-flex items-center justify-center min-w-[34px] min-h-[34px] rounded-lg text-[var(--accent-primary)] hover:bg-[var(--accent-tint)] cursor-pointer"
+          >
+            {soundOn ? <SoundOnIcon size={19} /> : <SoundOffIcon size={19} className="text-[var(--ink-muted)]" />}
+          </button>
+
+          <button
+            type="button"
             onClick={toggleTheme}
             aria-label={theme === "daylight" ? "Aktifkan Warm Paper" : "Aktifkan Daylight"}
-            className="inline-flex items-center justify-center min-w-[36px] min-h-[36px] rounded-lg text-[var(--ochre-ink)] hover:bg-[var(--surface-secondary)] cursor-pointer"
+            className="inline-flex items-center justify-center min-w-[34px] min-h-[34px] rounded-lg text-[var(--ochre-ink)] hover:bg-[var(--surface-secondary)] cursor-pointer"
           >
-            {theme === "daylight" ? <WarmPaperIcon size={20} /> : <SunIcon size={20} />}
+            {theme === "daylight" ? <WarmPaperIcon size={19} /> : <SunIcon size={19} />}
           </button>
 
           <Link

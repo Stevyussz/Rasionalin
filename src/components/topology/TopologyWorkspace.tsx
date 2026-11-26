@@ -15,11 +15,13 @@ import {
   PlayIcon,
   ShieldIcon,
   TargetIcon,
+  TimerIcon,
 } from "@/components/icons/ArchitecturalIcons";
 import { ExamCountdownCard } from "@/components/countdown/ExamCountdownCard";
 import { WeeklyRoadmapSection } from "@/components/countdown/WeeklyRoadmapSection";
 import { AppShell } from "@/components/layout/AppShell";
 import type { AdaptiveDailyPlan } from "@/domain/daily-plan";
+import { computeExamCountdown } from "@/domain/exam-countdown";
 import type { WeeklyStudyRoadmap } from "@/domain/weekly-roadmap";
 import type {
   SkillNode,
@@ -115,6 +117,7 @@ export function TopologyWorkspace() {
   const [selectedSubtest, setSelectedSubtest] = useState<SnbtSubtest>("PK");
   const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null);
   const [openGuideUnit, setOpenGuideUnit] = useState<number | null>(null);
+  const [hubTab, setHubTab] = useState<"missions" | "roadmap" | "countdown">("missions");
 
   const loadTopology = useCallback(async () => {
     setLoading(true);
@@ -450,109 +453,151 @@ export function TopologyWorkspace() {
             </section>
           )}
 
-          {/* Live WIB SNBT/UTBK Day Countdown */}
-          <ExamCountdownCard
-            examDate={examDate}
-            masteredNodes={summaryCounts.mastered}
-            totalNodes={summaryCounts.total}
-            targetScore={targetScore}
-            onExamDateUpdated={(nextDate) => {
-              setExamDate(nextDate);
-              void loadTopology();
-            }}
-          />
-
-          {/* Weekly Study Roadmap (H-XXX -> H-0) */}
-          {weeklyRoadmap && <WeeklyRoadmapSection roadmap={weeklyRoadmap} />}
-
-          {/* Adaptive Daily Study Plan (Rencana Belajar Harian menuju UTBK) */}
-          {dailyPlan && (
-            <section
-              aria-label="Rencana belajar harian adaptif"
-              className="card-tactile p-5 space-y-4"
-            >
-              <div className="flex flex-wrap items-center justify-between gap-3">
-                <div>
-                  <div className="inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider text-[var(--ochre-ink)]">
-                    <TargetIcon size={16} />
-                    <span>
-                      Rencana Hari Ini
-                      {dailyPlan.daysUntilExam !== null ? ` · H-${dailyPlan.daysUntilExam} UTBK` : ""}
-                    </span>
-                  </div>
-                  <h2 className="text-lg font-bold mt-0.5">
-                    3 Langkah Kecil Menuju Skor{" "}
-                    <span className="font-num text-[var(--accent-primary)]">
-                      {dailyPlan.targetScore}+
-                    </span>
-                  </h2>
+          {/* Unified Flat Control Hub: Countdown + Today's Missions + Weekly Roadmap (Zero Card-Stack Fatigue!) */}
+          <section
+            aria-label="Pusat kontrol belajar UTBK"
+            className="card-tactile p-4 sm:p-5 space-y-4"
+          >
+            {/* Compact Header Strip */}
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div className="space-y-0.5 min-w-0">
+                <div className="flex flex-wrap items-center gap-2 text-xs font-extrabold text-[var(--ochre-ink)]">
+                  <span className="inline-flex items-center gap-1">
+                    <TimerIcon size={15} />
+                    <span className="font-num">H-{computeExamCountdown(examDate).daysLeft} menuju UTBK</span>
+                  </span>
+                  <span className="text-[var(--ink-muted)]">·</span>
+                  <span className="text-[var(--accent-text-on-secondary)]">
+                    Target{" "}
+                    <span className="font-num">{targetScore}+</span>
+                  </span>
+                  {dailyPlan && (
+                    <>
+                      <span className="text-[var(--ink-muted)]">·</span>
+                      <span className="text-[var(--ink-secondary)] font-num">
+                        {dailyPlan.todayCompletedCount}/{dailyPlan.todayTotalMissions} misi hari ini
+                      </span>
+                    </>
+                  )}
                 </div>
-                <div className="text-xs font-extrabold text-[var(--ink-secondary)]">
-                  <span className="font-num text-base text-[var(--accent-text-on-secondary)]">
-                    {dailyPlan.todayCompletedCount}/{dailyPlan.todayTotalMissions}
-                  </span>{" "}
-                  misi selesai · Selisih{" "}
-                  <span className="font-num">{dailyPlan.scoreGap}</span> poin
-                </div>
+                <h2 className="text-base sm:text-lg font-bold text-[var(--ink-primary)]">
+                  Fokus Langkah Hari Ini
+                </h2>
               </div>
 
-              <div className="divide-y divide-[var(--border-structural)] border-t border-[var(--border-structural)]">
-                {dailyPlan.missions.map((m) => (
-                  <Link
-                    key={m.id}
-                    href={m.href}
-                    className="py-3 flex items-center justify-between gap-3 group hover:bg-[var(--surface-canvas)] -mx-2 px-2 rounded-lg transition-colors"
-                  >
-                    <div className="flex items-start gap-3 min-w-0">
-                      <span
-                        className={`w-6 h-6 rounded-full inline-flex items-center justify-center shrink-0 mt-0.5 text-xs font-num font-bold ${
-                          m.completed
-                            ? "bg-[var(--accent-primary)] text-white"
-                            : "bg-[var(--surface-secondary)] text-[var(--ink-secondary)]"
-                        }`}
-                      >
-                        {m.completed ? <CheckIcon size={14} /> : m.order}
-                      </span>
-                      <div className="min-w-0">
-                        <div className="text-sm font-extrabold text-[var(--ink-primary)] group-hover:text-[var(--accent-text-on-secondary)] truncate">
-                          {m.title}
-                        </div>
-                        <div className="text-xs font-semibold text-[var(--ink-secondary)] truncate">
-                          {m.badgeLabel} · ±{m.estimatedMinutes} menit
+              <div
+                role="tablist"
+                aria-label="Tampilan pusat kontrol"
+                className="flex flex-wrap items-center gap-1.5"
+              >
+                {[
+                  { id: "missions" as const, label: "Misi Hari Ini" },
+                  { id: "roadmap" as const, label: "Roadmap Mingguan" },
+                  { id: "countdown" as const, label: "Atur Tanggal UTBK" },
+                ].map((tab) => {
+                  const active = hubTab === tab.id;
+                  return (
+                    <button
+                      key={tab.id}
+                      type="button"
+                      role="tab"
+                      aria-selected={active}
+                      onClick={() => setHubTab(tab.id)}
+                      className={`min-h-[34px] px-3 rounded-lg text-xs font-extrabold transition-colors cursor-pointer ${
+                        active
+                          ? "bg-[var(--accent-primary)] text-white"
+                          : "bg-[var(--surface-secondary)] text-[var(--ink-secondary)] hover:text-[var(--ink-primary)]"
+                      }`}
+                    >
+                      {tab.label}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {hubTab === "missions" && dailyPlan && (
+              <div className="space-y-3">
+                <div className="divide-y divide-[var(--border-structural)] border-t border-[var(--border-structural)]">
+                  {dailyPlan.missions.map((m) => (
+                    <Link
+                      key={m.id}
+                      href={m.href}
+                      className="py-2.5 flex items-center justify-between gap-3 group hover:bg-[var(--surface-canvas)] -mx-2 px-2 rounded-lg transition-colors"
+                    >
+                      <div className="flex items-start gap-3 min-w-0">
+                        <span
+                          className={`font-num text-xs font-extrabold pt-0.5 shrink-0 ${
+                            m.completed
+                              ? "text-[var(--accent-primary)]"
+                              : "text-[var(--ink-muted)]"
+                          }`}
+                        >
+                          {m.completed ? <CheckIcon size={15} /> : `0${m.order}`}
+                        </span>
+                        <div className="min-w-0">
+                          <div className="text-sm font-extrabold text-[var(--ink-primary)] group-hover:text-[var(--accent-text-on-secondary)] truncate">
+                            {m.title}
+                          </div>
+                          <div className="text-xs font-semibold text-[var(--ink-secondary)] truncate">
+                            {m.badgeLabel} · ±{m.estimatedMinutes} menit
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <ArrowRightIcon
-                      size={16}
-                      className="text-[var(--ink-muted)] group-hover:text-[var(--accent-primary)] shrink-0"
-                    />
-                  </Link>
-                ))}
-              </div>
+                      <ArrowRightIcon
+                        size={16}
+                        className="text-[var(--ink-muted)] group-hover:text-[var(--accent-primary)] shrink-0"
+                      />
+                    </Link>
+                  ))}
+                </div>
 
-              <div className="pt-3 border-t border-[var(--border-structural)] flex flex-wrap items-center justify-between gap-2">
-                <span className="text-xs font-bold text-[var(--ink-secondary)]">
-                  Lemah hitung dasar atau ingin latih pilihan rumus cepat?
-                </span>
-                <div className="flex flex-wrap items-center gap-2">
-                  <Link
-                    href="/math-gym"
-                    className="btn-secondary text-xs px-3.5 py-2 shrink-0"
-                  >
-                    <CalculatorIcon size={14} />
-                    <span>Gym Hitung 3 Menit</span>
-                  </Link>
-                  <Link
-                    href="/study?mode=interleaved"
-                    className="btn-olive text-xs px-3.5 py-2 shrink-0"
-                  >
-                    <PlayIcon size={13} />
-                    <span>Interleaved Sprint (5 Soal Campur)</span>
-                  </Link>
+                <div className="pt-2.5 border-t border-[var(--border-structural)] flex flex-wrap items-center justify-between gap-2">
+                  <span className="text-xs font-bold text-[var(--ink-secondary)]">
+                    Pemanasan cepat &amp; latihan campur lintas bab:
+                  </span>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <Link
+                      href="/math-gym"
+                      className="btn-secondary text-xs px-3.5 py-2 shrink-0"
+                    >
+                      <CalculatorIcon size={14} />
+                      <span>Gym Hitung 3 Menit</span>
+                    </Link>
+                    <Link
+                      href="/study?mode=interleaved"
+                      className="btn-olive text-xs px-3.5 py-2 shrink-0"
+                    >
+                      <PlayIcon size={13} />
+                      <span>Interleaved Sprint (5 Soal Campur)</span>
+                    </Link>
+                  </div>
                 </div>
               </div>
-            </section>
-          )}
+            )}
+
+            {hubTab === "roadmap" && weeklyRoadmap && (
+              <div className="pt-3 border-t border-[var(--border-structural)]">
+                <WeeklyRoadmapSection roadmap={weeklyRoadmap} embedded />
+              </div>
+            )}
+
+            {hubTab === "countdown" && (
+              <div className="pt-3 border-t border-[var(--border-structural)]">
+                <ExamCountdownCard
+                  examDate={examDate}
+                  masteredNodes={summaryCounts.mastered}
+                  totalNodes={summaryCounts.total}
+                  targetScore={targetScore}
+                  embedded
+                  onExamDateUpdated={(nextDate) => {
+                    setExamDate(nextDate);
+                    void loadTopology();
+                  }}
+                />
+              </div>
+            )}
+          </section>
 
           {/* Subtest Switcher (Clean Flat-Structured Tabs, Zero Nested Pill-in-Pill) */}
           <section className="space-y-3">

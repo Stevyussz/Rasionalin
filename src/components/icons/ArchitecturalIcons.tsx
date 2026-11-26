@@ -36,6 +36,8 @@ import {
   SealCheck,
   ShieldCheck,
   SignOut,
+  SpeakerHigh,
+  SpeakerSlash,
   SquaresFour,
   Sun,
   Target,
@@ -236,4 +238,12 @@ export function CalculatorIcon(props: AppIconProps) {
 
 export function VariantSwapIcon(props: AppIconProps) {
   return <ArrowsClockwise {...withDefault({ weight: "bold", ...props })} />;
+}
+
+export function SoundOnIcon(props: AppIconProps) {
+  return <SpeakerHigh {...withDefault(props)} />;
+}
+
+export function SoundOffIcon(props: AppIconProps) {
+  return <SpeakerSlash {...withDefault(props)} />;
 }

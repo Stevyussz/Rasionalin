@@ -13,6 +13,7 @@ interface ExamCountdownCardProps {
   masteredNodes: number;
   totalNodes: number;
   targetScore: number;
+  embedded?: boolean;
   onExamDateUpdated?: (nextDate: string | null) => void;
 }
 
@@ -21,6 +22,7 @@ export function ExamCountdownCard({
   masteredNodes,
   totalNodes,
   targetScore,
+  embedded = false,
   onExamDateUpdated,
 }: ExamCountdownCardProps) {
   const [nowMs, setNowMs] = useState<number | null>(null);
@@ -75,7 +77,11 @@ export function ExamCountdownCard({
   return (
     <section
       aria-label="Hitung mundur hari ujian UTBK SNBT"
-      className="card-tactile p-5 space-y-4 border-[var(--ochre-bevel)]/35 bg-[var(--surface-elevated)]"
+      className={
+        embedded
+          ? "space-y-4"
+          : "card-tactile p-5 space-y-4 border-[var(--ochre-bevel)]/35 bg-[var(--surface-elevated)]"
+      }
     >
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div className="space-y-1 min-w-0">

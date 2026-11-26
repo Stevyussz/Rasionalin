@@ -7,6 +7,7 @@ import type { RoadmapPhaseKey, WeeklyStudyRoadmap } from "@/domain/weekly-roadma
 
 interface WeeklyRoadmapSectionProps {
   roadmap: WeeklyStudyRoadmap;
+  embedded?: boolean;
 }
 
 function phaseTone(phase: RoadmapPhaseKey): string {
@@ -22,7 +23,7 @@ function phaseTone(phase: RoadmapPhaseKey): string {
   }
 }
 
-export function WeeklyRoadmapSection({ roadmap }: WeeklyRoadmapSectionProps) {
+export function WeeklyRoadmapSection({ roadmap, embedded = false }: WeeklyRoadmapSectionProps) {
   const [showAllWeeks, setShowAllWeeks] = useState(false);
 
   const visibleWeeks = showAllWeeks ? roadmap.weeks : roadmap.weeks.slice(0, 1);
@@ -30,7 +31,7 @@ export function WeeklyRoadmapSection({ roadmap }: WeeklyRoadmapSectionProps) {
   return (
     <section
       aria-label="Roadmap jadwal belajar mingguan"
-      className="card-tactile p-5 space-y-4"
+      className={embedded ? "space-y-4" : "card-tactile p-5 space-y-4"}
     >
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="space-y-1">
