@@ -24,6 +24,7 @@ import {
   VariantSwapIcon,
 } from "@/components/icons/ArchitecturalIcons";
 import { MathText } from "@/components/math/MathText";
+import { ComboCelebration } from "@/components/feedback/ComboCelebration";
 import { MicroLessonView } from "@/components/study/MicroLessonView";
 import { ScratchpadOverlay } from "@/components/study/ScratchpadOverlay";
 import { SocraticDrawer, type SocraticHintRecord } from "@/components/study/SocraticDrawer";
@@ -32,12 +33,16 @@ import { getMicroLessonForNode, type MicroLessonContent } from "@/domain/micro-l
 import { getRootCauseLabelId, getTrapLabelId } from "@/domain/root-cause-rules";
 import { buildSbiSchemaChoices, getSbiGuideForQuestion } from "@/domain/sbi-enrichment";
 import {
+  installGlobalAudioUnlock,
   isSoundEnabled,
   playCelebrationFanfare,
   playCorrectSound,
+  playHintSound,
+  playStreakSound,
   playTapSound,
   playWrongSound,
   setSoundEnabled,
+  unlockAudioContext,
 } from "@/infrastructure/audio/sound-effects";
 import type {
   MistakeFractureEntity,
@@ -180,8 +185,11 @@ export function FocusTunnelWorkspace() {
   const [notesDrawerOpen, setNotesDrawerOpen] = useState(false);
   const [shortcutModalOpen, setShortcutModalOpen] = useState(false);
   const [soundOn, setSoundOn] = useState(true);
+  const [sessionStreak, setSessionStreak] = useState(0);
+  const [comboTrigger, setComboTrigger] = useState(0);
 
   useEffect(() => {
+    installGlobalAudioUnlock();
     setSoundOn(isSoundEnabled());
     const onSoundChanged = (evt: Event) => {
       const custom = evt as CustomEvent<{ enabled?: boolean }>;
@@ -433,6 +441,7 @@ export function FocusTunnelWorkspace() {
     async (smartSkip = false) => {
       if (!item || submitting || submission) return;
       if (!smartSkip && !selectedKey) return;
+      unlockAudioContext();
       setSubmitting(true);
       const solveMs = Date.now() - startTimeRef.current;
       const maxLevel = hints.length > 0 ? hints[hints.length - 1].hintLevel : null;
@@ -467,11 +476,21 @@ export function FocusTunnelWorkspace() {
         setSubmission(result);
         setEvidenceUnlocked(true);
         if (!smartSkip) {
-          if (result.unlockedNodeCodes.length > 0) {
-            playCelebrationFanfare();
-          } else if (result.isCorrect) {
-            playCorrectSound();
+          if (result.isCorrect) {
+            const nextStreak = sessionStreak + 1;
+            setSessionStreak(nextStreak);
+            if (nextStreak >= 2) {
+              setComboTrigger((k) => k + 1);
+            }
+            if (result.unlockedNodeCodes.length > 0) {
+              playCelebrationFanfare();
+            } else if (nextStreak >= 2) {
+              playStreakSound(nextStreak);
+            } else {
+              playCorrectSound();
+            }
           } else {
+            setSessionStreak(0);
             playWrongSound();
           }
         }
@@ -501,6 +520,7 @@ export function FocusTunnelWorkspace() {
       selectedSbiSchema,
       polyaVars,
       usedScratchpad,
+      sessionStreak,
     ],
   );
 
@@ -666,6 +686,7 @@ export function FocusTunnelWorkspace() {
 
   return (
     <div className="min-h-screen flex flex-col bg-[var(--surface-canvas)] text-[var(--ink-primary)]">
+      <ComboCelebration streak={sessionStreak} triggerKey={comboTrigger} />
       {/* Clean Distraction-Free Study Header (No Excess Pill Boxes) */}
       <header className="sticky top-0 z-30 bg-[var(--surface-elevated)] border-b border-[var(--border-structural)] px-3 sm:px-6 h-16 flex items-center justify-between gap-3">
         <div className="flex items-center gap-3 flex-1 min-w-0 max-w-[540px]">
@@ -703,6 +724,16 @@ export function FocusTunnelWorkspace() {
         </div>
 
         <div className="flex items-center gap-1 sm:gap-2 shrink-0">
+          {sessionStreak > 0 && (
+            <span
+              key={`study-streak-${sessionStreak}`}
+              className="animate-streak-bump inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-[var(--ochre-tint)] text-[var(--ochre-ink)] font-num text-xs font-extrabold"
+              title="Combo benar beruntun sesi ini"
+            >
+              <FlameIcon size={15} />
+              {sessionStreak}
+            </span>
+          )}
           <div
             className={`hidden md:inline-flex items-center gap-1 font-num text-sm font-bold px-2.5 min-h-[38px] rounded-lg ${
               pastTriageWindow ? "text-[var(--ochre-ink)] bg-[var(--ochre-tint)]" : "text-[var(--ink-secondary)]"
@@ -735,9 +766,10 @@ export function FocusTunnelWorkspace() {
             type="button"
             onClick={() => {
               const next = !soundOn;
+              if (next) unlockAudioContext();
               setSoundEnabled(next);
               setSoundOn(next);
-              if (next) playTapSound();
+              if (next) playCorrectSound();
             }}
             aria-label={soundOn ? "Matikan efek suara" : "Aktifkan efek suara"}
             title={soundOn ? "Efek suara aktif" : "Efek suara bisu"}
@@ -797,6 +829,7 @@ export function FocusTunnelWorkspace() {
           <button
             type="button"
             onClick={() => {
+              playHintSound();
               setNotesDrawerOpen(false);
               setShowFullSolution(false);
               setSocraticInitialTab("chat");

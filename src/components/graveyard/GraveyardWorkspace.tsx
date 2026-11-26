@@ -14,6 +14,14 @@ import {
 import { AppShell } from "@/components/layout/AppShell";
 import { MathText } from "@/components/math/MathText";
 import { getRootCauseLabelId, getTrapLabelId } from "@/domain/root-cause-rules";
+import {
+  installGlobalAudioUnlock,
+  playCheckSound,
+  playCorrectSound,
+  playHintSound,
+  playWrongSound,
+  unlockAudioContext,
+} from "@/infrastructure/audio/sound-effects";
 import type {
   DistractorTrapType,
   FractureStatus,
@@ -119,12 +127,14 @@ export function GraveyardWorkspace() {
   }, [statusFilter, selectedTemplateId]);
 
   useEffect(() => {
+    installGlobalAudioUnlock();
     void loadData();
   }, [loadData]);
 
   async function handleRecallRate(rating: FsrsRatingName) {
     const card = recallDeck[recallIndex];
     if (!card || recallBusy) return;
+    unlockAudioContext();
     setRecallBusy(true);
     setRecallToast(null);
     try {
@@ -134,6 +144,13 @@ export function GraveyardWorkspace() {
         body: JSON.stringify({ skillNodeId: card.skillNodeId, rating }),
       });
       if (res.ok) {
+        if (rating === "again") {
+          playWrongSound();
+        } else if (rating === "easy") {
+          playCorrectSound();
+        } else {
+          playCheckSound();
+        }
         const json = (await res.json()) as { nextDueIso: string; scheduledDays: number };
         const daysLabel =
           json.scheduledDays >= 1
@@ -267,7 +284,10 @@ export function GraveyardWorkspace() {
                     </div>
                     <button
                       type="button"
-                      onClick={() => setRecallRevealed(true)}
+                      onClick={() => {
+                        playHintSound();
+                        setRecallRevealed(true);
+                      }}
                       className="btn-primary w-full"
                     >
                       <HintIcon size={18} />

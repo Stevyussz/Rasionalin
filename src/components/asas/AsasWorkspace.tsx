@@ -19,6 +19,7 @@ import {
   TimerIcon,
 } from "@/components/icons/ArchitecturalIcons";
 import { AppShell } from "@/components/layout/AppShell";
+import { ComboCelebration } from "@/components/feedback/ComboCelebration";
 import { MathText } from "@/components/math/MathText";
 import { ScratchpadOverlay } from "@/components/study/ScratchpadOverlay";
 import {
@@ -32,13 +33,17 @@ import {
   type AsasSubjectId,
 } from "@/domain/asas";
 import {
+  installGlobalAudioUnlock,
   isSoundEnabled,
   playCelebrationFanfare,
+  playCheckSound,
   playCorrectSound,
+  playHintSound,
   playStreakSound,
   playTapSound,
   playWrongSound,
   setSoundEnabled,
+  unlockAudioContext,
 } from "@/infrastructure/audio/sound-effects";
 
 const ASAS_STORAGE_KEY = "rasionalin_asas_progress_v1";
@@ -90,6 +95,7 @@ export function AsasWorkspace() {
   const [hintOpen, setHintOpen] = useState(false);
   const [scratchpadOpen, setScratchpadOpen] = useState(false);
   const [streak, setStreak] = useState(0);
+  const [comboTrigger, setComboTrigger] = useState(0);
   const [bestStreak, setBestStreak] = useState(0);
   const [history, setHistory] = useState<AsasAnswerRecord[]>([]);
   const [remedialEnqueued, setRemedialEnqueued] = useState(0);
@@ -102,6 +108,7 @@ export function AsasWorkspace() {
   const chapter = getAsasChapter(subject, chapterId);
 
   useEffect(() => {
+    installGlobalAudioUnlock();
     setSoundOn(isSoundEnabled());
     try {
       setSidebarHidden(localStorage.getItem("rasionalin_sidebar_collapsed") === "true");
@@ -157,9 +164,10 @@ export function AsasWorkspace() {
 
   const toggleSound = useCallback(() => {
     const next = !soundOn;
+    if (next) unlockAudioContext();
     setSoundEnabled(next);
     setSoundOn(next);
-    if (next) playTapSound();
+    if (next) playCorrectSound();
   }, [soundOn]);
 
   function selectSubject(nextId: AsasSubjectId) {
@@ -172,9 +180,13 @@ export function AsasWorkspace() {
   }
 
   function togglePlanBlock(blockId: string) {
-    playTapSound();
     persistProgress((prev) => {
       const exists = prev.checkedPlanIds.includes(blockId);
+      if (!exists) {
+        playCheckSound();
+      } else {
+        playTapSound();
+      }
       return {
         ...prev,
         checkedPlanIds: exists
@@ -297,6 +309,7 @@ export function AsasWorkspace() {
         setStreak(nextStreak);
         if (nextStreak > bestStreak) setBestStreak(nextStreak);
         if (nextStreak >= 2) {
+          setComboTrigger((k) => k + 1);
           playStreakSound(nextStreak);
         } else {
           playCorrectSound();
@@ -370,7 +383,7 @@ export function AsasWorkspace() {
       }
       if (e.key === "h" || e.key === "H") {
         e.preventDefault();
-        playTapSound();
+        playHintSound();
         setHintOpen((o) => !o);
         return;
       }
@@ -418,6 +431,7 @@ export function AsasWorkspace() {
 
     return (
       <div className="min-h-screen bg-[var(--surface-canvas)] text-[var(--ink-primary)] flex flex-col">
+        <ComboCelebration streak={streak} triggerKey={comboTrigger} />
         {/* Sticky Focus Header */}
         <header
           aria-label="Header fokus ASAS"
@@ -455,7 +469,10 @@ export function AsasWorkspace() {
 
           <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
             <span
-              className="inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-[var(--ochre-tint)] text-[var(--ochre-ink)] font-num text-xs font-extrabold"
+              key={`asas-streak-${streak}`}
+              className={`inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-[var(--ochre-tint)] text-[var(--ochre-ink)] font-num text-xs font-extrabold ${
+                streak >= 2 ? "animate-streak-bump" : ""
+              }`}
               title="Streak benar beruntun"
             >
               <FlameIcon size={14} />
@@ -516,7 +533,7 @@ export function AsasWorkspace() {
             <button
               type="button"
               onClick={() => {
-                playTapSound();
+                playHintSound();
                 setHintOpen((o) => !o);
               }}
               className="inline-flex items-center gap-1.5 px-3 min-h-[34px] rounded-lg border border-[var(--ochre-border)] bg-[var(--ochre-tint)] text-[var(--ochre-ink)] text-xs font-extrabold cursor-pointer"
@@ -565,6 +582,12 @@ export function AsasWorkspace() {
                     data-option-key={opt.key}
                     className={`w-full text-left p-3.5 sm:p-4 rounded-xl border-2 transition-all flex items-start gap-3 ${
                       isAnswered ? "cursor-default" : "cursor-pointer"
+                    } ${
+                      isAnswered && isSelected
+                        ? opt.isCorrect
+                          ? "animate-answer-correct"
+                          : "animate-answer-wrong"
+                        : ""
                     } ${styleClass}`}
                   >
                     <span className="font-num text-xs font-extrabold w-6 h-6 rounded-md border border-current/25 flex items-center justify-center shrink-0 mt-0.5">
@@ -1148,7 +1171,7 @@ export function AsasWorkspace() {
                           <button
                             type="button"
                             onClick={() => {
-                              playTapSound();
+                              playHintSound();
                               setRevealedFormulaIds((prev) => [...prev, fc.id]);
                             }}
                             className="w-full py-3 rounded-xl border-2 border-dashed border-[var(--ochre-border)] bg-[var(--ochre-tint)] text-[var(--ochre-ink)] text-xs font-extrabold cursor-pointer hover:opacity-90"

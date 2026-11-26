@@ -30,7 +30,14 @@ import { RasionalinLogo } from "@/components/brand/RasionalinLogo";
 import { PwaInstallButton } from "@/components/pwa/PwaInstallController";
 import { computeExamCountdown } from "@/domain/exam-countdown";
 import type { UserMomentumState } from "@/domain/types";
-import { isSoundEnabled, playTapSound, setSoundEnabled } from "@/infrastructure/audio/sound-effects";
+import {
+  installGlobalAudioUnlock,
+  isSoundEnabled,
+  playCorrectSound,
+  playTapSound,
+  setSoundEnabled,
+  unlockAudioContext,
+} from "@/infrastructure/audio/sound-effects";
 
 const SIDEBAR_COLLAPSED_KEY = "rasionalin_sidebar_collapsed";
 
@@ -82,6 +89,7 @@ export function AppShell({
   const [sidebarHidden, setSidebarHidden] = useState(false);
 
   useEffect(() => {
+    installGlobalAudioUnlock();
     const attr = document.documentElement.getAttribute("data-theme");
     setTheme(attr === "warm" ? "warm" : "daylight");
     setSoundOn(isSoundEnabled());
@@ -143,9 +151,10 @@ export function AppShell({
 
   function toggleSound() {
     const next = !soundOn;
+    if (next) unlockAudioContext();
     setSoundEnabled(next);
     setSoundOn(next);
-    if (next) playTapSound();
+    if (next) playCorrectSound();
   }
 
   useEffect(() => {

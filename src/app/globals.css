@@ -411,3 +411,111 @@ h2,
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
+/* === COMBO CELEBRATION & TACTILE ANSWER ANIMATIONS === */
+@keyframes combo-banner-pop {
+  0% {
+    opacity: 0;
+    transform: translateY(14px) scale(0.76);
+  }
+  16% {
+    opacity: 1;
+    transform: translateY(0) scale(1.06);
+  }
+  26% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  78% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-14px) scale(0.96);
+  }
+}
+
+@keyframes combo-spark-burst {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) scale(0.7) rotate(0deg);
+  }
+  65% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--tx, 0px), var(--ty, 0px)) scale(1.15) rotate(var(--rot, 160deg));
+  }
+}
+
+@keyframes streak-bump {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.24);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes answer-wrong-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-5px);
+  }
+  45% {
+    transform: translateX(5px);
+  }
+  70% {
+    transform: translateX(-3px);
+  }
+}
+
+@keyframes answer-correct-pop {
+  0% {
+    transform: scale(1);
+  }
+  45% {
+    transform: scale(1.02);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.animate-combo-banner {
+  animation: combo-banner-pop 1.65s cubic-bezier(0.2, 0.9, 0.2, 1) forwards;
+}
+
+.animate-combo-spark {
+  animation: combo-spark-burst 0.85s cubic-bezier(0.15, 0.85, 0.3, 1) forwards;
+}
+
+.animate-streak-bump {
+  animation: streak-bump 320ms cubic-bezier(0.2, 0.9, 0.3, 1);
+}
+
+.animate-answer-wrong {
+  animation: answer-wrong-shake 320ms ease-in-out;
+}
+
+.animate-answer-correct {
+  animation: answer-correct-pop 220ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-combo-banner,
+  .animate-combo-spark,
+  .animate-streak-bump,
+  .animate-answer-wrong,
+  .animate-answer-correct {
+    animation: none !important;
+  }
+}

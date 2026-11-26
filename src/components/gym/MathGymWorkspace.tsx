@@ -19,6 +19,7 @@ import {
   TimerIcon,
 } from "@/components/icons/ArchitecturalIcons";
 import { AppShell } from "@/components/layout/AppShell";
+import { ComboCelebration } from "@/components/feedback/ComboCelebration";
 import { MathText } from "@/components/math/MathText";
 import { ScratchpadOverlay } from "@/components/study/ScratchpadOverlay";
 import {
@@ -33,13 +34,16 @@ import {
   type MathGymQuestion,
 } from "@/domain/math-gym-engine";
 import {
+  installGlobalAudioUnlock,
   isSoundEnabled,
   playCelebrationFanfare,
   playCorrectSound,
+  playHintSound,
   playStreakSound,
   playTapSound,
   playWrongSound,
   setSoundEnabled,
+  unlockAudioContext,
 } from "@/infrastructure/audio/sound-effects";
 
 interface CategoryLocalStat {
@@ -83,6 +87,7 @@ export function MathGymWorkspace() {
   const [selectedKey, setSelectedKey] = useState<"A" | "B" | "C" | "D" | null>(null);
   const [hintOpen, setHintOpen] = useState(false);
   const [streak, setStreak] = useState(0);
+  const [comboTrigger, setComboTrigger] = useState(0);
   const [bestStreak, setBestStreak] = useState(0);
   const [history, setHistory] = useState<AnsweredRecord[]>([]);
   const [remedialEnqueuedCount, setRemedialEnqueuedCount] = useState(0);
@@ -96,6 +101,7 @@ export function MathGymWorkspace() {
   const questionStartRef = useRef<number>(0);
 
   useEffect(() => {
+    installGlobalAudioUnlock();
     setSoundOn(isSoundEnabled());
     const onSoundChanged = (evt: Event) => {
       const custom = evt as CustomEvent<{ enabled?: boolean }>;
@@ -117,9 +123,10 @@ export function MathGymWorkspace() {
 
   const toggleSound = useCallback(() => {
     const next = !soundOn;
+    if (next) unlockAudioContext();
     setSoundEnabled(next);
     setSoundOn(next);
-    if (next) playTapSound();
+    if (next) playCorrectSound();
   }, [soundOn]);
 
   const persistCategoryResult = useCallback(
@@ -205,7 +212,8 @@ export function MathGymWorkspace() {
         setJustEnqueuedRemedial(false);
         setStreak(nextStreak);
         setBestStreak((b) => Math.max(b, nextStreak));
-        if (nextStreak >= 3) {
+        if (nextStreak >= 2) {
+          setComboTrigger((k) => k + 1);
           playStreakSound(nextStreak);
         } else {
           playCorrectSound();
@@ -523,7 +531,11 @@ export function MathGymWorkspace() {
           </div>
 
           <div className="flex items-center gap-1.5 sm:gap-2.5 text-xs font-num font-bold shrink-0">
-            <span className="inline-flex items-center gap-1 text-[var(--ochre-ink)]" title="Streak Benar">
+            <span
+              key={`gym-streak-${streak}`}
+              className={`inline-flex items-center gap-1 text-[var(--ochre-ink)] ${streak >= 2 ? "animate-streak-bump" : ""}`}
+              title="Streak Benar"
+            >
               <FlameIcon size={17} />
               {streak}
             </span>
@@ -572,7 +584,10 @@ export function MathGymWorkspace() {
             {selectedKey === null && (
               <button
                 type="button"
-                onClick={() => setHintOpen((v) => !v)}
+                onClick={() => {
+                  playHintSound();
+                  setHintOpen((v) => !v);
+                }}
                 className="text-[var(--ochre-ink)] hover:underline inline-flex items-center gap-1 cursor-pointer"
               >
                 <HintIcon size={15} />
@@ -614,16 +629,22 @@ export function MathGymWorkspace() {
                 }
               }
 
-              return (
-                <button
-                  key={opt.key}
-                  type="button"
-                  disabled={selectedKey !== null}
-                  onClick={() => handleChooseOption(opt.key)}
-                  className={`min-h-[60px] p-4 rounded-xl border-2 border-b-4 text-left flex items-center gap-3 transition-all min-w-0 ${
-                    selectedKey === null ? "cursor-pointer" : "cursor-default"
-                  } ${tileClass}`}
-                >
+                return (
+                  <button
+                    key={opt.key}
+                    type="button"
+                    disabled={selectedKey !== null}
+                    onClick={() => handleChooseOption(opt.key)}
+                    className={`min-h-[60px] p-4 rounded-xl border-2 border-b-4 text-left flex items-center gap-3 transition-all min-w-0 ${
+                      selectedKey === null ? "cursor-pointer" : "cursor-default"
+                    } ${
+                      selectedKey !== null && isChosen
+                        ? isCorrectOpt
+                          ? "animate-answer-correct"
+                          : "animate-answer-wrong"
+                        : ""
+                    } ${tileClass}`}
+                  >
                   <span
                     className={`w-8 h-8 rounded-lg border-2 font-num text-xs font-bold inline-flex items-center justify-center shrink-0 ${
                       selectedKey !== null && isCorrectOpt
@@ -643,6 +664,8 @@ export function MathGymWorkspace() {
             })}
           </div>
         </main>
+
+        <ComboCelebration streak={streak} triggerKey={comboTrigger} />
 
         {/* Duolingo-Style Sticky Bottom Feedback Sheet */}
         {selectedKey !== null && chosenOpt && (
