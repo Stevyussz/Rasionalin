@@ -19,7 +19,13 @@ function normalizePlainText(raw: string): string {
     .replaceAll("->", " → ")
     .replaceAll(" => ", " ⇒ ")
     .replaceAll(" <= ", " ≤ ")
-    .replaceAll(" >= ", " ≥ ");
+    .replaceAll(" >= ", " ≥ ")
+    .replace(/(?<![A-Za-z])\\pm(?![A-Za-z])/g, "±")
+    .replace(/(?<![A-Za-z])\\times(?![A-Za-z])/g, "×")
+    .replace(/(?<![A-Za-z])\\cdot(?![A-Za-z])/g, "·")
+    .replace(/(?<![A-Za-z])\\leq?(?![A-Za-z])/g, "≤")
+    .replace(/(?<![A-Za-z])\\geq?(?![A-Za-z])/g, "≥")
+    .replace(/(?<![A-Za-z])\\neq?(?![A-Za-z])/g, "≠");
 }
 
 function normalizeLatexFormula(latex: string): string {
@@ -27,7 +33,7 @@ function normalizeLatexFormula(latex: string): string {
   return latex.replace(/\\frac(?=\{)/g, "\\dfrac");
 }
 
-function splitMathSegments(input: string): Segment[] {
+export function splitMathSegments(input: string): Segment[] {
   const segments: Segment[] = [];
   const regex = /\$\$([\s\S]+?)\$\$|\$([^$\n]+?)\$/g;
   let lastIdx = 0;
@@ -60,24 +66,69 @@ function splitMathSegments(input: string): Segment[] {
   return segments;
 }
 
+const PLAIN_MATH_SCRIPT_REGEX =
+  /((?<![A-Za-z0-9_])([A-Za-z])_(\{[^{}]+\}|\d+|n-1|n|k)(?![A-Za-z0-9_])|([A-Za-z0-9)\]])\^(\([^()]+\)|\{[^{}]+\}|-?\d+|[A-Za-z]))/g;
+
+function renderPlainMathScripts(text: string, keyPrefix: string): React.ReactNode[] {
+  const nodes: React.ReactNode[] = [];
+  let lastIdx = 0;
+  const regex = new RegExp(PLAIN_MATH_SCRIPT_REGEX.source, "g");
+  let match: RegExpExecArray | null;
+
+  while ((match = regex.exec(text)) !== null) {
+    if (match.index > lastIdx) {
+      nodes.push(<React.Fragment key={`${keyPrefix}-p-${lastIdx}`}>{text.slice(lastIdx, match.index)}</React.Fragment>);
+    }
+    if (match[2] !== undefined && match[3] !== undefined) {
+      const base = match[2];
+      const sub = match[3].replace(/^\{|\}$/g, "");
+      nodes.push(
+        <React.Fragment key={`${keyPrefix}-sub-${match.index}`}>
+          {base}
+          <sub>{sub}</sub>
+        </React.Fragment>,
+      );
+    } else if (match[4] !== undefined && match[5] !== undefined) {
+      const base = match[4];
+      const rawSup = match[5];
+      const sup =
+        (rawSup.startsWith("(") && rawSup.endsWith(")")) || (rawSup.startsWith("{") && rawSup.endsWith("}"))
+          ? rawSup.slice(1, -1)
+          : rawSup;
+      nodes.push(
+        <React.Fragment key={`${keyPrefix}-sup-${match.index}`}>
+          {base}
+          <sup>{sup}</sup>
+        </React.Fragment>,
+      );
+    }
+    lastIdx = regex.lastIndex;
+  }
+
+  if (lastIdx < text.length) {
+    nodes.push(<React.Fragment key={`${keyPrefix}-tail`}>{text.slice(lastIdx)}</React.Fragment>);
+  }
+  return nodes;
+}
+
 function renderInlineFormatting(rawText: string, keyPrefix: string): React.ReactNode[] {
   const text = normalizePlainText(rawText);
   const nodes: React.ReactNode[] = [];
   const lines = text.split("\n");
 
   lines.forEach((line, lineIdx) => {
-    const parts = line.split(/(\*\*[^*]+\*\*|\*[^*]+\*|`[^`]+`)/g);
+    const parts = line.split(/(\*\*[^*\n]+\*\*|\*(?!\s)[^*\n]+(?<!\s)\*|`[^`\n]+`)/g);
     parts.forEach((part, pIdx) => {
       if (part.startsWith("**") && part.endsWith("**") && part.length > 4) {
         nodes.push(
           <strong key={`${keyPrefix}-${lineIdx}-${pIdx}`} className="font-extrabold">
-            {part.slice(2, -2)}
+            {renderPlainMathScripts(part.slice(2, -2), `${keyPrefix}-${lineIdx}-${pIdx}-b`)}
           </strong>,
         );
       } else if (part.startsWith("*") && part.endsWith("*") && part.length > 2) {
         nodes.push(
           <em key={`${keyPrefix}-${lineIdx}-${pIdx}`} className="italic">
-            {part.slice(1, -1)}
+            {renderPlainMathScripts(part.slice(1, -1), `${keyPrefix}-${lineIdx}-${pIdx}-i`)}
           </em>,
         );
       } else if (part.startsWith("`") && part.endsWith("`") && part.length > 2) {
@@ -90,7 +141,11 @@ function renderInlineFormatting(rawText: string, keyPrefix: string): React.React
           </code>,
         );
       } else if (part) {
-        nodes.push(<React.Fragment key={`${keyPrefix}-${lineIdx}-${pIdx}`}>{part}</React.Fragment>);
+        nodes.push(
+          <React.Fragment key={`${keyPrefix}-${lineIdx}-${pIdx}`}>
+            {renderPlainMathScripts(part, `${keyPrefix}-${lineIdx}-${pIdx}`)}
+          </React.Fragment>,
+        );
       }
     });
     if (lineIdx < lines.length - 1) {

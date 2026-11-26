@@ -22,14 +22,14 @@ export const MTK_LANJUT_SUBJECT: AsasSubject = {
       timeSlot: "Sesi 2 (75 mnt)",
       title: "Blok 2: Limit Trigonometri",
       chapterId: "mtkl-limit-trig",
-      goal: "Lancar coret koefisien sin/tan, sudut rangkap cos 2x, dan identitas sin^2+cos^2=1.",
+      goal: "Lancar coret koefisien $\\sin$/$\\tan$, sudut rangkap $\\cos 2x$, dan identitas $\\sin^2 x + \\cos^2 x = 1$.",
     },
     {
       id: "ml-plan-3",
       timeSlot: "Sesi 3 (90 mnt)",
       title: "Blok 3: Turunan & Aplikasi Optimasi",
       chapterId: "mtkl-turunan",
-      goal: "Kuasai aturan rantai cos^n, u/v, garis singgung, fungsi naik, dan volume kotak max.",
+      goal: "Kuasai aturan rantai $\\cos^n$, $u/v$, garis singgung, fungsi naik, dan volume kotak maksimum.",
     },
     {
       id: "ml-plan-4",
@@ -64,65 +64,65 @@ export const MTK_LANJUT_SUBJECT: AsasSubject = {
         takeaway: "0/0 BUKAN berarti hasilnya 0; itu sinyal agar pembuat nolnya dicoret dulu!",
       },
       mentalChecklist: [
-        "Langkah pertama WAJIB substitusi langsung angka x. Jangan langsung difaktorkan sebelum tahu itu 0/0!",
-        "Jika ada akar di 0/0, kalikan sekawan (+ diubah -, atau sebaliknya) pada bagian yang berakar.",
-        "Untuk x -> tak hingga pada pecahan polinomial: bandingkan pangkat x tertinggi atas vs bawah.",
-        "Untuk akar kuadrat dikurang linear: jadikan sqrt(ax^2+bx+c) - sqrt(ax^2+dx+e) lalu pakai (b - d) / (2 sqrt(a)).",
+        "Langkah pertama WAJIB substitusi langsung angka $x$. Jangan langsung difaktorkan sebelum tahu itu $0/0$!",
+        "Jika ada akar di $0/0$, kalikan sekawan ($+$ diubah $-$, atau sebaliknya) pada bagian yang berakar.",
+        "Untuk $x \\to \\infty$ pada pecahan polinomial: bandingkan pangkat $x$ tertinggi atas vs bawah.",
+        "Untuk akar kuadrat dikurang linear: jadikan $\\sqrt{ax^2+bx+c} - \\sqrt{ax^2+dx+e}$ lalu pakai $\\dfrac{b - d}{2\\sqrt{a}}$.",
       ],
       formulas: [
         {
           id: "ml-f-sekawan",
-          title: "Trik 0/0 Pemfaktoran & Akar Sekawan",
-          triggerCue: "Hasil substitusi x -> c menghasilkan 0/0, apalagi ada bentuk akar",
+          title: "Trik $0/0$ Pemfaktoran & Akar Sekawan",
+          triggerCue: "Hasil substitusi $x \\to c$ menghasilkan $0/0$, apalagi ada bentuk akar",
           formulaLatex: "$$(\\sqrt{A} - B)(\\sqrt{A} + B) = A - B^2$$",
           symbolMeaning: [
-            { symbol: "A - B^2", meaning: "akar hilang sehingga faktor pembuat nol (x - c) bisa dicoret" },
+            { symbol: "$A - B^2$", meaning: "akar hilang sehingga faktor pembuat nol $(x - c)$ bisa dicoret" },
           ],
           commonTrap: "Lupa mengalikan bagian pembilang/penyebut lawannya dengan sekawan yang sama!",
-          quickExample: "(sqrt(3x+10) - 5) dikali (sqrt(3x+10)+5) menjadi 3x+10 - 25 = 3(x - 5).",
+          quickExample: "$(\\sqrt{3x+10} - 5)$ dikali $(\\sqrt{3x+10} + 5)$ menjadi $3x+10 - 25 = 3(x - 5)$.",
         },
         {
           id: "ml-f-inf-pecahan",
           title: "Limit Tak Hingga Pecahan Polinomial",
-          triggerCue: "Ada x -> infinity pada pecahan f(x)/g(x)",
+          triggerCue: "Ada $x \\to \\infty$ pada pecahan $f(x)/g(x)$",
           formulaLatex:
             "$$\\lim_{x\\to\\infty}\\dfrac{a_n x^n + \\cdots}{b_m x^m + \\cdots} = \\begin{cases} 0 & n < m \\\\ a_n / b_m & n = m \\\\ \\pm\\infty & n > m \\end{cases}$$",
           symbolMeaning: [
-            { symbol: "n, m", meaning: "pangkat tertinggi pembilang (n) dan penyebut (m)" },
+            { symbol: "$n, m$", meaning: "pangkat tertinggi pembilang ($n$) dan penyebut ($m$)" },
           ],
-          commonTrap: "Lupa mengkuadratkan koefisien di dalam tanda kurung berpangkat (misal (12x^2+2)^2 punya koefisien 144, bukan 12!).",
-          quickExample: "lim ((12x^2+2)^2) / ((2x^3+3)(2-9x)) = 12^2 / (2 . -9) = 144 / (-18) = -8.",
+          commonTrap: "Lupa mengkuadratkan koefisien di dalam tanda kurung berpangkat (misal $(12x^2+2)^2$ punya koefisien $144$, bukan $12$!).",
+          quickExample: "$\\lim \\dfrac{(12x^2+2)^2}{(2x^3+3)(2-9x)} = \\dfrac{12^2}{2 \\cdot (-9)} = \\dfrac{144}{-18} = -8$.",
         },
         {
           id: "ml-f-inf-akar",
           title: "Limit Tak Hingga Selisih Akar Kuadrat",
-          triggerCue: "Ada lim x -> infinity dari sqrt(ax^2+bx+c) - (px + q)",
+          triggerCue: "Ada $\\lim_{x \\to \\infty} \\left(\\sqrt{ax^2+bx+c} - (px + q)\\right)$",
           formulaLatex:
             "$$\\lim_{x\\to\\infty}\\left(\\sqrt{ax^2+bx+c} - \\sqrt{ax^2+dx+e}\\right) = \\dfrac{b - d}{2\\sqrt{a}}$$",
           symbolMeaning: [
-            { symbol: "b, d", meaning: "koefisien x setelah bagian kanan masuk ke akar menjadi sqrt((px-q)^2)" },
+            { symbol: "$b, d$", meaning: "koefisien $x$ setelah bagian kanan masuk ke akar menjadi $\\sqrt{(px-q)^2}$" },
           ],
-          commonTrap: "Salah tanda saat memasukkan -3x + 6 ke dalam kurung -(3x - 6)! Jangan lupa tanda minusnya.",
-          quickExample: "sqrt(9x^2+12x-6) - (3x - 6): (3x-6)^2 = 9x^2 - 36x + 36 -> (12 - (-36))/(2.3) = 48/6 = 8.",
+          commonTrap: "Salah tanda saat memasukkan $-3x + 6$ ke dalam kurung $-(3x - 6)$! Jangan lupa tanda minusnya.",
+          quickExample: "$\\sqrt{9x^2+12x-6} - (3x - 6)$: $(3x-6)^2 = 9x^2 - 36x + 36 \\to \\dfrac{12 - (-36)}{2\\cdot 3} = \\dfrac{48}{6} = 8$.",
         },
       ],
       workedExample: {
         title: "Bedah Soal ASAS: Limit Tak Hingga Berpangkat",
-        problem: "Hitung nilai dari lim_{x -> infinity} (12x^2 + 2)^2 / ((2x^3 + 3)(2 - 9x)).",
+        problem: "Hitung nilai dari $\\displaystyle \\lim_{x \\to \\infty} \\dfrac{(12x^2 + 2)^2}{(2x^3 + 3)(2 - 9x)}$.",
         steps: [
           {
             stepLabel: "Langkah 1 · Cek Pangkat Tertinggi Pembilang",
-            detail: "Suku tertinggi pembilang adalah (12x^2)^2.",
+            detail: "Suku tertinggi pembilang adalah $(12x^2)^2$.",
             math: "$$(12x^2)^2 = 144x^4$$",
           },
           {
             stepLabel: "Langkah 2 · Cek Pangkat Tertinggi Penyebut",
-            detail: "Kalikan suku tertinggi kedua kurung penyebut: (2x^3) dikali (-9x).",
+            detail: "Kalikan suku tertinggi kedua kurung penyebut: $(2x^3)$ dikali $(-9x)$.",
             math: "$$(2x^3)(-9x) = -18x^4$$",
           },
           {
-            stepLabel: "Langkah 3 · Karena Pangkat Sama (x^4), Bagi Koefisiennya",
-            detail: "Semua suku pangkat lebih kecil bisa diabaikan saat x -> infinity.",
+            stepLabel: "Langkah 3 · Karena Pangkat Sama ($x^4$), Bagi Koefisiennya",
+            detail: "Semua suku pangkat lebih kecil bisa diabaikan saat $x \\to \\infty$.",
             math: "$$\\dfrac{144}{-18} = -8$$",
           },
         ],
@@ -143,49 +143,49 @@ export const MTK_LANJUT_SUBJECT: AsasSubject = {
         title: "Analogi Sudut Sangat Kecil (sin x ≈ x)",
         story:
           "Saat sudut x mendekati 0 radian, garis melengkung sin(ax) dan tan(ax) hampir persis sama dengan garis lurus ax, jadi bisa langsung dicoret ambil koefisiennya. Namun cos(0) tingginya 1 (datar di puncak), bukan 0!",
-        takeaway: "Jangan pernah mencoret cos(ax) saat x -> 0; ubah 1 - cos(2ax) menjadi 2 sin^2(ax)!",
+        takeaway: "Jangan pernah mencoret $\\cos(ax)$ saat $x \\to 0$; ubah $1 - \\cos(2ax)$ menjadi $2\\sin^2(ax)$!",
       },
       mentalChecklist: [
-        "Substitusi sudut dulu! Jika bukan 0/0 (misal x -> pi/4), langsung hitung nilai cos/sin-nya.",
-        "Saat x -> 0: sin(ax) bisa dianggap ax, tan(ax) dianggap ax. TAPI cos(ax) mendekati 1, JANGAN dicoret!",
-        "Ketemu 1 - cos(ax): ubah seketika menjadi 2 sin^2((a/2)x).",
-        "Ketemu sin 2x saat x -> pi: pecah pakai sin 2x = 2 sin x cos x.",
+        "Substitusi sudut dulu! Jika bukan $0/0$ (misal $x \\to \\pi/4$), langsung hitung nilai $\\cos/\\sin$-nya.",
+        "Saat $x \\to 0$: $\\sin(ax)$ bisa dianggap $ax$, $\\tan(ax)$ dianggap $ax$. TAPI $\\cos(ax)$ mendekati $1$, JANGAN dicoret!",
+        "Ketemu $1 - \\cos(ax)$: ubah seketika menjadi $2\\sin^2\\left(\\frac{a}{2}x\\right)$.",
+        "Ketemu $\\sin 2x$ saat $x \\to \\pi$: pecah pakai $\\sin 2x = 2\\sin x\\cos x$.",
       ],
       formulas: [
         {
           id: "ml-f-trig-dasar",
-          title: "Rumus Coret Koefisien (x -> 0)",
-          triggerCue: "Ada sin(ax) atau tan(bx) saat x -> 0 menghasilkan 0/0",
+          title: "Rumus Coret Koefisien ($x \\to 0$)",
+          triggerCue: "Ada $\\sin(ax)$ atau $\\tan(bx)$ saat $x \\to 0$ menghasilkan $0/0$",
           formulaLatex: "$$\\lim_{x\\to 0}\\dfrac{\\sin ax}{bx} = \\lim_{x\\to 0}\\dfrac{\\tan ax}{bx} = \\lim_{x\\to 0}\\dfrac{\\sin ax}{\\tan bx} = \\dfrac{a}{b}$$",
           symbolMeaning: [
-            { symbol: "a, b", meaning: "koefisien di depan x pada sin, tan, atau polinomial x" },
+            { symbol: "$a, b$", meaning: "koefisien di depan $x$ pada $\\sin$, $\\tan$, atau polinomial $x$" },
           ],
-          commonTrap: "Memakai rumus coret koefisien ini untuk cosinus! cos(0) = 1, bukan 0.",
-          quickExample: "lim (6 sin 4x cos 2x) / tan 2x (x->0): cos 0 = 1, sisa (6 . 4)/2 = 12.",
+          commonTrap: "Memakai rumus coret koefisien ini untuk cosinus! $\\cos(0) = 1$, bukan $0$.",
+          quickExample: "$\\lim_{x \\to 0} \\dfrac{6\\sin 4x\\cos 2x}{\\tan 2x}$: $\\cos 0 = 1$, sisa $\\dfrac{6 \\cdot 4}{2} = 12$.",
         },
         {
           id: "ml-f-trig-cos",
           title: "Mengubah cos ke sin (Sudut Rangkap & Identitas)",
-          triggerCue: "Ada 1 - cos(2ax), cos 2x di penyebut, atau sin 2x",
+          triggerCue: "Ada $1 - \\cos(2ax)$, $\\cos 2x$ di penyebut, atau $\\sin 2x$",
           formulaLatex: "$$1 - \\cos 2ax = 2\\sin^2 ax \\quad|\\quad \\cos^2 2x = 1 - \\sin^2 2x \\quad|\\quad \\sin 2x = 2\\sin x\\cos x$$",
           symbolMeaning: [
-            { symbol: "cos^2 A", meaning: "bisa difaktorkan menjadi (1 - sin A)(1 + sin A) saat 0/0" },
+            { symbol: "$\\cos^2 A$", meaning: "bisa difaktorkan menjadi $(1 - \\sin A)(1 + \\sin A)$ saat $0/0$" },
           ],
-          commonTrap: "Salah membagi dua sudut pada 1 - cos 4x: hasilnya 2 sin^2(2x), bukan 2 sin^2(4x).",
-          quickExample: "(4 - 4 sin 2x)/cos^2 2x = 4(1 - sin 2x)/((1-sin 2x)(1+sin 2x)) = 4/(1+sin 2x).",
+          commonTrap: "Salah membagi dua sudut pada $1 - \\cos 4x$: hasilnya $2\\sin^2(2x)$, bukan $2\\sin^2(4x)$.",
+          quickExample: "$\\dfrac{4 - 4\\sin 2x}{\\cos^2 2x} = \\dfrac{4(1 - \\sin 2x)}{(1-\\sin 2x)(1+\\sin 2x)} = \\dfrac{4}{1+\\sin 2x}$.",
         },
       ],
       workedExample: {
-        title: "Bedah Soal ASAS: Limit Identitas cos^2 2x",
-        problem: "Hitung lim_{x -> pi/4} (4 - 4 sin 2x) / cos^2 2x.",
+        title: "Bedah Soal ASAS: Limit Identitas $\\cos^2 2x$",
+        problem: "Hitung $\\displaystyle \\lim_{x \\to \\pi/4} \\dfrac{4 - 4\\sin 2x}{\\cos^2 2x}$.",
         steps: [
           {
             stepLabel: "Langkah 1 · Cek Substitusi",
-            detail: "Saat x = pi/4, 2x = pi/2. sin(pi/2)=1 dan cos(pi/2)=0, sehingga hasilnya 0/0.",
+            detail: "Saat $x = \\pi/4$, $2x = \\pi/2$. $\\sin(\\pi/2)=1$ dan $\\cos(\\pi/2)=0$, sehingga hasilnya $0/0$.",
           },
           {
             stepLabel: "Langkah 2 · Ubah Penyebut pakai Identitas",
-            detail: "Gunakan cos^2 2x = 1 - sin^2 2x, lalu faktorkan selisih kuadrat a^2 - b^2 = (a-b)(a+b).",
+            detail: "Gunakan $\\cos^2 2x = 1 - \\sin^2 2x$, lalu faktorkan selisih kuadrat $a^2 - b^2 = (a-b)(a+b)$.",
             math: "$$\\cos^2 2x = (1 - \\sin 2x)(1 + \\sin 2x)$$",
           },
           {
@@ -204,7 +204,7 @@ export const MTK_LANJUT_SUBJECT: AsasSubject = {
       shortTitle: "Turunan",
       targetMinutes: 90,
       summary:
-        "Menurunkan fungsi polinomial, pecahan u/v, rantai trigonometri cos^n/sec^n, gradien garis singgung, interval naik, kecepatan, dan volume maksimum.",
+        "Menurunkan fungsi polinomial, pecahan $u/v$, rantai trigonometri $\\cos^n/\\sec^n$, gradien garis singgung, interval naik, kecepatan, dan volume maksimum.",
       coreIntuition:
         "Aturan Rantai = kupas bawang dari LUAR ke DALAM: turunkan PANGKATnya dulu, kali turunan FUNGSI TRIG-nya, kali turunan SUDUT di dalamnya. Jangan pernah melompati lapisan tengah!",
       analogy: {
@@ -215,7 +215,7 @@ export const MTK_LANJUT_SUBJECT: AsasSubject = {
       },
       mentalChecklist: [
         "Turunan sin -> +cos, turunan cos -> -sin (ADA MINUS!), turunan sec x -> sec x tan x.",
-        "Gradien garis singgung m = f'(x_1). Untuk mencari garis singgung di ordinat y_1, cari x_1 dulu dari kurvanya!",
+        "Gradien garis singgung $m = f'(x_1)$. Untuk mencari garis singgung di ordinat $y_1$, cari $x_1$ dulu dari kurvanya!",
         "Fungsi naik berarti f'(x) > 0; stasioner / nilai maksimum berarti f'(x) = 0.",
         "Kecepatan v(t) adalah turunan pertama dari posisi s(t).",
       ],
@@ -230,8 +230,8 @@ export const MTK_LANJUT_SUBJECT: AsasSubject = {
             { symbol: "u/v", meaning: "turunkan atas kali bawah MINUS atas kali turunan bawah, bagi bawah kuadrat" },
             { symbol: "a", meaning: "turunan sudut di dalam kurung (sering terlupa!)" },
           ],
-          commonTrap: "Lupa tanda minus saat menurunkan cos, atau lupa mengali turunan sudut a.",
-          quickExample: "f(x) = 2cos^5(4x-2) -> 2 . 5 cos^4(4x-2) . (-sin(4x-2)) . 4 = -40 cos^4(4x-2) sin(4x-2).",
+          commonTrap: "Lupa tanda minus saat menurunkan $\\cos$, atau lupa mengali turunan sudut $a$.",
+          quickExample: "$f(x) = 2\\cos^5(4x-2) \\to 2 \\cdot 5\\cos^4(4x-2) \\cdot (-\\sin(4x-2)) \\cdot 4 = -40\\cos^4(4x-2)\\sin(4x-2)$.",
         },
         {
           id: "ml-f-aplikasi-turunan",
@@ -239,10 +239,10 @@ export const MTK_LANJUT_SUBJECT: AsasSubject = {
           triggerCue: "Ada kata 'gradien', 'garis singgung', 'fungsi naik', 'kecepatan', atau 'volume maksimum'",
           formulaLatex: "$$y - y_1 = f'(x_1)(x - x_1) \\quad|\\quad \\text{Naik: } f'(x) > 0 \\quad|\\quad \\text{Maks/Min: } V'(h) = 0$$",
           symbolMeaning: [
-            { symbol: "V'(h) = 0", meaning: "nilai maksimum/minimum tercapai saat turunan pertama bernilai nol" },
+            { symbol: "$V'(h) = 0$", meaning: "nilai maksimum/minimum tercapai saat turunan pertama bernilai nol" },
           ],
-          commonTrap: "Jika sudut persegi sisi c dipotong h di kiri dan kanan, panjang sisi alas kotak berkurang 2h (menjadi c - 2h), BUKAN c - h!",
-          quickExample: "Volume kotak alas persegi (c-2h)^2 . h maksimum ketika h = c/6.",
+          commonTrap: "Jika sudut persegi sisi $c$ dipotong $h$ di kiri dan kanan, panjang sisi alas kotak berkurang $2h$ (menjadi $c - 2h$), BUKAN $c - h$!",
+          quickExample: "Volume kotak alas persegi $(c-2h)^2 \\cdot h$ maksimum ketika $h = c/6$.",
         },
       ],
       workedExample: {
@@ -261,7 +261,7 @@ export const MTK_LANJUT_SUBJECT: AsasSubject = {
           },
           {
             stepLabel: "Langkah 3 · Faktorkan Persamaan Kuadrat",
-            detail: "Faktorkan c^2 - 8ch + 12h^2 = 0.",
+            detail: "Faktorkan $c^2 - 8ch + 12h^2 = 0$.",
             math: "$$(c - 6h)(c - 2h) = 0 \\implies h = \\dfrac{c}{6} \\text{ atau } h = \\dfrac{c}{2}$$",
           },
           {
@@ -281,7 +281,7 @@ export const MTK_LANJUT_SUBJECT: AsasSubject = {
       summary:
         "Kebalikan turunan: integral aljabar dasar, metode substitusi u, mencari f(x) dari gradien dy/dx, integral tentu, serta menghitung luas daerah kurva.",
       coreIntuition:
-        "Integral menaikkan pangkat +1 lalu membagi dengan pangkat baru (kebalikan turunan). Jika ada perkalian (sesuatu)^(pangkat tinggi) dan temannya di luar mirip turunannya, langsung pakai substitusi u!",
+        "Integral menaikkan pangkat $+1$ lalu membagi dengan pangkat baru (kebalikan turunan). Jika ada perkalian $(\\text{sesuatu})^{\\text{pangkat tinggi}}$ dan temannya di luar mirip turunannya, langsung pakai substitusi $u$!",
       analogy: {
         title: "Analogi Mencari Luas Tanah Melengkung",
         story:
@@ -289,43 +289,43 @@ export const MTK_LANJUT_SUBJECT: AsasSubject = {
         takeaway: "Luas total tidak boleh saling menghapus: pisahkan daerah di bawah sumbu X dan beri tanda minus.",
       },
       mentalChecklist: [
-        "Selalu tambah + C pada integral tak tentu (tanpa batas angka).",
-        "Jika ada bentuk kuadrat (x^2 - 1/x)^2, jabarkan dulu (a-b)^2 = a^2 - 2ab + b^2 sebelum diintegralkan.",
-        "Untuk mencari persamaan kurva dari dy/dx: integralkan dulu (+ C), lalu masukkan titik yang dilalui untuk menebak nilai C.",
-        "Luas daerah yang berada DI BAWAH sumbu X bernilai negatif jika langsung diintegralkan -> WAJIB beri tanda minus / balik kurva!",
+        "Selalu tambah $+ C$ pada integral tak tentu (tanpa batas angka).",
+        "Jika ada bentuk kuadrat $(x^2 - \\frac{1}{x})^2$, jabarkan dulu $(a-b)^2 = a^2 - 2ab + b^2$ sebelum diintegralkan.",
+        "Untuk mencari persamaan kurva dari $dy/dx$: integralkan dulu ($+ C$), lalu masukkan titik yang dilalui untuk menebak nilai $C$.",
+        "Luas daerah yang berada DI BAWAH sumbu X bernilai negatif jika langsung diintegralkan $\\to$ WAJIB beri tanda minus / balik kurva!",
       ],
       formulas: [
         {
           id: "ml-f-int-dasar",
           title: "Rumus Dasar & Integral Substitusi",
-          triggerCue: "Ada tanda integral dari polinomial atau k x (x^2+a)^n",
+          triggerCue: "Ada tanda integral dari polinomial atau $k\\,x(x^2+a)^n$",
           formulaLatex: "$$\\int a x^n\\,dx = \\dfrac{a}{n+1}x^{n+1} + C \\qquad\\Big|\\qquad \\int u^n\\,du = \\dfrac{1}{n+1}u^{n+1} + C$$",
           symbolMeaning: [
-            { symbol: "u", meaning: "fungsi di dalam pangkat tertinggi atau akar" },
-            { symbol: "du", meaning: "turunan u dikali dx" },
+            { symbol: "$u$", meaning: "fungsi di dalam pangkat tertinggi atau akar" },
+            { symbol: "$du$", meaning: "turunan $u$ dikali $dx$" },
           ],
-          commonTrap: "Mengintegralkan (x^2 + 1)^5 tanpa membagi turunan dalamnya (2x)!",
-          quickExample: "int 4x(x^2+1)^5 dx: misal u=x^2+1, du=2x dx -> int 2u^5 du = (1/3)(x^2+1)^6 + C.",
+          commonTrap: "Mengintegralkan $(x^2 + 1)^5$ tanpa membagi turunan dalamnya ($2x$)!",
+          quickExample: "$\\int 4x(x^2+1)^5\\,dx$: misal $u=x^2+1,\\; du=2x\\,dx \\to \\int 2u^5\\,du = \\dfrac{1}{3}(x^2+1)^6 + C$.",
         },
         {
           id: "ml-f-int-luas",
           title: "Integral Tentu & Luas Daerah Kurva",
-          triggerCue: "Ada batas integral [a..b] atau gambar daerah arsir di bawah/atas sumbu X",
+          triggerCue: "Ada batas integral $[a..b]$ atau gambar daerah arsir di bawah/atas sumbu X",
           formulaLatex: "$$\\int_a^b f(x)\\,dx = F(b) - F(a) \\qquad\\Big|\\qquad L = \\int_a^b (y_{\\text{atas}} - y_{\\text{bawah}})\\,dx$$",
           symbolMeaning: [
-            { symbol: "y_atas", meaning: "jika daerah arsir di bawah sumbu X, y_atas = 0 dan y_bawah = kurva" },
+            { symbol: "$y_{\\text{atas}}$", meaning: "jika daerah arsir di bawah sumbu X, $y_{\\text{atas}} = 0$ dan $y_{\\text{bawah}} = \\text{kurva}$" },
           ],
-          commonTrap: "Mengintegralkan langsung daerah di bawah dan di atas sumbu X tanpa memisahkan titik potongnya -> luas saling meniadakan!",
-          quickExample: "Kurva y=x^2-3x pada [0,3] di bawah sumbu X: L = int_0^3 (0 - (x^2-3x)) dx = 4,5.",
+          commonTrap: "Mengintegralkan langsung daerah di bawah dan di atas sumbu X tanpa memisahkan titik potongnya $\\to$ luas saling meniadakan!",
+          quickExample: "Kurva $y = x^2 - 3x$ pada $[0,3]$ di bawah sumbu X: $L = \\int_0^3 (0 - (x^2-3x))\\,dx = 4{,}5$.",
         },
       ],
       workedExample: {
         title: "Bedah Soal ASAS: Mencari Batas Integral Tentu",
-        problem: "Diketahui integral dari a sampai 7 untuk fungsi (2x - 4) dx sama dengan 24. Tentukan nilai a yang memenuhi!",
+        problem: "Diketahui integral dari $a$ sampai $7$ untuk fungsi $(2x - 4)\\,dx$ sama dengan $24$. Tentukan nilai $a$ yang memenuhi!",
         steps: [
           {
             stepLabel: "Langkah 1 · Integralkan Fungsi",
-            detail: "Antiturunan dari 2x - 4 adalah x^2 - 4x.",
+            detail: "Antiturunan dari $2x - 4$ adalah $x^2 - 4x$.",
             math: "$$\\left[x^2 - 4x\\right]_a^7 = 24$$",
           },
           {
@@ -355,7 +355,7 @@ export const MTK_LANJUT_SUBJECT: AsasSubject = {
       promptMarkdown: "Nilai dari $\\displaystyle \\lim_{x \\to 6} \\dfrac{x^2 + 4x - 3}{2x^2 - 15} = \\dots$",
       formulaHint: "Jangan langsung memfaktorkan! Masukkan $x = 6$ terlebih dahulu.",
       options: [
-        { key: "A", text: "$2$", isCorrect: false, trapFeedback: "6^2 + 4(6) - 3 = 57 dan 2(36) - 15 = 57." },
+        { key: "A", text: "$2$", isCorrect: false, trapFeedback: "$6^2 + 4(6) - 3 = 57$ dan $2(36) - 15 = 57$." },
         { key: "B", text: "$1$", isCorrect: true, trapFeedback: "" },
         { key: "C", text: "$\\dfrac{2}{3}$", isCorrect: false, trapFeedback: "Cek penyebut: 2 . 36 - 15 = 72 - 15 = 57." },
         { key: "D", text: "$\\dfrac{1}{2}$", isCorrect: false, trapFeedback: "Hasil pembilang dan penyebut sama-sama 57." },
@@ -402,7 +402,7 @@ export const MTK_LANJUT_SUBJECT: AsasSubject = {
       promptMarkdown: "Jika diketahui $\\displaystyle f(x) = \\dfrac{x^2 - 2x - 15}{\\sqrt{3x + 10} - 5}$, maka nilai $\\displaystyle \\lim_{x \\to 5} f(x)$ adalah ...",
       formulaHint: "Kalikan pembilang dan penyebut dengan sekawan $\\sqrt{3x+10} + 5$.",
       options: [
-        { key: "A", text: "$\\dfrac{8}{3}$", isCorrect: false, trapFeedback: "Jangan lupa mengali pembilang dengan (sqrt(3.5+10) + 5) = 10!" },
+        { key: "A", text: "$\\dfrac{8}{3}$", isCorrect: false, trapFeedback: "Jangan lupa mengali pembilang dengan $(\\sqrt{3\\cdot 5 + 10} + 5) = 10$!" },
         { key: "B", text: "$\\dfrac{40}{3}$", isCorrect: false, trapFeedback: "Sekawan penyebut saat x=5 bernilai 5 + 5 = 10, bukan 5." },
         { key: "C", text: "$\\dfrac{80}{3}$", isCorrect: true, trapFeedback: "" },
         { key: "D", text: "$80$", isCorrect: false, trapFeedback: "Setelah dikali sekawan, penyebut menjadi (3x+10)-25 = 3(x-5); angka 3-nya jangan hilang." },
@@ -451,8 +451,8 @@ export const MTK_LANJUT_SUBJECT: AsasSubject = {
       options: [
         { key: "A", text: "$-8$", isCorrect: false, trapFeedback: "Hati-hati tanda: -3x + 6 jika dimasukkan kurung menjadi -(3x - 6)." },
         { key: "B", text: "$-4$", isCorrect: false, trapFeedback: "Jika +6 ditulis -(3x+6), hasilmu akan meleset." },
-        { key: "C", text: "$2$", isCorrect: false, trapFeedback: "2 baru menghitung sqrt(9x^2+12x-6) - 3x, belum ditambah +6!" },
-        { key: "D", text: "$4$", isCorrect: false, trapFeedback: "Rumusnya (b - d) / (2 sqrt(a)) dengan b = 12 dan d = -36." },
+        { key: "C", text: "$2$", isCorrect: false, trapFeedback: "$2$ baru menghitung $\\sqrt{9x^2+12x-6} - 3x$, belum ditambah $+6$!" },
+        { key: "D", text: "$4$", isCorrect: false, trapFeedback: "Rumusnya $\\dfrac{b - d}{2\\sqrt{a}}$ dengan $b = 12$ dan $d = -36$." },
         { key: "E", text: "$8$", isCorrect: true, trapFeedback: "" },
       ],
       correctKey: "E",
@@ -474,8 +474,8 @@ export const MTK_LANJUT_SUBJECT: AsasSubject = {
       options: [
         { key: "A", text: "Rp850.000", isCorrect: false, trapFeedback: "800.000 dibagi 4 sama dengan 200.000, ditambah 600.000 jadi 800.000." },
         { key: "B", text: "Rp800.000", isCorrect: true, trapFeedback: "" },
-        { key: "C", text: "Rp700.000", isCorrect: false, trapFeedback: "Jangan gunakan koefisien -400.000x; pangkat tertinggi adalah x^2." },
-        { key: "D", text: "Rp600.000", isCorrect: false, trapFeedback: "Pecahan tidak menuju 0 karena pembilang dan penyebut sama-sama berderajat x^2." },
+        { key: "C", text: "Rp700.000", isCorrect: false, trapFeedback: "Jangan gunakan koefisien $-400.000x$; pangkat tertinggi adalah $x^2$." },
+        { key: "D", text: "Rp600.000", isCorrect: false, trapFeedback: "Pecahan tidak menuju $0$ karena pembilang dan penyebut sama-sama berderajat $x^2$." },
         { key: "E", text: "Rp200.000", isCorrect: false, trapFeedback: "200.000 baru nilai pecahannya, jangan lupa tambah 600.000 di depan!" },
       ],
       correctKey: "B",
@@ -498,10 +498,10 @@ export const MTK_LANJUT_SUBJECT: AsasSubject = {
       formulaHint: "Bukan bentuk pecahan $0/0$! Langsung masukkan $x = \\dfrac{\\pi}{4}$ (atau $45^\\circ$ ke dalam trigonometri).",
       options: [
         { key: "A", text: "$-3\\sqrt{2} - \\dfrac{5}{2}\\pi$", isCorrect: false, trapFeedback: "3x + pi = 7pi/4 = 315° ada di Kuadran IV, nilai cos-nya POSITIF!" },
-        { key: "B", text: "$-3\\sqrt{2} + \\dfrac{5}{2}\\pi$", isCorrect: false, trapFeedback: "Cek kuadran IV untuk cos(315°) bernilai +1/2 sqrt(2), dan sin(90°) = +1." },
+        { key: "B", text: "$-3\\sqrt{2} + \\dfrac{5}{2}\\pi$", isCorrect: false, trapFeedback: "Cek kuadran IV untuk $\\cos(315^\\circ) = +\\frac{1}{2}\\sqrt{2}$, dan $\\sin(90^\\circ) = +1$." },
         { key: "C", text: "$3\\sqrt{2} - \\dfrac{5}{2}\\pi$", isCorrect: true, trapFeedback: "" },
         { key: "D", text: "$3\\sqrt{2} + \\dfrac{5}{2}\\pi$", isCorrect: false, trapFeedback: "Tanda operasi di soal adalah pengurangan (- 10x sin 2x)." },
-        { key: "E", text: "$6\\sqrt{2} - 5\\pi$", isCorrect: false, trapFeedback: "cos(315°) = 1/2 sqrt(2) sehingga 6 . 1/2 sqrt(2) = 3 sqrt(2)." },
+        { key: "E", text: "$6\\sqrt{2} - 5\\pi$", isCorrect: false, trapFeedback: "$\\cos(315^\\circ) = \\frac{1}{2}\\sqrt{2}$ sehingga $6 \\cdot \\frac{1}{2}\\sqrt{2} = 3\\sqrt{2}$." },
       ],
       correctKey: "C",
       stepByStep: [
@@ -562,7 +562,7 @@ export const MTK_LANJUT_SUBJECT: AsasSubject = {
       chapterId: "mtkl-limit-trig",
       difficulty: "hots",
       format: "mcq",
-      triggerTag: "Identitas cos^2 2x",
+      triggerTag: "Identitas $\\cos^2 2x$",
       promptMarkdown: "Suhu terendah di suatu daerah dinyatakan dengan $\\displaystyle \\lim_{x \\to \\frac{\\pi}{4}} \\dfrac{4 - 4\\sin 2x}{\\cos^2 2x}$ (dalam $^\\circ\\text{C}$). Suhu terendah daerah tersebut adalah ...",
       formulaHint: "Ubah $\\cos^2 2x = 1 - \\sin^2 2x = (1 - \\sin 2x)(1 + \\sin 2x)$.",
       options: [
@@ -589,7 +589,7 @@ export const MTK_LANJUT_SUBJECT: AsasSubject = {
       promptMarkdown: "Nilai dari $\\displaystyle \\lim_{x \\to 0} \\dfrac{1 - \\cos 4x}{x \\tan 2x}$ adalah ...",
       formulaHint: "Ubah $1 - \\cos 4x = 2\\sin^2(2x) = 2 \\cdot \\sin 2x \\cdot \\sin 2x$.",
       options: [
-        { key: "A", text: "$1$", isCorrect: false, trapFeedback: "Masih ada angka pengali 2 dari identitas 1 - cos 4x = 2 sin^2 2x." },
+        { key: "A", text: "$1$", isCorrect: false, trapFeedback: "Masih ada angka pengali $2$ dari identitas $1 - \\cos 4x = 2\\sin^2 2x$." },
         { key: "B", text: "$2$", isCorrect: false, trapFeedback: "Pembilang punya dua faktor sin 2x, sedangkan koefisien 2 di depan jangan hilang." },
         { key: "C", text: "$4$", isCorrect: true, trapFeedback: "" },
         { key: "D", text: "$8$", isCorrect: false, trapFeedback: "Sudut pada 1 - cos 4x dibagi dua menjadi 2x, bukan tetap 4x." },
@@ -635,11 +635,11 @@ export const MTK_LANJUT_SUBJECT: AsasSubject = {
       promptMarkdown: "Turunan pertama dari $f(x) = 3x^4 - 4x^2 + x - 6$ adalah $f'(x) = \\dots$",
       formulaHint: "Kalikan pangkat ke depan lalu kurangi pangkat dengan $1$. Turunan konstanta $= 0$.",
       options: [
-        { key: "A", text: "$12x^3 + 8x + 1$", isCorrect: false, trapFeedback: "Tanda pada -4x^2 tetap negatif: -8x." },
+        { key: "A", text: "$12x^3 + 8x + 1$", isCorrect: false, trapFeedback: "Tanda pada $-4x^2$ tetap negatif: $-8x$." },
         { key: "B", text: "$12x^3 - 8x + 1$", isCorrect: true, trapFeedback: "" },
-        { key: "C", text: "$12x^3 - 8x - 5$", isCorrect: false, trapFeedback: "Turunan x adalah +1, dan turunan -6 adalah 0 (hilang)." },
-        { key: "D", text: "$12x^3 - 8x - 6$", isCorrect: false, trapFeedback: "Konstanta -6 turunannya 0, tidak ikut ditulis." },
-        { key: "E", text: "$12x^3 - 4x + 1$", isCorrect: false, trapFeedback: "Pangkat 2 pada -4x^2 harus dikalikan ke depan menjadi -8x." },
+        { key: "C", text: "$12x^3 - 8x - 5$", isCorrect: false, trapFeedback: "Turunan $x$ adalah $+1$, dan turunan $-6$ adalah $0$ (hilang)." },
+        { key: "D", text: "$12x^3 - 8x - 6$", isCorrect: false, trapFeedback: "Konstanta $-6$ turunannya $0$, tidak ikut ditulis." },
+        { key: "E", text: "$12x^3 - 4x + 1$", isCorrect: false, trapFeedback: "Pangkat $2$ pada $-4x^2$ harus dikalikan ke depan menjadi $-8x$." },
       ],
       correctKey: "B",
       stepByStep: [
@@ -729,9 +729,9 @@ export const MTK_LANJUT_SUBJECT: AsasSubject = {
       promptMarkdown: "Selembar karton persegi bersisi $c\\text{ cm}$ dipotong keempat sudutnya berupa persegi bersisi $h\\text{ cm}$, lalu dilipat menjadi kotak tanpa tutup. Volume kotak mencapai maksimum jika $h = \\dots$",
       formulaHint: "Buat $V(h) = h(c - 2h)^2$, cari $V'(h) = 0$.",
       options: [
-        { key: "A", text: "$\\dfrac{1}{8}c$", isCorrect: false, trapFeedback: "Faktorkan c^2 - 8ch + 12h^2 = 0 menjadi (c - 6h)(c - 2h) = 0." },
+        { key: "A", text: "$\\dfrac{1}{8}c$", isCorrect: false, trapFeedback: "Faktorkan $c^2 - 8ch + 12h^2 = 0$ menjadi $(c - 6h)(c - 2h) = 0$." },
         { key: "B", text: "$\\dfrac{1}{6}c$", isCorrect: true, trapFeedback: "" },
-        { key: "C", text: "$\\dfrac{1}{4}c$", isCorrect: false, trapFeedback: "c/4 hanya salah ingat; turunan V'(h)=0 menghasilkan 12h^2 - 8ch + c^2 = 0." },
+        { key: "C", text: "$\\dfrac{1}{4}c$", isCorrect: false, trapFeedback: "$c/4$ hanya salah ingat; turunan $V'(h)=0$ menghasilkan $12h^2 - 8ch + c^2 = 0$." },
         { key: "D", text: "$\\dfrac{1}{3}c$", isCorrect: false, trapFeedback: "Sisi alasnya berkurang 2h, bukan berkurang h." },
         { key: "E", text: "$\\dfrac{1}{2}c$", isCorrect: false, trapFeedback: "Jika h = c/2, seluruh karton habis terpotong sehingga volumenya 0!" },
       ],
@@ -748,7 +748,7 @@ export const MTK_LANJUT_SUBJECT: AsasSubject = {
       chapterId: "mtkl-turunan",
       difficulty: "hots",
       format: "mcq",
-      triggerTag: "Aturan Rantai cos^5",
+      triggerTag: "Aturan Rantai $\\cos^5$",
       promptMarkdown: "Turunan pertama fungsi $f(x) = 2\\cos^5(4x - 2)$ adalah $f'(x) = \\dots$",
       formulaHint: "Kupas bawang: $2 \\cdot 5\\cos^4(4x-2) \\cdot (-\\sin(4x-2)) \\cdot 4$, lalu pakai $2\\sin A\\cos A = \\sin 2A$!",
       options: [
@@ -801,10 +801,10 @@ export const MTK_LANJUT_SUBJECT: AsasSubject = {
       formulaHint: "Naikkan pangkat $+1$, lalu bagi koefisien dengan pangkat baru itu.",
       options: [
         { key: "A", text: "$3x^3 - 4x^2 + 5x + C$", isCorrect: false, trapFeedback: "Koefisiennya harus dibagi dengan pangkat baru!" },
-        { key: "B", text: "$3x^3 - 2x^2 + 5x + C$", isCorrect: false, trapFeedback: "3x^2 diintegralkan menjadi (3/3)x^3 = x^3." },
+        { key: "B", text: "$3x^3 - 2x^2 + 5x + C$", isCorrect: false, trapFeedback: "$3x^2$ diintegralkan menjadi $\\frac{3}{3}x^3 = x^3$." },
         { key: "C", text: "$x^3 - 2x^2 + 5x + C$", isCorrect: true, trapFeedback: "" },
-        { key: "D", text: "$x^3 - 4x^2 + 5x + C$", isCorrect: false, trapFeedback: "-4x diintegralkan menjadi -(4/2)x^2 = -2x^2." },
-        { key: "E", text: "$-x^3 - 2x^2 + 5x + C$", isCorrect: false, trapFeedback: "Suku 3x^2 bertanda positif." },
+        { key: "D", text: "$x^3 - 4x^2 + 5x + C$", isCorrect: false, trapFeedback: "$-4x$ diintegralkan menjadi $-\\frac{4}{2}x^2 = -2x^2$." },
+        { key: "E", text: "$-x^3 - 2x^2 + 5x + C$", isCorrect: false, trapFeedback: "Suku $3x^2$ bertanda positif." },
       ],
       correctKey: "C",
       stepByStep: [
@@ -821,8 +821,8 @@ export const MTK_LANJUT_SUBJECT: AsasSubject = {
       promptMarkdown: "Hasil dari $\\displaystyle \\int \\left(x^2 - \\dfrac{1}{x}\\right)^2 dx = \\dots$",
       formulaHint: "Jabarkan dulu $(a-b)^2 = a^2 - 2ab + b^2$ menjadi $x^4 - 2x + x^{-2}$!",
       options: [
-        { key: "A", text: "$\\dfrac{1}{5}x^5 + x^2 + \\dfrac{1}{x} + C$", isCorrect: false, trapFeedback: "Tanda tengah tetap minus (-2x -> -x^2), dan integral x^-2 = -x^-1." },
-        { key: "B", text: "$\\dfrac{1}{5}x^5 + x^2 - \\dfrac{1}{x} + C$", isCorrect: false, trapFeedback: "Suku tengah dari (x^2 - 1/x)^2 adalah -2(x^2)(1/x) = -2x, sehingga integralnya -x^2." },
+        { key: "A", text: "$\\dfrac{1}{5}x^5 + x^2 + \\dfrac{1}{x} + C$", isCorrect: false, trapFeedback: "Tanda tengah tetap minus ($-2x \\to -x^2$), dan integral $x^{-2} = -x^{-1}$." },
+        { key: "B", text: "$\\dfrac{1}{5}x^5 + x^2 - \\dfrac{1}{x} + C$", isCorrect: false, trapFeedback: "Suku tengah dari $(x^2 - \\frac{1}{x})^2$ adalah $-2(x^2)(\\frac{1}{x}) = -2x$, sehingga integralnya $-x^2$." },
         { key: "C", text: "$\\dfrac{1}{5}x^5 - x^2 - \\dfrac{1}{x} + C$", isCorrect: true, trapFeedback: "" },
         { key: "D", text: "$\\dfrac{1}{5}x^5 - \\dfrac{1}{2}x^2 + \\dfrac{1}{x} + C$", isCorrect: false, trapFeedback: "Jangan lupa faktor 2 pada -2ab = -2x!" },
         { key: "E", text: "$\\dfrac{1}{3}\\left(x^2 - \\dfrac{1}{x}\\right)^3 + C$", isCorrect: false, trapFeedback: "Aturan pangkat langsung hanya berlaku kalau di dalam kurung berbentuk linear (ax + b)." },
@@ -865,10 +865,10 @@ export const MTK_LANJUT_SUBJECT: AsasSubject = {
       promptMarkdown: "Diketahui $f'(x) = 6x + 2$ dan $f(-2) = 10$. Rumus fungsi $f(x)$ adalah ...",
       formulaHint: "Integralkan $f'(x)$ menjadi $3x^2 + 2x + C$, lalu masukkan $x = -2$ supaya hasilnya $10$.",
       options: [
-        { key: "A", text: "$3x^2 + 2x$", isCorrect: false, trapFeedback: "Cek C: 3(-2)^2 + 2(-2) = 12 - 4 = 8, butuh C = +2 agar jadi 10." },
-        { key: "B", text: "$3x^2 + 2x - 6$", isCorrect: false, trapFeedback: "Jika f(2)=10 baru C=-6; di soal diketahui f(-2)=10!" },
+        { key: "A", text: "$3x^2 + 2x$", isCorrect: false, trapFeedback: "Cek $C$: $3(-2)^2 + 2(-2) = 12 - 4 = 8$, butuh $C = +2$ agar jadi $10$." },
+        { key: "B", text: "$3x^2 + 2x - 6$", isCorrect: false, trapFeedback: "Jika $f(2)=10$ baru $C=-6$; di soal diketahui $f(-2)=10$!" },
         { key: "C", text: "$3x^2 + 2x + 2$", isCorrect: true, trapFeedback: "" },
-        { key: "D", text: "$6x^2 + 2x - 18$", isCorrect: false, trapFeedback: "Integral 6x adalah (6/2)x^2 = 3x^2." },
+        { key: "D", text: "$6x^2 + 2x - 18$", isCorrect: false, trapFeedback: "Integral $6x$ adalah $\\frac{6}{2}x^2 = 3x^2$." },
         { key: "E", text: "$3x^2 + 2x + 10$", isCorrect: false, trapFeedback: "Angka 10 adalah nilai f(-2), bukan langsung menjadi konstanta C." },
       ],
       correctKey: "C",
@@ -889,9 +889,9 @@ export const MTK_LANJUT_SUBJECT: AsasSubject = {
         "Nilai $a$ yang memenuhi $\\displaystyle \\int_a^7 (2x - 4)\\,dx = 24$ ditunjukkan oleh pernyataan:\n(i) $-1$\n(ii) $1$\n(iii) $2$\n(iv) $3$\nPernyataan yang benar adalah ...",
       formulaHint: "Integralkan jadi $[x^2 - 4x]_a^7 = 24$, lalu faktorkan persamaan kuadrat dalam $a$.",
       options: [
-        { key: "A", text: "(i) dan (iii)", isCorrect: false, trapFeedback: "Masukkan a=1 dan a=3 ke a^2 - 4a + 3 = 0." },
-        { key: "B", text: "(i) dan (iv)", isCorrect: false, trapFeedback: "(-1)^2 - 4(-1) + 3 = 8 != 0." },
-        { key: "C", text: "(ii) dan (iii)", isCorrect: false, trapFeedback: "2^2 - 4(2) + 3 = -1 != 0." },
+        { key: "A", text: "(i) dan (iii)", isCorrect: false, trapFeedback: "Masukkan $a=1$ dan $a=3$ ke $a^2 - 4a + 3 = 0$." },
+        { key: "B", text: "(i) dan (iv)", isCorrect: false, trapFeedback: "$(-1)^2 - 4(-1) + 3 = 8 \\neq 0$." },
+        { key: "C", text: "(ii) dan (iii)", isCorrect: false, trapFeedback: "$2^2 - 4(2) + 3 = -1 \\neq 0$." },
         { key: "D", text: "(ii) dan (iv)", isCorrect: true, trapFeedback: "" },
         { key: "E", text: "(ii), (iii), dan (iv)", isCorrect: false, trapFeedback: "Persamaan kuadrat hanya punya paling banyak 2 akar: 1 dan 3." },
       ],

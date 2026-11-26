@@ -26,11 +26,24 @@ const ContextTagSchema = z.object({
   label: z.string().min(1).max(160),
 });
 
+const CustomQuestionSchema = z.object({
+  subject: z.string().min(1).max(100),
+  chapter: z.string().min(1).max(160),
+  triggerTag: z.string().max(120).optional(),
+  promptMarkdown: z.string().min(1).max(3000),
+  options: z.array(z.string().max(500)).max(6).optional(),
+  formulaHint: z.string().max(1200).optional(),
+  stepByStep: z.array(z.string().max(1200)).max(8).optional(),
+  studentAnswered: z.boolean().optional(),
+  studentSelectedKey: z.string().max(8).optional(),
+});
+
 const AskSchema = z
   .object({
     message: z.string().max(2500).default(""),
     questionId: z.string().uuid().nullable().optional(),
     subtest: z.enum(["PU", "PPU", "PBM", "PK", "LBI", "LBE", "PM"]).nullable().optional(),
+    customQuestion: CustomQuestionSchema.nullable().optional(),
     history: z
       .array(
         z.object({
@@ -61,6 +74,7 @@ export async function POST(req: NextRequest) {
       message: body.message.trim() || "Tolong analisis lampiran ini dan jelaskan dari nol pakai prinsip Why Before How.",
       questionId: body.questionId ?? null,
       subtest: body.subtest ?? null,
+      customQuestion: body.customQuestion ?? null,
       history: body.history ?? [],
       attachments: body.attachments ?? [],
       contextTags: body.contextTags ?? [],

@@ -92,8 +92,14 @@ export function buildAsasSession(params: {
     };
   }
 
-  // Balanced 15-question Tryout drawing across every chapter of the subject
-  const buckets = subject.chapters.map((ch) =>
+  // Balanced Tryout: prioritize priorityChapterIds if present (e.g., 20-soal Fokus Pencacahan & Peluang)
+  const targetCount = subject.tryoutCount ?? 15;
+  const activeChapters =
+    subject.priorityChapterIds && subject.priorityChapterIds.length > 0
+      ? subject.chapters.filter((ch) => subject.priorityChapterIds!.includes(ch.id))
+      : subject.chapters;
+
+  const buckets = activeChapters.map((ch) =>
     shuffleWithSeed(
       subject.questions.filter((q) => q.chapterId === ch.id),
       seed + ch.order * 97,
@@ -101,10 +107,10 @@ export function buildAsasSession(params: {
   );
   const picked: AsasQuestion[] = [];
   let cursor = 0;
-  while (picked.length < 15) {
+  while (picked.length < targetCount) {
     let pushedThisRound = false;
     for (const b of buckets) {
-      if (cursor < b.length && picked.length < 15) {
+      if (cursor < b.length && picked.length < targetCount) {
         picked.push(b[cursor]);
         pushedThisRound = true;
       }
@@ -113,9 +119,14 @@ export function buildAsasSession(params: {
     cursor += 1;
   }
 
+  const isPriorityTryout = Boolean(subject.priorityChapterIds && subject.priorityChapterIds.length > 0);
   return {
-    title: `Tryout Campur ASAS · ${subject.name}`,
-    subtitle: `${picked.length} soal seimbang lintas semua bab (skor 0-100)`,
+    title: isPriorityTryout
+      ? `Tryout Fokus Besok (${picked.length} Soal) · ${subject.name}`
+      : `Tryout Campur ASAS · ${subject.name}`,
+    subtitle: isPriorityTryout
+      ? `Simulasi ${picked.length} pola inti mewakili soal ASAS besok (skor 0-100)`
+      : `${picked.length} soal seimbang lintas semua bab (skor 0-100)`,
     questions: shuffleWithSeed(picked, seed + 41),
   };
 }

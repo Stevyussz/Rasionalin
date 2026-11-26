@@ -17,7 +17,9 @@ import {
   SoundOnIcon,
   TargetIcon,
   TimerIcon,
+  TutorChatIcon,
 } from "@/components/icons/ArchitecturalIcons";
+import { AsasAiDrawer } from "@/components/asas/AsasAiDrawer";
 import { AppShell } from "@/components/layout/AppShell";
 import { ComboCelebration } from "@/components/feedback/ComboCelebration";
 import { MathText } from "@/components/math/MathText";
@@ -82,6 +84,7 @@ export function AsasWorkspace() {
   const [planOpen, setPlanOpen] = useState(true);
   const [memoryTestMode, setMemoryTestMode] = useState(false);
   const [revealedFormulaIds, setRevealedFormulaIds] = useState<string[]>([]);
+  const [exampleIdx, setExampleIdx] = useState(0);
   const [progress, setProgress] = useState<AsasProgressState>(DEFAULT_PROGRESS);
   const [soundOn, setSoundOn] = useState(true);
 
@@ -92,7 +95,8 @@ export function AsasWorkspace() {
   const [questions, setQuestions] = useState<AsasQuestion[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedKey, setSelectedKey] = useState<AsasOptionKey | null>(null);
-  const [hintOpen, setHintOpen] = useState(false);
+  const [hintStage, setHintStage] = useState<0 | 1 | 2>(0);
+  const [aiDrawerOpen, setAiDrawerOpen] = useState(false);
   const [scratchpadOpen, setScratchpadOpen] = useState(false);
   const [streak, setStreak] = useState(0);
   const [comboTrigger, setComboTrigger] = useState(0);
@@ -176,6 +180,7 @@ export function AsasWorkspace() {
     setSubjectId(nextId);
     setChapterId(nextSub.chapters[0]?.id ?? "");
     setStudyTab("module");
+    setExampleIdx(0);
     setRevealedFormulaIds([]);
   }
 
@@ -214,7 +219,8 @@ export function AsasWorkspace() {
     setQuestions(built.questions.map((q) => ({ ...q })));
     setCurrentIndex(0);
     setSelectedKey(null);
-    setHintOpen(false);
+    setHintStage(0);
+    setAiDrawerOpen(false);
     setScratchpadOpen(false);
     setStreak(0);
     setBestStreak(0);
@@ -362,7 +368,8 @@ export function AsasWorkspace() {
     playTapSound();
     setCurrentIndex((i) => i + 1);
     setSelectedKey(null);
-    setHintOpen(false);
+    setHintStage(0);
+    setAiDrawerOpen(false);
     setJustEnqueuedRemedial(false);
   }, [currentIndex, finishSession, history, isAnswered, questions.length]);
 
@@ -371,11 +378,25 @@ export function AsasWorkspace() {
     if (view !== "focus") return;
     function onKeyDown(e: KeyboardEvent) {
       if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
-      if (e.key === "Escape" && scratchpadOpen) {
+      if (e.key === "Escape") {
+        if (aiDrawerOpen) {
+          e.preventDefault();
+          setAiDrawerOpen(false);
+          return;
+        }
+        if (scratchpadOpen) {
+          e.preventDefault();
+          setScratchpadOpen(false);
+          return;
+        }
+      }
+      if (e.key === "t" || e.key === "T") {
         e.preventDefault();
-        setScratchpadOpen(false);
+        playTapSound();
+        setAiDrawerOpen((o) => !o);
         return;
       }
+      if (aiDrawerOpen) return;
       if (e.key === "s" || e.key === "S") {
         e.preventDefault();
         setScratchpadOpen((o) => !o);
@@ -384,7 +405,7 @@ export function AsasWorkspace() {
       if (e.key === "h" || e.key === "H") {
         e.preventDefault();
         playHintSound();
-        setHintOpen((o) => !o);
+        setHintStage((s) => (s === 0 ? 1 : 0));
         return;
       }
       if (!isAnswered && currentQuestion) {
@@ -412,7 +433,7 @@ export function AsasWorkspace() {
     }
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [currentQuestion, handleAdvance, handleSelectOption, isAnswered, scratchpadOpen, view]);
+  }, [aiDrawerOpen, currentQuestion, handleAdvance, handleSelectOption, isAnswered, scratchpadOpen, view]);
 
   const formatMMSS = (sec: number) => {
     const m = Math.floor(sec / 60);
@@ -496,6 +517,22 @@ export function AsasWorkspace() {
             </button>
             <button
               type="button"
+              onClick={() => {
+                playTapSound();
+                setAiDrawerOpen((o) => !o);
+              }}
+              title="Tanya AI tentang soal ini [T]"
+              className={`inline-flex items-center gap-1.5 px-2.5 min-h-[36px] rounded-lg border text-xs font-extrabold cursor-pointer transition-colors ${
+                aiDrawerOpen
+                  ? "bg-[var(--olive-tint)] border-[var(--olive-fill)] text-[var(--olive-ink)]"
+                  : "bg-[var(--surface-canvas)] border-[var(--border-structural)] hover:bg-[var(--surface-secondary)] text-[var(--ink-primary)]"
+              }`}
+            >
+              <TutorChatIcon size={15} />
+              <span>Tanya AI</span>
+            </button>
+            <button
+              type="button"
               onClick={() => setScratchpadOpen((o) => !o)}
               className={`inline-flex items-center gap-1.5 px-2.5 min-h-[36px] rounded-lg border text-xs font-extrabold cursor-pointer transition-colors ${
                 scratchpadOpen
@@ -504,7 +541,7 @@ export function AsasWorkspace() {
               }`}
             >
               <ScratchpadIcon size={15} />
-              <span>Coretan</span>
+              <span className="hidden sm:inline">Coretan</span>
             </button>
           </div>
         </header>
@@ -521,7 +558,7 @@ export function AsasWorkspace() {
                     : "Standar ASAS"}
               </span>
               <span className="px-2.5 py-0.5 rounded-md bg-[var(--surface-secondary)] text-[var(--ink-secondary)] text-[11px] font-extrabold">
-                {currentQuestion.triggerTag}
+                <MathText text={currentQuestion.triggerTag} />
               </span>
               {currentQuestion.format === "statements" && (
                 <span className="px-2.5 py-0.5 rounded-md bg-[var(--ochre-tint)] text-[var(--ochre-ink)] text-[11px] font-extrabold">
@@ -534,19 +571,58 @@ export function AsasWorkspace() {
               type="button"
               onClick={() => {
                 playHintSound();
-                setHintOpen((o) => !o);
+                setHintStage((s) => (s === 0 ? 1 : 0));
               }}
               className="inline-flex items-center gap-1.5 px-3 min-h-[34px] rounded-lg border border-[var(--ochre-border)] bg-[var(--ochre-tint)] text-[var(--ochre-ink)] text-xs font-extrabold cursor-pointer"
             >
               <HintIcon size={15} />
-              <span>{hintOpen ? "Tutup Rumus [H]" : "Blank? Rumus Apa [H]"}</span>
+              <span>{hintStage > 0 ? "Tutup Bantuan [H]" : "Blank? Mulai Dari Mana? [H]"}</span>
             </button>
           </div>
 
-          {hintOpen && (
-            <div className="p-3.5 rounded-xl bg-[var(--ochre-tint)] border border-[var(--ochre-border)] text-xs sm:text-sm space-y-1">
-              <div className="font-extrabold text-[var(--ochre-ink)]">Petunjuk Rumus & Kata Kunci:</div>
-              <MathText text={currentQuestion.formulaHint} className="leading-relaxed" />
+          {hintStage >= 1 && (
+            <div className="p-4 rounded-xl bg-[var(--ochre-tint)] border border-[var(--ochre-border)] text-xs sm:text-sm space-y-2.5">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <div className="font-extrabold text-[var(--ochre-ink)]">
+                  Petunjuk Rumus & Kata Kunci: <MathText text={currentQuestion.triggerTag} />
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    playTapSound();
+                    setAiDrawerOpen(true);
+                  }}
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[var(--surface-elevated)] border border-[var(--ochre-border)] text-[11px] font-extrabold text-[var(--olive-ink)] hover:bg-[var(--surface-secondary)] cursor-pointer"
+                >
+                  <TutorChatIcon size={13} />
+                  <span>Tanya AI Soal Ini</span>
+                </button>
+              </div>
+              <MathText text={currentQuestion.formulaHint} className="leading-relaxed block text-sm" />
+
+              {!isAnswered && currentQuestion.stepByStep.length >= 2 && (
+                hintStage === 1 ? (
+                  <div className="pt-1">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        playHintSound();
+                        setHintStage(2);
+                      }}
+                      className="px-3 py-1.5 rounded-lg border border-[var(--ochre-border)] bg-[var(--surface-elevated)] text-xs font-extrabold text-[var(--ochre-ink)] hover:opacity-90 cursor-pointer"
+                    >
+                      Masih bingung awalnya? Buka Langkah 1 Saja (Tanpa Bocorin Jawaban)
+                    </button>
+                  </div>
+                ) : (
+                  <div className="p-3 rounded-lg bg-[var(--surface-elevated)] border border-[var(--ochre-border)] space-y-1">
+                    <div className="text-[11px] font-extrabold uppercase tracking-wide text-[var(--accent-text-on-secondary)]">
+                      Langkah 1 Pembuka (Lanjutkan sisanya di Coretan!)
+                    </div>
+                    <MathText text={currentQuestion.stepByStep[0]} className="leading-relaxed text-xs sm:text-sm" />
+                  </div>
+                )
+              )}
             </div>
           )}
 
@@ -636,7 +712,7 @@ export function AsasWorkspace() {
                   </div>
                   {!wasCorrect && chosenOption?.trapFeedback && (
                     <p className="text-xs sm:text-sm font-bold text-[var(--coral-ink)]">
-                      Letak jebakan: {chosenOption.trapFeedback}
+                      Letak jebakan: <MathText text={chosenOption.trapFeedback} />
                     </p>
                   )}
                   {justEnqueuedRemedial && (
@@ -646,14 +722,27 @@ export function AsasWorkspace() {
                   )}
                 </div>
 
-                <button
-                  type="button"
-                  onClick={handleAdvance}
-                  className="btn-primary min-h-[42px] px-5 text-sm shrink-0"
-                >
-                  <span>{currentIndex + 1 >= questions.length ? "Lihat Skor Akhir [Enter]" : "Soal Berikutnya [Enter]"}</span>
-                  <ArrowRightIcon size={15} />
-                </button>
+                <div className="flex flex-wrap items-center gap-2 shrink-0">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      playTapSound();
+                      setAiDrawerOpen(true);
+                    }}
+                    className="btn-secondary min-h-[42px] px-3.5 text-xs sm:text-sm"
+                  >
+                    <TutorChatIcon size={15} />
+                    <span>Tanya AI</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleAdvance}
+                    className="btn-primary min-h-[42px] px-5 text-sm"
+                  >
+                    <span>{currentIndex + 1 >= questions.length ? "Lihat Skor Akhir [Enter]" : "Soal Berikutnya [Enter]"}</span>
+                    <ArrowRightIcon size={15} />
+                  </button>
+                </div>
               </div>
 
               <div className="p-3.5 rounded-xl bg-[var(--surface-elevated)] border border-[var(--border-structural)] space-y-2">
@@ -675,6 +764,15 @@ export function AsasWorkspace() {
           </footer>
         )}
 
+        <AsasAiDrawer
+          open={aiDrawerOpen}
+          onClose={() => setAiDrawerOpen(false)}
+          subjectName={subject.name}
+          chapterTitle={getAsasChapter(subject, currentQuestion.chapterId).title}
+          question={currentQuestion}
+          isAnswered={isAnswered}
+          selectedKey={selectedKey}
+        />
         <ScratchpadOverlay open={scratchpadOpen} onClose={() => setScratchpadOpen(false)} onUsed={() => {}} />
       </div>
     );
@@ -929,7 +1027,11 @@ export function AsasWorkspace() {
                 className="btn-primary min-h-[42px] px-4 text-xs sm:text-sm"
               >
                 <PlayIcon size={15} />
-                <span>Tryout Campur 15 Soal</span>
+                <span>
+                  {subject.priorityChapterIds && subject.priorityChapterIds.length > 0
+                    ? `Tryout Fokus Besok (${subject.tryoutCount ?? 20} Soal)`
+                    : `Tryout Campur ${subject.tryoutCount ?? 15} Soal`}
+                </span>
               </button>
               <button
                 type="button"
@@ -1009,7 +1111,9 @@ export function AsasWorkspace() {
                                 {blk.title}
                               </span>
                             </div>
-                            <p className="text-xs text-[var(--ink-secondary)] mt-0.5">{blk.goal}</p>
+                            <p className="text-xs text-[var(--ink-secondary)] mt-0.5">
+                              <MathText text={blk.goal} />
+                            </p>
                           </div>
                         </button>
 
@@ -1043,6 +1147,8 @@ export function AsasWorkspace() {
             {subject.chapters.map((ch) => {
               const active = ch.id === chapter.id;
               const chBest = progress.bestChapterAccuracy[ch.id];
+              const hasPriorityList = Boolean(subject.priorityChapterIds && subject.priorityChapterIds.length > 0);
+              const isPriorityChapter = hasPriorityList && subject.priorityChapterIds!.includes(ch.id);
               return (
                 <button
                   key={ch.id}
@@ -1050,6 +1156,7 @@ export function AsasWorkspace() {
                   onClick={() => {
                     playTapSound();
                     setChapterId(ch.id);
+                    setExampleIdx(0);
                     setRevealedFormulaIds([]);
                   }}
                   className={`inline-flex items-center gap-2 px-3.5 min-h-[38px] rounded-xl border text-xs sm:text-sm font-extrabold cursor-pointer transition-colors ${
@@ -1060,6 +1167,21 @@ export function AsasWorkspace() {
                 >
                   <span className="font-num opacity-80">0{ch.order}</span>
                   <span>{ch.shortTitle}</span>
+                  {hasPriorityList && (
+                    <span
+                      className={`text-[10px] px-1.5 py-0.5 rounded font-extrabold ${
+                        isPriorityChapter
+                          ? active
+                            ? "bg-white/20 text-white"
+                            : "bg-[var(--ochre-tint)] text-[var(--ochre-ink)]"
+                          : active
+                            ? "bg-white/15 text-white/90"
+                            : "bg-[var(--surface-secondary)] text-[var(--ink-muted)]"
+                      }`}
+                    >
+                      {isPriorityChapter ? "Fokus" : "Tambahan"}
+                    </span>
+                  )}
                   {chBest !== undefined && (
                     <span
                       className={`font-num text-[11px] px-1.5 py-0.5 rounded ${
@@ -1078,29 +1200,44 @@ export function AsasWorkspace() {
 
           <div className="card-tactile p-4 sm:p-6 space-y-5">
             <div className="flex flex-wrap items-start justify-between gap-3 border-b border-[var(--border-structural)] pb-4">
-              <div className="space-y-1 max-w-[620px]">
+              <div className="space-y-1 max-w-[580px]">
                 <div className="text-xs font-extrabold uppercase tracking-wide text-[var(--ink-secondary)]">
                   Bab {chapter.order} · Estimasi {chapter.targetMinutes} Menit
                 </div>
                 <h2 className="text-lg sm:text-xl font-extrabold">{chapter.title}</h2>
-                <p className="text-xs sm:text-sm text-[var(--ink-secondary)] leading-relaxed">{chapter.summary}</p>
+                <p className="text-xs sm:text-sm text-[var(--ink-secondary)] leading-relaxed">
+                  <MathText text={chapter.summary} />
+                </p>
               </div>
-              <button
-                type="button"
-                onClick={() => startSession("chapter", chapter.id)}
-                className="btn-primary min-h-[40px] px-4 text-xs sm:text-sm shrink-0"
-              >
-                <PlayIcon size={14} />
-                <span>Latihan Fokus Bab Ini ({chapterQuestionCount})</span>
-              </button>
+              <div className="flex flex-wrap items-center gap-2 shrink-0">
+                <button
+                  type="button"
+                  onClick={() => {
+                    playTapSound();
+                    setAiDrawerOpen(true);
+                  }}
+                  className="btn-secondary min-h-[40px] px-3.5 text-xs sm:text-sm"
+                >
+                  <TutorChatIcon size={15} />
+                  <span>Tanya AI Bab Ini</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => startSession("chapter", chapter.id)}
+                  className="btn-primary min-h-[40px] px-4 text-xs sm:text-sm"
+                >
+                  <PlayIcon size={14} />
+                  <span>Latihan Fokus Bab Ini ({chapterQuestionCount})</span>
+                </button>
+              </div>
             </div>
 
             {/* Inner Study Mode Tabs */}
             <div role="tablist" aria-label="Mode belajar bab ASAS" className="flex flex-wrap gap-2">
               {(
                 [
-                  { id: "module", label: "1. Materi & Contoh Penerapan" },
-                  { id: "formulas", label: `2. Peta Rumus Anti-Blank (${chapter.formulas.length})` },
+                  { id: "module", label: "1. Belajar dari Nol (Anti-Blank)" },
+                  { id: "formulas", label: `2. Peta Rumus (${chapter.formulas.length})` },
                   { id: "practice", label: `3. Latihan Bab Ini (${chapterQuestionCount})` },
                 ] as const
               ).map((tab) => {
@@ -1157,9 +1294,11 @@ export function AsasWorkspace() {
                     return (
                       <div key={fc.id} className="p-4 space-y-3">
                         <div className="flex flex-wrap items-center justify-between gap-2">
-                          <h3 className="text-sm sm:text-base font-extrabold">{fc.title}</h3>
+                          <h3 className="text-sm sm:text-base font-extrabold">
+                            <MathText text={fc.title} />
+                          </h3>
                           <span className="px-2.5 py-1 rounded-md bg-[var(--ochre-tint)] text-[var(--ochre-ink)] text-[11px] font-extrabold">
-                            Kapan dipakai: {fc.triggerCue}
+                            Kapan dipakai: <MathText text={fc.triggerCue} />
                           </span>
                         </div>
 
@@ -1186,7 +1325,10 @@ export function AsasWorkspace() {
                             <ul className="space-y-0.5 text-[var(--ink-primary)]">
                               {fc.symbolMeaning.map((sm, idx) => (
                                 <li key={idx}>
-                                  <strong className="font-mono-telemetry">{sm.symbol}</strong>: {sm.meaning}
+                                  <strong className="font-extrabold text-[var(--ink-primary)]">
+                                    <MathText text={sm.symbol} />
+                                  </strong>
+                                  : <MathText text={sm.meaning} />
                                 </li>
                               ))}
                             </ul>
@@ -1209,78 +1351,154 @@ export function AsasWorkspace() {
               </div>
             )}
 
-            {/* SUB-TAB 2: MODUL KILAT DARI NOL + ANALOGI + CONTOH PENERAPAN */}
-            {studyTab === "module" && (
-              <div className="space-y-5">
-                {chapter.analogy && (
-                  <div className="p-4 rounded-xl bg-[var(--ochre-tint)] border border-[var(--ochre-border)] space-y-1.5">
-                    <div className="text-xs font-extrabold uppercase tracking-wide text-[var(--ochre-ink)]">
-                      Analogi Kehidupan Nyata · {chapter.analogy.title}
-                    </div>
-                    <p className="text-xs sm:text-sm leading-relaxed text-[var(--ink-primary)]">
-                      {chapter.analogy.story}
-                    </p>
-                    <p className="text-xs font-extrabold text-[var(--ochre-ink)] pt-0.5">
-                      Intinya: {chapter.analogy.takeaway}
-                    </p>
-                  </div>
-                )}
+            {/* SUB-TAB 2: MODUL ANTI-BLANK DARI NOL */}
+            {studyTab === "module" && (() => {
+              const allExamples = [chapter.workedExample, ...(chapter.extraExamples ?? [])];
+              const activeExample = allExamples[Math.min(exampleIdx, allExamples.length - 1)] ?? chapter.workedExample;
+              const decisionRows =
+                chapter.decisionGuide && chapter.decisionGuide.length > 0
+                  ? chapter.decisionGuide
+                  : chapter.formulas.map((f) => ({
+                      cue: f.triggerCue,
+                      formulaLatex: f.formulaLatex,
+                      firstStep: f.quickExample,
+                    }));
 
-                <div className="p-4 rounded-xl bg-[var(--accent-tint)] border border-[var(--accent-tint-border)] space-y-1">
-                  <div className="text-xs font-extrabold uppercase tracking-wide text-[var(--accent-text-on-secondary)]">
-                    Logika Inti (Bahasa Sederhana)
-                  </div>
-                  <div className="text-sm font-semibold leading-relaxed text-[var(--ink-primary)]">
-                    <MathText text={chapter.coreIntuition} />
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <h3 className="text-sm font-extrabold">Checklist Langkah Pengerjaan Anti-Blank</h3>
-                  <div className="divide-y divide-[var(--border-structural)] border border-[var(--border-structural)] rounded-xl bg-[var(--surface-canvas)]">
-                    {chapter.mentalChecklist.map((item, idx) => (
-                      <div key={idx} className="px-3.5 py-2.5 flex items-start gap-3 text-xs sm:text-sm">
-                        <span className="font-num font-extrabold text-[var(--accent-primary)] shrink-0">
-                          {String(idx + 1).padStart(2, "0")}
-                        </span>
-                        <MathText text={item} className="leading-relaxed" />
+              return (
+                <div className="space-y-6">
+                  {/* 1. Bayangkan Dulu + Inti Bab */}
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                    {chapter.analogy && (
+                      <div className="p-4 sm:p-5 rounded-xl bg-[var(--ochre-tint)] border border-[var(--ochre-border)] space-y-2">
+                        <div className="text-xs font-extrabold uppercase tracking-wide text-[var(--ochre-ink)]">
+                          1. Bayangkan Dulu · {chapter.analogy.title}
+                        </div>
+                        <p className="text-sm leading-relaxed text-[var(--ink-primary)]">
+                          <MathText text={chapter.analogy.story} />
+                        </p>
+                        <p className="text-xs sm:text-sm font-extrabold text-[var(--ochre-ink)] pt-1">
+                          Intinya: <MathText text={chapter.analogy.takeaway} />
+                        </p>
                       </div>
-                    ))}
-                  </div>
-                </div>
+                    )}
 
-                <div className="space-y-3">
-                  <h3 className="text-sm font-extrabold">Bedah Contoh Penerapan (Langkah demi Langkah)</h3>
-                  {[chapter.workedExample, ...(chapter.extraExamples ?? [])].map((ex, exIdx) => (
                     <div
-                      key={exIdx}
-                      className="p-4 rounded-xl border border-[var(--border-structural)] bg-[var(--surface-canvas)] space-y-3"
+                      className={`p-4 sm:p-5 rounded-xl bg-[var(--accent-tint)] border border-[var(--accent-tint-border)] space-y-2 ${
+                        chapter.analogy ? "" : "lg:col-span-2"
+                      }`}
                     >
+                      <div className="text-xs font-extrabold uppercase tracking-wide text-[var(--accent-text-on-secondary)]">
+                        {chapter.analogy ? "2. Pembeda Utama Biar Nggak Ketukar" : "1. Logika Inti dari Nol"}
+                      </div>
+                      <div className="text-sm sm:text-[15px] font-semibold leading-relaxed text-[var(--ink-primary)]">
+                        <MathText text={chapter.coreIntuition} />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 2. Tabel Contekan Anti-Blank */}
+                  <div className="space-y-2.5">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <h3 className="text-sm sm:text-base font-extrabold">
+                        Tabel Contekan Anti-Blank (Kalau Soal Bilang Ini → Pakai Rumus Ini)
+                      </h3>
+                      <span className="text-[11px] font-bold text-[var(--ink-secondary)]">
+                        Cukup lihat ciri kalimat soalnya, lalu tulis langkah pertamanya!
+                      </span>
+                    </div>
+
+                    <div className="divide-y divide-[var(--border-structural)] border border-[var(--border-structural)] rounded-xl bg-[var(--surface-canvas)] overflow-hidden">
+                      {decisionRows.map((row, idx) => (
+                        <div
+                          key={idx}
+                          className="p-3.5 sm:p-4 grid grid-cols-1 md:grid-cols-12 gap-3 items-start text-sm"
+                        >
+                          <div className="md:col-span-4 space-y-0.5">
+                            <div className="text-[10px] font-extrabold uppercase tracking-wide text-[var(--ochre-ink)]">
+                              Kalau Soal Bilang
+                            </div>
+                            <div className="font-bold text-[var(--ink-primary)] leading-snug">
+                              <MathText text={row.cue} />
+                            </div>
+                          </div>
+                          <div className="md:col-span-4 p-2.5 rounded-lg bg-[var(--surface-elevated)] border border-[var(--border-structural)] overflow-x-auto">
+                            <div className="text-[10px] font-extrabold uppercase tracking-wide text-[var(--accent-text-on-secondary)] mb-1">
+                              Pakai Rumus
+                            </div>
+                            <MathText text={row.formulaLatex} className="text-sm font-semibold" />
+                          </div>
+                          <div className="md:col-span-4 space-y-0.5">
+                            <div className="text-[10px] font-extrabold uppercase tracking-wide text-[var(--olive-ink)]">
+                              Langsung Tulis Ini Dulu
+                            </div>
+                            <div className="text-xs sm:text-sm text-[var(--ink-secondary)] leading-relaxed">
+                              <MathText text={row.firstStep} />
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* 3. Bedah Contoh Soal 1-per-1 (Clean Stepper) */}
+                  <div className="space-y-3">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <h3 className="text-sm sm:text-base font-extrabold">
+                        Bedah Contoh Soal Pelan-Pelan ({allExamples.length} Pola)
+                      </h3>
+                      {allExamples.length > 1 && (
+                        <div className="flex flex-wrap gap-1.5">
+                          {allExamples.map((_, idx) => {
+                            const active = idx === Math.min(exampleIdx, allExamples.length - 1);
+                            return (
+                              <button
+                                key={idx}
+                                type="button"
+                                onClick={() => {
+                                  playTapSound();
+                                  setExampleIdx(idx);
+                                }}
+                                className={`px-3 min-h-[32px] rounded-lg border text-xs font-extrabold cursor-pointer transition-colors ${
+                                  active
+                                    ? "bg-[var(--ochre-fill)] border-[var(--ochre-bevel)] text-white"
+                                    : "bg-[var(--surface-canvas)] border-[var(--border-structural)] text-[var(--ink-primary)] hover:bg-[var(--surface-secondary)]"
+                                }`}
+                              >
+                                Contoh {idx + 1}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="p-4 sm:p-5 rounded-xl border border-[var(--border-structural)] bg-[var(--surface-canvas)] space-y-4">
                       <div className="space-y-1">
                         <div className="text-xs font-extrabold uppercase tracking-wide text-[var(--ochre-ink)]">
-                          {ex.title}
+                          {activeExample.title}
                         </div>
-                        {ex.whenToUse && (
-                          <div className="text-[11px] font-bold text-[var(--ink-secondary)]">
-                            Kapan pola ini keluar: {ex.whenToUse}
+                        {activeExample.whenToUse && (
+                          <div className="text-xs font-bold text-[var(--ink-secondary)]">
+                            Kapan pola ini keluar: <MathText text={activeExample.whenToUse} />
                           </div>
                         )}
                       </div>
-                      <div className="text-sm font-bold text-[var(--ink-primary)]">
-                        <MathText text={ex.problem} />
+
+                      <div className="p-3.5 rounded-xl bg-[var(--surface-elevated)] border border-[var(--border-structural)] text-sm sm:text-[15px] font-bold text-[var(--ink-primary)] leading-relaxed">
+                        <MathText text={activeExample.problem} />
                       </div>
 
-                      <div className="space-y-2.5 pt-1">
-                        {ex.steps.map((st, idx) => (
-                          <div key={idx} className="pl-3 border-l-2 border-[var(--accent-primary)] space-y-1">
-                            <div className="text-xs font-extrabold text-[var(--accent-text-on-secondary)]">
-                              {st.stepLabel}
+                      <div className="space-y-3">
+                        {activeExample.steps.map((st, idx) => (
+                          <div key={idx} className="pl-3.5 border-l-2 border-[var(--accent-primary)] space-y-1.5">
+                            <div className="text-xs sm:text-sm font-extrabold text-[var(--accent-text-on-secondary)]">
+                              <MathText text={st.stepLabel} />
                             </div>
-                            <div className="text-xs sm:text-sm text-[var(--ink-primary)]">
+                            <div className="text-sm text-[var(--ink-primary)] leading-relaxed">
                               <MathText text={st.detail} />
                             </div>
                             {st.math && (
-                              <div className="overflow-x-auto text-xs sm:text-sm">
+                              <div className="overflow-x-auto text-sm">
                                 <MathText text={st.math} />
                               </div>
                             )}
@@ -1288,36 +1506,64 @@ export function AsasWorkspace() {
                         ))}
                       </div>
 
-                      <div className="pt-2 border-t border-[var(--border-structural)] text-xs sm:text-sm font-extrabold text-[var(--accent-text-on-secondary)]">
-                        Jawaban Akhir: <MathText text={ex.finalAnswer} />
+                      <div className="pt-2.5 border-t border-[var(--border-structural)] text-sm font-extrabold text-[var(--accent-text-on-secondary)]">
+                        Jawaban Akhir: <MathText text={activeExample.finalAnswer} />
                       </div>
                     </div>
-                  ))}
-                </div>
+                  </div>
 
-                <div className="flex flex-wrap justify-end gap-2">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      playTapSound();
-                      setStudyTab("formulas");
-                    }}
-                    className="btn-secondary min-h-[42px] px-4 text-sm"
-                  >
-                    <BookOpenIcon size={15} />
-                    <span>Lanjut ke Peta Rumus</span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => startSession("chapter", chapter.id)}
-                    className="btn-primary min-h-[42px] px-5 text-sm"
-                  >
-                    <PlayIcon size={15} />
-                    <span>Sudah Paham Alurnya? Latihan Bab Ini!</span>
-                  </button>
+                  {/* 4. Checklist Anti-Jebakan */}
+                  <div className="space-y-2.5">
+                    <h3 className="text-sm sm:text-base font-extrabold">Checklist Anti-Jebakan Sebelum Pilih A-E</h3>
+                    <div className="divide-y divide-[var(--border-structural)] border border-[var(--border-structural)] rounded-xl bg-[var(--surface-canvas)]">
+                      {chapter.mentalChecklist.map((item, idx) => (
+                        <div key={idx} className="px-4 py-3 flex items-start gap-3 text-sm">
+                          <span className="font-num font-extrabold text-[var(--accent-primary)] shrink-0">
+                            {String(idx + 1).padStart(2, "0")}
+                          </span>
+                          <MathText text={item} className="leading-relaxed" />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="flex flex-wrap justify-between items-center gap-2 pt-1">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        playTapSound();
+                        setAiDrawerOpen(true);
+                      }}
+                      className="btn-secondary min-h-[42px] px-4 text-sm"
+                    >
+                      <TutorChatIcon size={15} />
+                      <span>Masih Bingung? Tanya AI Bab Ini</span>
+                    </button>
+                    <div className="flex flex-wrap gap-2">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          playTapSound();
+                          setStudyTab("formulas");
+                        }}
+                        className="btn-secondary min-h-[42px] px-4 text-sm"
+                      >
+                        <BookOpenIcon size={15} />
+                        <span>Lanjut ke Peta Rumus</span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => startSession("chapter", chapter.id)}
+                        className="btn-primary min-h-[42px] px-5 text-sm"
+                      >
+                        <PlayIcon size={15} />
+                        <span>Siap Coba? Latihan Bab Ini!</span>
+                      </button>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            )}
+              );
+            })()}
 
             {/* SUB-TAB 3: READY TO PRACTICE OVERVIEW */}
             {studyTab === "practice" && (
@@ -1345,6 +1591,15 @@ export function AsasWorkspace() {
           </div>
         </section>
       </div>
+
+      <AsasAiDrawer
+        open={aiDrawerOpen}
+        onClose={() => setAiDrawerOpen(false)}
+        subjectName={subject.name}
+        chapterTitle={chapter.title}
+        chapterSummary={chapter.summary}
+        question={null}
+      />
     </AppShell>
   );
 }

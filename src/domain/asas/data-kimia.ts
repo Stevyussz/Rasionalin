@@ -51,37 +51,37 @@ export const KIMIA_SUBJECT: AsasSubject = {
       coreIntuition:
         "Sifat koligatif hanya peduli JUMLAH PARTIKEL zat terlarut. Jadi langkah pertama tiap kali membaca soal koligatif: cek apakah zatnya ELEKTROLIT (garam/asam/basa seperti NaCl, H2SO4, CaCl2) atau NONELEKTROLIT (glukosa, urea, sukrosa)!",
       mentalChecklist: [
-        "Urea, glukosa, sukrosa = nonelektrolit (faktor i = 1). NaCl = 2 ion, CaCl2 / H2SO4 = 3 ion.",
-        "Molalitas (m) membagi mol dengan MASSA PELARUT (kg atau gram air), bukan total larutan!",
-        "Rumus tekanan uap: P = X_pelarut x P°, sedangkan delta P = X_terlarut x P°.",
-        "Dua larutan ISOTONIK berarti pi_1 = pi_2 -> langsung samakan (M . i)_1 = (M . i)_2!",
+        "Urea, glukosa, sukrosa = nonelektrolit (faktor $i = 1$). $\\text{NaCl} = 2$ ion, $\\text{CaCl}_2 / \\text{H}_2\\text{SO}_4 = 3$ ion.",
+        "Molalitas ($m$) membagi mol dengan MASSA PELARUT (kg atau gram air), bukan total larutan!",
+        "Rumus tekanan uap: $P = X_{\\text{pelarut}} \\times P^\\circ$, sedangkan $\\Delta P = X_{\\text{terlarut}} \\times P^\\circ$.",
+        "Dua larutan ISOTONIK berarti $\\pi_1 = \\pi_2 \\to$ langsung samakan $(M \\cdot i)_1 = (M \\cdot i)_2$!",
       ],
       formulas: [
         {
           id: "kim-f-konsentrasi",
           title: "Molalitas, Fraksi Mol & Faktor van 't Hoff",
-          triggerCue: "Ada 'molal (m)', 'fraksi mol (X)', 'elektrolit', atau 'derajat ionisasi (alpha)'",
+          triggerCue: "Ada 'molal ($m$)', 'fraksi mol ($X$)', 'elektrolit', atau 'derajat ionisasi ($\\alpha$)'",
           formulaLatex:
             "$$m = \\dfrac{g}{M_r}\\times \\dfrac{1000}{p\\text{ (g)}} \\quad|\\quad X_t = \\dfrac{n_t}{n_t + n_p} \\quad|\\quad i = 1 + (n - 1)\\alpha$$",
           symbolMeaning: [
-            { symbol: "p", meaning: "massa pelarut murni dalam gram (misal air)" },
-            { symbol: "n", meaning: "jumlah kation + anion saat terurai (NaCl -> n=2)" },
+            { symbol: "$p$", meaning: "massa pelarut murni dalam gram (misal air)" },
+            { symbol: "$n$", meaning: "jumlah kation + anion saat terurai ($\\text{NaCl} \\to n=2$)" },
           ],
-          commonTrap: "Tertukar P (tekanan uap larutan = X_pelarut x P°) dengan delta P (penurunan = X_terlarut x P°).",
-          quickExample: "Elektrolit biner (n=2) dengan alpha=0,25 -> i = 1 + (2-1)(0,25) = 1,25.",
+          commonTrap: "Tertukar $P$ (tekanan uap larutan $= X_{\\text{pelarut}} \\times P^\\circ$) dengan $\\Delta P$ (penurunan $= X_{\\text{terlarut}} \\times P^\\circ$).",
+          quickExample: "Elektrolit biner ($n=2$) dengan $\\alpha = 0{,}25 \\to i = 1 + (2-1)(0{,}25) = 1{,}25$.",
         },
         {
           id: "kim-f-titik",
           title: "Titik Didih, Titik Beku & Osmosis",
-          triggerCue: "Ada kata 'mendidih (Tb)', 'membeku (Tf)', 'isotonik', atau 'tekanan osmosis'",
+          triggerCue: "Ada kata 'mendidih ($T_b$)', 'membeku ($T_f$)', 'isotonik', atau 'tekanan osmosis'",
           formulaLatex:
             "$$\\Delta T_b = K_b\\cdot m\\cdot i \\quad|\\quad \\Delta T_f = K_f\\cdot m\\cdot i \\quad|\\quad \\pi = M\\cdot R\\cdot T\\cdot i$$",
           symbolMeaning: [
-            { symbol: "T_b, T_f", meaning: "T_b = 100 + delta T_b, sedangkan T_f = 0 - delta T_f (makin banyak partikel makin RENDAH!)" },
-            { symbol: "T", meaning: "suhu WAJIB Kelvin = t(°C) + 273; R = 0,082 L atm/mol K" },
+            { symbol: "$T_b,\\; T_f$", meaning: "$T_b = 100 + \\Delta T_b$, sedangkan $T_f = 0 - \\Delta T_f$ (makin banyak partikel makin RENDAH!)" },
+            { symbol: "$T$", meaning: "suhu WAJIB Kelvin $= t(^\\circ\\text{C}) + 273$; $R = 0{,}082\\text{ L}\\cdot\\text{atm/mol}\\cdot\\text{K}$" },
           ],
-          commonTrap: "Menjawab delta T_b (misal 0,52) padahal yang ditanya SUHU MENDIDIH larutan (100,52 °C)!",
-          quickExample: "NaCl 0,5 m (i=2), Kb=0,52 -> delta Tb = 0,52 . 0,5 . 2 = 0,52 -> mendidih pada 100,52 °C.",
+          commonTrap: "Menjawab $\\Delta T_b$ (misal $0{,}52$) padahal yang ditanya SUHU MENDIDIH larutan ($100{,}52\\,^\\circ\\text{C}$)!",
+          quickExample: "$\\text{NaCl}$ $0{,}5\\text{ m}$ ($i=2$), $K_b=0{,}52 \\to \\Delta T_b = 0{,}52 \\cdot 0{,}5 \\cdot 2 = 0{,}52 \\to$ mendidih pada $100{,}52\\,^\\circ\\text{C}$.",
         },
       ],
       workedExample: {
@@ -142,11 +142,11 @@ export const KIMIA_SUBJECT: AsasSubject = {
           triggerCue: "Ada arus listrik I (Ampere), waktu t (detik), massa logam mengendap, atau pH elektrolisis",
           formulaLatex: "$$n_e = \\dfrac{I\\cdot t}{96.500} \\quad|\\quad w = \\dfrac{A_r}{\\text{valensi}}\\cdot n_e \\quad|\\quad \\dfrac{w_1}{A_{r1}/v_1} = \\dfrac{w_2}{A_{r2}/v_2}$$",
           symbolMeaning: [
-            { symbol: "valensi", meaning: "jumlah muatan ion logam (Ag+ = 1, Cu2+ = 2, Zn2+ = 2)" },
-            { symbol: "\\text{pH katoda}", meaning: "mol OH- sama dengan mol elektron n_e (jika air tereduksi)" },
+            { symbol: "valensi", meaning: "jumlah muatan ion logam ($\\text{Ag}^+ = 1$, $\\text{Cu}^{2+} = 2$, $\\text{Zn}^{2+} = 2$)" },
+            { symbol: "pH katoda", meaning: "mol $\\text{OH}^-$ sama dengan mol elektron $n_e$ (jika air tereduksi)" },
           ],
-          commonTrap: "Memakai arus seri untuk dua sel (CuSO4 dan AgNO3) tanpa membagi Ar dengan valensi (Cu=2, Ag=1)!",
-          quickExample: "Arus sama endapkan 6,35 g Cu (ek = 63,5/2): n_e = 6,35/31,75 = 0,2 -> Ag = 0,2 . 108 = 21,6 g.",
+          commonTrap: "Memakai arus seri untuk dua sel ($\\text{CuSO}_4$ dan $\\text{AgNO}_3$) tanpa membagi $A_r$ dengan valensi ($\\text{Cu}=2$, $\\text{Ag}=1$)!",
+          quickExample: "Arus sama endapkan $6{,}35\\text{ g}$ Cu ($\\text{ek} = 63{,}5/2$): $n_e = 6{,}35/31{,}75 = 0{,}2 \\to \\text{Ag} = 0{,}2 \\times 108 = 21{,}6\\text{ g}$.",
         },
       ],
       workedExample: {
@@ -196,7 +196,7 @@ export const KIMIA_SUBJECT: AsasSubject = {
           formulaLatex:
             "$$\\text{Alkohol }(-\\text{OH}) \\leftrightarrow \\text{Eter }(-\\text{O}-) \\;|\\; \\text{Alkanal }(-\\text{CHO}) \\leftrightarrow \\text{Alkanon }(-\\text{CO}-) \\;|\\; \\text{Asam }(-\\text{COOH}) \\leftrightarrow \\text{Ester }(-\\text{COO}-)$$",
           symbolMeaning: [
-            { symbol: "C_nH_{2n}O_2", meaning: "Asam alkanoat atau Ester (Alkil alkanoat)" },
+            { symbol: "$\\text{C}_n\\text{H}_{2n}\\text{O}_2$", meaning: "Asam alkanoat atau Ester (Alkil alkanoat)" },
           ],
           commonTrap: "Tertukar arah pembacaan ester CH3-COO-CH2-CH3 (yang belakang = etil, yang depan ber-COO = etanoat -> etil etanoat).",
           quickExample: "Etoksi etana (CH3-CH2-O-CH2-CH3) nama trivialnya adalah dietil eter.",
@@ -303,7 +303,7 @@ export const KIMIA_SUBJECT: AsasSubject = {
       options: [
         { key: "A", text: "4,0 mmHg", isCorrect: false, trapFeedback: "4,0 mmHg adalah PENURUNAN tekanan uap (delta P), sedangkan yang ditanya tekanan uap larutan P!" },
         { key: "B", text: "7,5 mmHg", isCorrect: false, trapFeedback: "Mol air = 90/18 = 5 mol dan mol urea = 60/60 = 1 mol." },
-        { key: "C", text: "16,5 mmHg", isCorrect: false, trapFeedback: "X_air = 5 / (5 + 1) = 5/6, bukan 2/3." },
+        { key: "C", text: "16,5 mmHg", isCorrect: false, trapFeedback: "$X_{\\text{air}} = 5 / (5 + 1) = 5/6$, bukan $2/3$." },
         { key: "D", text: "20,0 mmHg", isCorrect: true, trapFeedback: "" },
         { key: "E", text: "24,0 mmHg", isCorrect: false, trapFeedback: "24 mmHg adalah tekanan uap air murni sebelum ditambah urea." },
       ],
@@ -409,7 +409,7 @@ export const KIMIA_SUBJECT: AsasSubject = {
       difficulty: "hots",
       format: "mcq",
       triggerTag: "Derajat Ionisasi Y",
-      promptMarkdown: "Larutan nonelektrolit $X$ ($2\\text{ m}$) mendidih pada $101{,}04^\\circ\\text{C}$. Larutan elektrolit biner $Y$ ($3\\text{ m}$) mendidih pada $101{,}95^\\circ\\text{C}$. Derajat ionisasi ($\alpha$) larutan $Y$ adalah ...",
+      promptMarkdown: "Larutan nonelektrolit $X$ ($2\\text{ m}$) mendidih pada $101{,}04^\\circ\\text{C}$. Larutan elektrolit biner $Y$ ($3\\text{ m}$) mendidih pada $101{,}95^\\circ\\text{C}$. Derajat ionisasi ($\\alpha$) larutan $Y$ adalah ...",
       formulaHint: "Cari $K_b$ dari $X$ dulu ($0{,}52$), hitung $i$ pada $Y$, lalu masukkan $i = 1 + (2-1)\\alpha$.",
       options: [
         { key: "A", text: "0,10", isCorrect: false, trapFeedback: "1,95 / 1,56 = 1,25 -> alpha = 0,25." },
@@ -506,7 +506,7 @@ export const KIMIA_SUBJECT: AsasSubject = {
         { key: "A", text: "$\\text{S}^{2-} \\to \\text{SO}_2 + 4\\text{e}^-$", isCorrect: false, trapFeedback: "Itu oksidasi, bukan setengah reaksi reduksi (dan O belum disetarakan pakai H2O)." },
         { key: "B", text: "$\\text{SO}_2 + 4\\text{e}^- \\to \\text{S}^{2-}$", isCorrect: false, trapFeedback: "Di soal S2- berada di kiri panah menuju SO2." },
         { key: "C", text: "$\\text{Cr}_2\\text{O}_7^{2-} + 14\\text{H}^+ + 6\\text{e}^- \\to 2\\text{Cr}^{3+} + 7\\text{H}_2\\text{O}$", isCorrect: true, trapFeedback: "" },
-        { key: "D", text: "$\\text{Cr}^{3+} + 7\\text{H}_2\\text{O} \\to \\text{Cr}_2\\text{O}_7^{2-} + 14\\text{H}^+ + 6\\text{e}^-$", isCorrect: false, trapFeedback: "Arah panah terbalik! Di reaksi asal Cr2O7^2- berada di sebelah kiri." },
+        { key: "D", text: "$\\text{Cr}^{3+} + 7\\text{H}_2\\text{O} \\to \\text{Cr}_2\\text{O}_7^{2-} + 14\\text{H}^+ + 6\\text{e}^-$", isCorrect: false, trapFeedback: "Arah panah terbalik! Di reaksi asal $\\text{Cr}_2\\text{O}_7^{2-}$ berada di sebelah kiri." },
         { key: "E", text: "$\\text{Cr}_2\\text{O}_7^{2-} + 14\\text{H}^+ + 3\\text{e}^- \\to 2\\text{Cr}^{3+} + 7\\text{H}_2\\text{O}$", isCorrect: false, trapFeedback: "Ada 2 atom Cr turun dari +6 ke +3, jadi butuh 2 x 3 = 6 elektron!" },
       ],
       correctKey: "C",
@@ -593,7 +593,7 @@ export const KIMIA_SUBJECT: AsasSubject = {
       formulaHint: "Di katoda terbentuk $\\text{OH}^-$ sejumlah $n_e = \\dfrac{I\\cdot t}{96.500}$.",
       options: [
         { key: "A", text: "13", isCorrect: true, trapFeedback: "" },
-        { key: "B", text: "12", isCorrect: false, trapFeedback: "n_e = (10 x 965) / 96.500 = 0,1 mol dalam 1 L -> pOH = 1 -> pH = 13." },
+        { key: "B", text: "12", isCorrect: false, trapFeedback: "$n_e = (10 \\times 965) / 96.500 = 0{,}1\\text{ mol}$ dalam $1\\text{ L} \\to \\text{pOH} = 1 \\to \\text{pH} = 13$." },
         { key: "C", text: "11", isCorrect: false, trapFeedback: "Elektrolisis larutan NaCl menghasilkan basa NaOH (pH > 7) dengan [OH-] = 0,1 M." },
         { key: "D", text: "2", isCorrect: false, trapFeedback: "Katoda mereduksi air menghasilkan OH- (basa), bukan H+ (asam)." },
         { key: "E", text: "1", isCorrect: false, trapFeedback: "1 itu nilai pOH-nya! Jangan lupa pH = 14 - pOH = 13." },

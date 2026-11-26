@@ -32,6 +32,12 @@ export interface AsasWorkedExample {
   finalAnswer: string;
 }
 
+export interface AsasDecisionRow {
+  cue: string;
+  formulaLatex: string;
+  firstStep: string;
+}
+
 export interface AsasChapter {
   id: string;
   order: number;
@@ -41,6 +47,7 @@ export interface AsasChapter {
   summary: string;
   coreIntuition: string;
   analogy?: AsasRealLifeAnalogy;
+  decisionGuide?: AsasDecisionRow[];
   mentalChecklist: string[];
   formulas: AsasFormulaCard[];
   workedExample: AsasWorkedExample;
@@ -83,6 +90,8 @@ export interface AsasSubject {
   badge: string;
   tagline: string;
   examSpecs: string;
+  priorityChapterIds?: string[];
+  tryoutCount?: number;
   oneDayNote: string;
   oneDayPlan: AsasOneDayBlock[];
   chapters: AsasChapter[];

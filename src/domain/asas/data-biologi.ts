@@ -173,8 +173,8 @@ export const BIOLOGI_SUBJECT: AsasSubject = {
       coreIntuition:
         "Aturan emas membaca Peta Silsilah (Pedigree): jika orang tua KEDUANYA NORMAL tapi melahirkan anak yang SAKIT/ALBINO/BUTA WARNA, maka penyakit itu bersifat RESESIF dan orang tuanya pasti CARRIER (membawa sifat)!",
       mentalChecklist: [
-        "Atavisme jengger ayam: R_P_ (Walnut), R_pp (Ros/Gerigi), rrP_ (Biji/Pea), rrpp (Bilah/Single).",
-        "Kriptomeri bunga Linaria: A_B_ (Ungu), A_bb (Merah), aaB_ & aabb (Putih).",
+        "Atavisme jengger ayam: R-P- (Walnut), R-pp (Ros/Gerigi), rrP- (Biji/Pea), rrpp (Bilah/Single).",
+        "Kriptomeri bunga Linaria: A-B- (Ungu), A-bb (Merah), aaB- & aabb (Putih).",
         "Buta warna & hemofilia terpaut kromosom X resesif: anak LAKI-LAKI langsung menerima kromosom X dari IBUNYA saja (bukan ayahnya!).",
         "Mutasi frameshift (pergeseran kerangka akibat insersi/delesi 1-2 basa) lebih parah daripada substitusi karena mengubah seluruh kodon setelah titik mutasi!",
       ],
@@ -184,13 +184,13 @@ export const BIOLOGI_SUBJECT: AsasSubject = {
           title: "4 Rasio Kunci Hereditas Non-Mendel & Kelainan",
           triggerCue: "Ada jengger ayam, bunga Linaria merah/ungu, warna gandum, atau peta silsilah",
           formulaLatex:
-            "$$\\text{Walnut }(R\\_P\\_) \\;|\\; \\text{Ungu }(A\\_B\\_) \\;|\\; \\text{Merah }(A\\_bb) \\;|\\; \\text{Buta warna pria: } X^b Y$$",
+            "$$\\text{Walnut }(R\\text{-}P\\text{-}) \\;|\\; \\text{Ungu }(A\\text{-}B\\text{-}) \\;|\\; \\text{Merah }(A\\text{-}bb) \\;|\\; \\text{Buta warna pria: } X^b Y$$",
           symbolMeaning: [
-            { symbol: "Polimeri (3:1)", meaning: "bila parental M1m1M2m2 x m1m1m2m2 menghasilkan 3 merah : 1 putih" },
+            { symbol: "Polimeri (3:1)", meaning: "bila parental $M_1m_1M_2m_2 \\times m_1m_1m_2m_2$ menghasilkan 3 merah : 1 putih" },
             { symbol: "Kolkisin", meaning: "zat kimia pemicu mutasi poliploidi (semangka tanpa biji)" },
           ],
-          commonTrap: "Mengira anak laki-laki buta warna mewarisi gen buta warna dari ayahnya! Padahal ayah memberi kromosom Y; gen buta warna (X^b) pasti berasal dari IBU carrier.",
-          quickExample: "Ayah norm + Ibu norm punya anak laki-laki buta warna -> Ibu pasti carrier X^B X^b.",
+          commonTrap: "Mengira anak laki-laki buta warna mewarisi gen buta warna dari ayahnya! Padahal ayah memberi kromosom Y; gen buta warna ($X^b$) pasti berasal dari IBU carrier.",
+          quickExample: "Ayah normal + Ibu normal punya anak laki-laki buta warna $\\to$ Ibu pasti carrier $X^B X^b$.",
         },
       ],
       workedExample: {
@@ -199,11 +199,11 @@ export const BIOLOGI_SUBJECT: AsasSubject = {
         steps: [
           {
             stepLabel: "Langkah 1 · Tentukan Kromosom Anak Laki-laki Buta Warna",
-            detail: "Laki-laki buta warna bergenotipe X^b Y. Kromosom Y didapat dari Ayah, sedangkan X^b WAJIB berasal dari Ibu.",
+            detail: "Laki-laki buta warna bergenotipe $X^b Y$. Kromosom $Y$ didapat dari Ayah, sedangkan $X^b$ WAJIB berasal dari Ibu.",
           },
           {
             stepLabel: "Langkah 2 · Tentukan Ayah dan Ibu",
-            detail: "Ayah normal pasti X^B Y (hanya 1 X dan normal). Ibu normal tetapi mewariskan X^b kepada putranya, sehingga Ibu bergenotipe X^B X^b (carrier).",
+            detail: "Ayah normal pasti $X^B Y$ (hanya 1 X dan normal). Ibu normal tetapi mewariskan $X^b$ kepada putranya, sehingga Ibu bergenotipe $X^B X^b$ (carrier).",
           },
         ],
         finalAnswer: "Ibu adalah carrier buta warna (Ayah normal non-carrier)",
@@ -581,18 +581,18 @@ export const BIOLOGI_SUBJECT: AsasSubject = {
       difficulty: "ujian",
       format: "mcq",
       triggerTag: "Atavisme Pial Ayam",
-      promptMarkdown: "Pada atavisme pial ayam: $R\\_P\\_$ (walnut), $R\\_pp$ (gerigi/ros), $rrP\\_$ (biji/pea), dan $rrpp$ (bilah). Jika disilangkan ayam $RrPp$ (walnut) dengan $rrpp$ (bilah), rasio keturunannya adalah $1\\text{ walnut} : 1\\text{ gerigi} : 1\\text{ biji} : 1\\text{ bilah}$. Genotipe dan fenotipe parental kedua ($rrpp$) berturut-turut adalah ...",
+      promptMarkdown: "Pada atavisme pial ayam: $R\\text{-}P\\text{-}$ (walnut), $R\\text{-}pp$ (gerigi/ros), $rrP\\text{-}$ (biji/pea), dan $rrpp$ (bilah). Jika disilangkan ayam $RrPp$ (walnut) dengan $rrpp$ (bilah), rasio keturunannya adalah $1\\text{ walnut} : 1\\text{ gerigi} : 1\\text{ biji} : 1\\text{ bilah}$. Genotipe dan fenotipe parental kedua ($rrpp$) berturut-turut adalah ...",
       formulaHint: "Semua huruf kecil ($rrpp$) pada atavisme ayam menghasilkan jengger **bilah**!",
       options: [
-        { key: "A", text: "walnut dan RrPp", isCorrect: false, trapFeedback: "Walnut bergenotipe R_P_, sedangkan rrpp resesif penuh." },
-        { key: "B", text: "gerigi dan RRpp", isCorrect: false, trapFeedback: "Gerigi memiliki minimal satu huruf R besar (R_pp)." },
-        { key: "C", text: "biji dan rrPp", isCorrect: false, trapFeedback: "Biji memiliki minimal satu P besar (rrP_)." },
+        { key: "A", text: "walnut dan RrPp", isCorrect: false, trapFeedback: "Walnut bergenotipe R-P-, sedangkan rrpp resesif penuh." },
+        { key: "B", text: "gerigi dan RRpp", isCorrect: false, trapFeedback: "Gerigi memiliki minimal satu huruf R besar (R-pp)." },
+        { key: "C", text: "biji dan rrPp", isCorrect: false, trapFeedback: "Biji memiliki minimal satu P besar (rrP-)." },
         { key: "D", text: "biji dan rrpp", isCorrect: false, trapFeedback: "rrpp adalah bilah, bukan biji!" },
         { key: "E", text: "bilah dan rrpp", isCorrect: true, trapFeedback: "" },
       ],
       correctKey: "E",
       stepByStep: [
-        "Pada atavisme pial ayam: $R\\_P\\_$ = walnut, $R\\_pp$ = gerigi, $rrP\\_$ = biji, dan homozigot resesif ganda $rrpp$ = **bilah**.",
+        "Pada atavisme pial ayam: $R\\text{-}P\\text{-}$ = walnut, $R\\text{-}pp$ = gerigi, $rrP\\text{-}$ = biji, dan homozigot resesif ganda $rrpp$ = **bilah**.",
       ],
     },
     {
@@ -603,7 +603,7 @@ export const BIOLOGI_SUBJECT: AsasSubject = {
       format: "mcq",
       triggerTag: "Kriptomeri Bunga Linaria",
       promptMarkdown: "Warna bunga *Linaria* dipengaruhi gen $A$ (ada antosianin, $a$ = tanpa antosianin/putih) dan gen $B$ (sitoplasma basa $\\to$ ungu; $b$ = sitoplasma asam $\\to$ merah). Jika disilangkan bunga ungu **$AaBb$** dengan bunga putih **$aabb$**, peluang muncul anakan **berwarna merah** adalah ...",
-      formulaHint: "Buat $4$ kombinasi dari gamet $AaBb$ ($AB, Ab, aB, ab$) bertemu $ab$. Merah adalah **$A\\_bb$**!",
+      formulaHint: "Buat $4$ kombinasi dari gamet $AaBb$ ($AB, Ab, aB, ab$) bertemu $ab$. Merah adalah **$A\\text{-}bb$**!",
       options: [
         { key: "A", text: "0%", isCorrect: false, trapFeedback: "Genotipe Ab + ab menghasilkan Aabb yang berwarna merah!" },
         { key: "B", text: "25%", isCorrect: true, trapFeedback: "" },
@@ -653,8 +653,8 @@ export const BIOLOGI_SUBJECT: AsasSubject = {
         { key: "A", text: "Ayah adalah homozigot dominan", isCorrect: false, trapFeedback: "Laki-laki hanya punya 1 kromosom X (XY), tidak disebut homozigot dominan." },
         { key: "B", text: "Ayah adalah carrier buta warna", isCorrect: false, trapFeedback: "Laki-laki tidak pernah bisa menjadi carrier sifat terpaut X (kalau punya alel buta warna, ia langsung sakit)." },
         { key: "C", text: "Ibu adalah carrier buta warna ($X^B X^b$)", isCorrect: true, trapFeedback: "" },
-        { key: "D", text: "Ibu adalah homozigot dominan ($X^B X^B$)", isCorrect: false, trapFeedback: "Jika ibu X^B X^B, tidak mungkin ada anak laki-laki yang mewarisi X^b!" },
-        { key: "E", text: "Ibu adalah homozigot resesif ($X^b X^b$)", isCorrect: false, trapFeedback: "Kalau ibu X^b X^b, ibu pasti buta warna; padahal di soal ibunya berpenglihatan normal!" },
+        { key: "D", text: "Ibu adalah homozigot dominan ($X^B X^B$)", isCorrect: false, trapFeedback: "Jika ibu $X^B X^B$, tidak mungkin ada anak laki-laki yang mewarisi $X^b$!" },
+        { key: "E", text: "Ibu adalah homozigot resesif ($X^b X^b$)", isCorrect: false, trapFeedback: "Kalau ibu $X^b X^b$, ibu pasti buta warna; padahal di soal ibunya berpenglihatan normal!" },
       ],
       correctKey: "C",
       stepByStep: [
