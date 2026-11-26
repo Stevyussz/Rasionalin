@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { ASAS_SUBJECTS, buildAsasSession, getAsasSubject } from "../src/domain/asas";
 
 describe("ASAS Kelas XII Sains Curriculum & Bank Soal", () => {
-  it("provides all 5 science subjects with Matematika Wajib prioritized first", () => {
+  it("provides all 5 science subjects with Matematika Wajib prioritized and strictly aligned to Ganjil XII syllabus", () => {
     expect(ASAS_SUBJECTS.map((s) => s.id)).toEqual([
       "mtk-wajib",
       "mtk-lanjut",
@@ -10,16 +10,24 @@ describe("ASAS Kelas XII Sains Curriculum & Bank Soal", () => {
       "kimia",
       "biologi",
     ]);
+
+    const mtkWajib = getAsasSubject("mtk-wajib");
+    expect(mtkWajib.chapters.map((c) => c.id)).toEqual([
+      "mtkw-barisan-deret",
+      "mtkw-investasi-pinjaman",
+      "mtkw-pencacahan",
+    ]);
+    expect(mtkWajib.questions.length).toBe(30);
   });
 
-  it("contains 25 verified questions per subject (125 total) with valid keys, chapters, formulas, and zero em-dashes", () => {
+  it("contains >=25 verified questions per subject (130 total) with valid keys, chapters, formulas, and zero em-dashes", () => {
     const seenIds = new Set<string>();
     let totalQuestions = 0;
 
     for (const sub of ASAS_SUBJECTS) {
       expect(sub.oneDayPlan.length).toBeGreaterThanOrEqual(4);
       expect(sub.chapters.length).toBeGreaterThanOrEqual(3);
-      expect(sub.questions.length).toBe(25);
+      expect(sub.questions.length).toBeGreaterThanOrEqual(25);
       totalQuestions += sub.questions.length;
 
       const chapterIds = new Set(sub.chapters.map((c) => c.id));
@@ -46,7 +54,7 @@ describe("ASAS Kelas XII Sains Curriculum & Bank Soal", () => {
       }
     }
 
-    expect(totalQuestions).toBe(125);
+    expect(totalQuestions).toBe(130);
   });
 
   it("builds balanced 15-question tryouts across all chapters and supports wrong-only remedial filtering", () => {

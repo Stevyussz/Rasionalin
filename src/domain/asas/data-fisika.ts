@@ -57,6 +57,12 @@ export const FISIKA_SUBJECT: AsasSubject = {
         "Hukum Coulomb, mencari titik gaya/medan nol, kuat medan E, potensial skalar V, serta susunan seri-paralel kapasitor.",
       coreIntuition:
         "Gaya F dan Medan E punya ARAH (tanda +/- muatan hanya menentukan tarik/tolak atau arah panah, JANGAN dimasukkan minus ke rumus!). Sebaliknya, Potensial V adalah SKALAR (tidak punya arah, tanda +/- WAJIB dimasukkan ke hitungan!).",
+      analogy: {
+        title: "Analogi Tarik Tambang vs Ketinggian Bukit",
+        story:
+          "Gaya Coulomb & Medan Listrik ibarat dua orang menarik tali (ada arah kiri/kanan). Titik gaya nol terjadi saat tarikan kiri dan kanan persis seimbang! Sedangkan Potensial Listrik V ibarat ketinggian air/bukit: tinggal dijumlahkan biasa lengkap dengan tanda + atau -.",
+        takeaway: "Saat menghitung E atau F jangan masukkan minus muatan ke angka; gunakan +/- hanya untuk menentukan arah panah!",
+      },
       mentalChecklist: [
         "Titik gaya nol: dua muatan SEJENIS -> letaknya DI ANTARA, lebih dekat muatan KECIL. Berlawanan jenis -> DI LUAR dekat muatan KECIL.",
         "Hati-hati satuan: 1 uC = 10^-6 C, cm ke m = x 10^-2 (jangan lupa dikuadratkan menjadi 10^-4!).",
@@ -123,6 +129,12 @@ export const FISIKA_SUBJECT: AsasSubject = {
         "Hukum Ohm, hambatan pengganti seri-paralel, rangkaian baterai dengan hambatan dalam r, Kirchhoff loop, konversi energi ke kalor, dan biaya kWh.",
       coreIntuition:
         "Pada rangkaian SERI: Arusnya (I) SAMA, tegangannya terbagi. Pada rangkaian PARALEL: Tegangannya (V) SAMA, arusnya terbagi. Untuk rekening kWh: kalikan semua (Watt x jam pakai per hari), bagi 1000 biar jadi kWh, baru kali 30 hari dan tarif!",
+      analogy: {
+        title: "Analogi Pipa Air Tunggal vs Pipa Bercabang",
+        story:
+          "Rangkaian SERI itu satu pipa lurus: air (arus I) yang lewat di setiap hambatan sama deras, tapi tekanannya (V) terbagi-bagi. Rangkaian PARALEL itu pipa bercabang seperti keran di rumah: semua ruangan mendapat tekanan penuh 220 V yang sama, namun arusnya terbagi.",
+        takeaway: "Seri -> Arus I sama di tiap komponen; Paralel -> Tegangan V sama di tiap cabang.",
+      },
       mentalChecklist: [
         "Ada baterai punya hambatan dalam r? Total hambatan = R_luar + r!",
         "Kalor listrik -> suhu: W = V . I . t (Joule), kalikan efisiensi (%), lalu ubah ke kalori (x 0,24) untuk Q = m c dT.",
@@ -189,6 +201,12 @@ export const FISIKA_SUBJECT: AsasSubject = {
         "Medan magnet kawat lurus/melingkar/solenoida/toroida, gaya Lorentz dua kawat & gerak melingkar muatan, GGL generator, serta transformator.",
       coreIntuition:
         "Hafal pembedanya saja biar tidak ketukar: kawat lurus & toroida pakai pembagi 2 pi a (atau 2 pi r), kawat melingkar tidak pakai pi di penyebut (2a), sedangkan solenoida tidak pakai pi sama sekali (L di bawah)!",
+      analogy: {
+        title: "Analogi Trafo Sebagai Konverter Biaya Energi",
+        story:
+          "Trafo ideal ibarat tukar uang tanpa biaya admin (daya masuk = daya keluar). Trafo dengan efisiensi 80% berarti 20% energinya hilang jadi panas di jalan, jadi daya masuk (V_p . I_p) harus lebih besar untuk menghasilkan daya lampu P_s.",
+        takeaway: "Selalu hitung daya nyata lampu P_s di tegangan baru dulu: P_s = (V_baru / V_spek)^2 x P_spek.",
+      },
       mentalChecklist: [
         "Gaya magnet antar dua kawat: SEARAH = tarik-menarik, BERLAWANAN = tolak-menolak (kebalikan muatan listrik!).",
         "Partikel bermuatan masuk medan magnet membentuk lingkaran: R = mv / (qB). Perhatikan informasi 'momentum sama'!",
@@ -251,6 +269,12 @@ export const FISIKA_SUBJECT: AsasSubject = {
         "Menghitung reaktansi induktif XL, reaktansi kapasitif XC, impedansi Z, arus efektif, faktor daya cos phi, resonansi, serta spektrum gelombang elektromagnetik.",
       coreIntuition:
         "Semua soal hitung RLC berputar pada 1 SEGITIGA SIKU-SIKU saja: alasnya R, tingginya |XL - XC|, dan sisi miringnya adalah Impedansi Z! Kalau hafal tripel Pythagoras (3-4-5 atau 6-8-10), soal RLC bisa selesai dalam 20 detik.",
+      analogy: {
+        title: "Analogi Tiga Jenis Beban di Satu Segitiga",
+        story:
+          "Resistor (R) mendatar seperti jalan datar, Induktor (XL) menarik fase ke atas, dan Kapasitor (XC) menarik ke bawah sehingga keduanya saling melawan! Impedansi Z adalah panjang sisi miring gabungannya.",
+        takeaway: "Saat tarik atas XL sama persis dengan tarik bawah XC, keduanya habis (Resonansi) sehingga Z tinggal R saja.",
+      },
       mentalChecklist: [
         "Cari dulu omega: jika tertulis V = Vmax sin(omega t) langsung ambil omega; jika diketahui frekuensi f Hz, omega = 2 pi f.",
         "Hitung XL = omega . L dan XC = 1 / (omega . C). Ingat 1 uF = 10^-6 F!",

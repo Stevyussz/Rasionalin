@@ -57,6 +57,12 @@ export const MTK_LANJUT_SUBJECT: AsasSubject = {
         "Menghitung nilai limit dengan substitusi langsung, pemfaktoran/akar sekawan untuk bentuk 0/0, serta limit menuju tak hingga.",
       coreIntuition:
         "Selalu coba masukkan angka x dulu! Kalau keluar angka biasa -> SELESAI. Kalau keluar 0/0 -> faktor/kalikan sekawan untuk membuang pembuat nol. Kalau x -> infinity -> cukup lihat pangkat tertinggi saja.",
+      analogy: {
+        title: "Analogi Jembatan Rusak di Satu Titik",
+        story:
+          "Limit itu seperti melihat tinggi jalan di koordinat tepat sebelum lobang kecil x = 5. Walaupun di titik 5 jalannya bolong (0/0), kita tetap tahu ketinggian aslinya dengan meratakan jalannya (memfaktorkan pembuat nol).",
+        takeaway: "0/0 BUKAN berarti hasilnya 0; itu sinyal agar pembuat nolnya dicoret dulu!",
+      },
       mentalChecklist: [
         "Langkah pertama WAJIB substitusi langsung angka x. Jangan langsung difaktorkan sebelum tahu itu 0/0!",
         "Jika ada akar di 0/0, kalikan sekawan (+ diubah -, atau sebaliknya) pada bagian yang berakar.",
@@ -133,6 +139,12 @@ export const MTK_LANJUT_SUBJECT: AsasSubject = {
         "Menghitung limit sin dan tan saat x -> 0, serta mereduksi bentuk cos (1 - cos 2x) atau substitusi langsung sudut istimewa.",
       coreIntuition:
         "Kalau x BUKAN menuju 0 dan tidak menghasilkan 0/0, langsung masukkan nilai sudutnya seperti biasa! Kalau menghasilkan 0/0 saat x -> 0, fungsi sin dan tan boleh dicoret menyisakan koefisiennya, sedangkan cos WAJIB diubah dulu ke sin.",
+      analogy: {
+        title: "Analogi Sudut Sangat Kecil (sin x ≈ x)",
+        story:
+          "Saat sudut x mendekati 0 radian, garis melengkung sin(ax) dan tan(ax) hampir persis sama dengan garis lurus ax, jadi bisa langsung dicoret ambil koefisiennya. Namun cos(0) tingginya 1 (datar di puncak), bukan 0!",
+        takeaway: "Jangan pernah mencoret cos(ax) saat x -> 0; ubah 1 - cos(2ax) menjadi 2 sin^2(ax)!",
+      },
       mentalChecklist: [
         "Substitusi sudut dulu! Jika bukan 0/0 (misal x -> pi/4), langsung hitung nilai cos/sin-nya.",
         "Saat x -> 0: sin(ax) bisa dianggap ax, tan(ax) dianggap ax. TAPI cos(ax) mendekati 1, JANGAN dicoret!",
@@ -195,6 +207,12 @@ export const MTK_LANJUT_SUBJECT: AsasSubject = {
         "Menurunkan fungsi polinomial, pecahan u/v, rantai trigonometri cos^n/sec^n, gradien garis singgung, interval naik, kecepatan, dan volume maksimum.",
       coreIntuition:
         "Aturan Rantai = kupas bawang dari LUAR ke DALAM: turunkan PANGKATnya dulu, kali turunan FUNGSI TRIG-nya, kali turunan SUDUT di dalamnya. Jangan pernah melompati lapisan tengah!",
+      analogy: {
+        title: "Analogi Speedometer Mobil",
+        story:
+          "Jika rumus jarak adalah s(t), maka turunan s'(t) adalah jarum speedometer (kecepatan sesaat). Saat jalan menanjak, kecepatan naik (f'(x) > 0); saat mencapai puncak bukit paling tinggi (volume kotak maksimum), kemiringannya datar (= 0)!",
+        takeaway: "Mencari nilai maksimum/minimum di cerita = turunkan fungsinya lalu samakan dengan 0.",
+      },
       mentalChecklist: [
         "Turunan sin -> +cos, turunan cos -> -sin (ADA MINUS!), turunan sec x -> sec x tan x.",
         "Gradien garis singgung m = f'(x_1). Untuk mencari garis singgung di ordinat y_1, cari x_1 dulu dari kurvanya!",
@@ -264,6 +282,12 @@ export const MTK_LANJUT_SUBJECT: AsasSubject = {
         "Kebalikan turunan: integral aljabar dasar, metode substitusi u, mencari f(x) dari gradien dy/dx, integral tentu, serta menghitung luas daerah kurva.",
       coreIntuition:
         "Integral menaikkan pangkat +1 lalu membagi dengan pangkat baru (kebalikan turunan). Jika ada perkalian (sesuatu)^(pangkat tinggi) dan temannya di luar mirip turunannya, langsung pakai substitusi u!",
+      analogy: {
+        title: "Analogi Mencari Luas Tanah Melengkung",
+        story:
+          "Kalau panjang dan lebar tanah lurus pakai p x l, tanah yang pinggirnya melengkung dihitung dengan mengiris tipis-tipis lalu menjumlahkannya lewat Integral. Bagian di bawah sungai (bawah sumbu X) harus dibalik positif saat menghitung luas!",
+        takeaway: "Luas total tidak boleh saling menghapus: pisahkan daerah di bawah sumbu X dan beri tanda minus.",
+      },
       mentalChecklist: [
         "Selalu tambah + C pada integral tak tentu (tanpa batas angka).",
         "Jika ada bentuk kuadrat (x^2 - 1/x)^2, jabarkan dulu (a-b)^2 = a^2 - 2ab + b^2 sebelum diintegralkan.",

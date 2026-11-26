@@ -18,6 +18,20 @@ export interface AsasWorkedStep {
   math?: string;
 }
 
+export interface AsasRealLifeAnalogy {
+  title: string;
+  story: string;
+  takeaway: string;
+}
+
+export interface AsasWorkedExample {
+  title: string;
+  whenToUse?: string;
+  problem: string;
+  steps: AsasWorkedStep[];
+  finalAnswer: string;
+}
+
 export interface AsasChapter {
   id: string;
   order: number;
@@ -26,14 +40,11 @@ export interface AsasChapter {
   targetMinutes: number;
   summary: string;
   coreIntuition: string;
+  analogy?: AsasRealLifeAnalogy;
   mentalChecklist: string[];
   formulas: AsasFormulaCard[];
-  workedExample: {
-    title: string;
-    problem: string;
-    steps: AsasWorkedStep[];
-    finalAnswer: string;
-  };
+  workedExample: AsasWorkedExample;
+  extraExamples?: AsasWorkedExample[];
 }
 
 export interface AsasOption {

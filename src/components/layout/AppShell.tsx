@@ -4,6 +4,8 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import {
+  ArrowLeftIcon,
+  ArrowRightIcon,
   BookOpenIcon,
   BrainIcon,
   CalculatorIcon,
@@ -29,6 +31,8 @@ import { PwaInstallButton } from "@/components/pwa/PwaInstallController";
 import { computeExamCountdown } from "@/domain/exam-countdown";
 import type { UserMomentumState } from "@/domain/types";
 import { isSoundEnabled, playTapSound, setSoundEnabled } from "@/infrastructure/audio/sound-effects";
+
+const SIDEBAR_COLLAPSED_KEY = "rasionalin_sidebar_collapsed";
 
 interface AppShellProps {
   children: React.ReactNode;
@@ -75,20 +79,67 @@ export function AppShell({
   const [examDate, setExamDate] = useState<string | null>(initialUser?.examDate ?? null);
   const [loggingOut, setLoggingOut] = useState(false);
   const [soundOn, setSoundOn] = useState(true);
+  const [sidebarHidden, setSidebarHidden] = useState(false);
 
   useEffect(() => {
     const attr = document.documentElement.getAttribute("data-theme");
     setTheme(attr === "warm" ? "warm" : "daylight");
     setSoundOn(isSoundEnabled());
+    try {
+      setSidebarHidden(localStorage.getItem(SIDEBAR_COLLAPSED_KEY) === "true");
+    } catch {
+      // Ignore storage unavailable errors
+    }
+
     const onSoundChanged = (evt: Event) => {
       const custom = evt as CustomEvent<{ enabled?: boolean }>;
       if (typeof custom.detail?.enabled === "boolean") {
         setSoundOn(custom.detail.enabled);
       }
     };
+    const onExternalSidebarToggle = () => {
+      setSidebarHidden((prev) => {
+        const next = !prev;
+        try {
+          localStorage.setItem(SIDEBAR_COLLAPSED_KEY, next ? "true" : "false");
+        } catch {
+          // Ignore storage error
+        }
+        window.dispatchEvent(new CustomEvent("rasionalin:sidebar-changed", { detail: { hidden: next } }));
+        return next;
+      });
+    };
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "b") {
+        e.preventDefault();
+        onExternalSidebarToggle();
+      }
+    };
+
     window.addEventListener("rasionalin:sound-changed", onSoundChanged);
-    return () => window.removeEventListener("rasionalin:sound-changed", onSoundChanged);
+    window.addEventListener("rasionalin:toggle-sidebar", onExternalSidebarToggle);
+    window.addEventListener("keydown", onKeyDown);
+    return () => {
+      window.removeEventListener("rasionalin:sound-changed", onSoundChanged);
+      window.removeEventListener("rasionalin:toggle-sidebar", onExternalSidebarToggle);
+      window.removeEventListener("keydown", onKeyDown);
+    };
   }, []);
+
+  function toggleSidebar() {
+    playTapSound();
+    setSidebarHidden((prev) => {
+      const next = !prev;
+      try {
+        localStorage.setItem(SIDEBAR_COLLAPSED_KEY, next ? "true" : "false");
+      } catch {
+        // Ignore storage error
+      }
+      window.dispatchEvent(new CustomEvent("rasionalin:sidebar-changed", { detail: { hidden: next } }));
+      return next;
+    });
+  }
 
   function toggleSound() {
     const next = !soundOn;
@@ -171,19 +222,44 @@ export function AppShell({
 
   return (
     <div className="min-h-screen bg-[var(--surface-canvas)] text-[var(--ink-primary)] flex flex-col lg:flex-row">
-      {/* Desktop Left Navigation Rail (Clean Flat Hierarchy, Scrollable on <=768px Laptops!) */}
-      <aside
-        aria-label="Navigasi utama desktop"
-        className="hidden lg:flex lg:flex-col lg:w-[238px] lg:shrink-0 lg:sticky lg:top-0 lg:h-screen lg:overflow-y-auto bg-[var(--surface-elevated)] border-r border-[var(--border-structural)] px-3.5 py-4 gap-4 z-30"
-      >
-        <div className="space-y-4 shrink-0">
-          <Link
-            href="/"
-            className="flex items-center px-1 py-0.5"
-            aria-label="Beranda Rasionalin"
-          >
-            <RasionalinLogo size={36} subtitle="Target 800+ UTBK" />
-          </Link>
+      {sidebarHidden && (
+        <button
+          type="button"
+          onClick={toggleSidebar}
+          aria-label="Tampilkan sidebar"
+          title="Tampilkan kembali menu sidebar (Ctrl+B)"
+          className="hidden lg:inline-flex fixed top-3 left-3 z-40 items-center gap-1.5 px-3 min-h-[36px] rounded-xl border border-[var(--border-structural)] bg-[var(--surface-elevated)] shadow-sm hover:bg-[var(--surface-secondary)] text-xs font-extrabold text-[var(--ink-primary)] cursor-pointer transition-colors"
+        >
+          <ArrowRightIcon size={14} />
+          <span>Tampilkan Menu</span>
+        </button>
+      )}
+
+      {/* Desktop Left Navigation Rail (Clean Flat Hierarchy, Scrollable & Hideable for Reading Focus!) */}
+      {!sidebarHidden && (
+        <aside
+          aria-label="Navigasi utama desktop"
+          className="hidden lg:flex lg:flex-col lg:w-[238px] lg:shrink-0 lg:sticky lg:top-0 lg:h-screen lg:overflow-y-auto bg-[var(--surface-elevated)] border-r border-[var(--border-structural)] px-3.5 py-4 gap-4 z-30"
+        >
+          <div className="space-y-4 shrink-0">
+            <div className="flex items-center justify-between gap-1.5">
+              <Link
+                href="/"
+                className="flex items-center px-1 py-0.5 min-w-0"
+                aria-label="Beranda Rasionalin"
+              >
+                <RasionalinLogo size={34} subtitle="Target 800+ UTBK" />
+              </Link>
+              <button
+                type="button"
+                onClick={toggleSidebar}
+                aria-label="Sembunyikan sidebar"
+                title="Sembunyikan sidebar agar baca lebih fokus (Ctrl+B)"
+                className="inline-flex items-center justify-center min-w-[32px] min-h-[32px] rounded-lg border border-[var(--border-structural)] bg-[var(--surface-canvas)] hover:bg-[var(--surface-secondary)] text-[var(--ink-secondary)] hover:text-[var(--ink-primary)] cursor-pointer shrink-0 transition-colors"
+              >
+                <ArrowLeftIcon size={15} />
+              </button>
+            </div>
 
           <nav aria-label="Menu utama" className="space-y-0.5">
             {DESKTOP_NAV.map((item) => {
@@ -283,7 +359,8 @@ export function AppShell({
             <span>{loggingOut ? "Keluar..." : "Keluar Akun"}</span>
           </button>
         </div>
-      </aside>
+        </aside>
+      )}
 
       {/* Mobile Compact Header (< lg) */}
       <header className="lg:hidden sticky top-0 z-30 bg-[var(--surface-elevated)] border-b border-[var(--border-structural)] px-3 h-14 flex items-center justify-between gap-1.5">
