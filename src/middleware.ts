@@ -5,6 +5,7 @@ const SESSION_COOKIE_NAME = "kejarsnbt_session";
 const PROTECTED_PATHS = [
   "/",
   "/math-gym",
+  "/asas",
   "/tutor",
   "/study",
   "/vault",
@@ -43,6 +44,7 @@ export const config = {
     "/",
     "/login",
     "/math-gym/:path*",
+    "/asas/:path*",
     "/tutor/:path*",
     "/study/:path*",
     "/vault/:path*",

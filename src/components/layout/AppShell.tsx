@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import {
+  BookOpenIcon,
   BrainIcon,
   CalculatorIcon,
   CompassIcon,
@@ -41,6 +42,7 @@ interface AppShellProps {
 const DESKTOP_NAV = [
   { href: "/", label: "Belajar", icon: CompassIcon },
   { href: "/math-gym", label: "Gym Hitung", icon: CalculatorIcon },
+  { href: "/asas", label: "ASAS XII", icon: BookOpenIcon },
   { href: "/tutor", label: "Tanya AI", icon: TutorChatIcon },
   { href: "/graveyard", label: "Pemulihan", icon: FractureIcon },
   { href: "/vault", label: "Catatan", icon: VaultIcon },
@@ -325,13 +327,25 @@ export function AppShell({
           <Link
             href="/math-gym"
             aria-label="Buka Gym Hitung 3 Menit"
-            className={`inline-flex items-center justify-center min-w-[36px] min-h-[36px] rounded-lg ${
+            className={`inline-flex items-center justify-center min-w-[34px] min-h-[34px] rounded-lg ${
               pathname === "/math-gym"
                 ? "text-[var(--accent-primary)] bg-[var(--accent-tint)]"
                 : "text-[var(--olive-ink)] hover:bg-[var(--accent-tint)]"
             }`}
           >
-            <CalculatorIcon size={20} />
+            <CalculatorIcon size={19} />
+          </Link>
+
+          <Link
+            href="/asas"
+            aria-label="Buka ASAS XII Sains"
+            className={`inline-flex items-center justify-center min-w-[34px] min-h-[34px] rounded-lg ${
+              pathname === "/asas"
+                ? "text-[var(--accent-primary)] bg-[var(--accent-tint)]"
+                : "text-[var(--olive-ink)] hover:bg-[var(--accent-tint)]"
+            }`}
+          >
+            <BookOpenIcon size={19} />
           </Link>
 
           <Link
